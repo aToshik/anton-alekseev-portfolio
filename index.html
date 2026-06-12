@@ -16,7 +16,7 @@
 <meta name="theme-color" content="#080808">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..500;1,8..60,300..500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
@@ -30,7 +30,10 @@
     <span id="nav-about">About</span>
     <span id="nav-contact">Contact</span>
   </div>
-  <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
+  <div class="nav-right">
+    <button id="mode-toggle" class="mode-toggle" aria-pressed="false" title="Toggle edit mode (⌘\)">⊞ Edit</button>
+    <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
+  </div>
 </nav>
 
 <div id="smooth-wrapper">
@@ -40,7 +43,8 @@
   <canvas id="grad"></canvas>
   <div class="h-eyebrow">Senior Product Designer · Petah Tikva, Israel</div>
   <h1 class="h-name" id="heroName"></h1>
-  <p class="h-sub">9+ years translating complex B2B systems into <em>self-service experiences</em> that scale.<br>B2B SaaS · InsurTech / FinTech · AI-native Design Systems</p>
+  <p class="h-sub">Translating complex B2B systems into <em>self-service experiences</em> that scale.</p>
+  <div class="h-meta">B2B SaaS · InsurTech / FinTech · AI-native Design Systems</div>
   <div class="h-scroll">Scroll</div>
   <div class="h-redline">1440</div>
   <div class="h-line"></div>
@@ -176,6 +180,7 @@ heroTl
   .to('.h-eyebrow',{opacity:1,y:0,duration:0.8,ease:'power3.out'})
   .to('.h-name .ch',{yPercent:0,stagger:{amount:0.55},duration:0.9,ease:'expo.out'},'-=0.45')
   .to('.h-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.35')
+  .to('.h-meta',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.4')
   .to('.h-scroll',{opacity:1,y:0,duration:0.6,ease:'power2.out'},'-=0.25');
 
 // ── hero scroll parallax ──
@@ -183,7 +188,7 @@ gsap.to('#heroName',{yPercent:-18,ease:'none',
   scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1.5}});
 gsap.to('.h-eyebrow',{yPercent:-8,ease:'none',
   scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
-gsap.to('.h-sub',{yPercent:-10,ease:'none',
+gsap.to('.h-sub,.h-meta',{yPercent:-10,ease:'none',
   scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
 
 // ── hero mouse parallax ──

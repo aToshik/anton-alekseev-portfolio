@@ -1,7 +1,9 @@
-/* Figma layer: multiplayer cursors + frame selection. Shared by index.html and case.html */
+/* Figma layer: edit-mode toggle, multiplayer cursors, frame selection, drag + auto-fix.
+   Shared by index.html and case.html. All chrome is gated behind html.edit */
 (function(){
 var FINE=window.matchMedia('(pointer:fine)').matches;
 var REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var root=document.documentElement;
 
 var ARROW='<svg width="18" height="18" viewBox="0 0 18 18" fill="none">'
   +'<path d="M2 1.5L15.5 9.2L9.1 10.6L6.2 16.5L2 1.5Z" fill="COLOR" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>';
@@ -13,6 +15,7 @@ function mkCursor(id,color,name){
   document.body.appendChild(d);
   return d;
 }
+function inEdit(){return root.classList.contains('edit');}
 
 /* ── guest cursor (the visitor) ── */
 if(FINE){
@@ -27,8 +30,8 @@ if(FINE){
     requestAnimationFrame(tick);
   })();
 
-  /* delegated hover: cards get an action label, other interactives get emphasis */
-  var ACT='a,.nav-links span,.nav-logo,.narr,.stat,.clink,.cb-nav-btn,.case-back';
+  /* delegated hover: cards get an action label, real interactives get emphasis */
+  var ACT='a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back,.mode-toggle';
   document.addEventListener('mouseover',function(e){
     var card=e.target.closest('.ccard,.mcard');
     if(card){tag.textContent='View case';guest.classList.add('act');return;}
@@ -80,27 +83,117 @@ window.initFigmaFrames=function(){
   });
 };
 
-/* ── Anton ghost cursor — index page, once per session ── */
-if(FINE&&!REDUCED&&document.getElementById('cards-main')&&!sessionStorage.getItem('fghost')&&window.gsap){
-  setTimeout(function(){
-    sessionStorage.setItem('fghost','1');
-    var ghost=mkCursor('fcur-anton','#4ade80','Anton');
-    var vw=window.innerWidth,vh=window.innerHeight;
-    var card=document.querySelector('#cards-main .ccard');
-    var r=card?card.getBoundingClientRect():null;
-    var inView=r&&r.top<vh*.8&&r.bottom>0;
-    var tx=inView?r.left+r.width*.6:vw*.55;
-    var ty=inView?r.top+r.height*.45:vh*.5;
-    var tl=gsap.timeline({onComplete:function(){ghost.remove();}});
-    gsap.set(ghost,{x:vw+40,y:vh*.3});
-    tl.to(ghost,{opacity:1,duration:.4},0)
-      .to(ghost,{x:vw*.72,y:vh*.42,duration:1.4,ease:'power2.out'},0)
-      .to(ghost,{x:tx,y:ty,duration:1.6,ease:'power1.inOut'})
-      .to(ghost,{x:'+=14',y:'+=8',duration:.5,ease:'sine.inOut'})
-      .to(ghost,{x:'-=10',y:'+=6',duration:.5,ease:'sine.inOut'})
-      .to(ghost,{x:'+=4',y:'-=5',duration:.6,ease:'sine.inOut'})
-      .to(ghost,{x:vw*.3,y:-60,duration:1.3,ease:'power2.in'},'+=0.8')
-      .to(ghost,{opacity:0,duration:.4},'-=0.4');
-  },8000);
+/* ── Anton ghost: intro wander on first edit-mode enable ── */
+function ghostIntro(){
+  if(!FINE||REDUCED||!window.gsap)return;
+  if(sessionStorage.getItem('fghost'))return;
+  sessionStorage.setItem('fghost','1');
+  var ghost=mkCursor('fcur-anton-intro','#4ade80','Anton');
+  var vw=window.innerWidth,vh=window.innerHeight;
+  var card=document.querySelector('#cards-main .ccard');
+  var r=card?card.getBoundingClientRect():null;
+  var inView=r&&r.top<vh*.8&&r.bottom>0;
+  var tx=inView?r.left+r.width*.6:vw*.55;
+  var ty=inView?r.top+r.height*.45:vh*.5;
+  var tl=gsap.timeline({onComplete:function(){ghost.remove();}});
+  gsap.set(ghost,{x:vw+40,y:vh*.3});
+  tl.to(ghost,{opacity:1,duration:.4},0)
+    .to(ghost,{x:vw*.72,y:vh*.42,duration:1.4,ease:'power2.out'},0)
+    .to(ghost,{x:tx,y:ty,duration:1.6,ease:'power1.inOut'})
+    .to(ghost,{x:'+=14',y:'+=8',duration:.5,ease:'sine.inOut'})
+    .to(ghost,{x:'-=10',y:'+=6',duration:.5,ease:'sine.inOut'})
+    .to(ghost,{x:'+=4',y:'-=5',duration:.6,ease:'sine.inOut'})
+    .to(ghost,{x:vw*.3,y:-60,duration:1.3,ease:'power2.in'},'+=0.8')
+    .to(ghost,{opacity:0,duration:.4},'-=0.4');
 }
+
+/* ── draggable elements + Anton the fixer ── */
+var fixQueue=[],fixBusy=false,fixTimer=null,fixer=null;
+
+function scheduleFix(){clearTimeout(fixTimer);fixTimer=setTimeout(runFix,1400);}
+
+function runFix(){
+  if(fixBusy||!fixQueue.length||!window.gsap)return;
+  var el=fixQueue.shift();
+  if(!gsap.getProperty(el,'x')&&!gsap.getProperty(el,'y')){runFix();return;}
+  if(REDUCED){gsap.set(el,{x:0,y:0});runFix();return;}
+  fixBusy=true;
+  if(!fixer)fixer=mkCursor('fcur-anton','#4ade80','Anton');
+  var ftag=fixer.querySelector('.fcur-tag');
+  ftag.textContent='Anton';
+  var r=el.getBoundingClientRect();
+  var vw=window.innerWidth;
+  gsap.set(fixer,{x:vw+40,y:Math.max(60,r.top-80),opacity:0});
+  var tl=gsap.timeline({onComplete:function(){
+    fixBusy=false;
+    if(fixQueue.length){runFix();}
+    else{
+      gsap.to(fixer,{x:vw+60,y:-60,opacity:0,duration:.9,ease:'power2.in'});
+    }
+  }});
+  tl.to(fixer,{opacity:1,duration:.3},0)
+    .to(fixer,{x:r.left+r.width*.5,y:r.top+r.height*.5,duration:.9,ease:'power2.out'},0)
+    .add(function(){ftag.textContent='fixing…';})
+    .to(el,{x:0,y:0,duration:.7,ease:'power3.inOut',onUpdate:function(){
+      var rr=el.getBoundingClientRect();
+      gsap.set(fixer,{x:rr.left+rr.width*.5,y:rr.top+rr.height*.5});
+    }})
+    .add(function(){
+      el.classList.add('fix-flash');
+      setTimeout(function(){el.classList.remove('fix-flash');},350);
+      ftag.textContent='Anton';
+    })
+    .to({},{duration:.35});
+}
+
+function makeDraggable(sel){
+  if(!FINE||!window.gsap)return;
+  document.querySelectorAll(sel).forEach(function(el){
+    if(el.classList.contains('fdrag'))return;
+    el.classList.add('fdrag');
+    var sx,sy,bx,by,active=false;
+    el.addEventListener('pointerdown',function(e){
+      if(!inEdit())return;
+      active=true;sx=e.clientX;sy=e.clientY;
+      bx=gsap.getProperty(el,'x')||0;by=gsap.getProperty(el,'y')||0;
+      var qi=fixQueue.indexOf(el);if(qi>-1)fixQueue.splice(qi,1);
+      el.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    el.addEventListener('pointermove',function(e){
+      if(!active)return;
+      gsap.set(el,{x:bx+e.clientX-sx,y:by+e.clientY-sy});
+    });
+    function drop(){
+      if(!active)return;active=false;
+      var dx=gsap.getProperty(el,'x'),dy=gsap.getProperty(el,'y');
+      if(Math.abs(dx)>10||Math.abs(dy)>10){
+        if(fixQueue.indexOf(el)<0)fixQueue.push(el);
+        scheduleFix();
+      }else if(dx||dy){gsap.to(el,{x:0,y:0,duration:.3,ease:'power2.out'});}
+    }
+    el.addEventListener('pointerup',drop);
+    el.addEventListener('pointercancel',drop);
+  });
+}
+
+/* ── mode toggle ── */
+function setMode(on){
+  root.classList.toggle('edit',!!on);
+  try{sessionStorage.setItem('fmode',on?'1':'0');}catch(e){}
+  document.querySelectorAll('.mode-toggle').forEach(function(b){b.setAttribute('aria-pressed',on?'true':'false');});
+  if(on)setTimeout(ghostIntro,1200);
+}
+window.FigmaMode={set:setMode,toggle:function(){setMode(!inEdit());}};
+window.initFigmaDrag=function(){makeDraggable('.stat,.narr,.cstat');};
+
+document.addEventListener('DOMContentLoaded',function(){
+  var btn=document.getElementById('mode-toggle');
+  if(btn)btn.addEventListener('click',function(){window.FigmaMode.toggle();});
+  makeDraggable('.stat,.narr,.cstat');
+  try{if(sessionStorage.getItem('fmode')==='1')setMode(true);}catch(e){}
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='\\'&&(e.metaKey||e.ctrlKey)){e.preventDefault();window.FigmaMode.toggle();}
+});
 })();
