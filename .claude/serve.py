@@ -1,5 +1,6 @@
 import os, sys
 os.chdir('/Users/toshik/Desktop/Claude Projects/portfolio-website')
-sys.argv = ['serve', '3000']
+port = os.environ.get('PORT', '3000')
+sys.argv = ['serve', port]
 import http.server
 http.server.main()

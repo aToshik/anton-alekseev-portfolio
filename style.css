@@ -11,7 +11,7 @@
 }
 html{scroll-behavior:auto}
 ::selection{background:rgba(13,153,255,.32);color:var(--fg)}
-@media(pointer:fine){html,a,.ccard,.mcard,.nav-links span,.nav-logo,.narr,.clink,.cb-nav-btn,.case-back{cursor:none}}
+@media(pointer:fine){*{cursor:none!important}}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
 /* ScrollSmoother */
 #smooth-wrapper{overflow:hidden;position:fixed;top:0;left:0;width:100%;height:100%}

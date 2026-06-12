@@ -16,7 +16,7 @@ function mkCursor(id,color,name){
 
 /* ── guest cursor (the visitor) ── */
 if(FINE){
-  var guest=mkCursor('fcur-guest','#0d99ff','Guest');
+  var guest=mkCursor('fcur-guest','#0d99ff','You');
   var tag=guest.querySelector('.fcur-tag');
   var mx=-100,my=-100,gx=-100,gy=-100;
   document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
@@ -36,7 +36,7 @@ if(FINE){
   });
   document.addEventListener('mouseout',function(e){
     if(e.target.closest('.ccard,.mcard,'+ACT)){
-      tag.textContent='Guest';guest.classList.remove('act');
+      tag.textContent='You';guest.classList.remove('act');
     }
   });
 }
