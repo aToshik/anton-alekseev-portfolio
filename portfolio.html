@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Anton Alekseev — Senior Product Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0f0f0f;--bg3:#141414;
+  --fg:#f0ede8;--fg2:#7a7672;--fg3:#333230;--fg4:#1e1d1b;
+  --green:#4ade80;--amber:#f59e0b;--blue:#60a5fa;
+  --serif:'DM Serif Display',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;cursor:none}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");pointer-events:none;z-index:9990;opacity:.35}
+#cur{position:fixed;width:9px;height:9px;border-radius:50%;background:var(--fg);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .08s,background .2s;mix-blend-mode:difference}
+#cur-ring{position:fixed;width:34px;height:34px;border-radius:50%;border:1px solid rgba(240,237,232,.28);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+#cur.h{transform:translate(-50%,-50%) scale(2.2);background:var(--green)}
+#cur-ring.h{width:56px;height:56px;border-color:rgba(74,222,128,.45)}
+#cur-x{position:fixed;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);opacity:0;transition:opacity .15s}
+#cur-x::before,#cur-x::after{content:'';position:absolute;background:rgba(240,237,232,.1)}
+#cur-x::before{width:1px;height:18px;left:50%;top:50%;transform:translate(-50%,-50%)}
+#cur-x::after{width:18px;height:1px;left:50%;top:50%;transform:translate(-50%,-50%)}
+#cur-x.on{opacity:1}
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,8,.85);backdrop-filter:blur(12px)}
+nav::after{content:'';position:absolute;bottom:0;left:48px;right:48px;height:1px;background:var(--fg3)}
+.nav-logo{font-family:var(--mono);font-size:11px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.nav-logo:hover{color:var(--fg)}
+.nav-links{display:flex;gap:32px}
+.nav-links span{font-family:var(--mono);font-size:10px;color:var(--fg2);letter-spacing:.12em;text-transform:uppercase;transition:color .2s;cursor:pointer}
+.nav-links span:hover{color:var(--fg)}
+.nav-avail{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--fg2)}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(74,222,128,0)}}
+#home-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 80px;position:relative;overflow:hidden}
+.h-eyebrow{font-family:var(--mono);font-size:10px;color:var(--fg2);letter-spacing:.22em;text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fu .8s .4s forwards}
+.h-name{font-family:var(--serif);font-size:clamp(60px,9vw,130px);line-height:.93;letter-spacing:-.025em;overflow:hidden}
+.h-name .word{display:inline-block;overflow:hidden}
+.h-name .ch{display:inline-block;transform:translateY(115%);animation:cu .9s cubic-bezier(.16,1,.3,1) forwards}
+.h-sub{font-size:clamp(13px,1.3vw,17px);color:var(--fg2);font-weight:300;margin-top:28px;max-width:580px;line-height:1.75;opacity:0;animation:fu .8s 1.1s forwards}
+.h-sub em{font-style:italic;color:var(--fg);font-family:var(--serif)}
+.h-scroll{position:absolute;bottom:78px;right:48px;font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.18em;text-transform:uppercase;writing-mode:vertical-rl;opacity:0;animation:fu .8s 1.5s forwards;display:flex;align-items:center;gap:10px}
+.h-scroll::before{content:'';width:1px;height:44px;background:var(--fg3)}
+.h-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--fg3),transparent);opacity:.4}
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cu{to{transform:translateY(0)}}
+section{padding:120px 48px}
+.sec-label{font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.22em;text-transform:uppercase;margin-bottom:72px;display:flex;align-items:center;gap:18px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--fg3);max-width:160px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.about-h{font-family:var(--serif);font-size:clamp(34px,4vw,54px);line-height:1.05;letter-spacing:-.02em;margin-bottom:36px}
+.about-h em{font-style:italic;color:var(--fg2)}
+.about-body{color:var(--fg2);font-size:14px;line-height:1.85;font-weight:300}
+.about-body p+p{margin-top:18px}
+.about-body strong{color:var(--fg);font-weight:400}
+.about-body .vibe{margin-top:28px;font-size:11px;font-family:var(--mono);color:var(--fg3);letter-spacing:.07em}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+.stat{background:var(--bg2);padding:28px 24px}
+.stat-n{font-family:var(--serif);font-size:44px;line-height:1;color:var(--fg);margin-bottom:6px}
+.stat-l{font-family:var(--mono);font-size:9px;color:var(--fg2);letter-spacing:.12em;text-transform:uppercase;line-height:1.55}
+.narrs{display:flex;flex-direction:column;gap:2px;margin-top:2px}
+.narr{background:var(--bg2);padding:20px 24px;border-left:2px solid transparent;transition:border-color .3s,background .3s}
+.narr:hover{border-left-color:var(--fg);background:var(--bg3)}
+.narr-tag{font-family:var(--mono);font-size:8px;color:var(--fg3);letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+.narr-t{font-size:13px;color:var(--fg);font-weight:400;line-height:1.45}
+#home-work{border-top:1px solid var(--fg3)}
+.work-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
+.work-h{font-family:var(--serif);font-size:clamp(34px,4vw,54px);line-height:1.05}
+.work-cnt{font-family:var(--mono);font-size:10px;color:var(--fg2)}
+.cases{display:flex;flex-direction:column;gap:2px;margin-top:2px}
+.ccard{position:relative;background:var(--bg2);overflow:hidden;cursor:none;transition:background .4s}
+.ccard:hover{background:var(--bg3)}
+.ccard-inner{display:grid;grid-template-columns:220px 1fr;min-height:300px;position:relative;z-index:2}
+.ccard-meta{padding:40px 32px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--fg3)}
+.ccard-num{font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.2em}
+.ccard-tags{display:flex;flex-direction:column;gap:5px}
+.ccard-tag{font-family:var(--mono);font-size:8px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border:1px solid var(--fg3);display:inline-block;width:fit-content}
+.ccard-body{padding:40px 48px;display:flex;flex-direction:column;justify-content:space-between}
+.ccard-lbl{font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px}
+.ccard-title{font-family:var(--serif);font-size:clamp(26px,3.2vw,46px);line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
+.ccard-title em{font-style:italic;color:var(--fg2)}
+.ccard-desc{color:var(--fg2);font-size:13px;line-height:1.75;font-weight:300;max-width:460px;margin-bottom:auto;padding-bottom:28px}
+.ccard-foot{display:flex;justify-content:space-between;align-items:flex-end;padding-top:28px;border-top:1px solid var(--fg3)}
+.ccard-impact{font-family:var(--mono);font-size:9px;color:var(--fg2);letter-spacing:.07em;max-width:65%}
+.ccard-impact strong{color:var(--green);font-weight:400}
+.ccard-arr{width:40px;height:40px;border:1px solid var(--fg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,border-color .3s}
+.ccard-arr svg{transition:transform .3s}
+.ccard:hover .ccard-arr{background:var(--fg);border-color:var(--fg)}
+.ccard:hover .ccard-arr svg{transform:translate(3px,-3px)}
+.ccard:hover .ccard-arr svg path{stroke:var(--bg)}
+.ccard::after{content:'';position:absolute;top:-100%;left:-60%;width:40%;height:300%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.025) 50%,transparent 60%);transform:skewX(-15deg);transition:left .75s cubic-bezier(.23,1,.32,1);pointer-events:none;z-index:5}
+.ccard:hover::after{left:120%}
+.ccard-glow{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s;z-index:1}
+.ccard:hover .ccard-glow{opacity:1}
+.clabel{position:fixed;background:var(--fg);color:var(--bg);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;pointer-events:none;z-index:9994;transform:translate(14px,-50%);opacity:0;transition:opacity .18s;white-space:nowrap}
+.mini-cases{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px}
+.mcard{background:var(--bg2);padding:32px;border-left:2px solid transparent;transition:border-color .3s,background .3s;cursor:none;position:relative;overflow:hidden}
+.mcard:hover{border-left-color:var(--fg);background:var(--bg3)}
+.mcard::after{content:'';position:absolute;top:-100%;left:-60%;width:40%;height:300%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.02) 50%,transparent 60%);transform:skewX(-15deg);transition:left .7s cubic-bezier(.23,1,.32,1);pointer-events:none;z-index:5}
+.mcard:hover::after{left:120%}
+.mcard-lbl{font-family:var(--mono);font-size:8px;color:var(--fg3);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px}
+.mcard-title{font-family:var(--serif);font-size:26px;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px}
+.mcard-desc{color:var(--fg2);font-size:12px;line-height:1.7;font-weight:300;padding-bottom:40px}
+.mcard-arr{position:absolute;bottom:28px;right:28px;width:32px;height:32px;border:1px solid var(--fg3);display:flex;align-items:center;justify-content:center;transition:background .3s,border-color .3s}
+.mcard:hover .mcard-arr{background:var(--fg);border-color:var(--fg)}
+.mcard:hover .mcard-arr svg{transform:translate(2px,-2px)}
+.mcard:hover .mcard-arr svg path{stroke:var(--bg)}
+.mcard-arr svg{transition:transform .3s}
+#home-contact{border-top:1px solid var(--fg3)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end}
+.contact-h{font-family:var(--serif);font-size:clamp(34px,5vw,68px);line-height:.93;letter-spacing:-.025em}
+.contact-h em{font-style:italic;color:var(--fg2)}
+.clinks{display:flex;flex-direction:column;gap:2px}
+.clink{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:var(--bg2);text-decoration:none;border-left:2px solid transparent;transition:border-color .25s,background .25s}
+.clink:hover{border-left-color:var(--fg);background:var(--bg3)}
+.clink-l{font-family:var(--mono);font-size:9px;color:var(--fg2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+.clink-v{color:var(--fg);font-size:13px}
+.clink-arr{color:var(--fg3);font-size:16px;transition:transform .25s}
+.clink:hover .clink-arr{transform:translate(4px,-4px)}
+footer{padding:28px 48px;border-top:1px solid var(--fg3);display:flex;justify-content:space-between;align-items:center}
+footer p{font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.1em}
+/* case page */
+#page-case{background:var(--bg)}
+.case-back{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;color:var(--fg2);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:color .2s;margin:0 48px;padding-top:108px}
+.case-back:hover{color:var(--fg)}
+.case-back svg{transition:transform .2s}
+.case-back:hover svg{transform:translateX(-3px)}
+.case-hero{padding:48px 48px 0;border-bottom:1px solid var(--fg3)}
+.case-meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:48px}
+.ctag{font-family:var(--mono);font-size:8px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--fg3)}
+.case-h{font-family:var(--serif);font-size:clamp(44px,6.5vw,96px);line-height:.95;letter-spacing:-.03em;margin-bottom:28px}
+.case-tagline{font-size:clamp(14px,1.5vw,19px);color:var(--fg2);font-weight:300;max-width:640px;line-height:1.7;margin-bottom:64px}
+.case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding-top:48px}
+.cstat{background:var(--bg2);padding:28px 24px}
+.cstat-n{font-family:var(--serif);font-size:36px;line-height:1;color:var(--fg);margin-bottom:6px}
+.cstat-l{font-family:var(--mono);font-size:8px;color:var(--fg2);letter-spacing:.12em;text-transform:uppercase;line-height:1.5}
+.case-body{max-width:840px;margin:0 auto;padding:96px 48px}
+.cb-sec{margin-bottom:80px}
+.cb-label{font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.22em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:16px}
+.cb-label::after{content:'';flex:1;height:1px;background:var(--fg3);max-width:120px}
+.cb-h{font-family:var(--serif);font-size:clamp(24px,3vw,40px);line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
+.cb-h em{font-style:italic;color:var(--fg2)}
+.cb-p{color:var(--fg2);font-size:14px;line-height:1.85;font-weight:300;margin-bottom:16px}
+.cb-p strong{color:var(--fg);font-weight:400}
+.cb-insight{background:var(--bg2);border-left:3px solid var(--fg);padding:24px 28px;margin:32px 0;font-family:var(--serif);font-size:clamp(16px,1.8vw,22px);line-height:1.5;color:var(--fg);letter-spacing:-.01em}
+.cb-steps{display:flex;flex-direction:column;gap:2px;margin:24px 0}
+.cb-step{background:var(--bg2);padding:24px 28px}
+.cb-step-n{font-family:var(--mono);font-size:8px;color:var(--fg3);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+.cb-step-t{font-size:14px;color:var(--fg);font-weight:400;margin-bottom:8px}
+.cb-step-d{font-size:13px;color:var(--fg2);line-height:1.75;font-weight:300}
+.cb-bullets{margin:16px 0;padding-left:0;list-style:none}
+.cb-bullets li{color:var(--fg2);font-size:13px;line-height:1.75;font-weight:300;padding:6px 0 6px 20px;position:relative;border-bottom:1px solid var(--fg4)}
+.cb-bullets li::before{content:'–';position:absolute;left:0;color:var(--fg3)}
+.cb-diagram{background:var(--bg2);padding:32px;margin:24px 0;font-family:var(--mono);font-size:11px;color:var(--fg2);line-height:1.8;white-space:pre;overflow-x:auto}
+.cb-impacts{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:24px 0}
+.cb-impact{background:var(--bg2);padding:24px}
+.cb-impact-n{font-family:var(--serif);font-size:32px;line-height:1;margin-bottom:6px}
+.cb-impact-n.g{color:var(--green)}.cb-impact-n.a{color:var(--amber)}.cb-impact-n.b{color:var(--blue)}
+.cb-impact-l{font-family:var(--mono);font-size:8px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;line-height:1.5}
+.cb-reflection{background:var(--bg2);border-top:3px solid var(--fg3);padding:36px 32px;margin-top:32px}
+.cb-reflection-lbl{font-family:var(--mono);font-size:8px;color:var(--fg3);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px}
+.cb-reflection p{color:var(--fg2);font-size:14px;line-height:1.85;font-weight:300;margin-bottom:14px}
+.cb-reflection p strong{color:var(--fg);font-weight:400}
+.cb-nav{display:flex;justify-content:space-between;align-items:center;padding-top:64px;border-top:1px solid var(--fg3);margin-top:80px}
+.cb-nav-btn{cursor:pointer;transition:opacity .2s}
+.cb-nav-btn:hover{opacity:.7}
+.cb-nav-lbl{font-family:var(--mono);font-size:8px;color:var(--fg3);letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}
+.cb-nav-t{font-family:var(--serif);font-size:20px;letter-spacing:-.01em}
+.rev{opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+.rev.in{opacity:1;transform:translateY(0)}
+.rev.d1{transition-delay:.1s}.rev.d2{transition-delay:.2s}.rev.d3{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="cur-x"></div>
+<div id="clabel" class="clabel">View Case</div>
+
+<nav>
+  <div class="nav-logo" id="nav-logo">AA</div>
+  <div class="nav-links">
+    <span id="nav-work">Work</span>
+    <span id="nav-about">About</span>
+    <span id="nav-contact">Contact</span>
+  </div>
+  <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+<section id="home-hero">
+  <div class="h-eyebrow">Senior Product Designer · Tel Aviv, Israel</div>
+  <h1 class="h-name" id="heroName"></h1>
+  <p class="h-sub">8+ years translating complex B2B systems into <em>self-service experiences</em> that scale.<br>B2B SaaS · InsurTech / FinTech · AI-native Design Systems</p>
+  <div class="h-scroll">Scroll</div>
+  <div class="h-line"></div>
+</section>
+
+<section id="home-about">
+  <div class="sec-label">About</div>
+  <div class="about-grid">
+    <div class="rev">
+      <h2 class="about-h">Designing systems<br><em>that think</em></h2>
+      <div class="about-body">
+        <p>I'm a Senior Product Designer with <strong>8+ years</strong> owning end-to-end design for complex B2B SaaS products. At Kissterra, sole designer building <strong>MarketingOS</strong> — a data-intensive platform for top U.S. insurance carriers.</p>
+        <p>I don't just design interfaces. I translate <strong>non-linear algorithms, data-heavy workflows, and complex business logic</strong> into intuitive, self-service UX that drives measurable outcomes.</p>
+        <p>Most recently: built a design system that evolved to work with <strong>AI coding agents</strong> — creating a context layer other designers are only beginning to talk about.</p>
+        <p class="vibe">This site is vibe-coded. That's intentional.</p>
+      </div>
+    </div>
+    <div>
+      <div class="stats rev d1">
+        <div class="stat"><div class="stat-n">8+</div><div class="stat-l">Years in<br>Product Design</div></div>
+        <div class="stat"><div class="stat-n">7%</div><div class="stat-l">MoM growth in<br>policy binds</div></div>
+        <div class="stat"><div class="stat-n">$30M</div><div class="stat-l">Monthly media<br>investment scaled</div></div>
+        <div class="stat"><div class="stat-n">2</div><div class="stat-l">Design systems<br>built from scratch</div></div>
+      </div>
+      <div class="narrs rev d2">
+        <div class="narr"><div class="narr-tag">Narrative 01</div><div class="narr-t">Complex Domain Ownership — from messy algorithms to self-service UX</div></div>
+        <div class="narr"><div class="narr-tag">Narrative 02</div><div class="narr-t">Design System for AI Agents — context layer, not just components</div></div>
+        <div class="narr"><div class="narr-tag">Narrative 03</div><div class="narr-t">AI Product Design — trust, explainability, human-in-the-loop</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="home-work">
+  <div class="work-hdr rev">
+    <h2 class="work-h">Selected Work</h2>
+    <span class="work-cnt">05 cases</span>
+  </div>
+  <div class="cases" id="cards-main"></div>
+  <div style="padding:28px 0 16px;border-top:1px solid var(--fg3);font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.22em;text-transform:uppercase;margin-top:2px">More Work</div>
+  <div class="mini-cases" id="cards-mini"></div>
+</section>
+
+<section id="home-contact">
+  <div class="contact-grid">
+    <div class="rev"><h2 class="contact-h">Let's work<br><em>together</em></h2></div>
+    <div class="clinks rev d1">
+      <a href="mailto:aa.nooker@gmail.com" class="clink"><div><div class="clink-l">Email</div><div class="clink-v">aa.nooker@gmail.com</div></div><span class="clink-arr">↗</span></a>
+      <a href="https://linkedin.com/in/atoshik" target="_blank" class="clink"><div><div class="clink-l">LinkedIn</div><div class="clink-v">linkedin.com/in/atoshik</div></div><span class="clink-arr">↗</span></a>
+      <a href="tel:+972528410941" class="clink"><div><div class="clink-l">Phone</div><div class="clink-v">+972 52 841 0941</div></div><span class="clink-arr">↗</span></a>
+    </div>
+  </div>
+</section>
+<footer>
+  <p>Anton Alekseev © 2025</p>
+  <p>Senior Product Designer · Tel Aviv, Israel</p>
+  <p>Vibe-coded with Claude</p>
+</footer>
+</div>
+
+<!-- CASE PAGE -->
+<div id="page-case" class="page">
+  <div class="case-back" id="btn-back">
+    <svg width="14" height="10" fill="none" viewBox="0 0 14 10"><path d="M13 5H1M1 5L5 1M1 5l4 4" stroke="currentColor" stroke-width="1.1"/></svg>
+    All work
+  </div>
+  <div id="case-content"></div>
+</div>
+
+<script>
+(function(){
+
+// ── data ──
+var CASES=[
+{title:"Price Exploration",tagline:"Turning a non-linear bidding algorithm into a self-service decision tool for insurance media buyers.",tags:["InsurTech","B2B SaaS","Optimization"],stats:[{n:"$8M→$30M+",l:"Monthly media\ninvestment scaled"},{n:"7%",l:"MoM growth in\npolicy binds"},{n:"4",l:"Phases of product\nevolution"}],prev:null,next:1,nextT:"Design System for AI Agents",
+sections:[
+{lbl:"Context",h:"MarketingOS",body:"MarketingOS is a B2B SaaS platform for top U.S. insurance carriers — helping media buyers manage customer acquisition at scale, handling millions of dollars in weekly ad spend.\n\nInsurance acquisition is expensive and competitive. The relationship between bid price and business outcome is non-linear — a 5% bid increase might generate 1% more leads or 10%. Nobody knows in advance."},
+{lbl:"My Role",body:"Sole product designer on a cross-functional team (PM, data scientists, engineers). Owned the feature end-to-end across all 4 phases — from initial concept to final handoff and QA."},
+{lbl:"The Problem",h:"Two failure modes",body:"Media buyers were setting bids manually, based on intuition and limited historical data.",bullets:["Overpaying — spending more than necessary on traffic that doesn't convert","Underinvesting — leaving quality traffic on the table by bidding too low","A wrong pricing decision could cost hundreds of thousands of dollars per month"]},
+{lbl:"Key Insight",insight:"The algorithm existed. The problem wasn't the math — it was that the output was inaccessible to the people who needed to act on it. The design job was translation: from algorithm output to confident human decision."},
+{lbl:"Solution",h:"4 phases of evolution",steps:[{n:"Phase 01",t:"Ad Group Price Exploration",d:"First version: recommendations at the ad group level. Users could see the suggested price change, projected effect on lead volume and CPB, and apply it in one click."},{n:"Phase 02",t:"Bidding Group Optimization",d:"Grouped the same insurance product across multiple traffic sources into Bidding Groups. Recommendations became more statistically significant and aligned to actual business logic."},{n:"Phase 03",t:"Channel Optimization",d:"Different channels respond to price changes differently. Extended the system to channel level — finding the optimal price for each channel's unique characteristics."},{n:"Phase 04",t:"Universal Cohort Exploration",d:"Any cohort the platform supports. Price Exploration transformed from a bid optimization tool into a universal price research platform."}]},
+{lbl:"UI Principles",bullets:["Recommendation always paired with projected impact (leads, CPB delta, cost)","Confidence indicators — surface how much data backs the recommendation","One-click apply — no friction between insight and action","Clear separation: what the system found vs. what the user decides"]},
+{lbl:"Impact",impacts:[{n:"$30M+",c:"g",l:"Monthly media\ninvestment at scale"},{n:"7%",c:"g",l:"MoM growth in\npolicy binds"},{n:"Days→Min",c:"a",l:"Time from data\nto decision"},{n:"4×",c:"b",l:"Optimization\ngranularity levels"}]},
+{lbl:"Reflection",reflection:"This was the project that taught me what it means to design for high-stakes decisions under uncertainty. The algorithm could tell you what it found — but it couldn't tell the user how much to trust it. Designing that trust layer was harder than any interaction pattern.\n\n<strong>You can't simplify what you don't deeply understand.</strong> I spent weeks learning insurance acquisition metrics before I could design anything useful."}
+]},
+{title:"Design System for AI Agents",tagline:"I built a design system. Then AI agents tried to implement it — and I had to rebuild it for them.",tags:["Design Systems","AI-native","Figma"],stats:[{n:"4",l:"Frontend engineers\nusing agentic tools"},{n:"↓",l:"AI clarification\ncycles reduced"},{n:"✦",l:"Replicable model\nfor AI-ready DS"}],prev:0,prevT:"Price Exploration",next:2,nextT:"AI Data Assistant",
+sections:[
+{lbl:"Context",body:"Kissterra's engineering team adopted AI-agent-driven development — using Cursor and Claude Code to implement features directly from Figma. I had built the design system from scratch, establishing the component library, design tokens, and visual language. It worked well for human developers. Then we tried it with AI agents."},
+{lbl:"The Problem",h:"Complete. But not machine-readable.",body:"AI coding agents are not experienced developers. An experienced developer draws on years of pattern recognition — they know implicitly when to use a Tooltip vs. a Popover. An AI agent only knows what it can read.",bullets:["Wrong component choices for similar-looking UI patterns","Missing edge cases and states in implementation","Long clarification loops between engineers and AI","Inconsistencies that slipped through to production"]},
+{lbl:"Key Insight",insight:"Documentation in design systems has always been written for humans who can infer, ask questions, and apply judgment. AI agents need explicit, structured, unambiguous context available at the exact moment of implementation."},
+{lbl:"Solution",h:"A two-layer context system",steps:[{n:"Layer 01",t:"Context in Figma",d:"Every component got embedded documentation — structured annotations in Figma: what it is, when to use, when NOT to use, all states, edge cases, Do/Don't. Structured enough for an agent to parse reliably."},{n:"Layer 02",t:"component-doc.md in the repo",d:"Each component got a corresponding Markdown file in the codebase — the same information, living alongside the code. Always current, always accessible to the agent's context window."},{n:"Layer 03",t:"Supporting tooling",d:"Figma ↔ repo sync to detect component changes, diff detection to surface what changed, and structured prompts to generate first-draft docs for new components."}]},
+{lbl:"Architecture",diagram:"Figma (design source)        Repository (implementation)\n├── Component visuals          ├── Component code\n├── All states & variants      ├── component-doc.md\n└── Embedded context docs  ←→  └── Always in sync\n          ↑\n    AI agent reads both\n    during implementation"},
+{lbl:"Impact",impacts:[{n:"↓↓",c:"g",l:"AI clarification\ncycles reduced"},{n:"↑",c:"g",l:"Code generation\nquality improved"},{n:"Day 1",c:"a",l:"New components ship\nwith docs"},{n:"4",c:"b",l:"Engineers benefit\ndirectly"}]},
+{lbl:"Reflection",reflection:"This project changed how I think about design systems entirely. A design system isn't just a library of components — it's a shared language. As consumers expand to include machines, the language has to become more explicit.\n\n<strong>Documentation is design.</strong> The time I spent writing component docs wasn't maintenance work — it was product work. The quality of those docs directly determined the quality of what got built."}
+]},
+{title:"AI Data Assistant",tagline:"Designing a conversational co-pilot where the hard part isn't the chat UI — it's making AI decisions trustworthy enough to act on.",tags:["Conversational UX","Agentic Design","AX"],stats:[{n:"3",l:"Phases from suggest\nto autonomous action"},{n:"↓",l:"Time-to-insight\nfor media buyers"},{n:"✦",l:"AX pattern library\nfor the platform"}],prev:1,prevT:"Design System for AI Agents",next:3,nextT:"Cross-Campaign Management",
+sections:[
+{lbl:"Context",body:"Media buyers using MarketingOS spend significant time manually navigating dashboards to answer basic questions: Which channels are underperforming? Where should I shift budget? What's driving that CPB spike?\n\nThe data exists. The problem is access — finding the right numbers requires knowing where to look, how to filter, and how to interpret. For complex situations, this could take hours."},
+{lbl:"The Problem",h:"Building trust for high-stakes decisions",body:"Building a chat interface is straightforward. Building one that people trust for decisions that move hundreds of thousands of dollars in ad spend is not.",bullets:["Trust — how does the user know the AI's answer is accurate?","Explainability — why is the system recommending this specific action?","Appropriate confidence — how to communicate uncertainty without undermining usefulness?","Human-in-the-loop — how to design the moment between 'AI suggests' and 'user acts'?","Progressive autonomy — how does the product evolve toward autonomous execution?"]},
+{lbl:"Key Insight",insight:"Most conversational UX frameworks assume the AI is answering questions. This product needed to go further — toward recommendations, and eventually toward action. The architecture had to support all three modes — and be honest with the user about which mode they're in."},
+{lbl:"Response Architecture",steps:[{n:"Mode 01",t:"Data query response",d:"Table or summary card + source reference + time range. Accuracy and transparency are the primary design values."},{n:"Mode 02",t:"Recommendation response",d:"Suggested action + projected impact + confidence level + Apply / Dismiss. All supporting data visible by default."},{n:"Mode 03",t:"Executed action response",d:"Confirmation + what changed + Undo option. Full audit trail, every AI-executed change timestamped and attributable."}]},
+{lbl:"Progressive Autonomy",steps:[{n:"Phase 1 — Shipped",t:"Read-only assistant",d:"Query data, get analysis, receive recommendations. User executes manually. Build trust before giving AI agency."},{n:"Phase 2 — Designed",t:"Assisted execution",d:"User approves AI recommendations with one click. AI executes. The approval patterns from Phase 1 make this feel like a natural progression."},{n:"Phase 3 — Vision",t:"Autonomous mode",d:"AI acts within user-defined guardrails, surfaces a digest of actions taken. Users opt in — trust is earned, not assumed."}]},
+{lbl:"Impact",impacts:[{n:"↓",c:"g",l:"Time from data to\nactionable insight"},{n:"3",c:"a",l:"Phases of product\nevolution designed"},{n:"↑",c:"b",l:"Foundation for\nautonomous campaign mgmt"},{n:"✦",c:"g",l:"Reusable AX\npattern library"}]},
+{lbl:"Reflection",reflection:"This was the most conceptually challenging project I've worked on. Not because of interaction complexity, but because of the fundamental question: <strong>how do you design for appropriate trust?</strong>\n\nToo much trust in AI is dangerous — users stop thinking critically. Too little and the product becomes useless. The design job was finding the calibration.\n\nDesigning AI products requires thinking about failure states as carefully as success states. What does the UI show when the AI is uncertain? When it made a mistake? These are design decisions, not engineering footnotes."}
+]},
+{title:"Cross-Campaign Management",tagline:"When media buyers manage hundreds of campaigns simultaneously, one-by-one editing isn't a UX problem — it's a business blocker.",tags:["Workflow Design","Bulk Editing","B2B SaaS"],stats:[{n:"Hours→Min",l:"Time for large-scale\ncampaign updates"},{n:"3",l:"Subsequent features\nbuilt on this foundation"},{n:"✦",l:"Self-service for\npreviously manual ops"}],prev:2,prevT:"AI Data Assistant",next:4,nextT:"Channel Analysis",
+sections:[
+{lbl:"Context & Problem",h:"One-by-one editing at enterprise scale",body:"MarketingOS users manage complex campaign structures — multiple campaigns, each with ad groups, channels, and targeting segments. Making a strategic change required editing each campaign individually. For large accounts, this was hours of repetitive work and a major source of errors."},
+{lbl:"Key Design Challenges",bullets:["Representing selection state across a deeply nested hierarchy","Showing the scope of a pending bulk action before it's applied","Handling mixed states — what happens when selected items have different current values?","Confirmation patterns for irreversible bulk operations"]},
+{lbl:"Solution",body:"Redesigned campaign management to support bulk editing across campaigns, ad groups, and channels simultaneously. The feature became the infrastructure layer for subsequent platform capabilities — Channel Groups, Performance Views, and Cross-Campaign Dashboard all built on top of the same selection model."},
+{lbl:"Impact",impacts:[{n:"Hours→Min",c:"g",l:"Time for large-scale\nupdates"},{n:"✦",c:"a",l:"Self-service for\nmanual ops"},{n:"3",c:"b",l:"Subsequent features\nbuilt on this"},{n:"↓",c:"g",l:"Manual support\nrequests"}]},
+{lbl:"Reflection",reflection:"The most impactful design decisions weren't the visible interactions — they were the selection model and state management patterns that enabled three subsequent features to be built faster and more consistently.\n\n<strong>Good UX infrastructure is invisible. You only notice it when it's missing.</strong>"}
+]},
+{title:"Channel Analysis & Outlier Detection",tagline:"Surfacing the channels that need attention — before the budget damage is done.",tags:["Data Visualization","Recommendations","B2B SaaS"],stats:[{n:"8+",l:"KPIs tracked per\nchannel"},{n:"14/30d",l:"Performance trends\nfor scoring"},{n:"✦",l:"Foundation for\nautomated execution"}],prev:3,prevT:"Cross-Campaign Management",next:null,
+sections:[
+{lbl:"Context & Problem",h:"Underperforming channels hiding in plain sight",body:"MarketingOS users run traffic across dozens of channels simultaneously. Identifying which channels are underperforming required manual comparison across tables of data — slow, error-prone, and easy to miss."},
+{lbl:"Solution",h:"Three components",steps:[{n:"01",t:"Channel Outlier Highlighting",d:"Algorithmic flagging identifying channels deviating significantly from expected performance. Outliers surfaced with severity levels — users see what needs attention immediately, without scanning every row."},{n:"02",t:"Channel Groups",d:"Channels with similar performance characteristics grouped and optimized together — reducing management surface and enabling coordinated bid changes across related traffic sources."},{n:"03",t:"Recommendations Engine",d:"Each channel receives a scored recommendation based on 14 and 30-day performance trends across 8+ KPIs. Recommendations are explainable — users see the scoring logic, not just the output."}]},
+{lbl:"Impact",impacts:[{n:"Instant",c:"g",l:"Outlier detection vs.\nmanual scanning"},{n:"8+",c:"a",l:"KPIs per channel\nrecommendation"},{n:"✦",c:"b",l:"Foundation for\nautomated execution"},{n:"↑",c:"g",l:"Budget reallocation\nquality"}]},
+{lbl:"Reflection",reflection:"This project was a lesson in the relationship between data density and cognitive load. Media buyers have a lot of data — the design job wasn't to show more of it, but to surface the signal in the noise.\n\n<strong>The most valuable UX decision was the outlier detection algorithm's visual output</strong> — how to represent severity, confidence, and recommended action in a way a busy media buyer could parse in under three seconds."}
+]}
+];
+
+// ── cursor ──
+var cur=document.getElementById('cur'),ring=document.getElementById('cur-ring'),curx=document.getElementById('cur-x'),clbl=document.getElementById('clabel');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  curx.style.left=mx+'px';curx.style.top=my+'px';
+});
+(function tick(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+
+function hoverOn(){cur.classList.add('h');ring.classList.add('h');}
+function hoverOff(){cur.classList.remove('h');ring.classList.remove('h');}
+
+// ── page switch ──
+function showPage(id){
+  document.getElementById('page-home').classList.remove('active');
+  document.getElementById('page-case').classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── nav ──
+document.getElementById('nav-logo').addEventListener('click',function(){showPage('page-home');initReveal();});
+document.getElementById('nav-work').addEventListener('click',function(){showPage('page-home');setTimeout(function(){var el=document.getElementById('home-work');if(el)el.scrollIntoView({behavior:'smooth'});},50);});
+document.getElementById('nav-about').addEventListener('click',function(){showPage('page-home');setTimeout(function(){var el=document.getElementById('home-about');if(el)el.scrollIntoView({behavior:'smooth'});},50);});
+document.getElementById('nav-contact').addEventListener('click',function(){showPage('page-home');setTimeout(function(){var el=document.getElementById('home-contact');if(el)el.scrollIntoView({behavior:'smooth'});},50);});
+document.getElementById('btn-back').addEventListener('click',function(){showPage('page-home');initReveal();});
+
+// ── reveal ──
+var observed=[];
+var ro=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.08,rootMargin:'0px 0px -50px 0px'});
+function initReveal(){
+  document.querySelectorAll('.rev').forEach(function(el){
+    if(observed.indexOf(el)===-1){observed.push(el);ro.observe(el);}
+  });
+}
+
+// ── hero name ──
+(function(){
+  var name="Anton Alekseev",el=document.getElementById('heroName');
+  name.split(' ').forEach(function(w,wi){
+    var wd=document.createElement('span');wd.className='word';if(wi>0)wd.style.marginLeft='.22em';
+    w.split('').forEach(function(ch,ci){var s=document.createElement('span');s.className='ch';s.textContent=ch;s.style.animationDelay=(0.55+wi*.08+ci*.042)+'s';wd.appendChild(s);});
+    el.appendChild(wd);
+  });
+})();
+
+// parallax
+document.addEventListener('mousemove',function(e){
+  var h=document.getElementById('heroName');
+  if(h){var x=(e.clientX/innerWidth-.5)*16,y=(e.clientY/innerHeight-.5)*9;h.style.transform='translate('+x*.28+'px,'+y*.28+'px)';}
+});
+
+// ── build home cards ──
+var mainData=[0,1,2];
+var miniData=[3,4];
+var mainNums=["01 / 03","02 / 03","03 / 03"];
+var mainGlows=["radial-gradient(ellipse at 18% 55%,rgba(74,222,128,.045) 0%,transparent 55%)","radial-gradient(ellipse at 82% 35%,rgba(96,165,250,.04) 0%,transparent 55%)","radial-gradient(ellipse at 55% 82%,rgba(245,158,11,.04) 0%,transparent 55%)"];
+
+var mainImpacts=["Impact: <strong>7% MoM</strong> growth · Media scaled <strong>$8M → $30M+</strong>","Outcome: Fewer clarification cycles · <strong>Better code generation</strong>","Focus: <strong>Trust · Explainability</strong> · Human-in-the-loop"];
+var mainDescs=["A non-linear price experimentation algorithm — translated into a self-service interface for insurance media buyers managing $30M+ monthly.","Evolved a component library into an AI-readable context layer — embedded docs in Figma, component-doc.md in the repo. Before the industry had a name for it.","A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action."];
+
+var cm=document.getElementById('cards-main');
+mainData.forEach(function(ci,idx){
+  var c=CASES[ci];
+  var d=document.createElement('div');
+  d.className='ccard rev'+(idx>0?' d'+idx:'');
+  d.innerHTML='<div class="ccard-glow" style="background:'+mainGlows[idx]+'"></div>'
+    +'<div class="ccard-inner">'
+    +'<div class="ccard-meta"><div class="ccard-num">'+mainNums[idx]+'</div><div class="ccard-tags">'+c.tags.map(function(t){return'<span class="ccard-tag">'+t+'</span>';}).join('')+'</div></div>'
+    +'<div class="ccard-body"><div><div class="ccard-lbl">'+c.title+'</div><h3 class="ccard-title">'+c.title.replace(' — ','<br>')+'</h3><p class="ccard-desc">'+mainDescs[idx]+'</p></div>'
+    +'<div class="ccard-foot"><div class="ccard-impact">'+mainImpacts[idx]+'</div>'
+    +'<div class="ccard-arr"><svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H5M12 2v7" stroke="currentColor" stroke-width="1.2"/></svg></div></div></div></div>';
+  d.addEventListener('click',function(){openCase(ci);});
+  d.addEventListener('mousemove',function(e){clbl.style.left=e.clientX+'px';clbl.style.top=e.clientY+'px';clbl.style.opacity='1';});
+  d.addEventListener('mouseleave',function(){clbl.style.opacity='0';});
+  d.addEventListener('mouseenter',function(){hoverOn();curx.classList.add('on');});
+  d.addEventListener('mouseleave',function(){hoverOff();curx.classList.remove('on');});
+  cm.appendChild(d);
+});
+
+var miniDescs=["When managing hundreds of campaigns, one-by-one editing isn't a UX problem — it's a business blocker.","Surfacing underperforming channels before the budget damage is done — algorithmic detection with explainable recommendations."];
+var mm=document.getElementById('cards-mini');
+miniData.forEach(function(ci,idx){
+  var c=CASES[ci];
+  var d=document.createElement('div');
+  d.className='mcard rev'+(idx>0?' d1':'');
+  d.innerHTML='<div class="mcard-lbl">'+c.title+'</div>'
+    +'<h3 class="mcard-title">'+c.title+'</h3>'
+    +'<p class="mcard-desc">'+miniDescs[idx]+'</p>'
+    +'<div class="mcard-arr"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" stroke-width="1.1"/></svg></div>';
+  d.addEventListener('click',function(){openCase(ci);});
+  d.addEventListener('mousemove',function(e){clbl.style.left=e.clientX+'px';clbl.style.top=e.clientY+'px';clbl.style.opacity='1';});
+  d.addEventListener('mouseleave',function(){clbl.style.opacity='0';});
+  d.addEventListener('mouseenter',function(){hoverOn();curx.classList.add('on');});
+  d.addEventListener('mouseleave',function(){hoverOff();curx.classList.remove('on');});
+  mm.appendChild(d);
+});
+
+// hover on static elements
+document.querySelectorAll('.nav-logo,.nav-links span,a,.narr,.stat,.clink').forEach(function(el){
+  el.addEventListener('mouseenter',hoverOn);
+  el.addEventListener('mouseleave',hoverOff);
+});
+document.getElementById('btn-back').addEventListener('mouseenter',hoverOn);
+document.getElementById('btn-back').addEventListener('mouseleave',hoverOff);
+
+initReveal();
+
+// ── render case ──
+function renderCase(idx){
+  var c=CASES[idx];
+  var html='<div class="case-hero">'
+    +'<div class="case-meta-row">'+c.tags.map(function(t){return'<span class="ctag">'+t+'</span>';}).join('')+'</div>'
+    +'<h1 class="case-h">'+c.title+'</h1>'
+    +'<p class="case-tagline">'+c.tagline+'</p>'
+    +'<div class="case-stats">'+c.stats.map(function(s){return'<div class="cstat"><div class="cstat-n">'+s.n+'</div><div class="cstat-l">'+s.l.replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
+    +'</div><div class="case-body">';
+
+  c.sections.forEach(function(sec){
+    html+='<div class="cb-sec rev"><div class="cb-label">'+sec.lbl+'</div>';
+    if(sec.insight) html+='<div class="cb-insight">'+sec.insight+'</div>';
+    if(sec.h) html+='<h2 class="cb-h">'+sec.h+'</h2>';
+    if(sec.body) sec.body.split('\n\n').forEach(function(p){html+='<p class="cb-p">'+p.replace(/\n/g,'<br>')+'</p>';});
+    if(sec.bullets) html+='<ul class="cb-bullets">'+sec.bullets.map(function(b){return'<li>'+b+'</li>';}).join('')+'</ul>';
+    if(sec.steps) html+='<div class="cb-steps">'+sec.steps.map(function(s){return'<div class="cb-step"><div class="cb-step-n">'+s.n+'</div><div class="cb-step-t">'+s.t+'</div><div class="cb-step-d">'+s.d+'</div></div>';}).join('')+'</div>';
+    if(sec.diagram) html+='<div class="cb-diagram">'+sec.diagram+'</div>';
+    if(sec.impacts) html+='<div class="cb-impacts">'+sec.impacts.map(function(im){return'<div class="cb-impact"><div class="cb-impact-n '+im.c+'">'+im.n+'</div><div class="cb-impact-l">'+im.l.replace('\n','<br>')+'</div></div>';}).join('')+'</div>';
+    if(sec.reflection) html+='<div class="cb-reflection"><div class="cb-reflection-lbl">Reflection</div>'+sec.reflection.split('\n\n').map(function(p){return'<p>'+p+'</p>';}).join('')+'</div>';
+    html+='</div>';
+  });
+
+  html+='<div class="cb-nav">';
+  if(typeof c.prev==='number'){
+    html+='<div class="cb-nav-btn" id="btn-prev">← <span class="cb-nav-lbl" style="display:inline">Prev</span> <span class="cb-nav-t">'+c.prevT+'</span></div>';
+  } else { html+='<div></div>'; }
+  if(typeof c.next==='number'){
+    html+='<div class="cb-nav-btn" id="btn-next" style="text-align:right"><span class="cb-nav-t">'+c.nextT+'</span> <span class="cb-nav-lbl" style="display:inline">Next</span> →</div>';
+  } else { html+='<div></div>'; }
+  html+='</div></div>';
+
+  var cont=document.getElementById('case-content');
+  cont.innerHTML=html;
+
+  // bind prev/next with stored indices
+  var prevBtn=document.getElementById('btn-prev');
+  var nextBtn=document.getElementById('btn-next');
+  if(prevBtn){
+    (function(pi){prevBtn.addEventListener('click',function(){openCase(pi);});})(c.prev);
+    prevBtn.addEventListener('mouseenter',hoverOn);
+    prevBtn.addEventListener('mouseleave',hoverOff);
+  }
+  if(nextBtn){
+    (function(ni){nextBtn.addEventListener('click',function(){openCase(ni);});})(c.next);
+    nextBtn.addEventListener('mouseenter',hoverOn);
+    nextBtn.addEventListener('mouseleave',hoverOff);
+  }
+  initReveal();
+}
+
+function openCase(idx){
+  showPage('page-case');
+  renderCase(idx);
+}
+
+})();
+</script>
+</body>
+</html>

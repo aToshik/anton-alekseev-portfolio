@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Case Studies — Anton Alekseev · Senior Product Designer</title>
+<meta name="description" content="Case studies: MarketingOS Price Exploration, AI-native Design System, AI Data Assistant, Cross-Campaign Management, Channel Analysis. 9+ years B2B SaaS.">
+<meta property="og:title" content="Case Studies — Anton Alekseev · Senior Product Designer">
+<meta property="og:description" content="Case studies: MarketingOS Price Exploration, AI-native Design System, AI Data Assistant, Cross-Campaign Management, Channel Analysis.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="og-image.png">
+<link rel="canonical" href="index.html">
+<meta name="theme-color" content="#080808">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="cur-x"></div>
+<div id="clabel" class="clabel">View Case</div>
+
+<nav>
+  <div class="nav-logo" id="nav-logo">AA</div>
+  <div class="nav-links">
+    <span id="nav-work">Work</span>
+    <span id="nav-about">About</span>
+    <span id="nav-contact">Contact</span>
+  </div>
+  <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
+</nav>
+
+<div id="smooth-wrapper">
+<div id="smooth-content">
+
+<div class="case-back" id="btn-back">
+  <svg width="14" height="10" fill="none" viewBox="0 0 14 10"><path d="M13 5H1M1 5L5 1M1 5l4 4" stroke="currentColor" stroke-width="1.1"/></svg>
+  All work
+</div>
+<div id="case-content"></div>
+
+</div>
+</div>
+
+<script src="cases.js"></script>
+<script>
+(function(){
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+var smoother=ScrollSmoother.create({
+  wrapper:'#smooth-wrapper',
+  content:'#smooth-content',
+  smooth:1.5,
+  effects:true,
+  smoothTouch:0.1
+});
+
+// ── cursor ──
+var cur=document.getElementById('cur'),ring=document.getElementById('cur-ring'),curx=document.getElementById('cur-x'),clbl=document.getElementById('clabel');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  curx.style.left=mx+'px';curx.style.top=my+'px';
+});
+(function tick(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+
+function hoverOn(){cur.classList.add('h');ring.classList.add('h');}
+function hoverOff(){cur.classList.remove('h');ring.classList.remove('h');}
+
+// ── nav — all links go to home ──
+document.getElementById('nav-logo').addEventListener('click',function(){window.location.href='index.html';});
+document.getElementById('nav-work').addEventListener('click',function(){window.location.href='index.html#home-work';});
+document.getElementById('nav-about').addEventListener('click',function(){window.location.href='index.html#home-about';});
+document.getElementById('nav-contact').addEventListener('click',function(){window.location.href='index.html#home-contact';});
+
+// ── back button ──
+document.getElementById('btn-back').addEventListener('click',function(){
+  if(history.length>1&&document.referrer&&document.referrer.includes(location.hostname)){history.back();}
+  else{window.location.href='index.html';}
+});
+document.getElementById('btn-back').addEventListener('mouseenter',hoverOn);
+document.getElementById('btn-back').addEventListener('mouseleave',hoverOff);
+
+// ── custom line-splitter (replaces GSAP SplitText) ──
+function splitByLines(el){
+  var words=el.textContent.trim().split(/\s+/);
+  el.innerHTML=words.map(function(w){
+    return'<span class="sl-w" style="display:inline;white-space:pre">'+w+' </span>';
+  }).join('');
+  var spans=el.querySelectorAll('.sl-w');
+  var groups=[],cur=[],lastTop=-Infinity;
+  spans.forEach(function(s){
+    var top=Math.round(s.getBoundingClientRect().top);
+    if(top>lastTop+2){if(cur.length)groups.push(cur);cur=[];lastTop=top;}
+    cur.push(s);
+  });
+  if(cur.length)groups.push(cur);
+  el.innerHTML='';
+  return groups.map(function(g){
+    var mask=document.createElement('div');
+    mask.style.cssText='overflow:hidden;display:block';
+    var line=document.createElement('div');
+    line.className='split-line';
+    g.forEach(function(s){line.appendChild(s);});
+    mask.appendChild(line);
+    el.appendChild(mask);
+    return line;
+  });
+}
+
+// ── scroll reveal ──
+function initReveal(){
+  // Simple fade+y for .rev elements
+  gsap.utils.toArray('.rev:not(.gsap-init)').forEach(function(el){
+    el.classList.add('gsap-init');
+    var delay=el.classList.contains('d3')?0.3:el.classList.contains('d2')?0.2:el.classList.contains('d1')?0.1:0;
+    gsap.fromTo(el,
+      {opacity:0,y:36},
+      {opacity:1,y:0,duration:0.75,delay:delay,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 91%',toggleActions:'play none none none'}}
+    );
+  });
+
+  // Line reveal for section headings (.cb-h)
+  gsap.utils.toArray('.cb-h:not(.split-init)').forEach(function(el){
+    el.classList.add('split-init');
+    var lines=splitByLines(el);
+    gsap.from(lines,{
+      yPercent:105,duration:0.7,ease:'expo.out',stagger:0.065,
+      scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}
+    });
+  });
+
+  // Line reveal for key insights (.cb-insight)
+  gsap.utils.toArray('.cb-insight:not(.split-init)').forEach(function(el){
+    el.classList.add('split-init');
+    var lines=splitByLines(el);
+    gsap.from(lines,{
+      yPercent:105,duration:0.65,ease:'power3.out',stagger:0.05,
+      scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}
+    });
+  });
+}
+
+// ── case page entrance animation ──
+// isTransition=false → initial page load (also animates #btn-back)
+// isTransition=true  → case-to-case switch (btn-back stays visible)
+function enterAnimation(isTransition){
+  var tl=gsap.timeline();
+  var t0=isTransition?0:0.12;
+  if(!isTransition){
+    tl.from('#btn-back',{opacity:0,x:-18,duration:0.5,ease:'power3.out'},0);
+  }
+
+  // Tags, tagline, stats, visual — simple fade+y (unchanged)
+  tl
+    .from('.ctag',        {opacity:0,y:10,stagger:0.055,duration:0.38,ease:'power2.out'},t0)
+    .from('.case-tagline',{opacity:0,y:18,duration:0.5, ease:'power3.out'},t0+0.42)
+    .from('.cstat',       {opacity:0,y:12,stagger:0.08, duration:0.42,ease:'power2.out'},t0+0.54)
+    .from('.case-visual', {opacity:0,scale:0.965,duration:0.65,ease:'power3.out'},t0+0.68);
+
+  // .case-h — line reveal
+  var caseH=document.querySelector('.case-h');
+  if(caseH){
+    var hLines=splitByLines(caseH);
+    tl.from(hLines,{
+      yPercent:105,duration:0.75,ease:'expo.out',stagger:0.08
+    },t0+0.14);
+  }
+
+  return tl;
+}
+
+// ── safe text: escape HTML, allow only <strong> ──
+function safe(str){
+  return str
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/&lt;strong&gt;/g,'<strong>')
+    .replace(/&lt;\/strong&gt;/g,'</strong>');
+}
+
+// ── render case ──
+function renderCase(idx){
+  var c=CASES[idx];
+
+  // Update page title and og meta
+  document.title=c.title+' — Anton Alekseev';
+  document.querySelector('meta[property="og:title"]').setAttribute('content',c.title+' — Anton Alekseev');
+  document.querySelector('meta[name="description"]').setAttribute('content',c.tagline);
+
+  var html='<div class="case-hero">'
+    +'<div class="case-meta-row">'+c.tags.map(function(t){return'<span class="ctag">'+safe(t)+'</span>';}).join('')+'</div>'
+    +'<h1 class="case-h">'+safe(c.title)+'</h1>'
+    +'<p class="case-tagline">'+safe(c.tagline)+'</p>'
+    +'<div class="case-stats">'+c.stats.map(function(s){return'<div class="cstat"><div class="cstat-n">'+safe(s.n)+'</div><div class="cstat-l">'+safe(s.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
+    +'</div>';
+
+  html+='<div class="case-visual" style="background:'+CASE_BG[idx]+'">'
+    +'<div class="case-visual-grid"></div>'
+    +'<div class="case-visual-num"><span>0'+(idx+1)+'</span></div>'
+    +'</div>';
+
+  html+='<div class="case-body">';
+  c.sections.forEach(function(sec){
+    html+='<div class="cb-sec"><div class="cb-label rev">'+safe(sec.lbl)+'</div>';
+    // .cb-insight and .cb-h get NO .rev — handled by splitByLines in initReveal()
+    if(sec.insight) html+='<div class="cb-insight">'+safe(sec.insight)+'</div>';
+    if(sec.h) html+='<h2 class="cb-h">'+safe(sec.h)+'</h2>';
+    if(sec.body) sec.body.split('\n\n').forEach(function(p){html+='<p class="cb-p rev">'+safe(p).replace(/\n/g,'<br>')+'</p>';});
+    if(sec.bullets) html+='<ul class="cb-bullets rev">'+sec.bullets.map(function(b){return'<li>'+safe(b)+'</li>';}).join('')+'</ul>';
+    if(sec.steps) html+='<div class="cb-steps rev">'+sec.steps.map(function(s){return'<div class="cb-step"><div class="cb-step-n">'+safe(s.n)+'</div><div class="cb-step-t">'+safe(s.t)+'</div><div class="cb-step-d">'+safe(s.d)+'</div></div>';}).join('')+'</div>';
+    if(sec.diagram) html+='<div class="cb-diagram rev">'+safe(sec.diagram)+'</div>';
+    if(sec.impacts) html+='<div class="cb-impacts rev">'+sec.impacts.map(function(im){return'<div class="cb-impact"><div class="cb-impact-n '+safe(im.c)+'">'+safe(im.n)+'</div><div class="cb-impact-l">'+safe(im.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>';
+    if(sec.reflection) html+='<div class="cb-reflection rev"><div class="cb-reflection-lbl">Reflection</div>'+sec.reflection.split('\n\n').map(function(p){return'<p>'+safe(p)+'</p>';}).join('')+'</div>';
+    html+='</div>';
+  });
+
+  html+='<div class="cb-nav">';
+  if(typeof c.prev==='number'){
+    html+='<div class="cb-nav-btn" id="btn-prev"><div class="cb-nav-lbl">← Prev</div><div class="cb-nav-t">'+safe(c.prevT)+'</div></div>';
+  }else{html+='<div></div>';}
+  if(typeof c.next==='number'){
+    html+='<div class="cb-nav-btn" id="btn-next" style="text-align:right"><div class="cb-nav-lbl">Next →</div><div class="cb-nav-t">'+safe(c.nextT)+'</div></div>';
+  }else{html+='<div></div>';}
+  html+='</div></div>';
+
+  document.getElementById('case-content').innerHTML=html;
+
+  var prevBtn=document.getElementById('btn-prev');
+  var nextBtn=document.getElementById('btn-next');
+  if(prevBtn){
+    (function(pi){prevBtn.addEventListener('click',function(){window.location.href='case.html#'+pi;});})(c.prev);
+    prevBtn.addEventListener('mouseenter',hoverOn);
+    prevBtn.addEventListener('mouseleave',hoverOff);
+  }
+  if(nextBtn){
+    (function(ni){nextBtn.addEventListener('click',function(){window.location.href='case.html#'+ni;});})(c.next);
+    nextBtn.addEventListener('mouseenter',hoverOn);
+    nextBtn.addEventListener('mouseleave',hoverOff);
+  }
+
+  initReveal();
+}
+
+// ── case-to-case transition via hashchange ──
+// Fires when prev/next changes the hash without a full page reload
+window.addEventListener('hashchange',function(){
+  var raw=window.location.hash.replace('#','');
+  var newIdx=parseInt(raw,10);
+  if(isNaN(newIdx)||newIdx<0||newIdx>=CASES.length)return;
+  // Exit current content
+  gsap.to('#case-content',{opacity:0,y:-22,duration:0.28,ease:'power2.in',
+    onComplete:function(){
+      ScrollTrigger.getAll().forEach(function(t){t.kill();});
+      smoother.scrollTop(0);
+      renderCase(newIdx);
+      gsap.set('#case-content',{opacity:1,y:0});
+      enterAnimation(true);
+    }
+  });
+});
+
+// ── init from URL hash (#N) with query-string fallback (?id=N) ──
+var rawId=window.location.hash.replace('#','');
+if(!rawId){rawId=new URLSearchParams(window.location.search).get('id')||'';}
+var idx=parseInt(rawId,10);
+if(isNaN(idx)||idx<0||idx>=CASES.length){
+  window.location.href='index.html';
+}else{
+  renderCase(idx);
+  enterAnimation(false);
+}
+
+document.querySelectorAll('.nav-logo,.nav-links span').forEach(function(el){
+  el.addEventListener('mouseenter',hoverOn);
+  el.addEventListener('mouseleave',hoverOff);
+});
+
+})();
+</script>
+</body>
+</html>
