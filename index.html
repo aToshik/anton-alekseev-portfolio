@@ -16,17 +16,12 @@
 <meta name="theme-color" content="#080808">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
 </head>
 <body>
-
-<div id="cur"></div>
-<div id="cur-ring"></div>
-<div id="cur-x"></div>
-<div id="clabel" class="clabel">View Case</div>
 
 <nav>
   <div class="nav-logo" id="nav-logo">AA</div>
@@ -47,6 +42,7 @@
   <h1 class="h-name" id="heroName"></h1>
   <p class="h-sub">9+ years translating complex B2B systems into <em>self-service experiences</em> that scale.<br>B2B SaaS · InsurTech / FinTech · AI-native Design Systems</p>
   <div class="h-scroll">Scroll</div>
+  <div class="h-redline">1440</div>
   <div class="h-line"></div>
 </section>
 
@@ -108,6 +104,7 @@
 </div>
 
 <script src="cases.js"></script>
+<script src="figma.js"></script>
 <script>
 (function(){
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -119,19 +116,6 @@ var smoother=ScrollSmoother.create({
   effects:true,
   smoothTouch:0.1
 });
-
-// ── cursor ──
-var cur=document.getElementById('cur'),ring=document.getElementById('cur-ring'),curx=document.getElementById('cur-x'),clbl=document.getElementById('clabel');
-var mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',function(e){
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-  curx.style.left=mx+'px';curx.style.top=my+'px';
-});
-(function tick(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
-
-function hoverOn(){cur.classList.add('h');ring.classList.add('h');}
-function hoverOff(){cur.classList.remove('h');ring.classList.remove('h');}
 
 // ── nav — ScrollSmoother.scrollTo handles smooth lerp ──
 document.getElementById('nav-logo').addEventListener('click',function(){smoother.scrollTo(0,true);});
@@ -289,15 +273,12 @@ mainData.forEach(function(ci,idx){
     +'<div class="ccard-arr"><svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H5M12 2v7" stroke="currentColor" stroke-width="1.2"/></svg></div></div></div></div>';
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
   d.addEventListener('mousemove',function(e){
-    clbl.style.left=e.clientX+'px';clbl.style.top=e.clientY+'px';clbl.style.opacity='1';
     var r=d.getBoundingClientRect();
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
     gsap.to(d.querySelector('.ccard-inner'),{x:dx*8,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
   });
-  d.addEventListener('mouseenter',function(){hoverOn();curx.classList.add('on');});
   d.addEventListener('mouseleave',function(){
-    clbl.style.opacity='0';hoverOff();curx.classList.remove('on');
     gsap.to(d.querySelector('.ccard-inner'),{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
   });
   cm.appendChild(d);
@@ -318,26 +299,23 @@ miniData.forEach(function(ci,idx){
     +'<div class="mcard-arr"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" stroke-width="1.1"/></svg></div>';
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
   d.addEventListener('mousemove',function(e){
-    clbl.style.left=e.clientX+'px';clbl.style.top=e.clientY+'px';clbl.style.opacity='1';
     var r=d.getBoundingClientRect();
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
     gsap.to(d,{x:dx*6,y:dy*3,duration:0.4,ease:'power2.out',overwrite:'auto'});
   });
-  d.addEventListener('mouseenter',function(){hoverOn();curx.classList.add('on');});
   d.addEventListener('mouseleave',function(){
-    clbl.style.opacity='0';hoverOff();curx.classList.remove('on');
     gsap.to(d,{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
   });
   mm.appendChild(d);
 });
 
-document.querySelectorAll('.nav-logo,.nav-links span,a,.narr,.stat,.clink').forEach(function(el){
-  el.addEventListener('mouseenter',hoverOn);
-  el.addEventListener('mouseleave',hoverOff);
-});
-
+initFigmaFrames();
 initReveal();
+
+// ── hero redline fades on scroll ──
+gsap.to('.h-redline',{opacity:0,ease:'none',
+  scrollTrigger:{trigger:'#home-hero',start:'15% top',end:'45% top',scrub:1}});
 })();
 </script>
 </body>

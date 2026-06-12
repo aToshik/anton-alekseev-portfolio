@@ -17,17 +17,12 @@
 <meta name="theme-color" content="#080808">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
 </head>
 <body>
-
-<div id="cur"></div>
-<div id="cur-ring"></div>
-<div id="cur-x"></div>
-<div id="clabel" class="clabel">View Case</div>
 
 <nav>
   <div class="nav-logo" id="nav-logo">AA</div>
@@ -52,6 +47,7 @@
 </div>
 
 <script src="cases.js"></script>
+<script src="figma.js"></script>
 <script>
 (function(){
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -64,19 +60,6 @@ var smoother=ScrollSmoother.create({
   smoothTouch:0.1
 });
 
-// ── cursor ──
-var cur=document.getElementById('cur'),ring=document.getElementById('cur-ring'),curx=document.getElementById('cur-x'),clbl=document.getElementById('clabel');
-var mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',function(e){
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-  curx.style.left=mx+'px';curx.style.top=my+'px';
-});
-(function tick(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
-
-function hoverOn(){cur.classList.add('h');ring.classList.add('h');}
-function hoverOff(){cur.classList.remove('h');ring.classList.remove('h');}
-
 // ── nav — all links go to home ──
 document.getElementById('nav-logo').addEventListener('click',function(){window.location.href='index.html';});
 document.getElementById('nav-work').addEventListener('click',function(){window.location.href='index.html#home-work';});
@@ -88,8 +71,6 @@ document.getElementById('btn-back').addEventListener('click',function(){
   if(history.length>1&&document.referrer&&document.referrer.includes(location.hostname)){history.back();}
   else{window.location.href='index.html';}
 });
-document.getElementById('btn-back').addEventListener('mouseenter',hoverOn);
-document.getElementById('btn-back').addEventListener('mouseleave',hoverOff);
 
 // ── custom line-splitter (replaces GSAP SplitText) ──
 function splitByLines(el){
@@ -240,15 +221,19 @@ function renderCase(idx){
 
   var prevBtn=document.getElementById('btn-prev');
   var nextBtn=document.getElementById('btn-next');
+  [prevBtn,nextBtn].forEach(function(btn){
+    if(!btn)return;
+    btn.setAttribute('tabindex','0');
+    btn.setAttribute('role','link');
+    btn.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();btn.click();}
+    });
+  });
   if(prevBtn){
     (function(pi){prevBtn.addEventListener('click',function(){window.location.href='case.html#'+pi;});})(c.prev);
-    prevBtn.addEventListener('mouseenter',hoverOn);
-    prevBtn.addEventListener('mouseleave',hoverOff);
   }
   if(nextBtn){
     (function(ni){nextBtn.addEventListener('click',function(){window.location.href='case.html#'+ni;});})(c.next);
-    nextBtn.addEventListener('mouseenter',hoverOn);
-    nextBtn.addEventListener('mouseleave',hoverOff);
   }
 
   initReveal();
@@ -282,11 +267,6 @@ if(isNaN(idx)||idx<0||idx>=CASES.length){
   renderCase(idx);
   enterAnimation(false);
 }
-
-document.querySelectorAll('.nav-logo,.nav-links span').forEach(function(el){
-  el.addEventListener('mouseenter',hoverOn);
-  el.addEventListener('mouseleave',hoverOff);
-});
 
 })();
 </script>
