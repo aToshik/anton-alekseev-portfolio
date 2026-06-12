@@ -1,7 +1,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#080808;--bg2:#0f0f0f;--bg3:#141414;
-  --fg:#f0ede8;--fg2:#94908a;--fg3:#333230;--fg4:#1e1d1b;
+  --fg:#f0ede8;--fg2:#94908a;--fg3:rgba(240,237,232,.17);--fg4:rgba(240,237,232,.09);
   --fg-lbl:#79756e;
   --green:#4ade80;--amber:#f59e0b;--blue:#60a5fa;
   --figma:#0d99ff;
@@ -10,6 +10,7 @@
   --mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:auto}
+::selection{background:rgba(13,153,255,.32);color:var(--fg)}
 @media(pointer:fine){html,a,.ccard,.mcard,.nav-links span,.nav-logo,.narr,.clink,.cb-nav-btn,.case-back{cursor:none}}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
 /* ScrollSmoother */
