@@ -45,6 +45,7 @@
   <h1 class="h-name" id="heroName"></h1>
   <p class="h-sub">Translating complex B2B systems into <em>self-service experiences</em> that scale.</p>
   <div class="h-meta">B2B SaaS · InsurTech / FinTech · AI-native Design Systems</div>
+  <div class="h-mark" aria-hidden="true">*</div>
   <div class="h-scroll">Scroll</div>
   <div class="h-redline">1440</div>
   <div class="h-line"></div>
@@ -191,6 +192,11 @@ gsap.to('.h-eyebrow',{yPercent:-8,ease:'none',
 gsap.to('.h-sub,.h-meta',{yPercent:-10,ease:'none',
   scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
 
+// ── hero mark: slow spin + scroll drift ──
+if(!RM){gsap.to('.h-mark',{rotation:360,duration:90,repeat:-1,ease:'none'});}
+gsap.to('.h-mark',{yPercent:-45,ease:'none',
+  scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1.2}});
+
 // ── hero mouse parallax ──
 var nameEl=document.getElementById('heroName');
 var qx=gsap.quickTo(nameEl,'x',{duration:0.6,ease:'power2.out'});
@@ -282,6 +288,8 @@ mainData.forEach(function(ci,idx){
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
   d.addEventListener('mousemove',function(e){
     var r=d.getBoundingClientRect();
+    d.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    d.style.setProperty('--my',(e.clientY-r.top)+'px');
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
     gsap.to(d.querySelector('.ccard-inner'),{x:dx*8,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
@@ -308,6 +316,8 @@ miniData.forEach(function(ci,idx){
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
   d.addEventListener('mousemove',function(e){
     var r=d.getBoundingClientRect();
+    d.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    d.style.setProperty('--my',(e.clientY-r.top)+'px');
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
     gsap.to(d,{x:dx*6,y:dy*3,duration:0.4,ease:'power2.out',overwrite:'auto'});

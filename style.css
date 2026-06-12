@@ -56,6 +56,7 @@ nav::after{content:'';position:absolute;bottom:0;left:48px;right:48px;height:1px
 .h-scroll::before{content:'';width:1px;height:44px;background:var(--fg3)}
 .h-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--fg3),transparent);opacity:.4}
 #grad{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+.h-mark{position:absolute;right:7vw;top:12vh;font-family:var(--serif);font-style:italic;font-weight:340;font-size:clamp(180px,24vw,360px);line-height:.7;color:rgba(240,237,232,.09);z-index:1;pointer-events:none;user-select:none;will-change:transform}
 .h-eyebrow,.h-name,.h-sub{position:relative;z-index:1}
 .h-scroll,.h-line{z-index:1}
 /* sections */
@@ -109,6 +110,11 @@ section{padding:120px 48px}
 .ccard:hover::after{left:120%}
 .ccard-glow{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s;z-index:1}
 .ccard:hover .ccard-glow{opacity:1}
+/* cursor spotlight — surface & material (view mode) */
+.ccard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .35s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(240,237,232,.075),transparent 65%);pointer-events:none;z-index:1}
+html:not(.edit) .ccard:hover::before{opacity:1}
+.mcard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .35s;background:radial-gradient(200px circle at var(--mx,50%) var(--my,50%),rgba(240,237,232,.06),transparent 65%);pointer-events:none;z-index:1}
+html:not(.edit) .mcard:hover::before{opacity:1}
 /* figma frame labels + selection */
 .fframe-lbl{font-family:var(--mono);font-size:10px;color:var(--figma);letter-spacing:.06em;opacity:.55;margin:14px 0 6px;display:none;align-items:center;gap:6px;transition:opacity .25s}
 html.edit .fframe-lbl{display:flex}
@@ -123,10 +129,15 @@ html.edit .fframe-lbl{display:flex}
 .fsel i:nth-child(4){right:-3px;bottom:-3px}
 .fsel-dim{position:absolute;left:50%;bottom:-11px;transform:translateX(-50%);background:var(--figma);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:2px 7px;border-radius:3px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .fsel i{display:none}
-html.edit .fsel-host:hover .fsel,html.edit .fsel-host:focus-visible .fsel{opacity:1}
-html.edit .fsel-host:focus-visible .fsel i{display:block}
-html.edit .fframe-lbl:has(+.fsel-host:hover),html.edit .fframe-lbl:has(+.fsel-host:focus-visible){opacity:1}
+html.edit .fsel-host:hover .fsel,html.edit .fsel-host:focus-visible .fsel,html.edit .fselected .fsel{opacity:1}
+html.edit .fsel-host:focus-visible .fsel i,html.edit .fselected .fsel i{display:block}
+html.edit .fframe-lbl:has(+.fsel-host:hover),html.edit .fframe-lbl:has(+.fsel-host:focus-visible),html.edit .fframe-lbl:has(+.fselected){opacity:1}
 html.edit .fsel-host:focus-visible{outline:none}
+/* edit mode: figma-style hover on every interactive object */
+html.edit .fhov{outline:1px solid rgba(13,153,255,.65);outline-offset:0}
+/* edit mode: text editing */
+.fedit{outline:1px solid var(--figma)!important;outline-offset:2px;caret-color:var(--figma);cursor:text!important;min-height:1em}
+html.edit .fselected{z-index:20}
 .fsel-host:focus-visible{outline:1px solid var(--fg2);outline-offset:2px}
 a:focus-visible,.nav-links span:focus-visible,.nav-logo:focus-visible,.case-back:focus-visible,.cb-nav-btn:focus-visible,.mode-toggle:focus-visible{outline:1px solid var(--fg2);outline-offset:3px}
 /* hero redline */
@@ -246,6 +257,7 @@ footer p{font-family:var(--mono);font-size:10px;color:var(--fg-lbl);letter-spaci
   footer{padding:24px;flex-direction:column;gap:8px;text-align:center}
   .h-redline{display:none}
   .fsel-dim{display:none}
+  .h-mark{font-size:140px;right:4vw;top:10vh;opacity:.7}
 }
 @media(max-width:480px){
   .h-name{font-size:clamp(48px,13vw,80px)}
