@@ -23,6 +23,8 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
 </head>
 <body>
+<canvas id="grad"></canvas>
+<div id="cursor-glow"></div>
 
 <nav>
   <div class="nav-logo" id="nav-logo">AA</div>
@@ -32,7 +34,6 @@
     <span id="nav-contact">Contact</span>
   </div>
   <div class="nav-right">
-    <button id="mode-toggle" class="mode-toggle" aria-pressed="false" title="Toggle edit mode (⌘\)">⊞ Edit</button>
     <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
   </div>
 </nav>
@@ -82,7 +83,7 @@ document.getElementById('btn-back').addEventListener('click',function(){
 function splitByLines(el){
   var words=el.textContent.trim().split(/\s+/);
   el.innerHTML=words.map(function(w){
-    return'<span class="sl-w" style="display:inline;white-space:pre">'+w+' </span>';
+    return'<span class="sl-w" style="display:inline">'+ w +' </span>';
   }).join('');
   var spans=el.querySelectorAll('.sl-w');
   var groups=[],cur=[],lastTop=-Infinity;
@@ -104,7 +105,6 @@ function splitByLines(el){
     return line;
   });
 }
-
 // ── scroll reveal ──
 function initReveal(){
   // Simple fade+y for .rev elements
@@ -128,13 +128,26 @@ function initReveal(){
     });
   });
 
-  // Line reveal for key insights (.cb-insight)
+  // Line reveal for key insights (.cb-insight) — deferred via fonts.ready + rAF
+  // so getBoundingClientRect() sees correct rendered line positions
   gsap.utils.toArray('.cb-insight:not(.split-init)').forEach(function(el){
     el.classList.add('split-init');
-    var lines=splitByLines(el);
-    gsap.from(lines,{
-      yPercent:105,duration:0.65,ease:'power3.out',stagger:0.05,
-      scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}
+    ScrollTrigger.create({
+      trigger:el,start:'top 88%',once:true,
+      onEnter:function(){
+        gsap.set(el,{opacity:0});
+        (document.fonts?document.fonts.ready:Promise.resolve()).then(function(){
+          requestAnimationFrame(function(){
+            var lines=splitByLines(el);
+            gsap.set(el,{opacity:1});
+            if(lines.length>1){
+              gsap.from(lines,{yPercent:105,duration:0.65,ease:'power3.out',stagger:0.05});
+            }else{
+              gsap.from(el,{opacity:0,y:12,duration:0.6,ease:'power3.out'});
+            }
+          });
+        });
+      }
     });
   });
 }
@@ -165,7 +178,21 @@ function enterAnimation(isTransition){
     },t0+0.14);
   }
 
+  tl.call(demoKpiHint,null,t0+1.1);
+
   return tl;
+}
+
+// ── KPI block self-fix demo: nudge one block, let Anton fix it (once per session) ──
+function demoKpiHint(){
+  if(RM||!window.figmaQueueFix)return;
+  if(sessionStorage.getItem('kpiHint'))return;
+  sessionStorage.setItem('kpiHint','1');
+  var stats=document.querySelectorAll('.cstat');
+  if(!stats.length)return;
+  var el=stats[Math.floor(Math.random()*stats.length)];
+  gsap.set(el,{y:16});
+  window.figmaQueueFix({el:el,kind:'move'});
 }
 
 // ── safe text: escape HTML, allow only <strong> ──
@@ -191,7 +218,7 @@ function renderCase(idx){
     +'<div class="case-meta-row">'+c.tags.map(function(t){return'<span class="ctag">'+safe(t)+'</span>';}).join('')+'</div>'
     +'<h1 class="case-h">'+safe(c.title)+'</h1>'
     +'<p class="case-tagline">'+safe(c.tagline)+'</p>'
-    +'<div class="case-stats">'+c.stats.map(function(s){return'<div class="cstat"><div class="cstat-n">'+safe(s.n)+'</div><div class="cstat-l">'+safe(s.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
+    +'<div class="case-stats">'+c.stats.map(function(s,i){return'<div class="cstat"><div class="kpi-lbl"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>kpi-block-'+String(i+1).padStart(3,'0')+'</div><div class="cstat-n">'+safe(s.n)+'</div><div class="cstat-l">'+safe(s.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
     +'</div>';
 
   html+='<div class="case-visual" style="background:'+CASE_BG[idx]+'">'

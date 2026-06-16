@@ -22,6 +22,8 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
 </head>
 <body>
+<canvas id="grad"></canvas>
+<div id="cursor-glow"></div>
 
 <nav>
   <div class="nav-logo" id="nav-logo">AA</div>
@@ -31,7 +33,6 @@
     <span id="nav-contact">Contact</span>
   </div>
   <div class="nav-right">
-    <button id="mode-toggle" class="mode-toggle" aria-pressed="false" title="Toggle edit mode (⌘\)">⊞ Edit</button>
     <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
   </div>
 </nav>
@@ -40,14 +41,22 @@
 <div id="smooth-content">
 
 <section id="home-hero">
-  <canvas id="grad"></canvas>
-  <div class="h-eyebrow">Senior Product Designer · Petah Tikva, Israel</div>
-  <h1 class="h-name" id="heroName"></h1>
-  <p class="h-sub">Translating complex B2B systems into <em>self-service experiences</em> that scale.</p>
-  <div class="h-meta">B2B SaaS · InsurTech / FinTech · AI-native Design Systems</div>
-  <div class="h-mark" aria-hidden="true">*</div>
+  <div id="hero-grid" aria-hidden="true"></div>
+  <div class="h-frame">
+    <div class="h-frame-handle handle-r" aria-hidden="true"></div>
+    <div class="h-frame-handle handle-l" aria-hidden="true"></div>
+    <div class="h-frame-lbl">
+      <svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>
+      hero-001
+    </div>
+    <div class="h-eyebrow">Senior Product Designer · Petah Tikva, Israel</div>
+    <h1 class="h-name" id="heroName"></h1>
+    <div class="h-divider" aria-hidden="true"></div>
+    <p class="h-sub">Translating complex B2B systems into <em>self-service experiences</em> that scale.</p>
+    <div class="h-meta">B2B SaaS · InsurTech / FinTech · AI-native Design Systems</div>
+  </div>
+  <div class="h-zoom">100%</div>
   <div class="h-scroll">Scroll</div>
-  <div class="h-redline">1440</div>
   <div class="h-line"></div>
 </section>
 
@@ -60,7 +69,10 @@
         <p>I'm a Senior Product Designer with <strong>9+ years</strong> owning end-to-end design for complex B2B SaaS products. At Kissterra, deeply embedded IC building <strong>MarketingOS</strong> — a customer acquisition intelligence platform for top U.S. insurance carriers. No dedicated UX team.</p>
         <p>I don't just design interfaces. I translate <strong>non-linear algorithms, data-heavy workflows, and complex business logic</strong> into intuitive, self-service UX that drives measurable outcomes.</p>
         <p>Most recently: built a design system that evolved to support <strong>AI-agent-driven development</strong> — embedding component docs in Figma and the codebase so agents implement correctly on the first pass.</p>
-        <p class="vibe">This site is vibe-coded. That's intentional.</p>
+        <div class="vibe-frame">
+          <div class="vibe-lbl" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>vibe-note-001</div>
+          <p class="vibe">This site is vibe-coded. That's intentional.</p>
+        </div>
       </div>
     </div>
     <div>
@@ -176,13 +188,17 @@ function initReveal(){
 
 // ── hero entrance ──
 gsap.set('.h-name .ch',{yPercent:115});
+gsap.set('.h-divider',{scaleX:0,opacity:0});
 var heroTl=gsap.timeline({delay:0.15});
 heroTl
-  .to('.h-eyebrow',{opacity:1,y:0,duration:0.8,ease:'power3.out'})
+  .to('.h-frame-lbl',{opacity:1,duration:0.5,ease:'power2.out'})
+  .to('.h-eyebrow',{opacity:1,duration:0.8,ease:'power3.out'},'-=0.2')
   .to('.h-name .ch',{yPercent:0,stagger:{amount:0.55},duration:0.9,ease:'expo.out'},'-=0.45')
-  .to('.h-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.35')
+  .to('.h-divider',{scaleX:1,opacity:1,duration:0.7,ease:'power3.out'},'-=0.1')
+  .to('.h-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.4')
   .to('.h-meta',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.4')
-  .to('.h-scroll',{opacity:1,y:0,duration:0.6,ease:'power2.out'},'-=0.25');
+  .to('.h-scroll',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.25')
+  .to('.h-zoom',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.25');
 
 // ── hero scroll parallax ──
 gsap.to('#heroName',{yPercent:-18,ease:'none',
@@ -191,11 +207,8 @@ gsap.to('.h-eyebrow',{yPercent:-8,ease:'none',
   scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
 gsap.to('.h-sub,.h-meta',{yPercent:-10,ease:'none',
   scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1}});
-
-// ── hero mark: slow spin + scroll drift ──
-if(!RM){gsap.to('.h-mark',{rotation:360,duration:90,repeat:-1,ease:'none'});}
-gsap.to('.h-mark',{yPercent:-45,ease:'none',
-  scrollTrigger:{trigger:'#home-hero',start:'top top',end:'bottom top',scrub:1.2}});
+gsap.to('#hero-grid',{opacity:0,ease:'none',
+  scrollTrigger:{trigger:'#home-hero',start:'60% top',end:'bottom top',scrub:1.5}});
 
 // ── hero mouse parallax ──
 var nameEl=document.getElementById('heroName');
@@ -206,53 +219,6 @@ document.addEventListener('mousemove',function(e){
   qy((e.clientY/innerHeight-0.5)*2.5);
 });
 
-// ── WebGL gradient ──
-(function(){
-var cv=document.getElementById('grad');
-if(!cv)return;
-var gl=cv.getContext('webgl')||cv.getContext('experimental-webgl');
-if(!gl){cv.style.display='none';return;}
-function resize(){cv.width=Math.round(window.innerWidth*.5);cv.height=Math.round(window.innerHeight*.5);gl.viewport(0,0,cv.width,cv.height);}
-resize();window.addEventListener('resize',resize);
-function mkShader(t,s){var sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);return sh;}
-var vs='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
-var fs=[
-'precision mediump float;',
-'uniform float uT;uniform vec2 uRes;',
-'float h(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+34.23);return fract(p.x*p.y);}',
-'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
-'return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}',
-'float fbm(vec2 p){float v=0.,a=.5;mat2 r=mat2(.87,.5,-.5,.87);',
-'for(int i=0;i<4;i++){v+=a*n(p);p=r*p*2.+100.;a*=.5;}return v;}',
-'void main(){',
-'vec2 uv=gl_FragCoord.xy/uRes;',
-'float t=uT*.35;',
-'vec2 q=vec2(fbm(uv*1.6+t*.18),fbm(uv*1.6+vec2(5.2,1.3)+t*.14));',
-'float nm=fbm(uv*1.6+q*1.1+t*.1);',
-'vec3 c1=vec3(.282,.384,.502),c2=vec3(0.,.506,0.),c3=vec3(.129,.129,.129);',
-'vec3 col=mix(c3,c1,smoothstep(.2,.65,nm));',
-'col=mix(col,c2,smoothstep(.55,.88,nm)*.38);',
-'col*=.5;',
-'vec2 vc=uv-vec2(.35,.55);col*=max(0.,1.-dot(vc,vc)*2.2);',
-'col*=1.-smoothstep(.55,1.,uv.y)*.65;',
-'gl_FragColor=vec4(max(col,vec3(0.)),1.);}',
-].join('\n');
-var prog=gl.createProgram();
-gl.attachShader(prog,mkShader(gl.VERTEX_SHADER,vs));
-gl.attachShader(prog,mkShader(gl.FRAGMENT_SHADER,fs));
-gl.linkProgram(prog);gl.useProgram(prog);
-var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
-var aLoc=gl.getAttribLocation(prog,'a');gl.enableVertexAttribArray(aLoc);gl.vertexAttribPointer(aLoc,2,gl.FLOAT,false,0,0);
-var uTLoc=gl.getUniformLocation(prog,'uT'),uResLoc=gl.getUniformLocation(prog,'uRes'),t0=performance.now();
-(function loop(){
-  requestAnimationFrame(loop);
-  gl.uniform1f(uTLoc,(performance.now()-t0)/1000);
-  gl.uniform2f(uResLoc,cv.width,cv.height);
-  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-})();
-gsap.to(cv,{opacity:0,ease:'none',scrollTrigger:{trigger:'#home-hero',start:'55% top',end:'bottom top',scrub:1.2}});
-})();
 
 // ── build main cards ──
 var mainData=[0,1,2];
@@ -274,31 +240,87 @@ var mainDescs=[
   'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.'
 ];
 
+function countUpImpact(card){
+  card.querySelectorAll('.ccard-impact strong').forEach(function(s){
+    var orig=s.textContent;
+    var re=/\d+(\.\d+)?/g,parts=[],m,last=0;
+    while((m=re.exec(orig))!==null){
+      if(m.index>last)parts.push({t:'s',v:orig.slice(last,m.index)});
+      parts.push({t:'n',v:parseFloat(m[0]),d:m[1]?m[1].length-1:0});
+      last=m.index+m[0].length;
+    }
+    if(last<orig.length)parts.push({t:'s',v:orig.slice(last)});
+    if(!parts.some(function(p){return p.t==='n';}))return;
+    if(s.__raf)cancelAnimationFrame(s.__raf);
+    var t0=null,dur=680;
+    function step(ts){
+      if(!t0)t0=ts;
+      var prog=Math.min((ts-t0)/dur,1),ease=1-Math.pow(1-prog,3);
+      s.textContent=parts.map(function(p){return p.t==='s'?p.v:(p.v*ease).toFixed(p.d);}).join('');
+      if(prog<1){s.__raf=requestAnimationFrame(step);}
+      else{s.textContent=orig;s.__raf=null;}
+    }
+    s.__raf=requestAnimationFrame(step);
+  });
+}
+
 var cm=document.getElementById('cards-main');
 mainData.forEach(function(ci,idx){
   var c=CASES[ci];
   var d=document.createElement('div');
   d.className='ccard';
+  d.dataset.caseIdx=String(ci);
   d.innerHTML='<div class="ccard-glow" style="background:'+mainGlows[idx]+'"></div>'
     +'<div class="ccard-inner">'
     +'<div class="ccard-meta"><div class="ccard-num">'+mainNums[idx]+'</div><div class="ccard-tags">'+c.tags.map(function(t){return'<span class="ccard-tag">'+t+'</span>';}).join('')+'</div></div>'
-    +'<div class="ccard-body"><div><h3 class="ccard-title">'+c.title+'</h3><p class="ccard-desc">'+mainDescs[idx]+'</p></div>'
-    +'<div class="ccard-foot"><div class="ccard-impact">'+mainImpacts[idx]+'</div>'
+    +'<div class="ccard-body"><div><h3 class="ccard-title">'+c.title+'</h3><p class="ccard-desc">'+mainDescs[ci]+'</p></div>'
+    +'<div class="ccard-foot"><div class="ccard-impact">'+mainImpacts[ci]+'</div>'
     +'<div class="ccard-arr"><svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H5M12 2v7" stroke="currentColor" stroke-width="1.2"/></svg></div></div></div></div>';
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
+  d.addEventListener('mouseenter',function(){countUpImpact(d);});
   d.addEventListener('mousemove',function(e){
     var r=d.getBoundingClientRect();
-    d.style.setProperty('--mx',(e.clientX-r.left)+'px');
-    d.style.setProperty('--my',(e.clientY-r.top)+'px');
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
-    gsap.to(d.querySelector('.ccard-inner'),{x:dx*8,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
+    gsap.to(d.querySelector('.ccard-inner'),{x:dx*14,y:dy*9,duration:0.4,ease:'power2.out',overwrite:'auto'});
   });
   d.addEventListener('mouseleave',function(){
     gsap.to(d.querySelector('.ccard-inner'),{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
   });
   cm.appendChild(d);
 });
+
+// ── title scramble: Design System card ──
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var CHARS='!<>_\\/[]{}=+*^?#@|;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  function scramble(el){
+    var final=el.dataset.sorig;
+    if(el.__sraf)cancelAnimationFrame(el.__sraf);
+    var start=performance.now(),dur=750;
+    (function step(now){
+      var t=Math.min(1,(now-start)/dur);
+      var decoded=Math.floor((1-Math.pow(1-t,2))*final.length);
+      var out='';
+      for(var i=0;i<final.length;i++){
+        out+=i<decoded||final[i]===' '?final[i]:CHARS[Math.random()*CHARS.length|0];
+      }
+      el.textContent=out;
+      if(decoded<final.length)el.__sraf=requestAnimationFrame(step);
+      else{el.textContent=final;el.__sraf=null;}
+    })(start);
+  }
+  function restore(el){
+    if(el.__sraf){cancelAnimationFrame(el.__sraf);el.__sraf=null;}
+    el.textContent=el.dataset.sorig;
+  }
+  document.querySelectorAll('.ccard[data-case-idx="1"] .ccard-impact strong').forEach(function(el){
+    el.dataset.sorig=el.textContent;
+    var card=el.closest('.ccard');
+    card.addEventListener('mouseenter',function(){scramble(el);});
+    card.addEventListener('mouseleave',function(){restore(el);});
+  });
+})();
 
 var miniDescs=[
   'When managing hundreds of campaigns, one-by-one editing isn\'t a UX problem — it\'s a business blocker.',
@@ -316,11 +338,9 @@ miniData.forEach(function(ci,idx){
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
   d.addEventListener('mousemove',function(e){
     var r=d.getBoundingClientRect();
-    d.style.setProperty('--mx',(e.clientX-r.left)+'px');
-    d.style.setProperty('--my',(e.clientY-r.top)+'px');
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
-    gsap.to(d,{x:dx*6,y:dy*3,duration:0.4,ease:'power2.out',overwrite:'auto'});
+    gsap.to(d,{x:dx*10,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
   });
   d.addEventListener('mouseleave',function(){
     gsap.to(d,{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
@@ -328,12 +348,234 @@ miniData.forEach(function(ci,idx){
   mm.appendChild(d);
 });
 
+function initStatCounters(){
+  document.querySelectorAll('.stat-n:not(.cnt-init)').forEach(function(el){
+    el.classList.add('cnt-init');
+    var orig=el.textContent.trim();
+    var re=/[\d.]+/,m=re.exec(orig);
+    if(!m)return;
+    var num=parseFloat(m[0]),dec=(m[0].indexOf('.')>=0)?m[0].split('.')[1].length:0;
+    var pre=orig.slice(0,m.index),suf=orig.slice(m.index+m[0].length);
+    var par=el.closest('.rev');
+    var delay=par?(par.classList.contains('d3')?300:par.classList.contains('d2')?200:par.classList.contains('d1')?100:0):0;
+    ScrollTrigger.create({trigger:el,start:'top 91%',once:true,onEnter:function(){
+      setTimeout(function(){
+        var t0=null,dur=900;
+        function step(ts){
+          if(!t0)t0=ts;
+          var prog=Math.min((ts-t0)/dur,1),ease=1-Math.pow(1-prog,3);
+          el.textContent=pre+(num*ease).toFixed(dec)+suf;
+          if(prog<1)requestAnimationFrame(step);
+          else el.textContent=orig;
+        }
+        requestAnimationFrame(step);
+      },delay);
+    }});
+  });
+}
+
+// ── Anton wander helper — positions outside the h-frame right edge ──
+function startAntonWander(ca,frame){
+  if(window.__tlAnton){window.__tlAnton.kill();window.__tlAnton=null;}
+  var r=frame?frame.getBoundingClientRect():null;
+  var vw2=window.innerWidth,vh2=window.innerHeight;
+  var ax2=r?Math.min(r.right+42,vw2-80):Math.min(vw2*0.74,vw2-130);
+  var ay2=r?r.top+r.height*0.32:vh2*0.42;
+  gsap.to(ca,{x:ax2,y:ay2,opacity:1,duration:0.7,ease:'power2.out',onComplete:function(){
+    var tl=gsap.timeline({repeat:-1});
+    tl.to(ca,{x:ax2+28,y:ay2+40,duration:1.8,ease:'sine.inOut'})
+      .to(ca,{x:ax2+12,y:ay2+75,duration:1.5,ease:'sine.inOut'})
+      .to(ca,{x:ax2+38,y:ay2+22,duration:1.3,ease:'sine.inOut'})
+      .to(ca,{x:ax2+55,y:ay2-8,duration:1.6,ease:'sine.inOut'})
+      .to(ca,{x:ax2+18,y:ay2+10,duration:1.2,ease:'sine.inOut'})
+      .to(ca,{x:ax2,y:ay2,duration:1.4,ease:'sine.inOut'});
+    window.__tlAnton=tl;
+  }});
+}
+window.__resumeAntonWander=function(el){
+  startAntonWander(el||document.querySelector('.hcur'),document.querySelector('.h-frame'));
+};
+
+// ── hero ghost cursors ──
+function initHeroCursors(){
+  var fine=window.matchMedia('(pointer:fine)').matches;
+  if(!fine||RM)return;
+  var ARROW='<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 1.5L15.5 9.2L9.1 10.6L6.2 16.5L2 1.5Z" fill="COLOR" stroke="#fff" stroke-width="1.1" stroke-linejoin="round"/></svg>';
+  function mkHCur(color,name,textColor){
+    var el=document.createElement('div');
+    el.className='hcur';
+    el.innerHTML=ARROW.replace('COLOR',color)+'<span class="hcur-tag" style="background:'+color+';color:'+textColor+'">'+name+'</span>';
+    document.body.appendChild(el);
+    return el;
+  }
+  var vw=window.innerWidth,vh=window.innerHeight;
+  var hc=document.getElementById('home-hero');
+
+  var hFrame=document.querySelector('.h-frame');
+  var ca=mkHCur('#4ade80','Anton','#06220f');
+  var rf=hFrame?hFrame.getBoundingClientRect():null;
+  var ax=rf?Math.min(rf.right+42,vw-80):Math.min(vw*0.74,vw-130);
+  var ay=rf?rf.top+rf.height*0.32:vh*0.42;
+  gsap.set(ca,{x:ax,y:ay,opacity:0});
+  gsap.to(ca,{opacity:1,duration:.4,delay:1.5,onComplete:function(){startAntonWander(ca,hFrame);}});
+
+  ScrollTrigger.create({trigger:hc,start:'80% top',
+    onEnter:function(){gsap.to(ca,{opacity:0,duration:.5});if(window.__tlAnton){window.__tlAnton.kill();window.__tlAnton=null;}},
+    onLeaveBack:function(){startAntonWander(ca,hFrame);}
+  });
+}
+
 initFigmaFrames();
 initReveal();
+initStatCounters();
+initHeroCursors();
+initVibeTyping();
+initFrameResize();
 
-// ── hero redline fades on scroll ──
-gsap.to('.h-redline',{opacity:0,ease:'none',
-  scrollTrigger:{trigger:'#home-hero',start:'15% top',end:'45% top',scrub:1}});
+function initVibeTyping(){
+  var fine=window.matchMedia('(pointer:fine)').matches;
+  if(!fine||RM)return;
+  var vibeEl=document.querySelector('.vibe');
+  if(!vibeEl)return;
+  ScrollTrigger.create({trigger:'.vibe-frame',start:'top 82%',once:true,onEnter:function(){
+    var ca=document.querySelector('.hcur');
+    if(!ca)return;
+    if(window.__tlAnton){window.__tlAnton.kill();window.__tlAnton=null;}
+    gsap.killTweensOf(ca);
+    var r=vibeEl.getBoundingClientRect();
+    var vw2=window.innerWidth;
+    var fullText="This site is vibe-coded. That’s intentional.";
+    gsap.set(ca,{x:vw2+40,y:r.top+2,opacity:0});
+    gsap.to(ca,{x:r.left-16,y:r.top+2,opacity:1,duration:0.65,ease:'power2.out',onComplete:function(){
+      vibeEl.textContent='';
+      var i=0,total=fullText.length,typing=true;
+      function track(){
+        if(!typing)return;
+        var rr=vibeEl.getBoundingClientRect();
+        gsap.set(ca,{x:rr.left-16+(rr.width+24)*(i/total),y:rr.top+2});
+      }
+      gsap.ticker.add(track);
+      var iv=setInterval(function(){
+        i++;
+        vibeEl.textContent=fullText.slice(0,i);
+        if(i>=total){
+          clearInterval(iv);
+          typing=false;
+          gsap.ticker.remove(track);
+          vibeEl.textContent=fullText;
+          setTimeout(function(){
+            gsap.to(ca,{x:vw2+40,opacity:0,duration:0.6,ease:'power2.in'});
+          },700);
+        }
+      },42);
+    }});
+  }});
+}
+
+// ── hero frame resize demo ──
+function initFrameResize(){
+  var frame=document.querySelector('.h-frame');
+  if(!frame||RM)return;
+  var naturalW=frame.getBoundingClientRect().width;
+  frame.dataset.origW=String(naturalW);
+  var squeezedW=Math.max(380,Math.round(naturalW*.65));
+  gsap.set(frame,{width:squeezedW});
+
+  // Blue overlay border
+  var overlay=document.createElement('div');
+  overlay.className='h-frame-overlay';overlay.setAttribute('aria-hidden','true');
+  frame.appendChild(overlay);
+
+  // Dimension label
+  var dimEl=document.createElement('div');
+  dimEl.className='h-frame-dim';dimEl.setAttribute('aria-hidden','true');
+  frame.appendChild(dimEl);
+  function updateDim(){
+    var r=frame.getBoundingClientRect();
+    dimEl.textContent=Math.round(r.width)+' × '+Math.round(r.height);
+  }
+  updateDim();
+
+  // Anton-hover class for handle/overlay visibility
+  var hcurCache=null;
+  var antonHoverTick=function(){
+    if(!hcurCache)hcurCache=document.querySelector('.hcur');
+    if(!hcurCache)return;
+    var ax=gsap.getProperty(hcurCache,'x'),ay=gsap.getProperty(hcurCache,'y');
+    var r=frame.getBoundingClientRect();
+    frame.classList.toggle('anton-hover',ax>=r.left-20&&ax<=r.right+20&&ay>=r.top-10&&ay<=r.bottom+10);
+  };
+  gsap.ticker.add(antonHoverTick);
+  ScrollTrigger.create({trigger:frame,start:'bottom top',once:true,onEnter:function(){
+    gsap.ticker.remove(antonHoverTick);
+    frame.classList.remove('anton-hover');
+  }});
+
+  function doExpandFrame(ca,dur){
+    if(window.__tlAnton){window.__tlAnton.kill();window.__tlAnton=null;}
+    var r=frame.getBoundingClientRect();
+    var tg=ca.querySelector('.hcur-tag');
+    if(tg)tg.textContent='Resize';
+    gsap.to(ca,{x:r.right-10,y:r.top+r.height*.5,opacity:1,duration:0.7,ease:'power2.out',onComplete:function(){
+      if(tg)tg.textContent='expanding…';
+      gsap.to(frame,{width:naturalW,duration:dur,ease:'power2.inOut',
+        onUpdate:function(){var rr=frame.getBoundingClientRect();gsap.set(ca,{x:rr.right-10,y:rr.top+rr.height*.5});updateDim();},
+        onComplete:function(){if(tg)tg.textContent='Anton';frame.classList.remove('resizing');startAntonWander(ca,frame);}
+      });
+    }});
+  }
+
+  // Anton expands squeezed frame after hero animation
+  heroTl.then(function(){
+    var ca=document.querySelector('.hcur');
+    if(!ca||!window.matchMedia('(pointer:fine)').matches){
+      gsap.to(frame,{width:naturalW,duration:1.2,ease:'power2.inOut',onUpdate:updateDim});return;
+    }
+    setTimeout(function(){doExpandFrame(ca,1.3);},900);
+  });
+
+  // Anton fixes frame when user shrinks it
+  var userFixTimer=null;
+  function antonFix(ca){
+    clearTimeout(userFixTimer);
+    userFixTimer=setTimeout(function(){
+      if(Math.abs(frame.getBoundingClientRect().width-naturalW)<24)return;
+      doExpandFrame(ca,1.0);
+    },2000);
+  }
+
+  function attachHandle(handle,dir){
+    if(!handle)return;
+    handle.addEventListener('pointerdown',function(e){
+      e.preventDefault();e.stopPropagation();
+      var startX=e.clientX,startW=frame.getBoundingClientRect().width;
+      handle.setPointerCapture(e.pointerId);
+      clearTimeout(userFixTimer);
+      frame.classList.add('resizing');
+      function onMove(ev){
+        var newW=Math.max(300,Math.min(naturalW,startW+(ev.clientX-startX)*dir));
+        frame.style.width=newW+'px';
+        updateDim();
+      }
+      function onUp(){
+        document.removeEventListener('pointermove',onMove);
+        document.removeEventListener('pointerup',onUp);
+        var cur=frame.getBoundingClientRect().width;
+        if(Math.abs(cur-naturalW)>24){
+          var ca=document.querySelector('.hcur');
+          if(ca)antonFix(ca);
+          else{userFixTimer=setTimeout(function(){gsap.to(frame,{width:naturalW,duration:0.9,ease:'power3.inOut',onUpdate:updateDim,onComplete:function(){frame.classList.remove('resizing');}});},2000);}
+        }else{frame.classList.remove('resizing');}
+      }
+      document.addEventListener('pointermove',onMove);
+      document.addEventListener('pointerup',onUp);
+    });
+  }
+  attachHandle(frame.querySelector('.handle-r'),1);
+  attachHandle(frame.querySelector('.handle-l'),-1);
+}
+
+
 })();
 </script>
 </body>
