@@ -50,7 +50,7 @@
 </div>
 </div>
 
-<script src="cases.js"></script>
+<script src="cases.js?v=12"></script>
 <script src="figma.js"></script>
 <script>
 (function(){
@@ -150,6 +150,90 @@ function initReveal(){
       }
     });
   });
+
+  document.querySelectorAll('[data-carousel]:not(.car-init)').forEach(function(wrap){
+    wrap.classList.add('car-init');
+    var track=wrap.querySelector('.cb-carousel-track');
+    var REAL=5,GAP=16,SPEED=1.8;
+    var currentSpeed=0,targetSpeed=SPEED,offset=0,slideCache=0;
+    function slideW(){
+      if(!slideCache){var s=track.querySelector('.cb-carousel-slide');slideCache=s?s.getBoundingClientRect().width:900;}
+      return slideCache;
+    }
+    window.addEventListener('resize',function(){slideCache=0;},{passive:true});
+    function loopW(){return(slideW()+GAP)*REAL;}
+    (function tick(){
+      currentSpeed+=(targetSpeed-currentSpeed)*0.06;
+      offset+=currentSpeed;
+      var lw=loopW();
+      if(lw>0&&offset>=lw)offset-=lw;
+      track.style.transform='translateX('+(-offset)+'px)';
+      requestAnimationFrame(tick);
+    })();
+    wrap.addEventListener('mouseenter',function(){targetSpeed=0;});
+    wrap.addEventListener('mouseleave',function(){targetSpeed=SPEED;});
+  });
+
+  // Parallax on hero image (stronger)
+  gsap.utils.toArray('.case-visual .cv-img').forEach(function(img){
+    var wrap=img.closest('.case-visual');
+    if(!wrap) return;
+    gsap.fromTo(img,
+      {y:80},
+      {y:-80,ease:'none',scrollTrigger:{trigger:wrap,start:'top bottom',end:'bottom top',scrub:true}}
+    );
+  });
+  // Parallax on body images
+  gsap.utils.toArray('.cb-img-wrap .cv-img').forEach(function(img){
+    var wrap=img.closest('.cb-img-wrap');
+    if(!wrap) return;
+    gsap.fromTo(img,
+      {y:-35},
+      {y:35,ease:'none',scrollTrigger:{trigger:wrap,start:'top bottom',end:'bottom top',scrub:true}}
+    );
+  });
+
+  // Click-to-lightbox on body images
+  document.querySelectorAll('.cb-img-wrap').forEach(function(wrap){
+    wrap.style.cursor='none';
+    wrap.addEventListener('click',function(){
+      var src=wrap.querySelector('source');
+      var img=wrap.querySelector('img');
+      var url=src?src.srcset:img?img.src:'';
+      if(!url)return;
+      openImgLightbox(url);
+    });
+  });
+
+  function openImgLightbox(url){
+    var lb=document.createElement('div');
+    lb.id='img-lb';
+    lb.innerHTML='<div class="lb-bg"></div><img class="lb-img" src="'+url+'">';
+    document.body.appendChild(lb);
+    requestAnimationFrame(function(){lb.classList.add('lb-on');});
+
+    var lbImg=lb.querySelector('.lb-img');
+    lb.addEventListener('mousemove',function(e){
+      var r=lb.getBoundingClientRect();
+      var nx=(e.clientX-r.left)/r.width-0.5;
+      var ny=(e.clientY-r.top)/r.height-0.5;
+      var overX=Math.max(0,lbImg.offsetWidth-r.width)/2;
+      var overY=Math.max(0,lbImg.offsetHeight-r.height)/2;
+      lbImg.style.transform='translate('+(-nx*overX*2)+'px,'+(-ny*overY*2)+'px)';
+    });
+    lb.addEventListener('mouseleave',function(){
+      lbImg.style.transform='translate(0,0)';
+    });
+
+    function close(){
+      lb.classList.remove('lb-on');
+      lb.addEventListener('transitionend',function(){lb.remove();},{once:true});
+      document.removeEventListener('keydown',onKey);
+    }
+    function onKey(e){if(e.key==='Escape')close();}
+    lb.addEventListener('click',close);
+    document.addEventListener('keydown',onKey);
+  }
 }
 
 // ── case page entrance animation ──
@@ -195,6 +279,15 @@ function demoKpiHint(){
   window.figmaQueueFix({el:el,kind:'move'});
 }
 
+// ── picture element helper — emits <picture> with WebP + PNG fallback ──
+function picTag(src,cls,alt){
+  if(/\.webp$/i.test(src)){
+    var png=src.replace('/web/','/raw/').replace(/\.webp$/i,'.png');
+    return'<picture><source srcset="'+src+'" type="image/webp"><img class="'+cls+'" src="'+png+'" alt="'+alt+'" loading="lazy"></picture>';
+  }
+  return'<img class="'+cls+'" src="'+src+'" alt="'+alt+'" loading="lazy">';
+}
+
 // ── safe text: escape HTML, allow only <strong> ──
 function safe(str){
   return str
@@ -221,18 +314,27 @@ function renderCase(idx){
     +'<div class="case-stats">'+c.stats.map(function(s,i){return'<div class="cstat"><div class="kpi-lbl"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>kpi-block-'+String(i+1).padStart(3,'0')+'</div><div class="cstat-n">'+safe(s.n)+'</div><div class="cstat-l">'+safe(s.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
     +'</div>';
 
-  html+='<div class="case-visual" style="background:'+CASE_BG[idx]+'">'
-    +'<div class="case-visual-grid"></div>'
-    +'<div class="case-visual-num"><span>0'+(idx+1)+'</span></div>'
+  html+='<div class="case-visual" style="'+(c.image?'min-height:0;background:none':'background:'+CASE_BG[idx])+'">'
+    +(c.image
+      ? picTag(c.image,'cv-img',safe(c.title)+' interface screenshot')
+      : '<div class="case-visual-grid"></div><div class="case-visual-num"><span>0'+(idx+1)+'</span></div>')
     +'</div>';
 
   html+='<div class="case-body">';
   c.sections.forEach(function(sec){
-    html+='<div class="cb-sec"><div class="cb-label rev">'+safe(sec.lbl)+'</div>';
+    html+='<div class="cb-sec">';
+    if(sec.lbl)html+='<div class="cb-label rev">'+safe(sec.lbl)+'</div>';
     // .cb-insight and .cb-h get NO .rev — handled by splitByLines in initReveal()
     if(sec.insight) html+='<div class="cb-insight">'+safe(sec.insight)+'</div>';
     if(sec.h) html+='<h2 class="cb-h">'+safe(sec.h)+'</h2>';
     if(sec.body) sec.body.split('\n\n').forEach(function(p){html+='<p class="cb-p rev">'+safe(p).replace(/\n/g,'<br>')+'</p>';});
+    if(sec.images) sec.images.forEach(function(im){html+='<div class="cb-img-wrap rev">'+picTag(im.src,'cv-img',safe(im.alt||sec.lbl))+'</div>';});
+    if(sec.carousel){
+      var slides=sec.carousel.concat(sec.carousel);
+      html+='<div class="cb-carousel-wrap" data-carousel><div class="cb-carousel-track">';
+      slides.forEach(function(s){html+='<div class="cb-carousel-slide">'+picTag(s,'cb-carousel-img','')+'</div>';});
+      html+='</div></div>';
+    }
     if(sec.bullets) html+='<ul class="cb-bullets rev">'+sec.bullets.map(function(b){return'<li>'+safe(b)+'</li>';}).join('')+'</ul>';
     if(sec.steps) html+='<div class="cb-steps rev">'+sec.steps.map(function(s){return'<div class="cb-step"><div class="cb-step-n">'+safe(s.n)+'</div><div class="cb-step-t">'+safe(s.t)+'</div><div class="cb-step-d">'+safe(s.d)+'</div></div>';}).join('')+'</div>';
     if(sec.diagram) html+='<div class="cb-diagram rev">'+safe(sec.diagram)+'</div>';

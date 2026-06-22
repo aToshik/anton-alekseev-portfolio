@@ -46,13 +46,14 @@ document.addEventListener('mouseover',function(e){
   if(FINE&&tag){
     var card=e.target.closest('.ccard,.mcard');
     if(card){tag.textContent='View case';guest.classList.add('act');}
+    else if(e.target.closest('.cb-img-wrap')){tag.textContent='Zoom in';guest.classList.add('act');}
     else if(e.target.closest('a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){guest.classList.add('act');}
   }
   var h=e.target.closest(HOVERABLE);
   if(h&&(h.closest('.h-frame')||h.classList.contains('cstat')))h.classList.add('fhov');
 });
 document.addEventListener('mouseout',function(e){
-  if(FINE&&tag&&e.target.closest('.ccard,.mcard,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){
+  if(FINE&&tag&&e.target.closest('.ccard,.mcard,.cb-img-wrap,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){
     tag.textContent='You';guest.classList.remove('act');
   }
   var h=e.target.closest(HOVERABLE);
