@@ -50,7 +50,7 @@
 </div>
 </div>
 
-<script src="cases.js?v=12"></script>
+<script src="cases.js?v=14"></script>
 <script src="figma.js"></script>
 <script>
 (function(){
@@ -174,13 +174,13 @@ function initReveal(){
     wrap.addEventListener('mouseleave',function(){targetSpeed=SPEED;});
   });
 
-  // Parallax on hero image (stronger)
-  gsap.utils.toArray('.case-visual .cv-img').forEach(function(img){
+  // Parallax on hero image
+  gsap.utils.toArray('.case-visual:not(.case-visual--placeholder) .cv-img').forEach(function(img){
     var wrap=img.closest('.case-visual');
     if(!wrap) return;
     gsap.fromTo(img,
-      {y:80},
-      {y:-80,ease:'none',scrollTrigger:{trigger:wrap,start:'top bottom',end:'bottom top',scrub:true}}
+      {y:-30},
+      {y:30,ease:'none',scrollTrigger:{trigger:wrap,start:'top bottom',end:'bottom top',scrub:true}}
     );
   });
   // Parallax on body images
@@ -314,7 +314,7 @@ function renderCase(idx){
     +'<div class="case-stats">'+c.stats.map(function(s,i){return'<div class="cstat"><div class="kpi-lbl"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>kpi-block-'+String(i+1).padStart(3,'0')+'</div><div class="cstat-n">'+safe(s.n)+'</div><div class="cstat-l">'+safe(s.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
     +'</div>';
 
-  html+='<div class="case-visual" style="'+(c.image?'min-height:0;background:none':'background:'+CASE_BG[idx])+'">'
+  html+='<div class="case-visual'+(c.image?'':' case-visual--placeholder')+'" style="'+(c.image?'':'background:'+CASE_BG[idx])+'">'
     +(c.image
       ? picTag(c.image,'cv-img',safe(c.title)+' interface screenshot')
       : '<div class="case-visual-grid"></div><div class="case-visual-num"><span>0'+(idx+1)+'</span></div>')

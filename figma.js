@@ -211,6 +211,7 @@ function makeDraggable(sel){
     el.classList.add('fdrag');
     var sx,sy,bx,by,active=false,moved=false;
     el.addEventListener('pointerdown',function(e){
+      if(!FINE)return;
       if(e.target.closest('[contenteditable="true"],[contenteditable="plaintext-only"]'))return;
       active=true;moved=false;sx=e.clientX;sy=e.clientY;
       bx=gsap.getProperty(el,'x')||0;by=gsap.getProperty(el,'y')||0;
@@ -242,6 +243,7 @@ window.figmaQueueFix=queueFix;
 
 /* ── click routing: text edit (edit mode only, except .vibe which is always editable) ── */
 document.addEventListener('click',function(e){
+  if(!FINE)return;
   if(Date.now()-lastDragEnd<200){e.preventDefault();e.stopPropagation();return;}
   var vf=e.target.closest('.vibe-frame');
   if(vf){var vp=vf.querySelector('.vibe');if(vp){e.preventDefault();e.stopPropagation();enterTextEdit(vp);return;}}

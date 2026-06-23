@@ -79,7 +79,7 @@
       <div class="stats">
         <div class="stat rev"><div class="stat-n">9+</div><div class="stat-l">Years in<br>Product Design</div></div>
         <div class="stat rev d1"><div class="stat-n">7%</div><div class="stat-l">MoM growth in<br>policy binds</div></div>
-        <div class="stat rev d2"><div class="stat-n">$30M</div><div class="stat-l">Monthly media<br>investment scaled</div></div>
+        <div class="stat rev d2"><div class="stat-n">$30M</div><div class="stat-l">Monthly media<br>investment at scale</div></div>
         <div class="stat rev d3"><div class="stat-n">2</div><div class="stat-l">Design systems<br>built from scratch</div></div>
       </div>
       <div class="narrs rev d2">
@@ -93,12 +93,22 @@
 
 <section id="home-work">
   <div class="work-hdr rev">
-    <h2 class="work-h">Selected Work</h2>
+    <h2 class="work-h">Selected Work at Kissterra</h2>
     <span class="work-cnt">05 cases</span>
   </div>
-  <div class="cases" id="cards-main"></div>
-  <div class="sec-label" style="margin-bottom:24px;padding-top:32px;border-top:1px solid var(--fg3);margin-top:46px">More Work</div>
-  <div class="mini-cases" id="cards-mini"></div>
+  <div class="work-group rev">
+    <div class="work-group-hdr" style="border-width:0px">
+      <div class="work-group-lbl">MarketingOS Platform</div>
+      <div class="work-group-stat">
+        <div class="work-group-stat-n">$8M → $30M+</div>
+        <div class="work-group-stat-l">Platform media scaled</div>
+      </div>
+    </div>
+    <div class="cases" id="cards-main"></div>
+    <div class="mini-cases" id="cards-mini"></div>
+  </div>
+  <div class="sec-label rev" style="margin-bottom:24px;padding-top:32px;border-top:1px solid var(--fg3);margin-top:4px;border-width:0px">AI Systems</div>
+  <div class="mini-cases" id="cards-ai"></div>
 </section>
 
 <section id="home-contact">
@@ -221,21 +231,22 @@ document.addEventListener('mousemove',function(e){
 
 
 // ── build main cards ──
-var mainData=[0,1,2];
+var mainData=[0];
 var miniData=[3,4];
-var mainNums=['01 / 03','02 / 03','03 / 03'];
+var miniNums=['02 / 05','03 / 05'];
+var aiData=[1,2];
+var aiNums=['04 / 05','05 / 05'];
+var mainNums=['01 / 05'];
 var mainGlows=[
-  'radial-gradient(ellipse at 18% 55%,rgba(74,222,128,.045) 0%,transparent 55%)',
-  'radial-gradient(ellipse at 82% 35%,rgba(96,165,250,.04) 0%,transparent 55%)',
-  'radial-gradient(ellipse at 55% 82%,rgba(245,158,11,.04) 0%,transparent 55%)'
+  'radial-gradient(ellipse at 18% 55%,rgba(74,222,128,.045) 0%,transparent 55%)'
 ];
 var mainImpacts=[
-  'Impact: <strong>7% MoM</strong> growth · Media scaled <strong>$8M → $30M+</strong>',
+  'Impact: <strong>7% MoM</strong> growth in policy binds · <strong>4 phases</strong> of evolution',
   'Outcome: Fewer clarification cycles · <strong>Better code generation</strong>',
   'Focus: <strong>Trust · Explainability</strong> · Human-in-the-loop'
 ];
 var mainDescs=[
-  'A non-linear price experimentation algorithm — translated into a self-service interface for insurance media buyers managing $30M+ monthly.',
+  'A non-linear price experimentation algorithm — translated into a self-service decision tool. The client named it "Price Exploration" before we did.',
   'Evolved a component library into an AI-readable context layer — embedded docs in Figma, component-doc.md in the repo. Before the industry had a name for it.',
   'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.'
 ];
@@ -314,26 +325,32 @@ mainData.forEach(function(ci,idx){
     if(el.__sraf){cancelAnimationFrame(el.__sraf);el.__sraf=null;}
     el.textContent=el.dataset.sorig;
   }
-  document.querySelectorAll('.ccard[data-case-idx="1"] .ccard-impact strong').forEach(function(el){
+  document.querySelectorAll('[data-case-idx="1"] .mcard-impact strong').forEach(function(el){
     el.dataset.sorig=el.textContent;
-    var card=el.closest('.ccard');
+    var card=el.closest('.mcard');
     card.addEventListener('mouseenter',function(){scramble(el);});
     card.addEventListener('mouseleave',function(){restore(el);});
   });
 })();
 
 var miniDescs=[
-  'When managing hundreds of campaigns, one-by-one editing isn\'t a UX problem — it\'s a business blocker.',
-  'Surfacing underperforming channels before the budget damage is done — algorithmic detection with explainable recommendations.'
+  'Broke the campaign boundary as the unit of control — and built the selection infrastructure that three subsequent features relied on.',
+  'Up to 2,000 channels, monitored automatically. Built on client feedback embedded in the product — thumbs down triggers a comment, comments shape the next iteration.'
 ];
-var mm=document.getElementById('cards-mini');
-miniData.forEach(function(ci,idx){
+var aiDescs=[
+  'Evolved a component library into an AI-readable context layer — embedded docs in Figma, component-doc.md in the repo. Before the industry had a name for it.',
+  'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.'
+];
+
+function makeMcard(ci,lbl,desc,impact,container){
   var c=CASES[ci];
   var d=document.createElement('div');
-  d.className='mcard';
-  d.innerHTML='<div class="mcard-lbl">'+c.title+'</div>'
+  d.className='mcard'+(impact?' mcard--with-impact':'');
+  d.dataset.caseIdx=String(ci);
+  d.innerHTML='<div class="mcard-lbl">'+lbl+'</div>'
     +'<h3 class="mcard-title">'+c.title+'</h3>'
-    +'<p class="mcard-desc">'+miniDescs[idx]+'</p>'
+    +'<p class="mcard-desc">'+desc+'</p>'
+    +(impact?'<div class="mcard-impact">'+impact+'</div>':'')
     +'<div class="mcard-arr"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" stroke-width="1.1"/></svg></div>';
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
   d.addEventListener('mousemove',function(e){
@@ -345,8 +362,18 @@ miniData.forEach(function(ci,idx){
   d.addEventListener('mouseleave',function(){
     gsap.to(d,{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
   });
-  mm.appendChild(d);
-});
+  container.appendChild(d);
+}
+
+var miniImpacts=[
+  'Outcome: <strong>Self-service</strong> for previously manual ops · <strong>3 features</strong> built on the foundation',
+  'Impact: From <strong>reactive flags</strong> to <strong>proactive analysis</strong> · used daily'
+];
+var mm=document.getElementById('cards-mini');
+miniData.forEach(function(ci,idx){ makeMcard(ci,miniNums[idx],miniDescs[idx],miniImpacts[idx],mm); });
+
+var ma=document.getElementById('cards-ai');
+aiData.forEach(function(ci,idx){ makeMcard(ci,aiNums[idx],aiDescs[idx],mainImpacts[ci],ma); });
 
 function initStatCounters(){
   document.querySelectorAll('.stat-n:not(.cnt-init)').forEach(function(el){
@@ -475,7 +502,7 @@ function initVibeTyping(){
 // ── hero frame resize demo ──
 function initFrameResize(){
   var frame=document.querySelector('.h-frame');
-  if(!frame||RM)return;
+  if(!frame||RM||!window.matchMedia('(pointer:fine)').matches)return;
   var naturalW=frame.getBoundingClientRect().width;
   frame.dataset.origW=String(naturalW);
   var squeezedW=Math.max(380,Math.round(naturalW*.65));
