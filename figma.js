@@ -47,10 +47,11 @@ document.addEventListener('mouseover',function(e){
     var card=e.target.closest('.ccard,.mcard');
     if(card){tag.textContent='View case';guest.classList.add('act');}
     else if(e.target.closest('.cb-img-wrap')){tag.textContent='Zoom in';guest.classList.add('act');}
-    else if(e.target.closest('a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){guest.classList.add('act');}
+    else if(e.target.closest('.clink')){var cl=e.target.closest('.clink');var href=cl.getAttribute('href')||'';tag.textContent=href.startsWith('mailto:')?'Send email':href.startsWith('tel:')?'Call':'Visit profile';guest.classList.add('act');}
+    else if(e.target.closest('a,.nav-links span,.nav-logo,.cb-nav-btn,.case-back')){guest.classList.add('act');}
   }
   var h=e.target.closest(HOVERABLE);
-  if(h&&(h.closest('.h-frame')||h.classList.contains('cstat')))h.classList.add('fhov');
+  if(h&&h.classList.contains('cstat'))h.classList.add('fhov');
 });
 document.addEventListener('mouseout',function(e){
   if(FINE&&tag&&e.target.closest('.ccard,.mcard,.cb-img-wrap,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){

@@ -87,9 +87,9 @@ section{padding:120px 48px}
 .about-body{color:var(--fg2);font-size:14px;line-height:1.85;font-weight:300}
 .about-body p+p{margin-top:18px}
 .about-body strong{color:var(--fg);font-weight:400}
-.vibe-frame{position:relative;margin-top:72px;width:fit-content;border:1px solid rgba(240,237,232,.1);border-radius:2px;padding:8px 12px;transition:border-color .15s;cursor:text}
+.vibe-frame{position:relative;margin-top:72px;width:fit-content;max-width:100%;border:1px solid rgba(240,237,232,.1);border-radius:2px;padding:8px 12px;transition:border-color .15s;cursor:text}
 .vibe-frame:hover,.vibe-frame:focus-within{border-color:rgba(13,153,255,.5)}
-.vibe-lbl{position:absolute;top:-19px;left:-1px;font-family:var(--mono);font-size:10px;color:var(--figma);letter-spacing:.06em;padding:0 8px 0 0;display:flex;align-items:center;gap:5px}
+.vibe-lbl{position:absolute;top:-19px;left:-1px;font-family:var(--mono);font-size:10px;color:var(--figma);letter-spacing:.06em;padding:0 8px 0 0;display:flex;align-items:center;gap:5px;white-space:nowrap}
 .about-body .vibe{font-size:11px;font-family:var(--mono);color:var(--fg3);letter-spacing:.07em;white-space:nowrap;margin:0;cursor:text}
 .about-body .vibe.fedit{outline:none!important}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px}
@@ -171,7 +171,7 @@ a:focus-visible,.nav-links span:focus-visible,.nav-logo:focus-visible,.case-back
 .mini-cases{display:grid;grid-template-columns:1fr 1fr;gap:4px}
 .mcard{background:var(--bg2);padding:32px;transition:background .3s;cursor:pointer;position:relative;overflow:hidden;will-change:transform}
 .mcard:hover{background:var(--bg3)}
-.mcard::after{content:'';position:absolute;top:-100%;left:-60%;width:40%;height:300%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.02) 50%,transparent 60%);transform:skewX(-15deg);transition:left .7s cubic-bezier(.23,1,.32,1);pointer-events:none;z-index:5}
+.mcard::after{content:'';position:absolute;top:-100%;left:-60%;width:40%;height:300%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.025) 50%,transparent 60%);transform:skewX(-15deg);transition:left .75s cubic-bezier(.23,1,.32,1);pointer-events:none;z-index:5}
 .mcard:hover::after{left:120%}
 .mcard-lbl{font-family:var(--mono);font-size:10px;color:var(--fg-lbl);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
 .mcard-title{font-family:var(--serif);font-size:26px;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px}

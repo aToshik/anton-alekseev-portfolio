@@ -28,12 +28,12 @@
 <nav>
   <div class="nav-logo" id="nav-logo">AA</div>
   <div class="nav-links">
-    <span id="nav-work">Work</span>
     <span id="nav-about">About</span>
+    <span id="nav-work">Work</span>
     <span id="nav-contact">Contact</span>
   </div>
   <div class="nav-right">
-    <div class="nav-avail"><span class="dot"></span><span>Available</span></div>
+    <div class="nav-avail"><span class="dot"></span><span>Open to work</span></div>
   </div>
 </nav>
 
@@ -55,9 +55,6 @@
     <p class="h-sub">Translating complex B2B systems into <em>self-service experiences</em> that scale.</p>
     <div class="h-meta">B2B SaaS · InsurTech / FinTech · AI-native Design Systems</div>
   </div>
-  <div class="h-zoom">100%</div>
-  <div class="h-scroll">Scroll</div>
-  <div class="h-line"></div>
 </section>
 
 <section id="home-about">
@@ -158,14 +155,20 @@ function initReveal(){
   var mainCards=document.querySelectorAll('#cards-main .ccard:not(.gsap-init)');
   if(mainCards.length){
     mainCards.forEach(function(el){el.classList.add('gsap-init');});
-    gsap.from(mainCards,{opacity:0,y:50,stagger:0.12,duration:0.8,ease:'power3.out',
+    gsap.from(mainCards,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',
       scrollTrigger:{trigger:'#cards-main',start:'top 85%',once:true}});
   }
   var miniCards=document.querySelectorAll('#cards-mini .mcard:not(.gsap-init)');
   if(miniCards.length){
     miniCards.forEach(function(el){el.classList.add('gsap-init');});
-    gsap.from(miniCards,{opacity:0,y:40,stagger:0.1,duration:0.7,ease:'power3.out',
+    gsap.from(miniCards,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',
       scrollTrigger:{trigger:'#cards-mini',start:'top 85%',once:true}});
+  }
+  var aiCards=document.querySelectorAll('#cards-ai .mcard:not(.gsap-init)');
+  if(aiCards.length){
+    aiCards.forEach(function(el){el.classList.add('gsap-init');});
+    gsap.from(aiCards,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',
+      scrollTrigger:{trigger:'#cards-ai',start:'top 85%',once:true}});
   }
   gsap.utils.toArray('.rev:not(.gsap-init)').forEach(function(el){
     el.classList.add('gsap-init');
@@ -207,8 +210,6 @@ heroTl
   .to('.h-divider',{scaleX:1,opacity:1,duration:0.7,ease:'power3.out'},'-=0.1')
   .to('.h-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.4')
   .to('.h-meta',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.4')
-  .to('.h-scroll',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.25')
-  .to('.h-zoom',{opacity:1,duration:0.6,ease:'power2.out'},'-=0.25');
 
 // ── hero scroll parallax ──
 gsap.to('#heroName',{yPercent:-18,ease:'none',
@@ -293,10 +294,10 @@ mainData.forEach(function(ci,idx){
     var r=d.getBoundingClientRect();
     var dx=(e.clientX-r.left-r.width/2)/r.width;
     var dy=(e.clientY-r.top-r.height/2)/r.height;
-    gsap.to(d.querySelector('.ccard-inner'),{x:dx*14,y:dy*9,duration:0.4,ease:'power2.out',overwrite:'auto'});
+    gsap.to(d.querySelector('.ccard-inner'),{x:dx*10,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
   });
   d.addEventListener('mouseleave',function(){
-    gsap.to(d.querySelector('.ccard-inner'),{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
+    gsap.to(d.querySelector('.ccard-inner'),{x:0,y:0,duration:0.6,ease:'elastic.out(1,0.5)',overwrite:'auto'});
   });
   cm.appendChild(d);
 });
@@ -342,6 +343,30 @@ var aiDescs=[
   'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.'
 ];
 
+function countUpMcard(card){
+  card.querySelectorAll('.mcard-impact strong').forEach(function(s){
+    var orig=s.textContent;
+    var re=/\d+(\.\d+)?/g,parts=[],m,last=0;
+    while((m=re.exec(orig))!==null){
+      if(m.index>last)parts.push({t:'s',v:orig.slice(last,m.index)});
+      parts.push({t:'n',v:parseFloat(m[0]),d:m[1]?m[1].length-1:0});
+      last=m.index+m[0].length;
+    }
+    if(last<orig.length)parts.push({t:'s',v:orig.slice(last)});
+    if(!parts.some(function(p){return p.t==='n';}))return;
+    if(s.__raf)cancelAnimationFrame(s.__raf);
+    var t0=null,dur=680;
+    function step(ts){
+      if(!t0)t0=ts;
+      var prog=Math.min((ts-t0)/dur,1),ease=1-Math.pow(1-prog,3);
+      s.textContent=parts.map(function(p){return p.t==='s'?p.v:(p.v*ease).toFixed(p.d);}).join('');
+      if(prog<1){s.__raf=requestAnimationFrame(step);}
+      else{s.textContent=orig;s.__raf=null;}
+    }
+    s.__raf=requestAnimationFrame(step);
+  });
+}
+
 function makeMcard(ci,lbl,desc,impact,container){
   var c=CASES[ci];
   var d=document.createElement('div');
@@ -353,6 +378,7 @@ function makeMcard(ci,lbl,desc,impact,container){
     +(impact?'<div class="mcard-impact">'+impact+'</div>':'')
     +'<div class="mcard-arr"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" stroke-width="1.1"/></svg></div>';
   (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
+  if(impact)d.addEventListener('mouseenter',function(){countUpMcard(d);});
   d.addEventListener('mousemove',function(e){
     var r=d.getBoundingClientRect();
     var dx=(e.clientX-r.left-r.width/2)/r.width;
@@ -360,7 +386,7 @@ function makeMcard(ci,lbl,desc,impact,container){
     gsap.to(d,{x:dx*10,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
   });
   d.addEventListener('mouseleave',function(){
-    gsap.to(d,{x:0,y:0,duration:0.7,ease:'elastic.out(1,0.4)',overwrite:'auto'});
+    gsap.to(d,{x:0,y:0,duration:0.6,ease:'elastic.out(1,0.5)',overwrite:'auto'});
   });
   container.appendChild(d);
 }
