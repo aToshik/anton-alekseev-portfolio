@@ -195,7 +195,7 @@ function initReveal(){
 
   // Click-to-lightbox on body images
   document.querySelectorAll('.cb-img-wrap').forEach(function(wrap){
-    wrap.style.cursor='none';
+    if(window.matchMedia('(pointer:fine)').matches)wrap.style.cursor='none';
     wrap.addEventListener('click',function(){
       var src=wrap.querySelector('source');
       var img=wrap.querySelector('img');
@@ -208,7 +208,7 @@ function initReveal(){
   function openImgLightbox(url){
     var lb=document.createElement('div');
     lb.id='img-lb';
-    lb.innerHTML='<div class="lb-bg"></div><img class="lb-img" src="'+url+'">';
+    lb.innerHTML='<div class="lb-bg"></div><button class="lb-close" aria-label="Close"><svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"/></svg></button><img class="lb-img" src="'+url+'">';
     document.body.appendChild(lb);
     requestAnimationFrame(function(){lb.classList.add('lb-on');});
 
@@ -269,7 +269,7 @@ function enterAnimation(isTransition){
 
 // ── KPI block self-fix demo: nudge one block, let Anton fix it (once per session) ──
 function demoKpiHint(){
-  if(RM||!window.figmaQueueFix)return;
+  if(RM||!window.matchMedia('(pointer:fine)').matches||!window.figmaQueueFix)return;
   if(sessionStorage.getItem('kpiHint'))return;
   sessionStorage.setItem('kpiHint','1');
   var stats=document.querySelectorAll('.cstat');
