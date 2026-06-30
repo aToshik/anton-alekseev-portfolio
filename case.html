@@ -314,10 +314,13 @@ function renderCase(idx){
     +'<div class="case-stats">'+c.stats.map(function(s,i){return'<div class="cstat"><div class="kpi-lbl"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>kpi-block-'+String(i+1).padStart(3,'0')+'</div><div class="cstat-n">'+safe(s.n)+'</div><div class="cstat-l">'+safe(s.l).replace('\n','<br>')+'</div></div>';}).join('')+'</div>'
     +'</div>';
 
-  html+='<div class="case-visual'+(c.image?'':' case-visual--placeholder')+'" style="'+(c.image?'':'background:'+CASE_BG[idx])+'">'
-    +(c.image
-      ? picTag(c.image,'cv-img',safe(c.title)+' interface screenshot')
-      : '<div class="case-visual-grid"></div><div class="case-visual-num"><span>0'+(idx+1)+'</span></div>')
+  var hasHero=c.image||c.video;
+  html+='<div class="case-visual'+(hasHero?'':' case-visual--placeholder')+'" style="'+(hasHero?'':'background:'+CASE_BG[idx])+'">'
+    +(c.video
+      ? '<video class="cv-img" src="'+c.video+'" autoplay muted playsinline onended="var v=this;setTimeout(function(){v.play()},3000)"></video>'
+      : c.image
+        ? picTag(c.image,'cv-img',safe(c.title)+' interface screenshot')
+        : '<div class="case-visual-grid"></div><div class="case-visual-num"><span>0'+(idx+1)+'</span></div>')
     +'</div>';
 
   html+='<div class="case-body">';
@@ -385,6 +388,8 @@ window.addEventListener('hashchange',function(){
   gsap.to('#case-content',{opacity:0,y:-22,duration:0.28,ease:'power2.in',
     onComplete:function(){
       ScrollTrigger.getAll().forEach(function(t){t.kill();});
+      var vid=document.querySelector('.case-visual video');
+      if(vid){vid.onended=null;vid.pause();}
       smoother.scrollTop(0);
       renderCase(newIdx);
       gsap.set('#case-content',{opacity:1,y:0});

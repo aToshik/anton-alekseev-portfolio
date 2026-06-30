@@ -509,6 +509,7 @@ function initVibeTyping(){
       }
       gsap.ticker.add(track);
       var iv=setInterval(function(){
+        if(!document.body.contains(vibeEl)){clearInterval(iv);typing=false;gsap.ticker.remove(track);return;}
         i++;
         vibeEl.textContent=fullText.slice(0,i);
         if(i>=total){
