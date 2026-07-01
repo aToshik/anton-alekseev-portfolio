@@ -44,9 +44,9 @@ if(FINE){
 var HOVERABLE=EDITABLE+',a,.clink,.cb-nav-btn,.case-back,.stat,.narr,.cstat';
 document.addEventListener('mouseover',function(e){
   if(FINE&&tag){
-    var card=e.target.closest('.ccard,.mcard');
+    var card=e.target.closest('.ccard,.mcard,.cover-card,.tile-card');
     if(card){tag.textContent='View case';guest.classList.add('act');}
-    else if(e.target.closest('.cb-img-wrap')){tag.textContent='Zoom in';guest.classList.add('act');}
+    else if(e.target.closest('.cb-img-wrap')||(e.target.closest('.case-visual')&&!e.target.closest('.case-visual').querySelector('video'))){tag.textContent='Zoom in';guest.classList.add('act');}
     else if(e.target.closest('.clink')){var cl=e.target.closest('.clink');var href=cl.getAttribute('href')||'';tag.textContent=href.startsWith('mailto:')?'Send email':href.startsWith('tel:')?'Call':'Visit profile';guest.classList.add('act');}
     else if(e.target.closest('a,.nav-links span,.nav-logo,.cb-nav-btn,.case-back')){guest.classList.add('act');}
   }
@@ -54,7 +54,7 @@ document.addEventListener('mouseover',function(e){
   if(h&&h.classList.contains('cstat'))h.classList.add('fhov');
 });
 document.addEventListener('mouseout',function(e){
-  if(FINE&&tag&&e.target.closest('.ccard,.mcard,.cb-img-wrap,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){
+  if(FINE&&tag&&e.target.closest('.ccard,.mcard,.cover-card,.tile-card,.cb-img-wrap,.case-visual,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){
     tag.textContent='You';guest.classList.remove('act');
   }
   var h=e.target.closest(HOVERABLE);
@@ -66,11 +66,11 @@ var COMP_GLYPH='<svg width="11" height="11" viewBox="0 0 12 12" fill="currentCol
   +'<path d="M3 0L6 3L3 6L0 3ZM9 0L12 3L9 6L6 3ZM3 6L6 9L3 12L0 9ZM9 6L12 9L9 12L6 9Z"/></svg>';
 
 window.initFigmaFrames=function(){
-  document.querySelectorAll('.ccard:not(.fsel-host),.mcard:not(.fsel-host)').forEach(function(card,i){
+  document.querySelectorAll('.ccard:not(.fsel-host),.mcard:not(.fsel-host),.cover-card:not(.fsel-host),.tile-card:not(.fsel-host)').forEach(function(card,i){
     card.classList.add('fsel-host');
     card.setAttribute('tabindex','0');
     card.setAttribute('role','link');
-    var t=card.querySelector('.ccard-title,.mcard-title');
+    var t=card.querySelector('.ccard-title,.mcard-title,.cover-title,.tile-title');
     if(t)card.setAttribute('aria-label','View case: '+t.textContent);
     card.addEventListener('keydown',function(e){
       if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}

@@ -3,9 +3,8 @@
   "configurations": [
     {
       "name": "portfolio",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "${PORT}"],
-      "cwd": "/Users/toshik/Desktop/Claude Projects/portfolio-website",
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": ["/Users/toshik/Desktop/Claude Projects/portfolio-website/.claude/serve.py"],
       "port": 3000,
       "autoPort": true
     }

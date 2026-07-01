@@ -101,11 +101,13 @@
         <div class="work-group-stat-l">Platform media scaled</div>
       </div>
     </div>
-    <div class="cases" id="cards-main"></div>
-    <div class="mini-cases" id="cards-mini"></div>
+    <div class="work-gallery">
+      <div id="cards-main"></div>
+      <div class="tiles-grid" id="cards-mini"></div>
+    </div>
   </div>
-  <div class="sec-label rev" style="margin-bottom:24px;padding-top:32px;border-top:1px solid var(--fg3);margin-top:4px;border-width:0px">AI Systems</div>
-  <div class="mini-cases" id="cards-ai"></div>
+  <div class="sec-label rev" style="margin-bottom:24px;margin-top:60px">AI Systems</div>
+  <div class="tiles-grid" id="cards-ai"></div>
 </section>
 
 <section id="home-contact">
@@ -152,22 +154,22 @@ document.getElementById('nav-contact').addEventListener('click',function(){smoot
 
 // ── GSAP scroll reveal ──
 function initReveal(){
-  var mainCards=document.querySelectorAll('#cards-main .ccard:not(.gsap-init)');
-  if(mainCards.length){
-    mainCards.forEach(function(el){el.classList.add('gsap-init');});
-    gsap.from(mainCards,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',
+  var coverCard=document.querySelectorAll('#cards-main .cover-card:not(.gsap-init)');
+  if(coverCard.length){
+    coverCard.forEach(function(el){el.classList.add('gsap-init');});
+    gsap.from(coverCard,{opacity:0,y:40,duration:0.75,ease:'power3.out',immediateRender:false,
       scrollTrigger:{trigger:'#cards-main',start:'top 85%',once:true}});
   }
-  var miniCards=document.querySelectorAll('#cards-mini .mcard:not(.gsap-init)');
-  if(miniCards.length){
-    miniCards.forEach(function(el){el.classList.add('gsap-init');});
-    gsap.from(miniCards,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',
+  var miniTiles=document.querySelectorAll('#cards-mini .tile-card:not(.gsap-init)');
+  if(miniTiles.length){
+    miniTiles.forEach(function(el){el.classList.add('gsap-init');});
+    gsap.from(miniTiles,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',immediateRender:false,
       scrollTrigger:{trigger:'#cards-mini',start:'top 85%',once:true}});
   }
-  var aiCards=document.querySelectorAll('#cards-ai .mcard:not(.gsap-init)');
-  if(aiCards.length){
-    aiCards.forEach(function(el){el.classList.add('gsap-init');});
-    gsap.from(aiCards,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',
+  var aiTiles=document.querySelectorAll('#cards-ai .tile-card:not(.gsap-init)');
+  if(aiTiles.length){
+    aiTiles.forEach(function(el){el.classList.add('gsap-init');});
+    gsap.from(aiTiles,{opacity:0,y:40,stagger:0.1,duration:0.75,ease:'power3.out',immediateRender:false,
       scrollTrigger:{trigger:'#cards-ai',start:'top 85%',once:true}});
   }
   gsap.utils.toArray('.rev:not(.gsap-init)').forEach(function(el){
@@ -231,175 +233,121 @@ document.addEventListener('mousemove',function(e){
 });
 
 
-// ── build main cards ──
-var mainData=[0];
-var miniData=[3,4];
-var miniNums=['02 / 05','03 / 05'];
-var aiData=[1,2];
-var aiNums=['04 / 05','05 / 05'];
-var mainNums=['01 / 05'];
-var mainGlows=[
-  'radial-gradient(ellipse at 18% 55%,rgba(74,222,128,.045) 0%,transparent 55%)'
+// ── Gallery Cover card data ──
+var COVER={
+  idx:0,num:'01',
+  title:'Price Exploration',
+  tags:['InsurTech','B2B SaaS','Optimization'],
+  desc:'A non-linear price experimentation algorithm — translated into a self-service decision tool. The client started calling it "Price Exploration" before we did.',
+  metricValue:'7%',metricLabel:'MoM growth in policy binds',
+  accent:'#4ade80',imgSrc:'assets/price-exploration/web/image-1.webp',kb:'kb1'
+};
+var TILES=[
+  {idx:3,num:'02',title:'Cross-Campaign Management',tags:['Workflow','Bulk Editing'],
+   desc:'Broke the campaign boundary as the unit of control — and built the selection infrastructure that three later features relied on.',
+   metricValue:'Hours→Min',metricLabel:'large-scale updates',
+   accent:'#60a5fa',imgSrc:'assets/cross-campaign/web/image-1.webp',kb:'kb1'},
+  {idx:4,num:'03',title:'Channel Analysis & Outlier Detection',tags:['Data Viz','Recommendations'],
+   desc:'Up to 2,000 channels monitored automatically — thumbs-down triggers a comment, comments shape the next iteration.',
+   metricValue:'2,000+',metricLabel:'channels monitored',
+   accent:'#f59e0b',imgSrc:'assets/channel-analysis/web/image-1.webp',kb:'kb2'}
 ];
-var mainImpacts=[
-  'Impact: <strong>7% MoM</strong> growth in policy binds · <strong>4 phases</strong> of evolution',
-  'Outcome: <strong>15→2</strong> design questions · <strong>↑</strong> FE implementation quality',
-  'Focus: <strong>Trust · Explainability</strong> · Human-in-the-loop'
-];
-var mainDescs=[
-  'A non-linear price experimentation algorithm — translated into a self-service decision tool. The client named it "Price Exploration" before we did.',
-  '56 components, ~990 tokens, automated drift detection. Doc format designed from real failure modes — 15 design questions dropped to 2.',
-  'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.'
+var AI_TILES=[
+  {idx:1,num:'04',title:'Design System for AI Agents',tags:['Design Systems','AI-native'],
+   desc:'56 components, ~990 tokens, automated drift detection. Doc format designed from real failure modes — 15 design questions dropped to 2.',
+   metricValue:'15→2',metricLabel:'design questions / feature',
+   accent:'#9f7aff',imgSrc:'assets/design-system/web/image-1.webp',kb:'kb2'},
+  {idx:2,num:'05',title:'AI Data Assistant',tags:['Conversational UX','Agentic'],
+   desc:'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.',
+   metricValue:'3',metricLabel:'autonomy phases',
+   accent:'#4ade80',imgSrc:'assets/ai-assistant/web/image-2.webp',kb:'kb1'}
 ];
 
-function countUpImpact(card){
-  card.querySelectorAll('.ccard-impact strong').forEach(function(s){
-    var orig=s.textContent;
-    var re=/\d+(\.\d+)?/g,parts=[],m,last=0;
-    while((m=re.exec(orig))!==null){
-      if(m.index>last)parts.push({t:'s',v:orig.slice(last,m.index)});
-      parts.push({t:'n',v:parseFloat(m[0]),d:m[1]?m[1].length-1:0});
-      last=m.index+m[0].length;
-    }
-    if(last<orig.length)parts.push({t:'s',v:orig.slice(last)});
-    if(!parts.some(function(p){return p.t==='n';}))return;
-    if(s.__raf)cancelAnimationFrame(s.__raf);
-    var t0=null,dur=680;
-    function step(ts){
-      if(!t0)t0=ts;
-      var prog=Math.min((ts-t0)/dur,1),ease=1-Math.pow(1-prog,3);
-      s.textContent=parts.map(function(p){return p.t==='s'?p.v:(p.v*ease).toFixed(p.d);}).join('');
-      if(prog<1){s.__raf=requestAnimationFrame(step);}
-      else{s.textContent=orig;s.__raf=null;}
-    }
-    s.__raf=requestAnimationFrame(step);
-  });
-}
+var ARR_LG='<svg width="15" height="15" fill="none" viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H5M12 2v7" stroke="#f0ede8" stroke-width="1.2"/></svg>';
+var ARR_SM='<svg width="13" height="13" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="#f0ede8" stroke-width="1.1"/></svg>';
 
-var cm=document.getElementById('cards-main');
-mainData.forEach(function(ci,idx){
-  var c=CASES[ci];
+function renderCoverCard(data,container){
+  var glow='radial-gradient(ellipse at center,'+data.accent+'28 0%,transparent 68%)';
   var d=document.createElement('div');
-  d.className='ccard';
-  d.dataset.caseIdx=String(ci);
-  d.innerHTML='<div class="ccard-glow" style="background:'+mainGlows[idx]+'"></div>'
-    +'<div class="ccard-inner">'
-    +'<div class="ccard-meta"><div class="ccard-num">'+mainNums[idx]+'</div><div class="ccard-tags">'+c.tags.map(function(t){return'<span class="ccard-tag">'+t+'</span>';}).join('')+'</div></div>'
-    +'<div class="ccard-body"><div><h3 class="ccard-title">'+c.title+'</h3><p class="ccard-desc">'+mainDescs[ci]+'</p></div>'
-    +'<div class="ccard-foot"><div class="ccard-impact">'+mainImpacts[ci]+'</div>'
-    +'<div class="ccard-arr"><svg width="14" height="14" fill="none" viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H5M12 2v7" stroke="currentColor" stroke-width="1.2"/></svg></div></div></div></div>';
-  (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
-  d.addEventListener('mouseenter',function(){countUpImpact(d);});
-  d.addEventListener('mousemove',function(e){
-    var r=d.getBoundingClientRect();
-    var dx=(e.clientX-r.left-r.width/2)/r.width;
-    var dy=(e.clientY-r.top-r.height/2)/r.height;
-    gsap.to(d.querySelector('.ccard-inner'),{x:dx*10,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
-  });
-  d.addEventListener('mouseleave',function(){
-    gsap.to(d.querySelector('.ccard-inner'),{x:0,y:0,duration:0.6,ease:'elastic.out(1,0.5)',overwrite:'auto'});
-  });
-  cm.appendChild(d);
-});
-
-// ── title scramble: Design System card ──
-(function(){
-  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
-  var CHARS='!<>_\\/[]{}=+*^?#@|;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  function scramble(el){
-    var final=el.dataset.sorig;
-    if(el.__sraf)cancelAnimationFrame(el.__sraf);
-    var start=performance.now(),dur=750;
-    (function step(now){
-      var t=Math.min(1,(now-start)/dur);
-      var decoded=Math.floor((1-Math.pow(1-t,2))*final.length);
-      var out='';
-      for(var i=0;i<final.length;i++){
-        out+=i<decoded||final[i]===' '?final[i]:CHARS[Math.random()*CHARS.length|0];
-      }
-      el.textContent=out;
-      if(decoded<final.length)el.__sraf=requestAnimationFrame(step);
-      else{el.textContent=final;el.__sraf=null;}
-    })(start);
-  }
-  function restore(el){
-    if(el.__sraf){cancelAnimationFrame(el.__sraf);el.__sraf=null;}
-    el.textContent=el.dataset.sorig;
-  }
-  document.querySelectorAll('[data-case-idx="1"] .mcard-impact strong').forEach(function(el){
-    el.dataset.sorig=el.textContent;
-    var card=el.closest('.mcard');
-    card.addEventListener('mouseenter',function(){scramble(el);});
-    card.addEventListener('mouseleave',function(){restore(el);});
-  });
-})();
-
-var miniDescs=[
-  'Broke the campaign boundary as the unit of control — and built the selection infrastructure that three subsequent features relied on.',
-  'Up to 2,000 channels, monitored automatically. Built on client feedback embedded in the product — thumbs down triggers a comment, comments shape the next iteration.'
-];
-var aiDescs=[
-  '56 components, ~990 tokens, automated drift detection. Doc format designed from real failure modes — 15 design questions dropped to 2.',
-  'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.'
-];
-
-function countUpMcard(card){
-  card.querySelectorAll('.mcard-impact strong').forEach(function(s){
-    var orig=s.textContent;
-    var re=/\d+(\.\d+)?/g,parts=[],m,last=0;
-    while((m=re.exec(orig))!==null){
-      if(m.index>last)parts.push({t:'s',v:orig.slice(last,m.index)});
-      parts.push({t:'n',v:parseFloat(m[0]),d:m[1]?m[1].length-1:0});
-      last=m.index+m[0].length;
-    }
-    if(last<orig.length)parts.push({t:'s',v:orig.slice(last)});
-    if(!parts.some(function(p){return p.t==='n';}))return;
-    if(s.__raf)cancelAnimationFrame(s.__raf);
-    var t0=null,dur=680;
-    function step(ts){
-      if(!t0)t0=ts;
-      var prog=Math.min((ts-t0)/dur,1),ease=1-Math.pow(1-prog,3);
-      s.textContent=parts.map(function(p){return p.t==='s'?p.v:(p.v*ease).toFixed(p.d);}).join('');
-      if(prog<1){s.__raf=requestAnimationFrame(step);}
-      else{s.textContent=orig;s.__raf=null;}
-    }
-    s.__raf=requestAnimationFrame(step);
-  });
-}
-
-function makeMcard(ci,lbl,desc,impact,container){
-  var c=CASES[ci];
-  var d=document.createElement('div');
-  d.className='mcard'+(impact?' mcard--with-impact':'');
-  d.dataset.caseIdx=String(ci);
-  d.innerHTML='<div class="mcard-lbl">'+lbl+'</div>'
-    +'<h3 class="mcard-title">'+c.title+'</h3>'
-    +'<p class="mcard-desc">'+desc+'</p>'
-    +(impact?'<div class="mcard-impact">'+impact+'</div>':'')
-    +'<div class="mcard-arr"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="currentColor" stroke-width="1.1"/></svg></div>';
-  (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(ci);
-  if(impact)d.addEventListener('mouseenter',function(){countUpMcard(d);});
-  d.addEventListener('mousemove',function(e){
-    var r=d.getBoundingClientRect();
-    var dx=(e.clientX-r.left-r.width/2)/r.width;
-    var dy=(e.clientY-r.top-r.height/2)/r.height;
-    gsap.to(d,{x:dx*10,y:dy*5,duration:0.4,ease:'power2.out',overwrite:'auto'});
-  });
-  d.addEventListener('mouseleave',function(){
-    gsap.to(d,{x:0,y:0,duration:0.6,ease:'elastic.out(1,0.5)',overwrite:'auto'});
-  });
+  d.className='cover-card';d.dataset.caseIdx=String(data.idx);
+  d.style.setProperty('--accent',data.accent);
+  d.innerHTML=
+    '<div class="cover-img '+data.kb+'" style="background-image:url('+data.imgSrc+')"></div>'
+    +'<div class="cover-glow" style="background:'+glow+'"></div>'
+    +'<div class="cover-scrim"></div>'
+    +'<div class="cover-top">'+data.num+'</div>'
+    +'<div class="cover-foot">'
+    +  '<div class="cover-foot-body">'
+    +    '<div class="cover-tags">'+data.tags.map(function(t){return'<span class="cover-tag">'+t+'</span>';}).join('')+'</div>'
+    +    '<h3 class="cover-title">'+data.title+'</h3>'
+    +    '<p class="cover-desc">'+data.desc+'</p>'
+    +  '</div>'
+    +  '<div class="cover-stat">'
+    +    '<div class="cover-metric">'
+    +      '<span class="cover-metric-val">'+data.metricValue+'</span>'
+    +      '<span class="cover-metric-lbl">'+data.metricLabel+'</span>'
+    +    '</div>'
+    +    '<div class="cover-arr">'+ARR_LG+'</div>'
+    +  '</div>'
+    +'</div>';
+  (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(data.idx);
   container.appendChild(d);
 }
 
-var miniImpacts=[
-  'Outcome: <strong>Self-service</strong> for previously manual ops · <strong>3 features</strong> built on the foundation',
-  'Impact: From <strong>reactive flags</strong> to <strong>proactive analysis</strong> · used daily'
-];
+function renderTileCard(data,container){
+  var glow='radial-gradient(ellipse at center,'+data.accent+'28 0%,transparent 72%)';
+  var d=document.createElement('div');
+  d.className='tile-card';d.dataset.caseIdx=String(data.idx);
+  d.style.setProperty('--accent',data.accent);
+  d.innerHTML=
+    '<div class="tile-img">'
+    +  '<div class="tile-img-bg '+data.kb+'" style="background-image:url('+data.imgSrc+')"></div>'
+    +  '<div class="tile-overlay"></div>'
+    +  '<div class="tile-glow" style="background:'+glow+'"></div>'
+    +  '<div class="tile-num">'+data.num+'</div>'
+    +'</div>'
+    +'<div class="tile-body">'
+    +  '<div class="tile-tags">'+data.tags.map(function(t){return'<span class="tile-tag">'+t+'</span>';}).join('')+'</div>'
+    +  '<h4 class="tile-title">'+data.title+'</h4>'
+    +  '<p class="tile-desc">'+data.desc+'</p>'
+    +  '<div class="tile-footer">'
+    +    '<div>'
+    +      '<div class="tile-metric-val">'+data.metricValue+'</div>'
+    +      '<div class="tile-metric-lbl">'+data.metricLabel+'</div>'
+    +    '</div>'
+    +    '<div class="tile-arr">'+ARR_SM+'</div>'
+    +  '</div>'
+    +'</div>';
+  (function(i){d.addEventListener('click',function(){window.location.href='case.html#'+i;});})(data.idx);
+  container.appendChild(d);
+}
+
+var cm=document.getElementById('cards-main');
+renderCoverCard(COVER,cm);
+
 var mm=document.getElementById('cards-mini');
-miniData.forEach(function(ci,idx){ makeMcard(ci,miniNums[idx],miniDescs[idx],miniImpacts[idx],mm); });
+TILES.forEach(function(t){renderTileCard(t,mm);});
 
 var ma=document.getElementById('cards-ai');
-aiData.forEach(function(ci,idx){ makeMcard(ci,aiNums[idx],aiDescs[idx],mainImpacts[ci],ma); });
+AI_TILES.forEach(function(t){renderTileCard(t,ma);});
+
+// ── Ken Burns: continuous drift; hover reverses direction smoothly (no reset) ──
+// Default playbackRate 1 → keyframes play scale(1.12)→scale(1.0) = zoom OUT.
+// Hover sets playbackRate -1 → reverses from the current position = zoom IN,
+// with no jump (WAAPI changes the rate, not the time mapping).
+(function initKenBurns(){
+  if(RM||!('animate' in Element.prototype))return;
+  document.querySelectorAll('.cover-img,.tile-img-bg').forEach(function(el,i){
+    var anim=el.animate(
+      [{transform:'scale(1.12)'},{transform:'scale(1.0)'}],
+      {duration:18000+(i%2)*4000,iterations:Infinity,direction:'alternate',easing:'ease-in-out'}
+    );
+    var card=el.closest('.cover-card,.tile-card');
+    if(!card)return;
+    card.addEventListener('mouseenter',function(){anim.playbackRate=-1;});
+    card.addEventListener('mouseleave',function(){anim.playbackRate=1;});
+  });
+})();
 
 function initStatCounters(){
   document.querySelectorAll('.stat-n:not(.cnt-init)').forEach(function(el){
@@ -480,6 +428,7 @@ function initHeroCursors(){
 
 initFigmaFrames();
 initReveal();
+requestAnimationFrame(function(){ScrollTrigger.refresh();});
 initStatCounters();
 initHeroCursors();
 initVibeTyping();
