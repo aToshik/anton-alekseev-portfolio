@@ -240,27 +240,27 @@ var COVER={
   tags:['InsurTech','B2B SaaS','Optimization'],
   desc:'A non-linear price experimentation algorithm — translated into a self-service decision tool. The client started calling it "Price Exploration" before we did.',
   metricValue:'7%',metricLabel:'MoM growth in policy binds',
-  accent:'#4ade80',imgSrc:'assets/price-exploration/web/image-1.webp',kb:'kb1'
+  accent:'#4ade80',imgSrc:'assets/price-exploration/web/cover-1.webp',kb:'kb1'
 };
 var TILES=[
   {idx:3,num:'02',title:'Cross-Campaign Management',tags:['Workflow','Bulk Editing'],
    desc:'Broke the campaign boundary as the unit of control — and built the selection infrastructure that three later features relied on.',
    metricValue:'Hours→Min',metricLabel:'large-scale updates',
-   accent:'#60a5fa',imgSrc:'assets/cross-campaign/web/image-1.webp',kb:'kb1'},
+   accent:'#60a5fa',imgSrc:'assets/cross-campaign/web/cover-1.webp',kb:'kb1'},
   {idx:4,num:'03',title:'Channel Analysis & Outlier Detection',tags:['Data Viz','Recommendations'],
    desc:'Up to 2,000 channels monitored automatically — thumbs-down triggers a comment, comments shape the next iteration.',
    metricValue:'2,000+',metricLabel:'channels monitored',
-   accent:'#f59e0b',imgSrc:'assets/channel-analysis/web/image-1.webp',kb:'kb2'}
+   accent:'#f59e0b',imgSrc:'assets/channel-analysis/web/cover-1.webp',kb:'kb2'}
 ];
 var AI_TILES=[
   {idx:1,num:'04',title:'Design System for AI Agents',tags:['Design Systems','AI-native'],
    desc:'56 components, ~990 tokens, automated drift detection. Doc format designed from real failure modes — 15 design questions dropped to 2.',
    metricValue:'15→2',metricLabel:'design questions / feature',
-   accent:'#9f7aff',imgSrc:'assets/design-system/web/image-1.webp',kb:'kb2'},
+   accent:'#9f7aff',imgSrc:'assets/design-system/web/cover-1.webp',kb:'kb2'},
   {idx:2,num:'05',title:'AI Data Assistant',tags:['Conversational UX','Agentic'],
    desc:'A conversational co-pilot for insurance media buyers. Explainability, human-in-the-loop approval flows, and a roadmap toward autonomous action.',
    metricValue:'3',metricLabel:'autonomy phases',
-   accent:'#4ade80',imgSrc:'assets/ai-assistant/web/image-2.webp',kb:'kb1'}
+   accent:'#4ade80',imgSrc:'assets/ai-assistant/web/cover-1.webp',kb:'kb1'}
 ];
 
 var ARR_LG='<svg width="15" height="15" fill="none" viewBox="0 0 14 14"><path d="M2 12L12 2M12 2H5M12 2v7" stroke="#f0ede8" stroke-width="1.2"/></svg>';
@@ -446,7 +446,8 @@ function initVibeTyping(){
     gsap.killTweensOf(ca);
     var r=vibeEl.getBoundingClientRect();
     var vw2=window.innerWidth;
-    var fullText="This site is vibe-coded. That’s intentional.";
+    var _vv=window.VIBE_VARIANTS||[];
+    var fullText=_vv.length>1?_vv[1+Math.floor(Math.random()*(_vv.length-1))]:"This site is vibe-coded. Built with intuition.";
     gsap.set(ca,{x:vw2+40,y:r.top+2,opacity:0});
     gsap.to(ca,{x:r.left-16,y:r.top+2,opacity:1,duration:0.65,ease:'power2.out',onComplete:function(){
       vibeEl.textContent='';
