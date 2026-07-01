@@ -41,10 +41,6 @@
 <div id="smooth-wrapper">
 <div id="smooth-content">
 
-<div class="case-back" id="btn-back">
-  <svg width="14" height="10" fill="none" viewBox="0 0 14 10"><path d="M13 5H1M1 5L5 1M1 5l4 4" stroke="currentColor" stroke-width="1.1"/></svg>
-  All work
-</div>
 <div id="case-content"></div>
 
 </div>
@@ -72,12 +68,6 @@ document.getElementById('nav-logo').addEventListener('click',function(){window.l
 document.getElementById('nav-work').addEventListener('click',function(){window.location.href='index.html#home-work';});
 document.getElementById('nav-about').addEventListener('click',function(){window.location.href='index.html#home-about';});
 document.getElementById('nav-contact').addEventListener('click',function(){window.location.href='index.html#home-contact';});
-
-// ── back button ──
-document.getElementById('btn-back').addEventListener('click',function(){
-  if(history.length>1&&document.referrer&&document.referrer.includes(location.hostname)){history.back();}
-  else{window.location.href='index.html';}
-});
 
 // ── custom line-splitter (replaces GSAP SplitText) ──
 function splitByLines(el){

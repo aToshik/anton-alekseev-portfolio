@@ -267,7 +267,7 @@ var ARR_LG='<svg width="15" height="15" fill="none" viewBox="0 0 14 14"><path d=
 var ARR_SM='<svg width="13" height="13" fill="none" viewBox="0 0 12 12"><path d="M1 11L11 1M11 1H4M11 1v7" stroke="#f0ede8" stroke-width="1.1"/></svg>';
 
 function renderCoverCard(data,container){
-  var glow='radial-gradient(ellipse at center,'+data.accent+'28 0%,transparent 68%)';
+  var glow='radial-gradient(ellipse at center,'+data.accent+'14 0%,transparent 68%)';
   var d=document.createElement('div');
   d.className='cover-card';d.dataset.caseIdx=String(data.idx);
   d.style.setProperty('--accent',data.accent);
@@ -295,7 +295,7 @@ function renderCoverCard(data,container){
 }
 
 function renderTileCard(data,container){
-  var glow='radial-gradient(ellipse at center,'+data.accent+'28 0%,transparent 72%)';
+  var glow='radial-gradient(ellipse at center,'+data.accent+'14 0%,transparent 72%)';
   var d=document.createElement('div');
   d.className='tile-card';d.dataset.caseIdx=String(data.idx);
   d.style.setProperty('--accent',data.accent);

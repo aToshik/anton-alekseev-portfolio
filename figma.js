@@ -41,20 +41,20 @@ if(FINE){
 }
 
 /* ── edit-mode hover: figma outline on every interactive object ── */
-var HOVERABLE=EDITABLE+',a,.clink,.cb-nav-btn,.case-back,.stat,.narr,.cstat';
+var HOVERABLE=EDITABLE+',a,.clink,.cb-nav-btn,.stat,.narr,.cstat';
 document.addEventListener('mouseover',function(e){
   if(FINE&&tag){
     var card=e.target.closest('.ccard,.mcard,.cover-card,.tile-card');
     if(card){tag.textContent='View case';guest.classList.add('act');}
     else if(e.target.closest('.cb-img-wrap')||(e.target.closest('.case-visual')&&!e.target.closest('.case-visual').querySelector('video'))){tag.textContent='Zoom in';guest.classList.add('act');}
     else if(e.target.closest('.clink')){var cl=e.target.closest('.clink');var href=cl.getAttribute('href')||'';tag.textContent=href.startsWith('mailto:')?'Send email':href.startsWith('tel:')?'Call':'Visit profile';guest.classList.add('act');}
-    else if(e.target.closest('a,.nav-links span,.nav-logo,.cb-nav-btn,.case-back')){guest.classList.add('act');}
+    else if(e.target.closest('a,.nav-links span,.nav-logo,.cb-nav-btn')){guest.classList.add('act');}
   }
   var h=e.target.closest(HOVERABLE);
   if(h&&h.classList.contains('cstat'))h.classList.add('fhov');
 });
 document.addEventListener('mouseout',function(e){
-  if(FINE&&tag&&e.target.closest('.ccard,.mcard,.cover-card,.tile-card,.cb-img-wrap,.case-visual,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn,.case-back')){
+  if(FINE&&tag&&e.target.closest('.ccard,.mcard,.cover-card,.tile-card,.cb-img-wrap,.case-visual,a,.nav-links span,.nav-logo,.clink,.cb-nav-btn')){
     tag.textContent='You';guest.classList.remove('act');
   }
   var h=e.target.closest(HOVERABLE);
