@@ -392,6 +392,7 @@ picture{display:block}
   .mini-cases{grid-template-columns:1fr}
   .tiles-grid{grid-template-columns:1fr}
   .cover-card{height:300px}
+  .cover-top{font-size:28px;padding:18px 22px}
   .cb-nav{flex-direction:column;gap:24px;align-items:flex-start}
   .case-visual{margin:0;border-radius:0}
   .case-visual--placeholder{min-height:300px;max-height:300px;margin:0 24px;border-radius:8px}
