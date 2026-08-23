@@ -66,10 +66,6 @@
         <p>I'm a Senior Product Designer with <strong>9+ years</strong> owning end-to-end design for complex B2B SaaS products. At Kissterra, deeply embedded IC building <strong>MarketingOS</strong> — a customer acquisition intelligence platform for top U.S. insurance carriers. No dedicated UX team.</p>
         <p>I don't just design interfaces. I translate <strong>non-linear algorithms, data-heavy workflows, and complex business logic</strong> into intuitive, self-service UX that drives measurable outcomes.</p>
         <p>Most recently: built a design system that evolved to support <strong>AI-agent-driven development</strong> — embedding component docs in Figma and the codebase so agents implement correctly on the first pass.</p>
-        <div class="vibe-frame">
-          <div class="vibe-lbl" aria-hidden="true"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x=".5" y=".5" width="8" height="8" rx="1" stroke="currentColor" stroke-opacity=".6"/><line x1="4.5" y1="0" x2="4.5" y2="9" stroke="currentColor" stroke-opacity=".35"/><line x1="0" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-opacity=".35"/></svg>vibe-note-001</div>
-          <p class="vibe">This site is vibe-coded. That's intentional.</p>
-        </div>
       </div>
     </div>
     <div>
@@ -480,9 +476,16 @@ function initVibeTyping(){
 function initFrameResize(){
   var frame=document.querySelector('.h-frame');
   if(!frame||RM||!window.matchMedia('(pointer:fine)').matches)return;
-  var naturalW=frame.getBoundingClientRect().width;
+  // Natural width mirrors the CSS rule for .h-frame — measuring via
+  // getBoundingClientRect at init can read a stale/collapsed value.
+  function naturalFrameW(){
+    return window.innerWidth<=768
+      ? window.innerWidth-48
+      : Math.min(1000,window.innerWidth-192);
+  }
+  var naturalW=naturalFrameW();
   frame.dataset.origW=String(naturalW);
-  var squeezedW=Math.max(380,Math.round(naturalW*.65));
+  var squeezedW=Math.min(naturalW,Math.max(380,Math.round(naturalW*.65)));
   gsap.set(frame,{width:squeezedW});
 
   // Blue overlay border
@@ -577,6 +580,22 @@ function initFrameResize(){
   }
   attachHandle(frame.querySelector('.handle-r'),1);
   attachHandle(frame.querySelector('.handle-l'),-1);
+
+  // Keep width correct across viewport resizes — the inline px width set above
+  // otherwise overrides the responsive CSS and can strand the hero narrow.
+  var rzT;
+  window.addEventListener('resize',function(){
+    clearTimeout(rzT);
+    rzT=setTimeout(function(){
+      naturalW=naturalFrameW();
+      frame.dataset.origW=String(naturalW);
+      if(!frame.classList.contains('resizing')){
+        gsap.killTweensOf(frame);
+        gsap.set(frame,{width:naturalW});
+        updateDim();
+      }
+    },120);
+  });
 }
 
 
