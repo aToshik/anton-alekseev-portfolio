@@ -35,11 +35,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:24px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,8,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 nav::after{content:'';position:absolute;bottom:0;left:48px;right:48px;height:1px;background:var(--fg3)}
-.nav-logo{font-family:var(--mono);font-size:11px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.nav-logo{font-family:var(--mono);font-size:11px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:color .2s;text-decoration:none;display:inline-block}
 .nav-logo:hover{color:var(--fg)}
 .nav-links{display:flex;gap:32px}
-.nav-links span{font-family:var(--mono);font-size:11px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;transition:color .2s;cursor:pointer}
-.nav-links span:hover{color:var(--fg)}
+.nav-links a{font-family:var(--mono);font-size:11px;color:var(--fg2);letter-spacing:.1em;text-transform:uppercase;transition:color .2s;cursor:pointer;text-decoration:none}
+.nav-links a:hover{color:var(--fg)}
 .nav-avail{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--fg2)}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(74,222,128,0)}}
@@ -163,7 +163,7 @@ section{padding:120px 48px}
 .fedit{outline:1px solid var(--figma)!important;outline-offset:2px;caret-color:var(--figma);cursor:text!important;min-height:1em}
 .fselected{z-index:20}
 .fsel-host:focus-visible{outline:1px solid var(--fg2);outline-offset:2px}
-a:focus-visible,.nav-links span:focus-visible,.nav-logo:focus-visible,.cb-nav-btn:focus-visible{outline:1px solid var(--fg2);outline-offset:3px}
+a:focus-visible,.nav-links a:focus-visible,.nav-logo:focus-visible,.cover-card:focus-visible,.tile-card:focus-visible,.cb-nav-btn:focus-visible{outline:2px solid var(--figma);outline-offset:3px;border-radius:2px}
 .nav-right{display:flex;align-items:center;gap:16px}
 @media(pointer:fine){.stat,.narr{touch-action:none}}
 .fix-flash{outline:1px solid var(--figma);outline-offset:-1px}
@@ -190,7 +190,7 @@ a:focus-visible,.nav-links span:focus-visible,.nav-logo:focus-visible,.cb-nav-bt
    zooms OUT, hover flips playbackRate to zoom IN — reversed from the current
    position, so the direction changes smoothly with no reset/jump. */
 /* ── Cover card ───────────────────────────────────────────────────────────── */
-.cover-card{position:relative;height:540px;background:#0f0f0f;overflow:hidden;cursor:pointer;transition:transform .45s cubic-bezier(.16,1,.3,1);will-change:transform}
+.cover-card{position:relative;display:block;text-decoration:none;color:inherit;height:540px;background:#0f0f0f;overflow:hidden;cursor:pointer;transition:transform .45s cubic-bezier(.16,1,.3,1);will-change:transform}
 /* consistent overlay border (drawn above the image so brightness never hides it) */
 .cover-card::after{content:'';position:absolute;inset:0;border:1px solid rgba(240,237,232,.17);pointer-events:none;z-index:9;transition:border-color .35s}
 .cover-card:hover{transform:translateY(-5px)}
@@ -216,7 +216,7 @@ a:focus-visible,.nav-links span:focus-visible,.nav-logo:focus-visible,.cb-nav-bt
 /* ── Tile cards ───────────────────────────────────────────────────────────── */
 .work-gallery{display:flex;flex-direction:column;gap:16px}
 .tiles-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tile-card{position:relative;display:flex;flex-direction:column;background:#0f0f0f;overflow:hidden;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1),background .35s;will-change:transform}
+.tile-card{position:relative;display:flex;flex-direction:column;text-decoration:none;color:inherit;background:#0f0f0f;overflow:hidden;cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1),background .35s;will-change:transform}
 .tile-card::after{content:'';position:absolute;inset:0;border:1px solid rgba(240,237,232,.17);pointer-events:none;z-index:9;transition:border-color .35s}
 .tile-card:hover{transform:translateY(-4px);background:#131313}
 .tile-card:hover::after{border-color:rgba(240,237,232,.55)}
@@ -364,6 +364,20 @@ picture{display:block}
 #about-type-p.type-done{outline-color:rgba(13,153,255,.18)}
 /* scroll reveal */
 .rev{opacity:0;transform:translateY(36px)}
+/* Progressive enhancement: without JS (no .js class) nothing stays hidden.
+   Animations are the enhancement; content is visible by default. */
+:root:not(.js) .rev,
+:root:not(.js) .h-eyebrow,
+:root:not(.js) .h-divider,
+:root:not(.js) .h-sub,
+:root:not(.js) .h-meta,
+:root:not(.js) .h-scroll,
+:root:not(.js) .sec-frame-lbl{opacity:1!important;transform:none!important}
+/* Respect reduced-motion: kill transitions/animations, keep content visible. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .rev,.h-eyebrow,.h-divider,.h-sub,.h-meta,.h-scroll,.sec-frame-lbl{opacity:1!important;transform:none!important}
+}
 /* hide figma chrome on touch */
 @media(pointer:coarse){
   .h-frame-handle,.h-frame-overlay,.h-frame-dim,.h-frame-lbl,.h-zoom,.vibe-lbl{display:none}
