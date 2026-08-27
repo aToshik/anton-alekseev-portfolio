@@ -10,7 +10,7 @@ var ARROW='<svg width="18" height="18" viewBox="0 0 18 18" fill="none">'
 
 function mkCursor(id,color,name){
   var d=document.createElement('div');
-  d.className='fcur';d.id=id;
+  d.className='fcur';d.id=id;d.setAttribute('aria-hidden','true');
   d.innerHTML=ARROW.replace('COLOR',color)+'<span class="fcur-tag">'+name+'</span>';
   document.body.appendChild(d);
   return d;
