@@ -1,2 +1,18 @@
+# OS
 .DS_Store
-.claude/settings.local.json
+
+# Dev tooling / local config (not needed for the public site)
+.claude/
+/serve.py
+
+# Personal documents and working notes — keep local, never publish
+*.docx
+*.pdf
+*.bak
+CLAUDE.md
+readme.md
+PORTFOLIO2.md
+CASES.md
+portfolio.html
+og-image.svg
+design_handoff_work_cards/
