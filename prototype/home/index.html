@@ -310,8 +310,9 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .tool-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; transition: background .25s, border-color .25s; }
 .tool-card:hover { background: var(--panel-2); border-color: var(--border-2); }
-.tool-mk { width: 34px; height: 34px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 13px; color: var(--fg); }
-.tool-mk.accent { color: var(--accent); }
+.tool-mk { width: 38px; height: 38px; border-radius: 9px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--fg); transition: border-color .25s, color .25s; }
+.tool-card:hover .tool-mk { border-color: var(--border-2); }
+.tool-mk svg { width: 19px; height: 19px; display: block; }
 .tool-nm { font-size: 14px; font-weight: 600; margin-top: 4px; }
 .tool-ds { font-size: 12px; color: var(--muted); }
 .tool-wf { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 8px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
@@ -623,10 +624,22 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         <p class="sec-sub">Not as a shortcut—as a way to think wider, prototype closer to reality, and keep momentum from concept to shipped product.</p>
       </div>
       <div class="tool-grid stagger">
-        <div class="tool-card"><span class="tool-mk">C</span><div><div class="tool-nm">Claude</div><div class="tool-ds">Thinking partner</div></div><div class="tool-wf">In workflow</div></div>
-        <div class="tool-card"><span class="tool-mk accent">&gt;_</span><div><div class="tool-nm">Cursor</div><div class="tool-ds">Prototype in code</div></div><div class="tool-wf">In workflow</div></div>
-        <div class="tool-card"><span class="tool-mk">F</span><div><div class="tool-nm">Figma</div><div class="tool-ds">Design systems</div></div><div class="tool-wf">In workflow</div></div>
-        <div class="tool-card"><span class="tool-mk accent">M</span><div><div class="tool-nm">Figma Make</div><div class="tool-ds">Ideas to product</div></div><div class="tool-wf">In workflow</div></div>
+        <div class="tool-card">
+          <span class="tool-mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.6c.7 5 1.7 6 6.8 6.7-5.1.7-6.1 1.7-6.8 6.7-.7-5-1.7-6-6.8-6.7 5.1-.7 6.1-1.7 6.8-6.7Z"/><path d="M19 15.4c.22 1.5.55 1.83 2.05 2.05-1.5.22-1.83.55-2.05 2.05-.22-1.5-.55-1.83-2.05-2.05 1.5-.22 1.83-.55 2.05-2.05Z"/></svg></span>
+          <div><div class="tool-nm">Claude</div><div class="tool-ds">Thinking partner</div></div><div class="tool-wf">In workflow</div>
+        </div>
+        <div class="tool-card">
+          <span class="tool-mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.2 18.4 9.1l-6 1.7-1.7 6L6 3.2Z"/></svg></span>
+          <div><div class="tool-nm">Cursor</div><div class="tool-ds">Prototype in code</div></div><div class="tool-wf">In workflow</div>
+        </div>
+        <div class="tool-card">
+          <span class="tool-mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></span>
+          <div><div class="tool-nm">Figma</div><div class="tool-ds">Design systems</div></div><div class="tool-wf">In workflow</div>
+        </div>
+        <div class="tool-card">
+          <span class="tool-mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 19.5 14 10"/><path d="M16.6 3.4l.95 2.05 2.05.95-2.05.95-.95 2.05-.95-2.05-2.05-.95 2.05-.95.95-2.05Z"/></svg></span>
+          <div><div class="tool-nm">Figma Make</div><div class="tool-ds">Ideas to product</div></div><div class="tool-wf">In workflow</div>
+        </div>
       </div>
     </section>
 
