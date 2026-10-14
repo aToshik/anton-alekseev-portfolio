@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Design System for AI — Anton Alekseev</title>
-<meta name="description" content="Case study: rebuilding a design system for a new kind of user, AI coding agents. Two documentation contracts, a failure-driven doc format, and an AI workflow that keeps Figma and the codebase in sync.">
+<meta name="description" content="Case study: rebuilding a design system for a new kind of user, AI coding agents. Two documentation contracts, a failure-driven doc format, and an AI workflow that keeps Figma and the repo in sync.">
 <meta property="og:title" content="Design System for AI — Case study">
 <meta property="og:description" content="A design system AI agents can build from.">
 <meta property="og:type" content="article">
@@ -386,7 +386,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       </div>
       <div class="role-note">
         <span class="eyebrow">My role</span>
-        <p>Sole designer and owner of the system. I diagnosed the problem, designed the documentation format, and built the AI workflow that keeps Figma and the codebase in sync.</p>
+        <p>Sole designer and owner of the system. I diagnosed the problem, designed the documentation format, and built the AI workflow that keeps Figma and the repo in sync.</p>
       </div>
     </header>
 
@@ -492,7 +492,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="eyebrow" style="margin-bottom:12px">AI workflow</p>
       <h2 class="sec-title" id="workflow-t">Agents keep it current. Agents build from it.</h2>
       <article class="accent-block">
-        <p class="ph-text">The system runs as two loops. In the first, agents keep Figma and the codebase in sync, and I approve every change: component docs, Figma descriptions and the token files in the repo update together. In the second, coding agents build from <strong>two layers of documentation</strong> (the compact spec in each Figma component's description and the full .md doc in the repo) and from tokens that always match Figma. Whatever they still can't answer improves the format.</p>
+        <p class="ph-text">The system runs as two loops. In the first, agents keep Figma and the repo in sync, and I approve every change: component docs, Figma descriptions and the token files in the repo update together. In the second, coding agents build from <strong>two layers of documentation</strong> (the compact spec in each Figma component's description and the full .md doc in the repo) and from tokens that always match Figma. Whatever they still can't answer improves the format.</p>
 
         <div class="loop" role="img" aria-label="Maintain loop: Figma → ds:audit → drift report → designer review → ds:update. Build loop: two contracts → coding agent → feature shipped → open questions → doc format, feeding back into better specs.">
           <div class="wf-lane">
