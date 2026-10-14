@@ -272,6 +272,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-arrow { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background .2s, color .2s; }
 .case-card:hover .case-arrow { background: var(--accent); color: #0b140a; border-color: var(--accent); }
 .case-arrow svg { width: 14px; height: 14px; }
+.case-card.is-link { position: relative; cursor: pointer; }
+.case-card.is-link .case-arrow::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
 .case-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .case-metric b { font-family: var(--display); font-weight: 500; font-size: 17px; letter-spacing: -.02em; color: var(--accent); }
@@ -283,6 +285,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .mock-bar i { width: 6px; height: 6px; border-radius: 50%; background: var(--border-2); display: block; }
 .mock-bar .ml { margin-left: auto; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
 .mock-body { padding: 18px; height: 196px; position: relative; }
+.mock-shot img { display: block; width: 100%; height: 229px; object-fit: cover; object-position: left top; }
 .mz-grid { position:absolute; left:18px; right:18px; bottom:40px; height:1px; background:var(--border); }
 .mz-bar { position:absolute; bottom:40px; width:14px; border-radius:3px 3px 0 0; background:var(--accent); }
 .mz-tip { position:absolute; border:1px solid var(--border); background:var(--panel); border-radius:6px; padding:7px 9px; font-family:var(--mono); font-size:8px; color:var(--muted); }
@@ -585,24 +588,14 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
         </article>
 
-        <article class="case-card" id="case-channel">
+        <article class="case-card is-link" id="case-channel">
           <div class="case-head"><span class="chip">Data Viz</span><span class="chip">AI Systems</span>
-            <a class="case-arrow" href="#" data-note="case" aria-label="Open Channel Analysis case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="case-arrow" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
           <h3 class="case-hook">Turn weeks of channel analysis into a morning.</h3>
           <div class="case-metric"><b>Weeks → Hours</b><span>To detect opportunity</span></div>
-          <div class="mock" aria-hidden="true">
-            <div class="mock-bar"><i></i><i></i><i></i><span class="ml">Channel Signals</span></div>
-            <div class="mock-body" style="display:flex;gap:18px;align-items:flex-end;">
-              <div style="flex:1;align-self:stretch;padding-top:6px;">
-                <div class="mz-row" style="width:72%"></div><div class="mz-row" style="width:86%"></div><div class="mz-row" style="width:64%"></div>
-              </div>
-              <div style="display:flex;gap:7px;align-items:flex-end;height:120px;">
-                <span style="width:16px;height:64px;background:var(--accent);opacity:.55;border-radius:3px 3px 0 0;"></span>
-                <span style="width:16px;height:96px;background:var(--accent);border-radius:3px 3px 0 0;"></span>
-                <span style="width:16px;height:48px;background:var(--accent);opacity:.4;border-radius:3px 3px 0 0;"></span>
-              </div>
-            </div>
+          <div class="mock mock-shot" aria-hidden="true">
+            <img src="../case/channel-analysis/assets/card.webp" alt="" width="1200" height="677" loading="lazy" decoding="async">
           </div>
         </article>
 
