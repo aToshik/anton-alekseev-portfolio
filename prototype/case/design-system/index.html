@@ -599,11 +599,34 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     if (ar.top < sr.top) sidebarEl.scrollTop -= (sr.top - ar.top) + 8;
     else if (ar.bottom > sr.bottom) sidebarEl.scrollTop += (ar.bottom - sr.bottom) + 8;
   }
+  /* Active = the last section whose top has passed the reading line (just under the sticky nav).
+     A click sets its target active right away and pins it until the user scrolls again, so a short
+     section (or one near the page end) is never overridden by the next one. */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.main .section'));
+  var current = null, pinned = false, pinTimer = null;
+  function setActive(id){
+    if (id === current) return; current = id;
+    links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-section') === id); });
+    var a = byId[id]; if (a) keepVisible(a);
+  }
+  function computeActive(){
+    var vh = window.innerHeight, left = document.documentElement.scrollHeight - vh - window.scrollY;
+    /* near the page end the line slides down, so short final sections still get their turn */
+    var line = 120 + (left < vh ? (vh - 160) * (1 - Math.max(left, 0) / vh) : 0);
+    var id = sections.length ? sections[0].id : null;
+    sections.forEach(function(s){ if (s.getBoundingClientRect().top <= line) id = s.id; });
+    if (left <= 2 && sections.length) id = sections[sections.length - 1].id;
+    if (id) setActive(id);
+  }
+  function unpinSoon(){ clearTimeout(pinTimer); pinTimer = setTimeout(function(){ pinned = false; }, 150); }
+  links.forEach(function(a){ a.addEventListener('click', function(){ pinned = true; setActive(a.getAttribute('data-section')); unpinSoon(); }); });
+  window.addEventListener('scroll', function(){
+    if (pinned) { unpinSoon(); return; }  /* smooth scroll from the click is still running */
+    computeActive();
+  }, { passive: true });
+  ['wheel','touchstart','keydown'].forEach(function(t){ window.addEventListener(t, function(){ if (pinned) { pinned = false; clearTimeout(pinTimer); } }, { passive: true }); });
+  computeActive();
   if ('IntersectionObserver' in window) {
-    var spy = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if (en.isIntersecting){ links.forEach(function(l){l.classList.remove('active');}); var a=byId[en.target.id]; if(a){ a.classList.add('active'); keepVisible(a); } } });
-    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-    document.querySelectorAll('.main .section').forEach(function(s){ spy.observe(s); });
 
     /* phase-rail progress spy */
     var order = ['phase-1','phase-2','phase-3','phase-4'];
