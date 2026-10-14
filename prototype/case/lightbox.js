@@ -1,13 +1,16 @@
 /* ============================================================
    LIGHTBOX — shared by case pages
    Markup:  <button type="button" class="ph-visual has-img" data-lightbox
-                    [data-lb-caption="#phase-4"] [data-lb-title="…"] [data-lb-full="assets/big.webp"]>
+                    [data-lb-caption="#phase-4"] [data-lb-title="…"] [data-lb-full="assets/big.webp"]
+                    [data-lb-video="assets/anim.mp4, assets/anim.webm"]>
               <img src="assets/x.webp" alt="…">
             </button>
    Caption: title + text come from the nearest .phase / .accent-block
             (.ph-label + .ph-text, else .body-copy), or from the container named in
             data-lb-caption. data-lb-title overrides the title; the
             image's alt is the last fallback.
+   data-lb-video: the lightbox plays this video (muted loop, first
+            playable source wins) instead of the image; the image is its poster.
    All [data-lightbox] on the page form one gallery (← / → / swipe).
    ============================================================ */
 (function () {
@@ -19,6 +22,7 @@
     zoom: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     prev: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     next: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>',
     close: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
   };
 
@@ -43,9 +47,10 @@
 
     el.setAttribute('aria-haspopup', 'dialog');
     if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', 'Open image fullscreen: ' + title);
-    if (!el.querySelector('.lb-zoom')) el.insertAdjacentHTML('beforeend', '<span class="lb-zoom" aria-hidden="true">' + ICON.zoom + '<span>Expand</span></span>');
+    var video = (el.getAttribute('data-lb-video') || '').split(',').map(function (v) { return v.trim(); }).filter(Boolean);
+    if (!el.querySelector('.lb-zoom')) el.insertAdjacentHTML('beforeend', '<span class="lb-zoom" aria-hidden="true">' + (video.length ? ICON.play + '<span>Play</span>' : ICON.zoom + '<span>Expand</span>') + '</span>');
     el.addEventListener('click', function (e) { e.preventDefault(); open(i); });
-    return { src: src, alt: (img && img.getAttribute('alt')) || title, title: title, num: num, html: html };
+    return { video: video, src: src, alt: (img && img.getAttribute('alt')) || title, title: title, num: num, html: html };
   });
 
   /* ---- build overlay once ---- */
@@ -62,7 +67,7 @@
       '<button class="lb-btn lb-next" type="button" aria-label="Next image">' + ICON.next + '</button>' +
       '<button class="lb-btn lb-close" type="button" aria-label="Close">' + ICON.close + '</button>' +
     '</div>' +
-    '<div class="lb-stage"><img class="lb-img" alt="" draggable="false"></div>' +
+    '<div class="lb-stage"><img class="lb-img" alt="" draggable="false"><video class="lb-img lb-video" muted loop playsinline preload="auto" hidden></video></div>' +
     '<aside class="lb-cap"><div class="lb-cap-in">' +
       '<p class="lb-eyebrow">' + (document.querySelector('.crumb [aria-current]') ? document.querySelector('.crumb [aria-current]').textContent : 'Case') + '</p>' +
       '<h2 class="lb-title" id="lbTitle"></h2>' +
@@ -73,6 +78,7 @@
 
   var $ = function (s) { return lb.querySelector(s); };
   var imgEl = $('.lb-img'), countEl = $('.lb-count'), titleEl = $('.lb-title'), textEl = $('.lb-text'),
+      vidEl = $('.lb-video'), hintEl = $('.lb-hint'),
       prevBtn = $('.lb-prev'), nextBtn = $('.lb-next'), closeBtn = $('.lb-close'), stage = $('.lb-stage'), cap = $('.lb-cap');
   var current = -1, lastFocus = null, single = slides.length < 2;
   if (single) { prevBtn.hidden = true; nextBtn.hidden = true; }
@@ -89,10 +95,25 @@
     cap.scrollTop = 0;
     prevBtn.disabled = i === 0;
     nextBtn.disabled = i === slides.length - 1;
-    var apply = function () { imgEl.src = s.src; imgEl.alt = s.alt; imgEl.classList.remove('swap'); };
-    if (animate && !reduced()) { imgEl.classList.add('swap'); setTimeout(apply, 140); } else apply();
-    [i - 1, i + 1].forEach(function (j) { if (slides[j]) { var p = new Image(); p.src = slides[j].src; } });
+    var apply = function () {
+      stopVideo();
+      if (s.video.length) {
+        imgEl.hidden = true; vidEl.hidden = false;
+        vidEl.poster = s.src || ''; vidEl.setAttribute('aria-label', s.alt);
+        vidEl.innerHTML = s.video.map(function (v) { return '<source src="' + v + '" type="video/' + (/\.webm(\?|$)/i.test(v) ? 'webm' : 'mp4') + '">'; }).join('');
+        vidEl.load();
+        var pr = vidEl.play(); if (pr && pr.catch) pr.catch(function () {});
+      } else {
+        vidEl.hidden = true; imgEl.hidden = false;
+        imgEl.src = s.src; imgEl.alt = s.alt;
+      }
+      hintEl.firstChild.nodeValue = s.video.length ? 'Click video to pause · ' : 'Click image to zoom · ';
+      imgEl.classList.remove('swap'); vidEl.classList.remove('swap');
+    };
+    if (animate && !reduced()) { imgEl.classList.add('swap'); vidEl.classList.add('swap'); setTimeout(apply, 140); } else apply();
+    [i - 1, i + 1].forEach(function (j) { if (slides[j] && slides[j].src) { var p = new Image(); p.src = slides[j].src; } });
   }
+  function stopVideo() { if (!vidEl.paused) vidEl.pause(); }
   function reduced() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
 
   function open(i) {
@@ -107,6 +128,7 @@
   function close() {
     if (lb.hidden) return;
     lb.classList.remove('open');
+    stopVideo();
     document.documentElement.classList.remove('lb-lock');
     document.removeEventListener('keydown', onKey, true);
     setTimeout(function () { lb.hidden = true; }, reduced() ? 0 : 250);
@@ -143,11 +165,14 @@
     stage.scrollTop = fy * h - stage.clientHeight / 2;
   });
 
+  /* click / tap the video: play / pause */
+  vidEl.addEventListener('click', function () { if (moved) return; if (vidEl.paused) vidEl.play(); else vidEl.pause(); });
+
   prevBtn.addEventListener('click', function () { go(-1); });
   nextBtn.addEventListener('click', function () { go(1); });
   closeBtn.addEventListener('click', close);
   /* backdrop: clicking anywhere on the stage except the image closes */
-  stage.addEventListener('click', function (e) { if (e.target !== imgEl && !moved) close(); });
+  stage.addEventListener('click', function (e) { if (e.target !== imgEl && e.target !== vidEl && !moved) close(); });
 
   /* swipe: horizontal = prev/next, down = close */
   var sx = 0, sy = 0, tracking = false, moved = false;
