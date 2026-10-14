@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Design System for AI — Anton Alekseev</title>
-<meta name="description" content="Case study: rebuilding a design system for a new kind of user, AI coding agents. Two documentation contracts, a failure-driven doc format, and an AI workflow that keeps it in sync with Figma.">
+<meta name="description" content="Case study: rebuilding a design system for a new kind of user, AI coding agents. Two documentation contracts, a failure-driven doc format, and an AI workflow that keeps Figma and the codebase in sync.">
 <meta property="og:title" content="Design System for AI — Case study">
 <meta property="og:description" content="A design system AI agents can build from.">
 <meta property="og:type" content="article">
@@ -386,7 +386,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       </div>
       <div class="role-note">
         <span class="eyebrow">My role</span>
-        <p>Sole designer and owner of the system. I diagnosed the problem, designed the documentation format, and built the AI workflow that keeps it in sync with Figma.</p>
+        <p>Sole designer and owner of the system. I diagnosed the problem, designed the documentation format, and built the AI workflow that keeps Figma and the codebase in sync.</p>
       </div>
     </header>
 
@@ -492,7 +492,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="eyebrow" style="margin-bottom:12px">AI workflow</p>
       <h2 class="sec-title" id="workflow-t">Agents keep it current. Agents build from it.</h2>
       <article class="accent-block">
-        <p class="ph-text">The system runs as two loops. In the first, agents keep the design system current, and I approve every change. In the second, coding agents build from <strong>two layers of documentation</strong>: the compact spec in each Figma component's description and the full .md doc in the repo. Whatever they still can't answer improves the format.</p>
+        <p class="ph-text">The system runs as two loops. In the first, agents keep Figma and the codebase in sync, and I approve every change: component docs, Figma descriptions and the token files in the repo update together. In the second, coding agents build from <strong>two layers of documentation</strong> (the compact spec in each Figma component's description and the full .md doc in the repo) and from tokens that always match Figma. Whatever they still can't answer improves the format.</p>
 
         <div class="loop" role="img" aria-label="Maintain loop: Figma → ds:audit → drift report → designer review → ds:update. Build loop: two contracts → coding agent → feature shipped → open questions → doc format, feeding back into better specs.">
           <div class="wf-lane">
@@ -506,13 +506,13 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
               <span class="loop-sep" aria-hidden="true">→</span>
               <div class="loop-node human"><span class="who">Designer</span><b>Review</b><span>approve or reject, nothing changes silently</span></div>
               <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node accent"><span class="who">Skill</span><b>ds:update</b><span>docs, tokens, Figma descriptions</span></div>
+              <div class="loop-node accent"><span class="who">Skill</span><b>ds:update</b><span>repo tokens + docs, Figma descriptions</span></div>
             </div>
           </div>
           <div class="wf-lane">
             <div class="wf-lane-label">Build <i>· agentic development</i></div>
             <div class="loop-row">
-              <div class="loop-node"><span class="who">Context</span><b>Two contracts</b><span>Figma description + repo .md</span></div>
+              <div class="loop-node"><span class="who">Context</span><b>Specs + tokens</b><span>Figma description, repo .md, current token files</span></div>
               <span class="loop-sep" aria-hidden="true">→</span>
               <div class="loop-node accent"><span class="who">Agent</span><b>Coding agent</b><span>Cursor · Claude Code read both</span></div>
               <span class="loop-sep" aria-hidden="true">→</span>
@@ -533,7 +533,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <div class="skills">
           <div class="skill"><code>ds:audit</code><p>Reads every token and component prop from Figma through the Figma MCP, compares them with the last approved baseline and writes a risk-rated drift report.</p></div>
           <div class="skill"><code>ds:sync</code><p>Runs the audit, shows me the report and waits for my approval. One command for the whole cycle.</p></div>
-          <div class="skill"><code>ds:update</code><p>Applies what I approved: token files, the affected doc sections, and the compact description on each Figma component.</p></div>
+          <div class="skill"><code>ds:update</code><p>Applies what I approved: the token files in the repo, the affected doc sections, and the compact description on each Figma component. Developers always have the current token set at hand.</p></div>
         </div>
         <p class="ph-text" style="margin:22px 0 0"><strong>An agent that interviews the designer.</strong> When a component doc is created or updated, the agent runs the v1.1 checklist. For every missing section it asks me targeted questions in a fixed order: behavior, then states, then accessibility strings, then the consumer contract. I answer; it writes and validates the section. Docs get complete without me starting from a blank page.</p>
       </article>
@@ -545,11 +545,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <h2 class="sec-title" id="impact-t">Agentic development stopped waiting on design</h2>
       <div class="impact-grid">
         <div class="itile"><b>15 → 2</b><span>design questions per complex feature</span></div>
-        <div class="itile"><b>Minutes, not hours</b><span>to sync docs after a Figma change</span></div>
+        <div class="itile"><b>Minutes, not hours</b><span>to sync docs and tokens after a Figma change</span></div>
         <div class="itile"><b>9 audits / 16 days</b><span>every change reviewed before code</span></div>
         <div class="itile"><b>56 · ~1,050</b><span>components and tokens, one format for people and agents</span></div>
       </div>
-      <p class="impact-note">Coding agents built from complete, current specs instead of guessing. The two features after v1.1 produced <b>2 design questions combined</b>, both product copy decisions no spec could answer. Audits caught a table restructure with <b>7 breaking token renames</b> before it reached an engineer.</p>
+      <p class="impact-note">Coding agents built from complete, current specs and from tokens that always match Figma, instead of guessing. The two features after v1.1 produced <b>2 design questions combined</b>, both product copy decisions no spec could answer. Audits caught a table restructure with <b>7 breaking token renames</b> before it reached an engineer.</p>
     </section>
 
     <!-- REFLECTION -->
