@@ -29,7 +29,9 @@
   /* ---- collect slides ---- */
   var slides = triggers.map(function (el, i) {
     var img = el.querySelector('img');
-    var src = el.getAttribute('data-lb-full') || (img && (img.currentSrc || img.getAttribute('src')));
+    var inlineVid = el.querySelector('video');
+    var src = el.getAttribute('data-lb-full') || (img && (img.currentSrc || img.getAttribute('src'))) || (inlineVid && inlineVid.getAttribute('poster'));
+    var alt = (img && img.getAttribute('alt')) || (inlineVid && inlineVid.getAttribute('aria-label'));
     var sel = el.getAttribute('data-lb-caption');
     var box = (sel && document.querySelector(sel)) || el.closest('.phase, .accent-block');
     var label = box && box.querySelector('.ph-label');
@@ -42,7 +44,7 @@
       var em = c.querySelector('em'); if (em) em.remove();
       title = c.textContent.replace(/^\s*·\s*/, '').trim();
     }
-    if (!title) title = (img && img.getAttribute('alt')) || '';
+    if (!title) title = alt || '';
     var html = el.getAttribute('data-lb-text') || (text ? text.innerHTML : '');
 
     el.setAttribute('aria-haspopup', 'dialog');
@@ -50,8 +52,13 @@
     var video = (el.getAttribute('data-lb-video') || '').split(',').map(function (v) { return v.trim(); }).filter(Boolean);
     if (!el.querySelector('.lb-zoom')) el.insertAdjacentHTML('beforeend', '<span class="lb-zoom" aria-hidden="true">' + (video.length ? ICON.play + '<span>Play</span>' : ICON.zoom + '<span>Expand</span>') + '</span>');
     el.addEventListener('click', function (e) { e.preventDefault(); open(i); });
-    return { video: video, src: src, alt: (img && img.getAttribute('alt')) || title, title: title, num: num, html: html };
+    return { video: video, src: src, alt: alt || title, title: title, num: num, html: html };
   });
+
+  /* ---- inline (on-page) videos: respect reduced motion, pause while the lightbox is open ---- */
+  var inlineVids = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox] video'));
+  function playInline(on) { inlineVids.forEach(function (v) { if (on && !reduced()) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } else v.pause(); }); }
+  if (reduced()) playInline(false);
 
   /* ---- build overlay once ---- */
   var lb = document.createElement('div');
@@ -121,6 +128,7 @@
     render(i, false);
     lb.hidden = false;
     document.documentElement.classList.add('lb-lock');
+    playInline(false);
     requestAnimationFrame(function () { requestAnimationFrame(function () { lb.classList.add('open'); }); });
     closeBtn.focus({ preventScroll: true });
     document.addEventListener('keydown', onKey, true);
@@ -130,6 +138,7 @@
     lb.classList.remove('open');
     stopVideo();
     document.documentElement.classList.remove('lb-lock');
+    playInline(true);
     document.removeEventListener('keydown', onKey, true);
     setTimeout(function () { lb.hidden = true; }, reduced() ? 0 : 250);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
