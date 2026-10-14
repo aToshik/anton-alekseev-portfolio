@@ -298,6 +298,13 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .skill { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
 .skill code { font-family: var(--mono); font-size: 12px; color: var(--accent); }
 .skill p { margin-top: 6px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.tok-grid { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tok { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
+.tok b { display: block; font-family: var(--display); font-weight: 500; font-size: clamp(20px, 2.2vw, 26px); letter-spacing: -.02em; }
+.tok span { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+.tok p { margin-top: 6px; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.lib-visual { margin-top: 16px; min-height: clamp(180px, 24vw, 280px); }
+@media (max-width: 820px) { .tok-grid { grid-template-columns: 1fr; } }
 .cats { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
 .cat { display: inline-flex; align-items: baseline; gap: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--muted); }
 .cat b { font-family: var(--display); font-weight: 600; color: var(--fg); }
@@ -337,6 +344,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="side-nav" id="sideNav">
         <a href="#overview" data-section="overview">Overview</a>
         <a href="#context" data-section="context">Context</a>
+        <a href="#system" data-section="system">The system</a>
         <a href="#problem" data-section="problem">Problem</a>
         <a href="#insight" data-section="insight">Insight</a>
         <a href="#decisions" data-section="decisions">Decisions</a>
@@ -365,7 +373,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- OVERVIEW / header -->
     <header class="section" id="overview">
-      <p class="ch-context">Design System · AI · B2B&nbsp;&nbsp;|&nbsp;&nbsp;MarketingOS, Kissterra · sole product designer · 56 components · ~1,000 tokens</p>
+      <p class="ch-context">Design System · AI · B2B&nbsp;&nbsp;|&nbsp;&nbsp;MarketingOS, Kissterra · sole product designer · 56 components · ~1,050 tokens</p>
       <h1 class="ch-hook">A design system AI agents can build from</h1>
       <div class="ch-meta">
         <span class="mchip">15 → 2 questions</span>
@@ -387,6 +395,23 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="eyebrow" style="margin-bottom:12px">Context</p>
       <h2 class="sec-title" id="context-t">Engineers started shipping with AI agents</h2>
       <p class="body-copy">MarketingOS is Kissterra's dense B2B analytics and campaign platform. I built its design system as the sole product designer. Then the frontend team moved to AI-assisted development: Cursor and Claude Code implemented features straight from Figma and specs. Our engineers started shipping features with AI coding agents, and those agents read my design system literally.</p>
+    </section>
+
+    <!-- THE SYSTEM -->
+    <section class="section reveal" id="system" aria-labelledby="system-t">
+      <p class="eyebrow" style="margin-bottom:12px">The system</p>
+      <h2 class="sec-title" id="system-t">56 components, every state accounted for</h2>
+      <p class="body-copy">The library covers the full range of a data-dense product: from atomic controls (Button, Checkbox, Switch, Input) to complex composites (Analytics Table, Mega Chart, Date Range Selector, the filter system). Every component is specified across each size, style and state, and every value is mapped to a token.</p>
+      <div class="tok-grid">
+        <div class="tok"><span>Primitives</span><b>~280</b><p>color, spacing, radius, type</p></div>
+        <div class="tok"><span>Semantic</span><b>~150</b><p>surfaces, interactive states, status</p></div>
+        <div class="tok"><span>Components</span><b>~620</b><p>per-component properties</p></div>
+      </div>
+      <p class="body-copy" style="margin-top:18px">Three collections in the DTCG format, with every alias chain resolved in the docs, from component token to semantic to primitive to the final value. System intent stays visible instead of hiding behind raw hex.</p>
+      <div class="hero-visual lib-visual" role="img" aria-label="Placeholder for the Button variant matrix">
+        <b>Button: Size × Style × State × Icon</b>
+        <small>variant matrix → ./assets/</small>
+      </div>
     </section>
 
     <!-- PROBLEM -->
@@ -473,7 +498,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="wf-lane">
             <div class="wf-lane-label">Maintain <i>· ds:sync, one command</i></div>
             <div class="loop-row">
-              <div class="loop-node"><span class="who">Source</span><b>Figma</b><span>56 components · ~1,000 tokens</span></div>
+              <div class="loop-node"><span class="who">Source</span><b>Figma</b><span>56 components · ~1,050 tokens</span></div>
               <span class="loop-sep" aria-hidden="true">→</span>
               <div class="loop-node accent"><span class="who">Skill</span><b>ds:audit</b><span>reads Figma via MCP, diffs against baseline</span></div>
               <span class="loop-sep" aria-hidden="true">→</span>
@@ -522,7 +547,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <div class="itile"><b>15 → 2</b><span>design questions per complex feature</span></div>
         <div class="itile"><b>Minutes, not hours</b><span>to sync docs after a Figma change</span></div>
         <div class="itile"><b>9 audits / 16 days</b><span>every change reviewed before code</span></div>
-        <div class="itile"><b>56 · ~1,000</b><span>components and tokens, one format for people and agents</span></div>
+        <div class="itile"><b>56 · ~1,050</b><span>components and tokens, one format for people and agents</span></div>
       </div>
       <p class="impact-note">Coding agents built from complete, current specs instead of guessing. The two features after v1.1 produced <b>2 design questions combined</b>, both product copy decisions no spec could answer. Audits caught a table restructure with <b>7 breaking token renames</b> before it reached an engineer.</p>
     </section>
