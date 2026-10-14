@@ -22,6 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../lightbox.css">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -380,10 +381,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <span class="mchip">Figma → repo sync: minutes, not hours</span>
       </div>
       <p class="ch-tooling"><b>Figma</b> · <b>Claude Code</b> skills · <b>Figma MCP</b> · <b>DTCG</b> tokens · consumed by <b>Cursor</b> &amp; <b>Claude Code</b></p>
-      <div class="hero-visual" role="img" aria-label="Placeholder for a Figma component shown next to its compact description and its Markdown spec">
-        <b>One component, two contracts</b>
-        <small>Figma component + compact description + .md spec → ./assets/</small>
-      </div>
+      <button type="button" class="hero-visual has-img" data-lightbox data-lb-title="One component, two contracts" data-lb-caption="#phase-1">
+        <img src="assets/stub-ds-hero.svg" alt="A Figma component next to its compact description and its Markdown spec (placeholder)" width="1600" height="900">
+      </button>
       <div class="role-note">
         <span class="eyebrow">My role</span>
         <p>Sole designer and owner of the system. I diagnosed the problem, designed the documentation format, and built the AI workflow that keeps Figma and the repo in sync.</p>
@@ -408,10 +408,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <div class="tok"><span>Components</span><b>~620</b><p>per-component properties</p></div>
       </div>
       <p class="body-copy" style="margin-top:18px">Three collections in the DTCG format, with every alias chain resolved in the docs, from component token to semantic to primitive to the final value. System intent stays visible instead of hiding behind raw hex.</p>
-      <div class="hero-visual lib-visual" role="img" aria-label="Placeholder for the Button variant matrix">
-        <b>Button: Size × Style × State × Icon</b>
-        <small>variant matrix → ./assets/</small>
-      </div>
+      <button type="button" class="hero-visual lib-visual has-img" data-lightbox data-lb-title="Button: Size × Style × State × Icon" data-lb-caption="#system">
+        <img src="assets/stub-ds-button-matrix.svg" alt="Button variant matrix (placeholder)" width="1600" height="900" loading="lazy">
+      </button>
     </section>
 
     <!-- PROBLEM -->
@@ -457,7 +456,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
             <span class="rej">Rejected: one long doc for everyone. Agents lose precision in prose; developers lose context in a terse contract.</span>
           </p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>Figma description<br>+ .md spec</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-figma-md.svg" alt="Figma component description next to its .md spec (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
 
       <article class="phase" id="phase-2">
@@ -465,7 +464,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ph-label"><span class="n">02</span> · A doc format driven by real failures</div>
           <p class="ph-text">Every question category became a section. <strong style="color:var(--fg);font-weight:500">States</strong>: entry condition and visual for loading, error, empty. <strong style="color:var(--fg);font-weight:500">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong style="color:var(--fg);font-weight:500">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>15 questions →<br>new doc sections</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-questions.svg" alt="Developer questions mapped to new doc sections (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
 
       <article class="phase" id="phase-3">
@@ -475,7 +474,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
             <span class="rej">Rejected: fully automatic sync. A rename can break code; a person should see it first.</span>
           </p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>Drift report<br>with risk labels</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-drift.svg" alt="Drift report with risk labels (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
 
       <article class="phase" id="phase-4">
@@ -483,7 +482,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ph-label"><span class="n">04</span> · Generated vs curated sections</div>
           <p class="ph-text">Props and token mappings are regenerated from Figma. Purpose and implementation rules are written by hand and never overwritten. Automation keeps facts fresh without erasing judgment.</p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>Doc with generated<br>and curated sections</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-doc-sections.svg" alt="Component doc with generated and curated sections (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
     </section>
 
@@ -637,5 +636,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
 })();
 </script>
+<script src="../lightbox.js" defer></script>
 </body>
 </html>
