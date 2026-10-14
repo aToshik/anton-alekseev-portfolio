@@ -22,6 +22,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../lightbox.css">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -351,10 +352,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <span class="mchip">2,000+ channels</span>
       </div>
       <p class="ch-tooling"><b>Figma</b> · <b>Figma Make</b> (interactive prototype) · <b>AI</b> for feedback synthesis</p>
-      <div class="hero-visual" role="img" aria-label="Placeholder for the dedicated Channel Analysis interface screenshot">
-        <b>Dedicated Channel Analysis interface</b>
-        <small>screenshot → ./assets/</small>
-      </div>
+      <button type="button" class="hero-visual has-img" data-lightbox data-lb-title="Dedicated Channel Analysis interface" data-lb-caption="#phase-4">
+        <img src="assets/stub-hero.svg" alt="Dedicated Channel Analysis interface (placeholder)" width="1600" height="900">
+      </button>
       <div class="role-note">
         <span class="eyebrow">My role</span>
         <p>Sole designer on a cross-functional team (PM, engineers), end to end, from the detection concept to the dedicated Channel Analysis interface.</p>
@@ -403,7 +403,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
             <span class="rej">Rejected: building the full interface on day one.</span>
           </p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>Table with indicators</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-table-indicators.svg" alt="Table with inline change indicators (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
 
       <article class="phase" id="phase-2">
@@ -411,7 +411,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ph-label"><span class="n">02</span> · Popover insight</div>
           <p class="ph-text">The signal moved from metrics to the channel. One click opens an explainable insight: which KPIs flagged, how it hits overall performance, and where money is leaking or under-invested. Three insight types — Invest, Reduce, Pause — with Invest/Reduce graded by priority (change strength, volume, business impact). I prototyped the interaction in Figma Make to test the UX live: thumbs up/down, note vs none, actions vs none, and the aftermath (feedback toast, action-confirmation toast, whether the flag persists or clears).</p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>Popover<br>(signature shot)</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-popover.svg" alt="Popover insight over the channel table (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
 
       <article class="accent-block" id="phase-3">
@@ -441,7 +441,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ph-label"><span class="n">04</span> · Dedicated interface</div>
           <p class="ph-text">Once value was proven, a dedicated interface with deeper detail: primary-driver vs context metrics, risks, supporting evidence, recent channel changes, a confidence score, and the projected spend impact of an action (single or bulk).</p>
         </div>
-        <div class="ph-visual" aria-hidden="true"><span>Dedicated interface</span></div>
+        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-dedicated.svg" alt="Dedicated Channel Analysis interface (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
     </section>
 
@@ -549,5 +549,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
 })();
 </script>
+<script src="../lightbox.js" defer></script>
 </body>
 </html>
