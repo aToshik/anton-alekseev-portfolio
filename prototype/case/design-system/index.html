@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Design System for AI — Anton Alekseev</title>
+<meta name="description" content="Case study: rebuilding a design system for a new kind of user, AI coding agents. Two documentation contracts, a failure-driven doc format, and an AI workflow that keeps it in sync with Figma.">
+<meta property="og:title" content="Design System for AI — Case study">
+<meta property="og:description" content="A design system AI agents can build from.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://antonalekseev.design/work/design-system">
+<meta property="og:image" content="../../home/assets/og-image.png">
+<meta name="theme-color" content="#0a0b0a">
+
+<script>
+(function () {
+  try { var s = localStorage.getItem('pf-theme'); if (s === 'light' || s === 'dark') { document.documentElement.setAttribute('data-theme', s); return; } } catch (e) {}
+  var pl = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  document.documentElement.setAttribute('data-theme', pl ? 'light' : 'dark');
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS — shared with the home prototype (dark + light)
+   ============================================================ */
+:root, [data-theme="dark"] {
+  --bg: #0a0b0a; --panel: #141714; --panel-2: #191c19;
+  --fg: #f0f2ea; --muted: #a0a59b; --label: #8e948a;
+  --border: #292d29; --border-2: #353934;
+  --accent: #83de72; --accent-weak: rgba(131,222,114,.14); --lime: #b8f24a;
+  --nav-bg: rgba(20,23,20,.86); --btn-bg: #f0f2ea; --btn-fg: #0e100e;
+  --shadow: 0 18px 50px rgba(0,0,0,.32), 0 2px 8px rgba(0,0,0,.25);
+}
+[data-theme="light"] {
+  --bg: #e9eae2; --panel: #ffffff; --panel-2: #f4f5ef;
+  --fg: #14160f; --muted: #5c6156; --label: #6f7568;
+  --border: #e0e2d7; --border-2: #d3d6ca;
+  --accent: #4ea832; --accent-weak: rgba(78,168,50,.12); --lime: #b8f24a;
+  --nav-bg: rgba(255,255,255,.82); --btn-bg: #14160f; --btn-fg: #f4f5ef;
+  --shadow: 0 18px 50px rgba(20,24,16,.10), 0 2px 8px rgba(20,24,16,.06);
+}
+:root {
+  --display: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 12px; --radius-sm: 8px; --maxw: 1480px; --edge: 14px; --side-w: 230px; --nav-h: 62px;
+}
+:root[data-theme="dark"]  { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; transition: background .3s ease, color .3s ease; }
+a { color: inherit; text-decoration: none; }
+a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.skip-link { position: absolute; left: 12px; top: -48px; z-index: 1000; background: var(--accent); color: #0b140a; font-family: var(--mono); font-size: 12px; padding: 10px 14px; border-radius: var(--radius-sm); transition: top .2s; }
+.skip-link:focus { top: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ============================================================
+   FLOATING NAV (shared)
+   ============================================================ */
+.nav { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 600; width: min(var(--maxw), calc(100vw - 2 * var(--edge))); display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 18px; height: var(--nav-h); background: var(--nav-bg); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.nav-logo { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.06em; color: var(--fg); }
+.nav-logo .dot { color: var(--accent); }
+.nav-links { display: flex; gap: 4px; margin-left: 6px; }
+.nav-links a { font-family: var(--body); font-weight: 500; font-size: 13px; color: var(--muted); padding: 9px 15px; border-radius: var(--radius-sm); transition: color .2s, background .2s; }
+.nav-links a:hover { color: var(--fg); }
+.nav-links a[aria-current="page"] { color: var(--fg); background: var(--panel-2); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.nav-status { display: inline-flex; align-items: center; gap: 8px; padding-right: 6px; }
+.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.nav-status span { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.theme-btn { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; transition: color .2s, border-color .2s; }
+.theme-btn:hover { color: var(--fg); border-color: var(--border-2); }
+.theme-btn svg { width: 17px; height: 17px; }
+.theme-btn .icon-sun, .side-theme .icon-sun { display: none; }
+.theme-btn .icon-moon, .side-theme .icon-moon { display: block; }
+[data-theme="light"] .theme-btn .icon-sun, [data-theme="light"] .side-theme .icon-sun { display: block; }
+[data-theme="light"] .theme-btn .icon-moon, [data-theme="light"] .side-theme .icon-moon { display: none; }
+.btn-contact { display: inline-flex; align-items: center; gap: 14px; justify-content: center; height: 46px; padding: 0 18px; border-radius: 9px; cursor: pointer; border: 0; background: var(--btn-bg); color: var(--btn-fg); font-family: var(--body); font-weight: 600; font-size: 12px; transition: filter .2s, transform .15s; }
+.btn-contact:hover { filter: brightness(1.04); } .btn-contact:active { transform: translateY(1px); } .btn-contact svg { width: 15px; height: 15px; }
+@media (max-width: 1000px) { .nav-status { display: none; } }
+@media (max-width: 760px) { .nav-links { display: none; } .btn-contact span { display: none; } }
+
+/* ============================================================
+   SHELL: sidebar (section nav) + main
+   ============================================================ */
+.shell { width: min(var(--maxw), calc(100vw - 2 * var(--edge))); margin: 0 auto; padding: calc(var(--nav-h) + 30px) 0 48px; display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); gap: clamp(16px, 1.6vw, 24px); align-items: start; }
+.sidebar { position: sticky; top: calc(var(--nav-h) + 30px); height: calc(100vh - var(--nav-h) - 54px); display: flex; flex-direction: column; gap: 18px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 14px 14px; overflow-y: auto; overscroll-behavior: contain; }
+.side-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); padding: 0 10px 8px; }
+.side-nav { display: flex; flex-direction: column; gap: 2px; }
+.side-nav a { position: relative; display: block; padding: 8px 10px; border-radius: 7px; color: var(--muted); font-size: 12.5px; transition: color .2s, background .2s; }
+.side-nav a:hover { color: var(--fg); background: var(--panel-2); }
+.side-nav a.active { color: var(--fg); background: var(--panel-2); font-weight: 500; }
+.side-nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 16px; border-radius: 2px; background: var(--accent); }
+.side-sep { height: 1px; background: var(--border); }
+.side-near { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
+.side-near a { font-family: var(--mono); font-size: 11px; color: var(--label); padding: 4px 6px; border-radius: 6px; transition: color .2s, background .2s; }
+.side-near a:hover { color: var(--fg); background: var(--panel-2); }
+.side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 14px; }
+.side-theme { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s; }
+.side-theme:hover { border-color: var(--border-2); }
+.side-theme svg { width: 16px; height: 16px; color: var(--muted); }
+.side-theme span { font-size: 10px; } .side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }
+
+@media (max-width: 1000px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; overflow: visible; }
+  .side-foot { margin-top: 10px; }
+  .side-nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .side-nav a { white-space: nowrap; }
+  .side-nav a.active::before { display: none; }
+  .side-near { flex-direction: row; }
+}
+
+/* ============================================================
+   MAIN / case content
+   ============================================================ */
+.main { min-width: 0; display: flex; flex-direction: column; gap: clamp(28px, 4vw, 52px); }
+.crumb { font-family: var(--mono); font-size: 11px; color: var(--label); display: flex; gap: 8px; }
+.crumb a { color: var(--muted); } .crumb a:hover { color: var(--fg); }
+.crumb [aria-current] { color: var(--fg); }
+
+.section { scroll-margin-top: 92px; }
+.eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
+.sec-title { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 18px; }
+.body-copy { font-size: 15px; line-height: 1.75; color: var(--muted); max-width: 70ch; }
+.body-copy strong { color: var(--fg); font-weight: 500; }
+
+/* header (TIER 1) */
+.ch-context { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); line-height: 1.7; }
+.ch-hook { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 5vw, 58px); line-height: 1.02; letter-spacing: -.04em; margin: 18px 0 22px; text-wrap: balance; max-width: 20ch; }
+.ch-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.mchip { font-family: var(--display); font-weight: 500; font-size: 14px; letter-spacing: -.01em; color: var(--accent); background: var(--accent-weak); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 14px; }
+.ch-tooling { margin-top: 16px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ch-tooling b { color: var(--fg); font-weight: 500; }
+.hero-visual { margin-top: 26px; border: 1px dashed var(--border-2); border-radius: var(--radius); background: var(--panel); min-height: clamp(220px, 32vw, 380px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; }
+.hero-visual b { font-family: var(--display); font-weight: 500; font-size: 15px; color: var(--muted); }
+.hero-visual small { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+
+.role-note { margin-top: 28px; display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding-top: 24px; border-top: 1px solid var(--border); }
+.role-note p { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 60ch; }
+
+/* phase rail */
+.phase-rail { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); margin: 26px 0 22px; }
+.pr-track, .pr-fill { position: absolute; top: 6px; height: 2px; }
+.pr-track { left: 12.5%; right: 12.5%; background: var(--border); }
+.pr-fill { left: 12.5%; width: 0; background: var(--accent); transition: width .22s ease; }
+.pr-step { position: relative; padding-top: 24px; text-align: center; color: var(--muted); transition: color .2s ease; }
+.pr-dot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
+.pr-step.on { color: var(--fg); }
+.pr-step.on .pr-dot { background: var(--accent); border-color: var(--accent); }
+.pr-step.active .pr-dot { box-shadow: 0 0 0 4px var(--accent-weak); }
+.pr-num { font-family: var(--mono); font-size: 10px; color: var(--label); transition: color .2s ease; }
+.pr-step.on .pr-num { color: var(--accent); }
+.pr-name { font-size: 12px; margin-top: 2px; }
+
+/* phase block */
+.phase { scroll-margin-top: 96px; display: grid; grid-template-columns: 1fr 320px; gap: clamp(22px, 3vw, 40px); align-items: start; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 30px); }
+.phase + .phase, .accent-block + .phase, .phase + .accent-block { margin-top: 16px; }
+.ph-label { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--fg); margin-bottom: 12px; }
+.ph-label .n { color: var(--accent); }
+.ph-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
+.ph-text .rej { display: block; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--label); }
+.ph-visual { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); background: var(--panel-2); min-height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 14px; }
+.ph-visual span { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); line-height: 1.6; }
+
+/* phase 3 — full-width accent block */
+.accent-block { border: 1px solid var(--accent); background: var(--accent-weak); border-radius: var(--radius); padding: clamp(24px, 3.2vw, 38px); }
+.accent-block .ph-label { color: var(--fg); margin-bottom: 14px; }
+.accent-block .ph-label em { font-style: normal; color: var(--accent); }
+.accent-block .ph-text { max-width: 86ch; margin-bottom: 26px; color: var(--muted); }
+.accent-block .ph-text strong { color: var(--fg); font-weight: 500; }
+
+/* loop diagram (recreated, theme-aware) */
+.loop { }
+.loop-row { display: flex; align-items: stretch; gap: 8px; }
+.loop-node { flex: 1; min-width: 0; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 13px; display: flex; flex-direction: column; gap: 6px; }
+.loop-node b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
+.loop-node span { font-family: var(--mono); font-size: 10px; letter-spacing: .02em; color: var(--muted); line-height: 1.5; }
+.loop-node.accent { border-color: var(--accent); background: var(--panel); }
+.loop-node.accent b { color: var(--accent); }
+.loop-sep { display: flex; align-items: center; justify-content: center; color: var(--label); font-family: var(--mono); font-size: 14px; flex-shrink: 0; }
+.loop-return span { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--accent); padding-top: 2px; }
+
+/* impact tiles */
+.impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.itile { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; display: flex; flex-direction: column; gap: 6px; min-height: 120px; }
+.itile b { font-family: var(--display); font-weight: 500; font-size: clamp(18px, 2vw, 24px); letter-spacing: -.02em; }
+.itile.qual b { color: var(--accent); font-size: 17px; }
+.itile span { font-size: 12px; color: var(--muted); margin-top: auto; }
+.itile .tag { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
+.impact-note { margin-top: 16px; font-size: 14px; color: var(--muted); }
+.impact-note b { color: var(--accent); font-weight: 500; }
+
+/* reflection */
+.reflection p { font-family: var(--display); font-weight: 500; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.3; letter-spacing: -.02em; color: var(--fg); max-width: 24ch; text-wrap: balance; }
+.reflection em { font-style: normal; color: var(--muted); }
+.reflection p.eyebrow { font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .14em; line-height: 1.6; color: var(--label); max-width: none; }
+
+/* prev / next */
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 24px; border-top: 1px solid var(--border); }
+.pager a { border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; transition: border-color .25s, background .25s, transform .2s; }
+.pager a:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-2px); }
+.pager small { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+.pager b { display: block; margin-top: 6px; font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: -.02em; }
+.pager .next { text-align: right; }
+
+/* ---- loop-return dashed path ---- */
+.loop-return { margin-top: 14px; padding-top: 14px; position: relative; display: flex; justify-content: center; }
+.loop-return .rp-svg { position: absolute; top: 0; left: 0; width: 100%; height: 3px; overflow: visible; }
+.loop-return .rp { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 5 5; fill: none; }
+
+/* ---- PASS 2: loop reveal animation (gated, plays once) ---- */
+@keyframes loopIn { to { opacity: 1; transform: none; } }
+@keyframes aiPulse { 0% { box-shadow: 0 0 0 0 var(--accent-weak); } 45% { box-shadow: 0 0 0 9px var(--accent-weak); } 100% { box-shadow: 0 0 0 0 transparent; } }
+@keyframes rpMarch { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+.motion-ok .loop .loop-row > * { opacity: 0; transform: translateY(8px); }
+.motion-ok .loop.in .loop-row > * { animation: loopIn .42s cubic-bezier(.16,1,.3,1) forwards; }
+.motion-ok .loop.in .loop-row > *:nth-child(1){animation-delay:.04s}
+.motion-ok .loop.in .loop-row > *:nth-child(2){animation-delay:.1s}
+.motion-ok .loop.in .loop-row > *:nth-child(3){animation-delay:.16s}
+.motion-ok .loop.in .loop-row > *:nth-child(4){animation-delay:.22s}
+.motion-ok .loop.in .loop-row > *:nth-child(5){animation-delay:.28s}
+.motion-ok .loop.in .loop-row > *:nth-child(6){animation-delay:.34s}
+.motion-ok .loop.in .loop-row > *:nth-child(7){animation-delay:.4s}
+.motion-ok .loop.in .loop-row > *:nth-child(8){animation-delay:.46s}
+.motion-ok .loop.in .loop-row > *:nth-child(9){animation-delay:.52s}
+.motion-ok .loop.in .loop-node.accent { animation: loopIn .42s cubic-bezier(.16,1,.3,1) .28s forwards, aiPulse 1.1s ease .95s 1; }
+.motion-ok .loop .rp { stroke-dashoffset: 0; }
+.motion-ok .loop.in .rp { animation: rpMarch .9s linear .7s 1; }
+
+/* ---- PASS 2: micro-polish ---- */
+.hero-visual, .ph-visual { transition: border-color .25s ease, transform .25s ease; }
+.hero-visual:hover, .ph-visual:hover { border-color: var(--border); transform: translateY(-2px); }
+@keyframes chipUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.motion-ok .ch-meta .mchip { animation: chipUp .5s cubic-bezier(.16,1,.3,1) both; }
+.motion-ok .ch-meta .mchip:nth-child(2) { animation-delay: .08s; }
+.motion-ok .reveal .impact-grid > * { opacity: 0; transform: translateY(10px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
+.motion-ok .reveal.in .impact-grid > * { opacity: 1; transform: none; }
+.impact-grid > *:nth-child(1){transition-delay:.04s}.impact-grid > *:nth-child(2){transition-delay:.1s}
+.impact-grid > *:nth-child(3){transition-delay:.16s}.impact-grid > *:nth-child(4){transition-delay:.22s}
+.pager .ar { display: inline-block; transition: transform .2s ease; }
+.pager .prev:hover .ar { transform: translateX(-3px); }
+.pager .next:hover .ar { transform: translateX(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual, .ph-visual, .pager .ar, .pr-fill, .pr-dot, .pr-step, .pr-num { transition: none; }
+  .hero-visual:hover, .ph-visual:hover { transform: none; }
+  .pager .prev:hover .ar, .pager .next:hover .ar { transform: none; }
+  .loop.in .loop-row > *, .loop.in .loop-node.accent, .loop.in .rp, .ch-meta .mchip { animation: none; }
+}
+
+/* reveal — enhancement only */
+.motion-ok .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.motion-ok .reveal.in { opacity: 1; transform: none; }
+
+/* responsive */
+@media (max-width: 820px) {
+  .phase { grid-template-columns: 1fr; }
+  .ph-visual { min-height: 120px; }
+  .role-note { grid-template-columns: 1fr; gap: 8px; }
+}
+@media (max-width: 760px) {
+  .loop-row { flex-direction: column; }
+  .loop-sep { transform: rotate(90deg); padding: 2px 0; }
+  .phase-rail { grid-template-columns: 1fr 1fr; gap: 10px 0; }
+  .pr-track, .pr-fill { display: none; }
+  .pr-step { padding-top: 0; padding-left: 22px; text-align: left; }
+  .pr-dot { top: 2px; left: 0; transform: none; }
+}
+@media (max-width: 520px) {
+  .impact-grid { grid-template-columns: 1fr; }
+  .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; }
+}
+
+/* ---- DS case: two-lane workflow ---- */
+.wf-lane + .wf-lane { margin-top: 22px; }
+.wf-lane-label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); }
+.wf-lane-label i { font-style: normal; letter-spacing: .02em; text-transform: none; color: var(--accent); }
+.loop-node.human { border-style: dashed; border-color: var(--fg); }
+.loop-node .who { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
+.loop-node.accent .who { color: var(--accent); }
+.loop-node em { font-style: normal; color: var(--accent); font-weight: 500; }
+.wf-legend { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.wf-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.wf-legend i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--accent); }
+.wf-legend i.h { border: 1px dashed var(--fg); }
+.skills { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.skill { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
+.skill code { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.skill p { margin-top: 6px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.cats { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+.cat { display: inline-flex; align-items: baseline; gap: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--muted); }
+.cat b { font-family: var(--display); font-weight: 600; color: var(--fg); }
+@media (max-width: 820px) { .skills { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ======= FLOATING NAV ======= -->
+<nav class="nav" aria-label="Primary">
+  <a class="nav-logo" href="../../home/index.html" aria-label="Anton Alekseev — home">AA<span class="dot">.</span></a>
+  <div class="nav-links">
+    <a href="../../home/index.html">Home</a>
+    <a href="#" data-note="profile">Profile</a>
+    <a href="../../work/index.html" aria-current="page">Work</a>
+  </div>
+  <div class="nav-right">
+    <span class="nav-status"><span class="dot-sm"></span><span>Open to work</span></span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <a class="btn-contact" href="mailto:aa.nooker@gmail.com?subject=Let's%20work%20together"><span>Contact now</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<span id="top"></span>
+
+<div class="shell">
+  <!-- ======= SIDEBAR = SECTION NAV ======= -->
+  <aside class="sidebar" aria-label="On this case">
+    <div>
+      <div class="side-label">On this case</div>
+      <nav class="side-nav" id="sideNav">
+        <a href="#overview" data-section="overview">Overview</a>
+        <a href="#context" data-section="context">Context</a>
+        <a href="#problem" data-section="problem">Problem</a>
+        <a href="#insight" data-section="insight">Insight</a>
+        <a href="#decisions" data-section="decisions">Decisions</a>
+        <a href="#workflow" data-section="workflow">AI workflow</a>
+        <a href="#impact" data-section="impact">Impact</a>
+        <a href="#reflection" data-section="reflection">Reflection</a>
+      </nav>
+    </div>
+    <div class="side-foot">
+      <div class="side-sep" aria-hidden="true"></div>
+      <div class="side-near">
+        <a href="../channel-analysis/">← Channel Analysis</a>
+        <a href="#">Price Exploration →</a>
+      </div>
+      <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="lbl-dark">Light mode</span><kbd>T</kbd>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ======= MAIN ======= -->
+  <main class="main" id="main">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="../../work/index.html">Work</a><span aria-hidden="true">/</span><span aria-current="page">Design System for AI</span></nav>
+
+    <!-- OVERVIEW / header -->
+    <header class="section" id="overview">
+      <p class="ch-context">Design System · AI · B2B&nbsp;&nbsp;|&nbsp;&nbsp;MarketingOS, Kissterra · sole product designer · 56 components · ~1,000 tokens</p>
+      <h1 class="ch-hook">A design system AI agents can build from</h1>
+      <div class="ch-meta">
+        <span class="mchip">15 → 2 questions</span>
+        <span class="mchip">Minutes, not hours</span>
+      </div>
+      <p class="ch-tooling"><b>Figma</b> · <b>Claude Code</b> skills · <b>Figma MCP</b> · <b>DTCG</b> tokens · consumed by <b>Cursor</b> &amp; <b>Claude Code</b></p>
+      <div class="hero-visual" role="img" aria-label="Placeholder for a Figma component shown next to its compact description and its Markdown spec">
+        <b>One component, two contracts</b>
+        <small>Figma component + compact description + .md spec → ./assets/</small>
+      </div>
+      <div class="role-note">
+        <span class="eyebrow">My role</span>
+        <p>Sole designer and owner of the system. I diagnosed the problem, designed the documentation format, and built the AI workflow that keeps it in sync with Figma.</p>
+      </div>
+    </header>
+
+    <!-- CONTEXT -->
+    <section class="section reveal" id="context" aria-labelledby="context-t">
+      <p class="eyebrow" style="margin-bottom:12px">Context</p>
+      <h2 class="sec-title" id="context-t">Engineers started shipping with AI agents</h2>
+      <p class="body-copy">MarketingOS is Kissterra's dense B2B analytics and campaign platform. I built its design system as the sole product designer. Then the frontend team moved to AI-assisted development: Cursor and Claude Code implemented features straight from Figma and specs. Our engineers started shipping features with AI coding agents, and those agents read my design system literally.</p>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section reveal" id="problem" aria-labelledby="problem-t">
+      <p class="eyebrow" style="margin-bottom:12px">Problem</p>
+      <h2 class="sec-title" id="problem-t">Design became the bottleneck of a pipeline built to be fast</h2>
+      <p class="body-copy"><strong>The system was written for humans.</strong> An experienced developer fills gaps from context: what a table shows while loading, what closes a dropdown, who owns the empty-state copy. An agent reads the spec literally and fills every gap with a plausible guess. The result looked almost right, and "almost right" is the expensive kind of wrong. Every guess turned into a question for me, and the feature stopped until I answered.</p>
+      <p class="body-copy" style="margin-top:14px"><strong>The system drifted.</strong> Figma kept changing (renamed tokens, new props), the docs didn't. A stale token name in a spec becomes a wrong CSS variable in generated code, silently.</p>
+    </section>
+
+    <!-- INSIGHT -->
+    <section class="section reveal" id="insight" aria-labelledby="insight-t">
+      <p class="eyebrow" style="margin-bottom:12px">Insight</p>
+      <h2 class="sec-title" id="insight-t">Tokens said how it looks. Nothing said how it behaves.</h2>
+      <p class="body-copy">The questions weren't about missing details. They were about missing <strong>categories</strong> of information. After the Analytics Table shipped, developers came back with 15 questions. I sorted them:</p>
+      <div class="cats" role="list" aria-label="15 developer questions by category">
+        <span class="cat" role="listitem"><b>8</b>behavior edge cases</span>
+        <span class="cat" role="listitem"><b>2</b>consumer vs component</span>
+        <span class="cat" role="listitem"><b>2</b>accessibility strings</span>
+        <span class="cat" role="listitem"><b>3</b>tokens, sizes, spec authority</span>
+      </div>
+      <p class="body-copy" style="margin-top:18px">None of these had a place in the doc template. Careful writing couldn't fix it. <strong>The template had to change, and something had to keep it true as Figma moved.</strong></p>
+    </section>
+
+    <!-- DECISIONS -->
+    <section class="section reveal" id="decisions" aria-labelledby="decisions-t">
+      <p class="eyebrow" style="margin-bottom:12px">Key decisions</p>
+      <h2 class="sec-title" id="decisions-t">Documentation as an interface for a new kind of user</h2>
+
+      <nav class="phase-rail" aria-label="Jump to decision">
+        <span class="pr-track" aria-hidden="true"></span>
+        <span class="pr-fill" aria-hidden="true" id="prFill"></span>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Two contracts</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Doc format v1.1</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Name every diff</span></a>
+        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Generated vs curated</span></a>
+      </nav>
+
+      <article class="phase" id="phase-1">
+        <div>
+          <div class="ph-label"><span class="n">01</span> · One component, two contracts</div>
+          <p class="ph-text">Each component got a compact, structured description in Figma, written for agents to parse (anatomy, props, tokens, a11y in a fixed syntax), and a full Markdown spec in the code repo for developers. Figma's "Link to documentation" points straight to the repo doc.
+            <span class="rej">Rejected: one long doc for everyone. Agents lose precision in prose; developers lose context in a terse contract.</span>
+          </p>
+        </div>
+        <div class="ph-visual" aria-hidden="true"><span>Figma description<br>+ .md spec</span></div>
+      </article>
+
+      <article class="phase" id="phase-2">
+        <div>
+          <div class="ph-label"><span class="n">02</span> · A doc format driven by real failures</div>
+          <p class="ph-text">Every question category became a section. <strong style="color:var(--fg);font-weight:500">States</strong>: entry condition and visual for loading, error, empty. <strong style="color:var(--fg);font-weight:500">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong style="color:var(--fg);font-weight:500">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
+        </div>
+        <div class="ph-visual" aria-hidden="true"><span>15 questions →<br>new doc sections</span></div>
+      </article>
+
+      <article class="phase" id="phase-3">
+        <div>
+          <div class="ph-label"><span class="n">03</span> · Every difference gets a name</div>
+          <p class="ph-text">The goal was never zero drift; Figma is supposed to change. The goal was that no change goes unnoticed or unnamed. Every difference is classified by risk before anything is written. Critical: a token or prop removed or renamed. High: a value changed. Low: something new added. Nothing is applied without my approval.
+            <span class="rej">Rejected: fully automatic sync. A rename can break code; a person should see it first.</span>
+          </p>
+        </div>
+        <div class="ph-visual" aria-hidden="true"><span>Drift report<br>with risk labels</span></div>
+      </article>
+
+      <article class="phase" id="phase-4">
+        <div>
+          <div class="ph-label"><span class="n">04</span> · Generated vs curated sections</div>
+          <p class="ph-text">Props and token mappings are regenerated from Figma. Purpose and implementation rules are written by hand and never overwritten. Automation keeps facts fresh without erasing judgment.</p>
+        </div>
+        <div class="ph-visual" aria-hidden="true"><span>Doc with generated<br>and curated sections</span></div>
+      </article>
+    </section>
+
+    <!-- AI WORKFLOW -->
+    <section class="section reveal" id="workflow" aria-labelledby="workflow-t">
+      <p class="eyebrow" style="margin-bottom:12px">AI workflow</p>
+      <h2 class="sec-title" id="workflow-t">Agents keep it current. Agents build from it.</h2>
+      <article class="accent-block">
+        <p class="ph-text">The system runs as two loops. In the first, agents keep the design system current, and I approve every change. In the second, coding agents build from <strong>two layers of documentation</strong>: the compact spec in each Figma component's description and the full .md doc in the repo. Whatever they still can't answer improves the format.</p>
+
+        <div class="loop" role="img" aria-label="Maintain loop: Figma → ds:audit → drift report → designer review → ds:update. Build loop: two contracts → coding agent → feature shipped → open questions → doc format, feeding back into better specs.">
+          <div class="wf-lane">
+            <div class="wf-lane-label">Maintain <i>· ds:sync, one command</i></div>
+            <div class="loop-row">
+              <div class="loop-node"><span class="who">Source</span><b>Figma</b><span>56 components · ~1,000 tokens</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node accent"><span class="who">Skill</span><b>ds:audit</b><span>reads Figma via MCP, diffs against baseline</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node"><span class="who">Output</span><b>Drift report</b><span>every change risk-rated</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node human"><span class="who">Designer</span><b>Review</b><span>approve or reject, nothing changes silently</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node accent"><span class="who">Skill</span><b>ds:update</b><span>docs, tokens, Figma descriptions</span></div>
+            </div>
+          </div>
+          <div class="wf-lane">
+            <div class="wf-lane-label">Build <i>· agentic development</i></div>
+            <div class="loop-row">
+              <div class="loop-node"><span class="who">Context</span><b>Two contracts</b><span>Figma description + repo .md</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node accent"><span class="who">Agent</span><b>Coding agent</b><span>Cursor · Claude Code read both</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node"><span class="who">Result</span><b>Feature shipped</b><span>built from the spec, not from guesses</span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node"><span class="who">Signal</span><b>Open questions</b><span>grouped by category</span><span><em>15 → 2</em></span></div>
+              <span class="loop-sep" aria-hidden="true">→</span>
+              <div class="loop-node human"><span class="who">Designer</span><b>Doc format v1.1</b><span>States · Behavior · Consumer contract</span></div>
+            </div>
+            <div class="loop-return">
+              <svg class="rp-svg" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true"><line class="rp" x1="100" y1="1.5" x2="0" y2="1.5" vector-effect="non-scaling-stroke"/></svg>
+              <span>↺ better specs: every question the agents still ask becomes part of the format</span>
+            </div>
+          </div>
+          <div class="wf-legend" aria-hidden="true"><span><i></i>AI agent or skill</span><span><i class="h"></i>Designer decision</span></div>
+        </div>
+
+        <div class="skills">
+          <div class="skill"><code>ds:audit</code><p>Reads every token and component prop from Figma through the Figma MCP, compares them with the last approved baseline and writes a risk-rated drift report.</p></div>
+          <div class="skill"><code>ds:sync</code><p>Runs the audit, shows me the report and waits for my approval. One command for the whole cycle.</p></div>
+          <div class="skill"><code>ds:update</code><p>Applies what I approved: token files, the affected doc sections, and the compact description on each Figma component.</p></div>
+        </div>
+        <p class="ph-text" style="margin:22px 0 0"><strong>An agent that interviews the designer.</strong> When a component doc is created or updated, the agent runs the v1.1 checklist. For every missing section it asks me targeted questions in a fixed order: behavior, then states, then accessibility strings, then the consumer contract. I answer; it writes and validates the section. Docs get complete without me starting from a blank page.</p>
+      </article>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="section reveal" id="impact" aria-labelledby="impact-t">
+      <p class="eyebrow" style="margin-bottom:12px">Impact</p>
+      <h2 class="sec-title" id="impact-t">Agentic development stopped waiting on design</h2>
+      <div class="impact-grid">
+        <div class="itile"><b>15 → 2</b><span>design questions per complex feature</span></div>
+        <div class="itile"><b>Minutes, not hours</b><span>to sync docs after a Figma change</span></div>
+        <div class="itile"><b>9 audits / 16 days</b><span>every change reviewed before code</span></div>
+        <div class="itile"><b>56 · ~1,000</b><span>components and tokens, one format for people and agents</span></div>
+      </div>
+      <p class="impact-note">Coding agents built from complete, current specs instead of guessing. The two features after v1.1 produced <b>2 design questions combined</b>, both product copy decisions no spec could answer. Audits caught a table restructure with <b>7 breaking token renames</b> before it reached an engineer.</p>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="section reveal reflection" id="reflection" aria-labelledby="reflection-t">
+      <p class="eyebrow" style="margin-bottom:18px" id="reflection-t">Reflection</p>
+      <p>Agents are the fastest way to find ambiguity in a design system. <em>Every gap they hit was a decision we had never written down.</em></p>
+      <p class="body-copy" style="margin-top:22px;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;line-height:1.75;max-width:70ch;color:var(--muted)">A component spec is no longer something a human might read someday. It's a contract parsed at implementation time. Documentation quality turned out to be a structural problem, not a writing problem, and that is a design problem. <strong>Next:</strong> a pattern layer above components (how a settings page or a filter bar is composed, not just which parts it uses), scheduled weekly audits, links to Storybook stories.</p>
+    </section>
+
+    <!-- PREV / NEXT -->
+    <nav class="pager" aria-label="More cases">
+      <a class="prev" href="../channel-analysis/"><small><span class="ar" aria-hidden="true">←</span> Previous</small><b>Channel Analysis</b></a>
+      <a class="next" href="#"><small>Next <span class="ar" aria-hidden="true">→</span></small><b>Price Exploration</b></a>
+    </nav>
+  </main>
+</div>
+
+<div id="theme-live" class="visually-hidden" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+
+  /* ---- Theme (shared) ---- */
+  var toggles = ['themeBtn','themeBtnSide'].map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var live = document.getElementById('theme-live');
+  function syncTheme(t, announce){
+    toggles.forEach(function(el){ el.setAttribute('aria-pressed', t==='light'?'true':'false'); });
+    var lbl = document.querySelector('.side-theme .lbl-dark'); if (lbl) lbl.textContent = t==='light'?'Dark mode':'Light mode';
+    if (announce && live) live.textContent = (t==='light'?'Light':'Dark') + ' theme';
+  }
+  function setTheme(t, announce){ root.setAttribute('data-theme', t); try { localStorage.setItem('pf-theme', t); } catch(e){} var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', t==='light'?'#e9eae2':'#0a0b0a'); syncTheme(t, announce); }
+  function toggleTheme(){ setTheme(root.getAttribute('data-theme')==='light'?'dark':'light', true); }
+  toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
+  syncTheme(root.getAttribute('data-theme'), false);
+  window.addEventListener('keydown', function(e){
+    if ((e.key==='t'||e.key==='T') && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
+  });
+
+  /* ---- Scrollspy (section nav) + keep active visible in a scrolling sidebar ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#sideNav a'));
+  var byId = {}; links.forEach(function(a){ byId[a.getAttribute('data-section')] = a; });
+  var sidebarEl = document.querySelector('.sidebar');
+  function keepVisible(a){
+    if (!sidebarEl || sidebarEl.scrollHeight <= sidebarEl.clientHeight) return;
+    var ar = a.getBoundingClientRect(), sr = sidebarEl.getBoundingClientRect();
+    if (ar.top < sr.top) sidebarEl.scrollTop -= (sr.top - ar.top) + 8;
+    else if (ar.bottom > sr.bottom) sidebarEl.scrollTop += (ar.bottom - sr.bottom) + 8;
+  }
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ links.forEach(function(l){l.classList.remove('active');}); var a=byId[en.target.id]; if(a){ a.classList.add('active'); keepVisible(a); } } });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    document.querySelectorAll('.main .section').forEach(function(s){ spy.observe(s); });
+
+    /* phase-rail progress spy */
+    var order = ['phase-1','phase-2','phase-3','phase-4'];
+    var steps = order.map(function(id){ return document.getElementById('rail-' + id.split('-')[1]); });
+    var prFill = document.getElementById('prFill');
+    function setPhase(idx){ steps.forEach(function(s,i){ if(!s) return; s.classList.toggle('on', i<=idx); s.classList.toggle('active', i===idx); }); if (prFill) prFill.style.width = (idx*25) + '%'; }
+    var pspy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ var idx=order.indexOf(en.target.id); if(idx>=0) setPhase(idx); } });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    order.forEach(function(id){ var el=document.getElementById(id); if(el) pspy.observe(el); });
+    setPhase(0);
+  }
+
+  /* ---- Reveal (enhancement only) ---- */
+  var motionOK = !window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (motionOK && 'IntersectionObserver' in window) {
+    document.body.classList.add('motion-ok');
+    var rev = new IntersectionObserver(function(entries, obs){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .05 });
+    document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
+
+    /* feedback-loop diagram — animate once on reveal */
+    var loops = document.querySelectorAll('.loop');
+    if (loops.length) {
+      var lio = new IntersectionObserver(function(entries, obs){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } }); }, { rootMargin: '0px 0px -12% 0px', threshold: .2 });
+      loops.forEach(function(l){ lio.observe(l); });
+    }
+  }
+
+  /* placeholder links */
+  document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+})();
+</script>
+</body>
+</html>
