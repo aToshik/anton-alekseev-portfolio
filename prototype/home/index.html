@@ -418,7 +418,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
 /* Impact tiles — down arrow to the case card, nudges on hover */
 .tile .ti-case { display: inline-flex; align-items: center; gap: 6px; }
-.tile .ti-case::after { content: '↓'; color: var(--accent); font-size: 12px; line-height: 1; }
+.tile .ti-case::after { content: '↓'; color: var(--muted); font-size: 12px; line-height: 1; transition: color .2s; }
+.tile:hover .ti-case::after, .tile:focus-visible .ti-case::after { color: var(--accent); }
 @keyframes tiNudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
 .motion-ok .tile:hover .ti-case::after, .motion-ok .tile:focus-visible .ti-case::after { animation: tiNudge .9s ease-in-out infinite; }
 
