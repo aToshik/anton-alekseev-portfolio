@@ -126,13 +126,10 @@
     .observe(mode === 'sections' ? sideNav : sidebar, { subtree: true, attributes: true, attributeFilter: ['class', 'aria-pressed'] });
   if (headCount) new MutationObserver(render).observe(headCount, { childList: true, characterData: true, subtree: true });
 
-  /* show once the in-flow sidebar has scrolled under the bar; progress = page read */
+  /* on mobile the bar is always shown (the sidebar is hidden); progress = page read */
   function onScroll() {
     if (!mq.matches) { bar.classList.remove('show'); if (open) setOpen(false); return; }
-    var barBottom = bar.getBoundingClientRect().bottom || 140;
-    var show = sidebar.getBoundingClientRect().bottom < barBottom;
-    bar.classList.toggle('show', show);
-    if (!show && open) setOpen(false);
+    bar.classList.add('show');
     var max = document.documentElement.scrollHeight - window.innerHeight;
     progEl.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0) + ')';
   }
