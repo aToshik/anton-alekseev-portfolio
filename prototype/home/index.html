@@ -260,8 +260,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tile .ti-n { font-family: var(--mono); font-size: 10px; color: var(--label); }
 .tile .ti-metric { font-family: var(--display); font-weight: 500; font-size: clamp(20px,2.1vw,27px); letter-spacing: -.03em; margin-top: auto; }
 .tile .ti-sub { font-size: 12px; color: var(--muted); }
-.tile .ti-case { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-.tile .ti-case::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.tile .ti-case { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 
 /* ---- SELECTED WORK ---- */
 .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
