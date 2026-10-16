@@ -7,7 +7,7 @@
 .mbar, .mbar-panel, .mbar-scrim { display: none; }
 
 @media (max-width: 1000px) {
-  :root { --mbar-top: calc(14px + var(--nav-h) + 8px); --mbar-h: 46px; }
+  :root { --mbar-top: calc(14px + var(--nav-h) - 1px); --mbar-h: 44px; --mbar-inset: 16px; } /* docked under the nav, a bit narrower */
   :root { scroll-padding-top: calc(var(--mbar-top) + var(--mbar-h) + 16px); }
 
   /* the bar replaces the in-flow sidebar on mobile */
@@ -15,9 +15,9 @@
   body .section { scroll-margin-top: 0; }
   body .shell { padding-top: calc(var(--mbar-top) + var(--mbar-h) + 14px); }
 
-  .mbar { display: block; position: fixed; top: var(--mbar-top); left: 50%; z-index: 590; width: min(var(--maxw), calc(100vw - 2 * var(--edge))); transform: translate(-50%, -8px); opacity: 0; visibility: hidden; transition: opacity .22s ease, transform .22s cubic-bezier(.2,1,.3,1), visibility 0s linear .22s; }
+  .mbar { display: block; position: fixed; top: var(--mbar-top); left: 50%; z-index: 590; width: calc(min(var(--maxw), calc(100vw - 2 * var(--edge))) - 2 * var(--mbar-inset)); transform: translate(-50%, -8px); opacity: 0; visibility: hidden; transition: opacity .22s ease, transform .22s cubic-bezier(.2,1,.3,1), visibility 0s linear .22s; }
   .mbar.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .22s ease, transform .22s cubic-bezier(.2,1,.3,1), visibility 0s; }
-  .mbar-btn { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; height: var(--mbar-h); padding: 0 14px 0 16px; overflow: hidden; background: var(--nav-bg); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); color: var(--fg); font-family: var(--body); font-size: 13px; font-weight: 500; text-align: left; cursor: pointer; }
+  .mbar-btn { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; height: var(--mbar-h); padding: 0 14px 0 16px; overflow: hidden; background: var(--nav-bg); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--border); border-top: 0; border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 10px 24px rgba(0,0,0,.18); color: var(--fg); font-family: var(--body); font-size: 13px; font-weight: 500; text-align: left; cursor: pointer; }
   .mbar-idx { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--accent); letter-spacing: .02em; flex-shrink: 0; }
   .mbar-idx .of { color: var(--label); }
   .mbar-label { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
