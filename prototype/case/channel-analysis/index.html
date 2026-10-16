@@ -283,6 +283,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; }
 }
 </style>
+<link rel="stylesheet" href="../../shared/mobile-bar.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -527,7 +528,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   function computeActive(){
     var vh = window.innerHeight, left = document.documentElement.scrollHeight - vh - window.scrollY;
     /* near the page end the line slides down, so short final sections still get their turn */
-    var line = 120 + (left < vh ? (vh - 160) * (1 - Math.max(left, 0) / vh) : 0);
+    /* the reading line sits just below where a jumped-to section lands (scroll-padding + its scroll-margin) */
+    var line = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 96) + (sections.length ? parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 0 : 0) + 24 + (left < vh ? (vh - 160) * (1 - Math.max(left, 0) / vh) : 0);
     var id = sections.length ? sections[0].id : null;
     sections.forEach(function(s){ if (s.getBoundingClientRect().top <= line) id = s.id; });
     if (left <= 2 && sections.length) id = sections[sections.length - 1].id;
@@ -575,5 +577,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 })();
 </script>
 <script src="../lightbox.js" defer></script>
+<script src="../../shared/mobile-bar.js" defer></script>
 </body>
 </html>
