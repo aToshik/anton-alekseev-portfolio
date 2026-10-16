@@ -186,6 +186,8 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .cc-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; }
 .chip.accent { color: var(--accent); border-color: var(--accent); }
+.cc-name { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.cc-name::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 .cc-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.5vw, 30px); line-height: 1.1; letter-spacing: -.03em; text-wrap: balance; }
 .cc-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 .cc-metric b { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -.02em; color: var(--accent); }
@@ -343,6 +345,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
       <article class="case-card" data-tags="Data Viz,AI,Self-service,B2B,InsurTech/Fintech" id="case-channel">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Data Viz</span><span class="chip">AI</span><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">InsurTech/Fintech</span></div>
+          <p class="cc-name">Channel Analysis</p>
           <h2 class="cc-hook">How I turned silent channel decay into a one-click decision</h2>
           <div class="cc-metric"><b>Weeks → Hours</b><span>detection time</span></div>
           <a class="cc-view" href="../case/channel-analysis/">View case <span class="arr" aria-hidden="true">→</span></a>
@@ -350,11 +353,32 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
         <div class="cc-thumb cc-shot"><img src="../case/channel-analysis/assets/card.webp" alt="Channel Analysis interface" width="1200" height="677" loading="lazy" decoding="async"></div>
       </article>
 
+      <article class="case-card" data-tags="Design System,AI,B2B" id="case-ds">
+        <div class="cc-main">
+          <div class="cc-head"><span class="chip">Design System</span><span class="chip">AI</span><span class="chip">B2B</span></div>
+          <p class="cc-name">Design System for AI Agents</p>
+          <h2 class="cc-hook">How I made a design system AI agents can build from</h2>
+          <div class="cc-metric"><b>15 → 2</b><span>design questions per feature</span></div>
+          <a class="cc-view" href="../case/design-system/">View case <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+        <div class="cc-thumb" role="img" aria-label="Design System for AI Agents preview — schematic"><div class="mock" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span class="ml">Figma → Repo</span></div>
+          <div class="mock-body" style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+            <span class="mz-chip">Figma</span>
+            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 19 Q14 2 26 19" stroke="var(--border-2)" stroke-width="1.5"/></svg>
+            <span class="mz-chip accent">spec.md</span>
+            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 7 Q14 24 26 7" stroke="var(--border-2)" stroke-width="1.5"/></svg>
+            <span class="mz-chip">Repo</span>
+          </div>
+        </div></div>
+      </article>
+
       <article class="case-card" data-tags="Optimization,AI,Self-service,B2B,InsurTech/Fintech" id="case-price">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Optimization</span><span class="chip">AI</span><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">InsurTech/Fintech</span></div>
+          <p class="cc-name">Price Exploration</p>
           <h2 class="cc-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h2>
-          <div class="cc-metric"><b>$8M → $30M+</b><span>monthly media</span><span class="chip accent">7% MoM</span></div>
+          <div class="cc-metric"><b>$8M → $30M+</b><span>monthly media investment</span><span class="chip accent">7% MoM</span></div>
           <a class="cc-view" href="../case/price-exploration/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <div class="cc-thumb" role="img" aria-label="Price Exploration preview — schematic"><div class="mock" aria-hidden="true">
@@ -367,29 +391,11 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
         </div></div>
       </article>
 
-      <article class="case-card" data-tags="Design System,AI,B2B" id="case-ds">
-        <div class="cc-main">
-          <div class="cc-head"><span class="chip">Design System</span><span class="chip">AI</span><span class="chip">B2B</span></div>
-          <h2 class="cc-hook">A design system AI agents can build from</h2>
-          <div class="cc-metric"><b>15 → 2</b><span>design questions per feature</span></div>
-          <a class="cc-view" href="../case/design-system/">View case <span class="arr" aria-hidden="true">→</span></a>
-        </div>
-        <div class="cc-thumb" role="img" aria-label="Design System for AI preview — schematic"><div class="mock" aria-hidden="true">
-          <div class="mock-bar"><i></i><i></i><i></i><span class="ml">AI Patterns</span></div>
-          <div class="mock-body" style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-            <span class="mz-chip">Prompt</span>
-            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 19 Q14 2 26 19" stroke="var(--border-2)" stroke-width="1.5"/></svg>
-            <span class="mz-chip accent">Review</span>
-            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 7 Q14 24 26 7" stroke="var(--border-2)" stroke-width="1.5"/></svg>
-            <span class="mz-chip">Ship</span>
-          </div>
-        </div></div>
-      </article>
-
       <article class="case-card" data-tags="Workflow,Infra,B2B" id="case-cross">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Workflow</span><span class="chip">Infra</span><span class="chip">B2B</span></div>
-          <h2 class="cc-hook">Broke the campaign boundary as the unit of control</h2>
+          <p class="cc-name">Cross-Campaign Management</p>
+          <h2 class="cc-hook">How I let buyers edit thousands of campaigns as one</h2>
           <div class="cc-metric"><b>Hours → Min</b><span>bulk updates</span></div>
           <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
@@ -409,6 +415,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
       <article class="case-card" data-tags="Conversational,Self-service,B2B,B2C" data-group="camilyo" id="case-inbox">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Conversational</span><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">B2C</span></div>
+          <p class="cc-name">Inbox</p>
           <h2 class="cc-hook">One hub for every business conversation</h2>
           <p class="cc-desc">Unified, centralized hub for all business interactions.</p>
           <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>
@@ -426,6 +433,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
       <article class="case-card" data-tags="Self-service,B2B,B2C" data-group="camilyo" id="case-booking">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">B2C</span></div>
+          <p class="cc-name">Booking Calendar</p>
           <h2 class="cc-hook">Scheduling for service commerce</h2>
           <p class="cc-desc">Service-commerce booking and scheduling.</p>
           <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>

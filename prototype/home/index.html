@@ -274,6 +274,9 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-arrow svg { width: 14px; height: 14px; }
 .case-card.is-link { position: relative; cursor: pointer; }
 .case-card.is-link .case-arrow::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+.case-title { display: flex; flex-direction: column; gap: 10px; }
+.case-name { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.case-name::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
 .case-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .case-metric b { font-family: var(--display); font-weight: 500; font-size: 17px; letter-spacing: -.02em; color: var(--accent); }
@@ -555,10 +558,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         <p class="sec-sub">Outcomes from products designed across data-heavy, high-stakes B2B workflows.</p>
       </div>
       <div class="tiles stagger">
-        <a class="tile" href="#case-price"><span class="ti-n">01</span><span class="ti-metric">$8M → $30M</span><span class="ti-sub">monthly media</span><span class="ti-case">Price Exploration</span></a>
-        <a class="tile" href="#case-channel"><span class="ti-n">02</span><span class="ti-metric">Weeks → Hours</span><span class="ti-sub">detection time</span><span class="ti-case">Channel Analysis</span></a>
-        <a class="tile" href="#case-ds"><span class="ti-n">03</span><span class="ti-metric">15 → 2</span><span class="ti-sub">design questions per feature</span><span class="ti-case">Design System for AI</span></a>
-        <a class="tile" href="#case-cross"><span class="ti-n">04</span><span class="ti-metric">Hours → Min</span><span class="ti-sub">bulk updates</span><span class="ti-case">Cross-Campaign</span></a>
+        <a class="tile" href="#case-channel"><span class="ti-n">01</span><span class="ti-metric">Weeks → Hours</span><span class="ti-sub">detection time</span><span class="ti-case">Channel Analysis</span></a>
+        <a class="tile" href="#case-ds"><span class="ti-n">02</span><span class="ti-metric">15 → 2</span><span class="ti-sub">design questions per feature</span><span class="ti-case">Design System for AI Agents</span></a>
+        <a class="tile" href="#case-price"><span class="ti-n">03</span><span class="ti-metric">$8M → $30M+</span><span class="ti-sub">monthly media investment</span><span class="ti-case">Price Exploration</span></a>
+        <a class="tile" href="#case-cross"><span class="ti-n">04</span><span class="ti-metric">Hours → Min</span><span class="ti-sub">bulk updates</span><span class="ti-case">Cross-Campaign Management</span></a>
       </div>
     </section>
 
@@ -573,12 +576,41 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       </div>
       <div class="work-grid stagger">
 
+        <article class="case-card is-link" id="case-channel">
+          <div class="case-head"><span class="chip">Data Viz</span><span class="chip">AI</span>
+            <a class="case-arrow" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <div class="case-title"><p class="case-name">Channel Analysis</p><h3 class="case-hook">How I turned silent channel decay into a one-click decision</h3></div>
+          <div class="case-metric"><b>Weeks → Hours</b><span>detection time</span></div>
+          <div class="mock mock-shot" aria-hidden="true">
+            <img src="../case/channel-analysis/assets/card.webp" alt="" width="1200" height="677" loading="lazy" decoding="async">
+          </div>
+        </article>
+
+        <article class="case-card is-link" id="case-ds">
+          <div class="case-head"><span class="chip">Design System</span><span class="chip">AI</span>
+            <a class="case-arrow" href="../case/design-system/" aria-label="Open Design System for AI Agents case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <div class="case-title"><p class="case-name">Design System for AI Agents</p><h3 class="case-hook">How I made a design system AI agents can build from</h3></div>
+          <div class="case-metric"><b>15 → 2</b><span>design questions per feature</span></div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-bar"><i></i><i></i><i></i><span class="ml">Figma → Repo</span></div>
+            <div class="mock-body" style="display:flex;align-items:center;justify-content:space-between;">
+              <span class="mz-chip">Figma</span>
+              <svg width="42" height="40" viewBox="0 0 42 40" fill="none" aria-hidden="true" style="opacity:.6"><path d="M2 30 Q21 2 40 30" stroke="var(--border-2)" stroke-width="1.5"/></svg>
+              <span class="mz-chip accent">spec.md</span>
+              <svg width="42" height="40" viewBox="0 0 42 40" fill="none" aria-hidden="true" style="opacity:.6"><path d="M2 10 Q21 38 40 10" stroke="var(--border-2)" stroke-width="1.5"/></svg>
+              <span class="mz-chip">Repo</span>
+            </div>
+          </div>
+        </article>
+
         <article class="case-card is-link" id="case-price">
-          <div class="case-head"><span class="chip">Optimization</span><span class="chip">AI Systems</span>
+          <div class="case-head"><span class="chip">Optimization</span><span class="chip">AI</span>
             <a class="case-arrow" href="../case/price-exploration/" aria-label="Open Price Exploration case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
-          <h3 class="case-hook">Make pricing decisions before the market moves.</h3>
-          <div class="case-metric"><b>$8M → $30M</b><span>Monthly media explored</span></div>
+          <div class="case-title"><p class="case-name">Price Exploration</p><h3 class="case-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h3></div>
+          <div class="case-metric"><b>$8M → $30M+</b><span>monthly media investment</span></div>
           <div class="mock" aria-hidden="true">
             <div class="mock-bar"><i></i><i></i><i></i><span class="ml">Price Explorer</span></div>
             <div class="mock-body">
@@ -589,41 +621,12 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
         </article>
 
-        <article class="case-card is-link" id="case-channel">
-          <div class="case-head"><span class="chip">Data Viz</span><span class="chip">AI Systems</span>
-            <a class="case-arrow" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-          <h3 class="case-hook">Turn weeks of channel analysis into a morning.</h3>
-          <div class="case-metric"><b>Weeks → Hours</b><span>To detect opportunity</span></div>
-          <div class="mock mock-shot" aria-hidden="true">
-            <img src="../case/channel-analysis/assets/card.webp" alt="" width="1200" height="677" loading="lazy" decoding="async">
-          </div>
-        </article>
-
-        <article class="case-card is-link" id="case-ds">
-          <div class="case-head"><span class="chip">Design Systems</span><span class="chip">AI-Native</span>
-            <a class="case-arrow" href="../case/design-system/" aria-label="Open Design System case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-          <h3 class="case-hook">Give AI a shared design language.</h3>
-          <div class="case-metric"><b>15 → 2</b><span>Design questions per feature</span></div>
-          <div class="mock" aria-hidden="true">
-            <div class="mock-bar"><i></i><i></i><i></i><span class="ml">AI Patterns</span></div>
-            <div class="mock-body" style="display:flex;align-items:center;justify-content:space-between;">
-              <span class="mz-chip">Prompt</span>
-              <svg width="42" height="40" viewBox="0 0 42 40" fill="none" aria-hidden="true" style="opacity:.6"><path d="M2 30 Q21 2 40 30" stroke="var(--border-2)" stroke-width="1.5"/></svg>
-              <span class="mz-chip accent">Review</span>
-              <svg width="42" height="40" viewBox="0 0 42 40" fill="none" aria-hidden="true" style="opacity:.6"><path d="M2 10 Q21 38 40 10" stroke="var(--border-2)" stroke-width="1.5"/></svg>
-              <span class="mz-chip">Ship</span>
-            </div>
-          </div>
-        </article>
-
         <article class="case-card" id="case-cross">
-          <div class="case-head"><span class="chip">Workflow</span>
-            <a class="case-arrow" href="#" data-note="case" aria-label="Open Cross-Campaign case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <div class="case-head"><span class="chip">Workflow</span><span class="chip">Infra</span>
+            <a class="case-arrow" href="#" data-note="case" aria-label="Open Cross-Campaign Management case"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           </div>
-          <h3 class="case-hook">Edit thousands of campaigns like they are one.</h3>
-          <div class="case-metric"><b>Hours → Min</b><span>For bulk updates</span></div>
+          <div class="case-title"><p class="case-name">Cross-Campaign Management</p><h3 class="case-hook">How I let buyers edit thousands of campaigns as one</h3></div>
+          <div class="case-metric"><b>Hours → Min</b><span>bulk updates</span></div>
           <div class="mock" aria-hidden="true">
             <div class="mock-bar"><i></i><i></i><i></i><span class="ml">Campaigns / Bulk edit</span></div>
             <div class="mock-body">
