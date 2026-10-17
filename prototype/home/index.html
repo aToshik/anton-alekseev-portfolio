@@ -206,7 +206,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   .side-nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
   .side-nav a { min-height: 32px; padding: 0 10px; white-space: nowrap; }
   .side-nav a .n { display: none; }
-  .side-nav a::after { display: none; }
 }
 
 /* ============================================================
@@ -399,13 +398,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .side-nav a .ico svg { width: 100%; height: 100%; }
 .side-nav a:hover .ico { color: var(--fg); }
 .side-nav a.active .ico { color: var(--accent); }
-/* Number keys 1–7 jump to sections; the digit shows quietly only on row hover or key press */
-.side-nav a::after {
-  content: attr(data-key); margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label);
-  opacity: 0; transition: opacity .2s, color .2s;
-}
-.side-nav a:hover::after { opacity: 1; }
-.side-nav a.key-hit::after { opacity: 1; color: var(--accent); transition: none; }
 
 /* Tool cards: hover/focus expand revealing concrete usage */
 .tool-card { outline-offset: 2px; }
@@ -502,13 +494,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
     <div>
       <div class="side-label"><span>Jump to</span><span class="side-count" id="sideCount" aria-hidden="true"><b>01</b>/07</span></div>
       <nav class="side-nav" id="sideNav">
-        <a href="#hero" data-section="hero" data-key="1" aria-keyshortcuts="1"><span class="ico"><svg class="lu lu-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-head" cx="12" cy="8" r="5" pathLength="1"/><path class="lu-body" d="M20 21a8 8 0 0 0-16 0" pathLength="1"/></svg></span>Hero</a>
-        <a href="#ship" data-section="ship" data-key="2" aria-keyshortcuts="2"><span class="ico"><svg class="lu lu-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline class="lu-line" points="22 7 13.5 15.5 8.5 10.5 2 17" pathLength="1"/><polyline class="lu-tip" points="16 7 22 7 22 13" pathLength="1"/></svg></span>Ship impact</a>
-        <a href="#selected-work" data-section="selected-work" data-key="3" aria-keyshortcuts="3"><span class="ico"><svg class="lu lu-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" pathLength="1"/><path d="M22 13a18.15 18.15 0 0 1-20 0" pathLength="1"/><rect width="20" height="14" x="2" y="6" rx="2" pathLength="1"/></svg></span>Selected work</a>
-        <a href="#why" data-section="why" data-key="4" aria-keyshortcuts="4"><span class="ico"><svg class="lu lu-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="1"/><path class="lu-needle" d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" pathLength="1"/></svg></span>How I work</a>
-        <a href="#ai" data-section="ai" data-key="5" aria-keyshortcuts="5"><span class="ico"><svg class="lu lu-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-star" d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" pathLength="1"/><path class="lu-tw lu-tw1" d="M20 3v4M22 5h-4"/><path class="lu-tw lu-tw2" d="M4 17v2M5 18H3"/></svg></span>AI design &amp; build</a>
-        <a href="#journey" data-section="journey" data-key="6" aria-keyshortcuts="6"><span class="ico"><svg class="lu lu-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-a" cx="6" cy="19" r="3" pathLength="1"/><path class="lu-path" d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" pathLength="1"/><circle class="lu-b" cx="18" cy="5" r="3" pathLength="1"/></svg></span>Journey</a>
-        <a href="#contact" data-section="contact" data-key="7" aria-keyshortcuts="7"><span class="ico"><svg class="lu lu-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" pathLength="1"/><path class="lu-flap" d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" pathLength="1"/></svg></span>Contact</a>
+        <a href="#hero" data-section="hero"><span class="ico"><svg class="lu lu-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-head" cx="12" cy="8" r="5" pathLength="1"/><path class="lu-body" d="M20 21a8 8 0 0 0-16 0" pathLength="1"/></svg></span>Hero</a>
+        <a href="#ship" data-section="ship"><span class="ico"><svg class="lu lu-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline class="lu-line" points="22 7 13.5 15.5 8.5 10.5 2 17" pathLength="1"/><polyline class="lu-tip" points="16 7 22 7 22 13" pathLength="1"/></svg></span>Ship impact</a>
+        <a href="#selected-work" data-section="selected-work"><span class="ico"><svg class="lu lu-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" pathLength="1"/><path d="M22 13a18.15 18.15 0 0 1-20 0" pathLength="1"/><rect width="20" height="14" x="2" y="6" rx="2" pathLength="1"/></svg></span>Selected work</a>
+        <a href="#why" data-section="why"><span class="ico"><svg class="lu lu-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="1"/><path class="lu-needle" d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" pathLength="1"/></svg></span>How I work</a>
+        <a href="#ai" data-section="ai"><span class="ico"><svg class="lu lu-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-star" d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" pathLength="1"/><path class="lu-tw lu-tw1" d="M20 3v4M22 5h-4"/><path class="lu-tw lu-tw2" d="M4 17v2M5 18H3"/></svg></span>AI design &amp; build</a>
+        <a href="#journey" data-section="journey"><span class="ico"><svg class="lu lu-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-a" cx="6" cy="19" r="3" pathLength="1"/><path class="lu-path" d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" pathLength="1"/><circle class="lu-b" cx="18" cy="5" r="3" pathLength="1"/></svg></span>Journey</a>
+        <a href="#contact" data-section="contact"><span class="ico"><svg class="lu lu-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" pathLength="1"/><path class="lu-flap" d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" pathLength="1"/></svg></span>Contact</a>
       </nav>
     </div>
     <div class="side-foot">
@@ -850,20 +842,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   function pad(n){ return (n<10?'0':'')+n; }
   function setCount(i){ if(countEl) countEl.textContent = pad(i+1); }
   if (countEl) countEl.parentNode.lastChild.textContent = '/' + pad(links.length);
-  /* Number keys 1…N jump to sections (ignore when typing or with modifiers) */
-  window.addEventListener('keydown', function(e){
-    if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
-    var tag = (e.target && e.target.tagName) || '';
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
-    var m = /^(?:Digit|Numpad)(\d)$/.exec(e.code || ''); /* physical key: works on any layout */
-    var i = m ? +m[1] - 1 : -1;
-    if (i < 0 || i >= links.length) return;
-    e.preventDefault();
-    var a = links[i];
-    a.classList.remove('key-hit'); void a.offsetWidth; a.classList.add('key-hit');
-    setTimeout(function(){ a.classList.remove('key-hit'); }, 700);
-    a.click();
-  });
   if ('IntersectionObserver' in window) {
     var spy = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
