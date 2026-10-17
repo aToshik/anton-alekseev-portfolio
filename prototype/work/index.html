@@ -6,7 +6,7 @@
 <title>Work — Anton Alekseev</title>
 <meta name="description" content="Selected work — a catalog of complex B2B product cases: data viz, AI, design systems, optimization and workflow.">
 <meta property="og:title" content="Work — Anton Alekseev">
-<meta property="og:description" content="Complex B2B products, made clear and useful.">
+<meta property="og:description" content="Complex B2B and B2C products, made clear and useful.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://antonalekseev.design/work">
 <meta property="og:image" content="../home/assets/og-image.png">
@@ -113,10 +113,6 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 
 .side-sep { height: 1px; background: var(--border); }
 .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
-.side-avail { display: flex; gap: 10px; padding: 13px 10px 0; border-top: 1px solid var(--border); }
-.side-avail .dot-sm { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: 4px; flex-shrink: 0; }
-.side-avail b { font-family: var(--body); font-weight: 500; font-size: 11px; color: var(--fg); display: block; }
-.side-avail small { font-family: var(--mono); font-size: 10px; color: var(--label); }
 .side-theme { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s; }
 .side-theme:hover { border-color: var(--border-2); }
 .side-theme svg { width: 16px; height: 16px; color: var(--muted); }
@@ -130,8 +126,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
   .fg-label { width: 100%; padding: 2px 2px 2px; }
   .filter-btn { width: auto; }
   .filter-btn .fcount { display: none; }
-  .side-avail { display: none; }
-}
+  }
 
 /* ============================================================
    MAIN
@@ -186,6 +181,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .cc-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
 .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; }
 .chip.accent { color: var(--accent); border-color: var(--accent); }
+.cc-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .cc-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.5vw, 30px); line-height: 1.1; letter-spacing: -.03em; text-wrap: balance; }
 .cc-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 .cc-metric b { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -.02em; color: var(--accent); }
@@ -250,6 +246,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 }
 </style>
 <link rel="stylesheet" href="../shared/mobile-bar.css">
+<link rel="stylesheet" href="../shared/lucide.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -265,11 +262,11 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
   <div class="nav-right">
     <span class="nav-status"><span class="dot-sm"></span><span>Open to work</span></span>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
     </button>
     <a class="btn-contact" href="mailto:aa.nooker@gmail.com?subject=Let's%20work%20together"><span>Contact now</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
     </a>
   </div>
 </nav>
@@ -311,10 +308,9 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
     </div>
 
     <div class="side-foot">
-      <div class="side-avail"><span class="dot-sm"></span><div><b>Available for select work</b><small>Q2 · 2026</small></div></div>
       <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
         <span class="lbl-dark">Light mode</span><kbd>T</kbd>
       </button>
     </div>
@@ -328,7 +324,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
         <h1 class="wh-title">Selected work<span class="dot">.</span></h1>
         <span class="wh-count" id="headCount">6 cases</span>
       </div>
-      <p class="wh-sub">Complex B2B products, made clear and useful.</p>
+      <p class="wh-sub">Complex B2B and B2C products, made clear and useful.</p>
     </section>
 
     <div class="toolbar" id="toolbar" aria-label="Active filters">
@@ -343,6 +339,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
       <article class="case-card" data-tags="Data Viz,AI,Self-service,B2B,InsurTech/Fintech" id="case-channel">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Data Viz</span><span class="chip">AI</span><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">InsurTech/Fintech</span></div>
+          <p class="cc-name">Channel Analysis</p>
           <h2 class="cc-hook">How I turned silent channel decay into a one-click decision</h2>
           <div class="cc-metric"><b>Weeks → Hours</b><span>detection time</span></div>
           <a class="cc-view" href="../case/channel-analysis/">View case <span class="arr" aria-hidden="true">→</span></a>
@@ -350,11 +347,32 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
         <div class="cc-thumb cc-shot"><img src="../case/channel-analysis/assets/card.webp" alt="Channel Analysis interface" width="1200" height="677" loading="lazy" decoding="async"></div>
       </article>
 
+      <article class="case-card" data-tags="Design System,AI,B2B" id="case-ds">
+        <div class="cc-main">
+          <div class="cc-head"><span class="chip">Design System</span><span class="chip">AI</span><span class="chip">B2B</span></div>
+          <p class="cc-name">Design System for AI Agents</p>
+          <h2 class="cc-hook">How I made a design system AI agents can build from</h2>
+          <div class="cc-metric"><b>15 → 2</b><span>design questions per feature</span></div>
+          <a class="cc-view" href="../case/design-system/">View case <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+        <div class="cc-thumb" role="img" aria-label="Design System for AI Agents preview — schematic"><div class="mock" aria-hidden="true">
+          <div class="mock-bar"><i></i><i></i><i></i><span class="ml">Figma → Repo</span></div>
+          <div class="mock-body" style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+            <span class="mz-chip">Figma</span>
+            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 19 Q14 2 26 19" stroke="var(--border-2)" stroke-width="1.5"/></svg>
+            <span class="mz-chip accent">spec.md</span>
+            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 7 Q14 24 26 7" stroke="var(--border-2)" stroke-width="1.5"/></svg>
+            <span class="mz-chip">Repo</span>
+          </div>
+        </div></div>
+      </article>
+
       <article class="case-card" data-tags="Optimization,AI,Self-service,B2B,InsurTech/Fintech" id="case-price">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Optimization</span><span class="chip">AI</span><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">InsurTech/Fintech</span></div>
+          <p class="cc-name">Price Exploration</p>
           <h2 class="cc-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h2>
-          <div class="cc-metric"><b>$8M → $30M+</b><span>monthly media</span><span class="chip accent">7% MoM</span></div>
+          <div class="cc-metric"><b>$8M → $30M+</b><span>monthly media investment</span><span class="chip accent">7% MoM</span></div>
           <a class="cc-view" href="../case/price-exploration/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <div class="cc-thumb" role="img" aria-label="Price Exploration preview — schematic"><div class="mock" aria-hidden="true">
@@ -367,29 +385,11 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
         </div></div>
       </article>
 
-      <article class="case-card" data-tags="Design System,AI,B2B" id="case-ds">
-        <div class="cc-main">
-          <div class="cc-head"><span class="chip">Design System</span><span class="chip">AI</span><span class="chip">B2B</span></div>
-          <h2 class="cc-hook">A design system AI agents can build from</h2>
-          <div class="cc-metric"><b>15 → 2</b><span>design questions per feature</span></div>
-          <a class="cc-view" href="../case/design-system/">View case <span class="arr" aria-hidden="true">→</span></a>
-        </div>
-        <div class="cc-thumb" role="img" aria-label="Design System for AI preview — schematic"><div class="mock" aria-hidden="true">
-          <div class="mock-bar"><i></i><i></i><i></i><span class="ml">AI Patterns</span></div>
-          <div class="mock-body" style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-            <span class="mz-chip">Prompt</span>
-            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 19 Q14 2 26 19" stroke="var(--border-2)" stroke-width="1.5"/></svg>
-            <span class="mz-chip accent">Review</span>
-            <svg width="28" height="26" viewBox="0 0 28 26" fill="none" aria-hidden="true" style="opacity:.6;flex-shrink:0"><path d="M2 7 Q14 24 26 7" stroke="var(--border-2)" stroke-width="1.5"/></svg>
-            <span class="mz-chip">Ship</span>
-          </div>
-        </div></div>
-      </article>
-
       <article class="case-card" data-tags="Workflow,Infra,B2B" id="case-cross">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Workflow</span><span class="chip">Infra</span><span class="chip">B2B</span></div>
-          <h2 class="cc-hook">Broke the campaign boundary as the unit of control</h2>
+          <p class="cc-name">Cross-Campaign Management</p>
+          <h2 class="cc-hook">How I let buyers edit thousands of campaigns as one</h2>
           <div class="cc-metric"><b>Hours → Min</b><span>bulk updates</span></div>
           <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
@@ -409,6 +409,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
       <article class="case-card" data-tags="Conversational,Self-service,B2B,B2C" data-group="camilyo" id="case-inbox">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Conversational</span><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">B2C</span></div>
+          <p class="cc-name">Inbox</p>
           <h2 class="cc-hook">One hub for every business conversation</h2>
           <p class="cc-desc">Unified, centralized hub for all business interactions.</p>
           <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>
@@ -426,6 +427,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
       <article class="case-card" data-tags="Self-service,B2B,B2C" data-group="camilyo" id="case-booking">
         <div class="cc-main">
           <div class="cc-head"><span class="chip">Self-service</span><span class="chip">B2B</span><span class="chip">B2C</span></div>
+          <p class="cc-name">Booking Calendar</p>
           <h2 class="cc-hook">Scheduling for service commerce</h2>
           <p class="cc-desc">Service-commerce booking and scheduling.</p>
           <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>
@@ -464,7 +466,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
   toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
   syncTheme(root.getAttribute('data-theme'), false);
   window.addEventListener('keydown', function(e){
-    if ((e.key==='t'||e.key==='T') && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
+    if (e.code==='KeyT' && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
   });
 
   /* ---- Reveal (enhancement only) ---- */

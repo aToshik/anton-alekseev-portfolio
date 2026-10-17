@@ -284,6 +284,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 }
 </style>
 <link rel="stylesheet" href="../../shared/mobile-bar.css">
+<link rel="stylesheet" href="../../shared/lucide.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -299,11 +300,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   <div class="nav-right">
     <span class="nav-status"><span class="dot-sm"></span><span>Open to work</span></span>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
     </button>
     <a class="btn-contact" href="mailto:aa.nooker@gmail.com?subject=Let's%20work%20together"><span>Contact now</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
     </a>
   </div>
 </nav>
@@ -329,12 +330,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <div class="side-foot">
       <div class="side-sep" aria-hidden="true"></div>
       <div class="side-near">
-        <a href="#">← Cross-Campaign</a>
-        <a href="../design-system/">Design System →</a>
+        <a href="../design-system/">Design System for AI Agents →</a>
       </div>
       <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
         <span class="lbl-dark">Light mode</span><kbd>T</kbd>
       </button>
     </div>
@@ -349,8 +349,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="ch-context">Data Viz · AI · Self-service&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · sole product designer · B2B RTB, US insurance · 2,000+ channels · 2024</p>
       <h1 class="ch-hook">How I turned silent channel decay into a one-click decision</h1>
       <div class="ch-meta">
-        <span class="mchip">Weeks → Hours</span>
-        <span class="mchip">2,000+ channels</span>
+        <span class="mchip">Weeks → Hours · detection time</span>
+        <span class="mchip">2,000+ · channels monitored</span>
       </div>
       <p class="ch-tooling"><b>Figma</b> · <b>Figma Make</b> (interactive prototype) · <b>AI</b> for feedback synthesis</p>
       <button type="button" class="hero-visual has-img" data-lightbox data-lb-title="Dedicated Channel Analysis interface" data-lb-caption="#phase-4" data-lb-video="assets/hero.mp4, assets/hero.webm">
@@ -476,8 +476,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- PREV / NEXT -->
     <nav class="pager" aria-label="More cases">
-      <a class="prev" href="#"><small><span class="ar" aria-hidden="true">←</span> Previous</small><b>Cross-Campaign</b></a>
-      <a class="next" href="../design-system/"><small>Next <span class="ar" aria-hidden="true">→</span></small><b>Design System</b></a>
+      <span aria-hidden="true"></span>
+      <a class="next" href="../design-system/"><small>Next <span class="ar" aria-hidden="true">→</span></small><b>Design System for AI Agents</b></a>
     </nav>
   </main>
 </div>
@@ -502,7 +502,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
   syncTheme(root.getAttribute('data-theme'), false);
   window.addEventListener('keydown', function(e){
-    if ((e.key==='t'||e.key==='T') && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
+    if (e.code==='KeyT' && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
   });
 
   /* ---- Scrollspy (section nav) + keep active visible in a scrolling sidebar ---- */
