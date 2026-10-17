@@ -147,9 +147,8 @@
 
   function onKey(e) {
     if (e.key === 'Escape') { e.preventDefault(); if (stage.classList.contains('zoomed')) unzoom(); else close(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); go(-1); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); go(1); }
-    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.stopPropagation(); } /* keep page arrow-nav from firing behind the modal */
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
     else if (e.key === 'Tab') {
       var f = Array.prototype.filter.call(lb.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])'), function (x) { return !x.hidden && !x.disabled && x.offsetParent !== null; });
       if (!f.length) return;

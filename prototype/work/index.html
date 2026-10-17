@@ -244,10 +244,6 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
   .case-card:hover .cc-thumb span { transform: none; }
   .toolbar.active .tb-chip, #headCount.bump, .case-card.anim { animation: none; }
 }
-/* Arrow-key hint (keys handled in shared/keynav.js); hidden on touch / narrow screens */
-.side-keys { display: flex; justify-content: space-between; gap: 8px; padding: 0 10px; font-family: var(--mono); font-size: 10px; color: var(--label); }
-.side-keys kbd { font-family: inherit; color: var(--muted); margin-right: 4px; }
-@media (hover: none), (max-width: 1000px) { .side-keys { display: none; } }
 </style>
 <link rel="stylesheet" href="../shared/mobile-bar.css">
 <link rel="stylesheet" href="../shared/lucide.css">
@@ -312,7 +308,6 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
     </div>
 
     <div class="side-foot">
-      <div class="side-keys" aria-hidden="true"><span><kbd>←</kbd>home</span></div>
       <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
         <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
         <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
@@ -603,6 +598,5 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 })();
 </script>
 <script src="../shared/mobile-bar.js" defer></script>
-<script src="../shared/keynav.js" data-prev="../home/index.html" defer></script>
 </body>
 </html>
