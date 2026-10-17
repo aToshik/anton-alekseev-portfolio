@@ -44,7 +44,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) setOpen(false, true); });
 
   /* ---------- sections mode ---------- */
-  var links = sideNav ? Array.prototype.slice.call(sideNav.querySelectorAll('a')) : [];
+  var links = sideNav ? Array.prototype.slice.call(sideNav.querySelectorAll(':scope > a')) : [];
   var near = sidebar.querySelector('.side-near');
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function labelOf(a) { return a.textContent.replace(/\s+/g, ' ').trim(); }
@@ -54,12 +54,20 @@
     links.forEach(function (a, k) { if (a.classList.contains('active')) i = k; });
     if (i < 0) i = 0;
     idxEl.innerHTML = pad(i + 1) + '<span class="of">/' + pad(links.length) + '</span>';
+    /* a section with phase steps (Decisions) also names the phase being read */
+    var sub = links[i].nextElementSibling && links[i].nextElementSibling.classList.contains('side-sub') ? links[i].nextElementSibling : null;
+    var cur = sub && sub.querySelector('.ss-step.cur');
     labelEl.textContent = labelOf(links[i]);
+    metaEl.textContent = cur ? cur.querySelector('.ss-num').textContent + '/' + pad(sub.querySelectorAll('.ss-step').length) : '';
     btn.setAttribute('aria-label', 'Section ' + (i + 1) + ' of ' + links.length + ': ' + labelOf(links[i]) + '. Show all sections');
     if (!open) return;
     var html = '<nav class="mbar-list">';
     links.forEach(function (a, k) {
       html += '<a href="' + a.getAttribute('href') + '" data-k="' + k + '"' + (k === i ? ' class="active" aria-current="true"' : '') + '><span class="n">' + pad(k + 1) + '</span>' + labelOf(a) + '</a>';
+      var ss = a.nextElementSibling && a.nextElementSibling.classList.contains('side-sub') ? a.nextElementSibling : null;
+      if (ss) Array.prototype.forEach.call(ss.querySelectorAll('.ss-step'), function (st) {
+        html += '<a class="mbar-sub' + (k === i && st.classList.contains('cur') ? ' active' : '') + '" href="' + st.getAttribute('href') + '"><span class="n">' + st.querySelector('.ss-num').textContent + '</span>' + st.querySelector('.ss-name').textContent + '</a>';
+      });
     });
     html += '</nav>';
     if (near) html += '<div class="mbar-near">' + near.innerHTML + '</div>';
@@ -68,6 +76,7 @@
   panel.addEventListener('click', function (e) {
     var a = e.target.closest('.mbar-list a');
     if (!a) return;
+    if (a.classList.contains('mbar-sub')) { setOpen(false); return; } /* plain anchor to the phase */
     e.preventDefault();
     setOpen(false);
     links[+a.getAttribute('data-k')].click(); /* reuse the page's own scroll + scroll-spy pin */
