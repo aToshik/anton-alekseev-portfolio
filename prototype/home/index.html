@@ -173,9 +173,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 20px 16px 14px; overflow-y: auto; overscroll-behavior: contain;
 }
-.side-label { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); padding: 0 10px 16px; }
-.side-count { letter-spacing: .04em; font-variant-numeric: tabular-nums; }
-.side-count b { font-weight: 400; color: var(--accent); }
 .side-nav { display: flex; flex-direction: column; gap: 3px; }
 .side-nav a {
   display: flex; align-items: center; gap: 11px; min-height: 37px; padding: 0 10px;
@@ -202,7 +199,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
     position: static; height: auto; overflow: visible; flex-direction: row;
     flex-wrap: wrap; align-items: center; gap: 6px; padding: 10px 12px; margin-bottom: 4px;
   }
-  .sidebar .side-label, .sidebar .side-foot { display: none; }
+  .sidebar .side-foot { display: none; }
   .side-nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
   .side-nav a { min-height: 32px; padding: 0 10px; white-space: nowrap; }
   .side-nav a .n { display: none; }
@@ -490,9 +487,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
 <div class="shell">
   <!-- ======= SIDEBAR ======= -->
-  <aside class="sidebar" aria-label="Jump to section">
+  <aside class="sidebar" aria-label="Page sections">
     <div>
-      <div class="side-label"><span>Jump to</span><span class="side-count" id="sideCount" aria-hidden="true"><b>01</b>/07</span></div>
       <nav class="side-nav" id="sideNav">
         <a href="#hero" data-section="hero"><span class="ico"><svg class="lu lu-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-head" cx="12" cy="8" r="5" pathLength="1"/><path class="lu-body" d="M20 21a8 8 0 0 0-16 0" pathLength="1"/></svg></span>Hero</a>
         <a href="#ship" data-section="ship"><span class="ico"><svg class="lu lu-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline class="lu-line" points="22 7 13.5 15.5 8.5 10.5 2 17" pathLength="1"/><polyline class="lu-tip" points="16 7 22 7 22 13" pathLength="1"/></svg></span>Ship impact</a>
@@ -838,14 +834,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   /* Scrollspy */
   var links = Array.prototype.slice.call(document.querySelectorAll('#sideNav a'));
   var byId = {}; links.forEach(function(a){ byId[a.getAttribute('data-section')] = a; });
-  var countEl = document.querySelector('#sideCount b');
-  function pad(n){ return (n<10?'0':'')+n; }
-  function setCount(i){ if(countEl) countEl.textContent = pad(i+1); }
-  if (countEl) countEl.parentNode.lastChild.textContent = '/' + pad(links.length);
   if ('IntersectionObserver' in window) {
     var spy = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
-        if (en.isIntersecting){ links.forEach(function(l){l.classList.remove('active');}); var a=byId[en.target.id]; if(a){ a.classList.add('active'); setCount(links.indexOf(a)); } }
+        if (en.isIntersecting){ links.forEach(function(l){l.classList.remove('active');}); var a=byId[en.target.id]; if(a) a.classList.add('active'); }
       });
     }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
     document.querySelectorAll('.main .card').forEach(function(s){ spy.observe(s); });
