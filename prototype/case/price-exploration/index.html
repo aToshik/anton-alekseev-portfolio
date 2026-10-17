@@ -125,7 +125,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .side-theme { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s; }
 .side-theme:hover { border-color: var(--border-2); }
 .side-theme svg { width: 16px; height: 16px; color: var(--muted); }
-.side-theme span { font-size: 10px; } .side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }
+.side-theme span { font-size: 10px; } .side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 11px; line-height: 1; padding: 4px 6px; border-radius: 5px; background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); }
 
 @media (max-width: 1000px) {
   .shell { grid-template-columns: 1fr; }
@@ -304,9 +304,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* ---- PE case: status colors ---- */
 :root, [data-theme="dark"] { --st-red: #ef7a6b; --st-amber: #e9c255; }
 [data-theme="light"] { --st-red: #c8432f; --st-amber: #a87d00; }
-.demo-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--accent); }
-.demo-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-.demo-link svg { width: 14px; height: 14px; }
 .fail-list { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 86ch; }
 .fail { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
 .fail b { display: block; font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: -.01em; color: var(--fg); }
@@ -404,10 +401,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <span class="mchip">7% MoM · growth in policy binds</span>
       </div>
       <p class="ch-tooling"><b>Figma</b> · <b>Hotjar</b> · <b>Mixpanel</b></p>
-      <a class="demo-link" href="https://www.youtube.com/watch?v=U7GUPZ-lTHo" target="_blank" rel="noopener">
-        <svg class="lu lu-circle-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="1"/><polygon class="lu-tri" points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
-        Public product demo by Kissterra<span class="visually-hidden"> (opens YouTube in a new tab)</span>
-      </a>
       <button type="button" class="hero-visual has-img" data-lightbox data-lb-title="A price test: every testing point, one sweet point" data-lb-caption="#phase-2">
         <img src="assets/stub-pe-hero.svg" alt="Price Exploration test view with testing points and the recommended sweet point (placeholder)" width="1600" height="900">
       </button>
@@ -534,7 +527,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <section class="section reveal reflection" id="reflection" aria-labelledby="reflection-t">
       <p class="eyebrow" style="margin-bottom:18px" id="reflection-t">Reflection</p>
       <p>Trust first, autopilot later. <em>One-click automation only works after buyers could see and check everything.</em></p>
-      <p class="body-copy" style="margin-top:22px;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;line-height:1.75;max-width:70ch;color:var(--muted)">The public demo today shows one-click apply with the platform taking over. That works only because buyers first had a version where they could see and check everything. If I started again, I'd push for the cross-campaign infrastructure earlier. We led with the more impressive feature, then hit technical limits exactly when the client wanted scale.</p>
+      <p class="body-copy" style="margin-top:22px;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;line-height:1.75;max-width:70ch;color:var(--muted)">The product has since moved to one-click apply, with the platform taking over. That works only because buyers first had a version where they could see and check everything. If I started again, I'd push for the cross-campaign infrastructure earlier. We led with the more impressive feature, then hit technical limits exactly when the client wanted scale.</p>
     </section>
 
     <!-- PREV / NEXT -->
