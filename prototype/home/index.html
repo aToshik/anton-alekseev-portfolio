@@ -419,82 +419,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tool-card:hover .tool-usage > p span, .tool-card:focus-within .tool-usage > p span { opacity: 1; }
 
 
-/* ============================================================
-   LUCIDE ICONS — animated (lucide.dev, ISC). Inline SVG + CSS only.
-   pathLength="1" lets any stroke "draw" via dashoffset 1 → 0.
-   ============================================================ */
-.lu * { transform-box: fill-box; transform-origin: center; }
-@keyframes luDraw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
-@keyframes luPop  { 0% { transform: scale(1); } 40% { transform: scale(.82); } 75% { transform: scale(1.12); } 100% { transform: scale(1); } }
-@keyframes luBob  { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-2.2px); } }
-@keyframes luWiggle { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-10deg); } 45% { transform: rotate(8deg); } 70% { transform: rotate(-4deg); } }
-@keyframes luSpin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
-@keyframes luTwinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .15; transform: scale(.4); } }
-@keyframes luFlap { 0% { transform: translateY(0); } 35% { transform: translateY(-3px) scaleY(-1); } 70%, 100% { transform: translateY(0) scaleY(1); } }
-@keyframes luFly { 0% { transform: translate(0,0); opacity: 1; } 45% { transform: translate(9px,-9px); opacity: 0; } 46% { transform: translate(-9px,9px); opacity: 0; } 100% { transform: translate(0,0); opacity: 1; } }
-@keyframes luSlide { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(10px); opacity: 0; } 46% { transform: translateX(-10px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-
-/* Side nav — page load: icons draw in one after another */
-.motion-ok .side-nav.lu-intro .lu [pathLength] { animation: luDraw .9s cubic-bezier(.6,0,.2,1) both; }
-.motion-ok .side-nav.lu-intro a:nth-child(2) .lu [pathLength] { animation-delay: .08s; }
-.motion-ok .side-nav.lu-intro a:nth-child(3) .lu [pathLength] { animation-delay: .16s; }
-.motion-ok .side-nav.lu-intro a:nth-child(4) .lu [pathLength] { animation-delay: .24s; }
-.motion-ok .side-nav.lu-intro a:nth-child(5) .lu [pathLength] { animation-delay: .32s; }
-.motion-ok .side-nav.lu-intro a:nth-child(6) .lu [pathLength] { animation-delay: .40s; }
-.motion-ok .side-nav.lu-intro a:nth-child(7) .lu [pathLength] { animation-delay: .48s; }
-
-/* Side nav — each icon has its own gesture on hover and when its section becomes active */
-.motion-ok .side-nav a:is(:hover, .active) .lu-user .lu-head { animation: luBob .7s ease-in-out; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-user .lu-body { animation: luDraw .6s ease-out; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-trend .lu-line { animation: luDraw .6s ease-out; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-trend .lu-tip { animation: luDraw .35s ease-out .45s both; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-case { animation: luWiggle .6s ease-in-out; transform-origin: 50% 20%; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-compass .lu-needle { animation: luSpin .9s cubic-bezier(.5,-0.3,.3,1.4); transform-origin: center; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-sparkles .lu-star { animation: luPop .6s ease-out; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-sparkles .lu-tw1 { animation: luTwinkle .6s ease-in-out .1s; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-sparkles .lu-tw2 { animation: luTwinkle .6s ease-in-out .25s; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-route .lu-path { animation: luDraw .8s ease-in-out; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-route .lu-b { animation: luPop .45s ease-out .6s; }
-.motion-ok .side-nav a:is(:hover, .active) .lu-mail .lu-flap { animation: luFlap .7s ease-in-out; transform-origin: 50% 0%; }
-
-/* How I work — calm continuous loops, one per idea */
-.why-ico .lu { width: 100%; height: 100%; overflow: visible; }
-@keyframes luRefresh { 0%, 15% { transform: rotate(0); } 55%, 100% { transform: rotate(180deg); } }
-@keyframes luLift1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
-@keyframes luLift2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.2px); } }
-@keyframes luRow { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.55); } }
-.motion-ok .lu-refresh { animation: luRefresh 3.2s cubic-bezier(.6,0,.2,1) infinite; transform-origin: center; }
-.motion-ok .lu-layers .lu-l1 { animation: luLift1 2.8s ease-in-out infinite; }
-.motion-ok .lu-layers .lu-l2 { animation: luLift2 2.8s ease-in-out infinite; }
-.motion-ok .lu-filter path { animation: luRow 2.6s ease-in-out infinite; transform-origin: left center; }
-.motion-ok .lu-filter .lu-r2 { animation-delay: .3s; }
-.motion-ok .lu-filter .lu-r3 { animation-delay: .6s; }
-
-/* AI tools — gesture on card hover / focus */
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-sparkles .lu-star { animation: luPop .6s ease-out; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-sparkles .lu-tw1 { animation: luTwinkle .8s ease-in-out .1s infinite; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-sparkles .lu-tw2 { animation: luTwinkle .8s ease-in-out .4s infinite; }
-@keyframes luClick { 0%, 100% { transform: translate(0,0) scale(1); } 40% { transform: translate(-2.5px,-2.5px) scale(1); } 60% { transform: translate(0,0) scale(.85); } }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-pointer path { animation: luClick .8s ease-in-out; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-grid rect { animation: luPop .5s ease-out both; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-grid .lu-g2 { animation-delay: .08s; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-grid .lu-g3 { animation-delay: .16s; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-grid .lu-g4 { animation-delay: .24s; }
-@keyframes luWave { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-14deg); } 65% { transform: rotate(6deg); } }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-wand .lu-stick { animation: luWave .7s ease-in-out; transform-origin: 0% 100%; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-wand .lu-tw1 { animation: luTwinkle .7s ease-in-out .15s; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-wand .lu-tw2 { animation: luTwinkle .7s ease-in-out .3s; }
-.motion-ok .tool-card:is(:hover, :focus-within) .lu-wand .lu-tw3 { animation: luTwinkle .7s ease-in-out .45s; }
-
-/* Arrows — fly out and come back in */
-.case-arrow, .btn-contact, .contact-btn { overflow: hidden; }
-.motion-ok .case-card:hover .lu-arrow-ur, .motion-ok .btn-contact:hover .lu-arrow-ur { animation: luFly .55s cubic-bezier(.6,0,.2,1); }
-.motion-ok .contact-btn:hover .lu-arrow-r { animation: luSlide .55s cubic-bezier(.6,0,.2,1); }
-
-/* Theme toggle — sun rays turn, moon tilts */
-.motion-ok :is(.theme-btn, .side-theme):hover .lu-sun .lu-rays { animation: luSpin 1s cubic-bezier(.5,0,.2,1); transform-origin: 12px 12px; transform-box: view-box; }
-.motion-ok :is(.theme-btn, .side-theme):hover .lu-moon path { animation: luWiggle .7s ease-in-out; }
-
 /* Impact tiles — down arrow to the case card, nudges on hover */
 .tile .ti-case { display: inline-flex; align-items: center; gap: 6px; }
 .tile .ti-case::after { content: '↓'; color: var(--muted); font-size: 12px; line-height: 1; transition: color .2s; }
@@ -506,7 +430,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   .tool-usage { grid-template-rows: 1fr; transition: none; }
   .tool-usage > p span { opacity: 1; }
   .why-ico { animation: none; transform: none; }
-  .lu, .lu * { animation: none !important; }
 }
 
 /* ============================================================
@@ -548,6 +471,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 }
 </style>
 <link rel="stylesheet" href="../shared/mobile-bar.css">
+<link rel="stylesheet" href="../shared/lucide.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>

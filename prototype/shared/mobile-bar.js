@@ -13,7 +13,7 @@
   if (!mode) return;
 
   var mq = window.matchMedia('(max-width: 1000px)');
-  var chev = '<svg class="mbar-chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var chev = '<svg class="mbar-chev lu lu-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 
   var bar = document.createElement('div');
   bar.className = 'mbar';
