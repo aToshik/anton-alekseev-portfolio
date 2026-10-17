@@ -104,10 +104,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .side-nav a:hover { color: var(--fg); background: var(--panel-2); }
 .side-nav a.active { color: var(--fg); background: var(--panel-2); font-weight: 500; }
 .side-nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 16px; border-radius: 2px; background: var(--accent); }
-/* Number keys 1–9 jump to sections; the digit shows quietly only on row hover or key press */
-.side-nav a::after { content: attr(data-key); position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--label); opacity: 0; transition: opacity .2s, color .2s; }
-.side-nav a:hover::after { opacity: 1; }
-.side-nav a.key-hit::after { opacity: 1; color: var(--accent); transition: none; }
 .side-sep { height: 1px; background: var(--border); }
 .side-near { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
 .side-near a { font-family: var(--mono); font-size: 11px; color: var(--label); padding: 4px 6px; border-radius: 6px; transition: color .2s, background .2s; }
@@ -125,7 +121,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .side-nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
   .side-nav a { white-space: nowrap; }
   .side-nav a.active::before { display: none; }
-  .side-nav a::after { display: none; }
   .side-near { flex-direction: row; }
 }
 
@@ -289,6 +284,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .impact-grid { grid-template-columns: 1fr; }
   .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; }
 }
+/* Arrow-key hint (keys handled in shared/keynav.js); hidden on touch / narrow screens */
+.side-keys { display: flex; justify-content: space-between; gap: 8px; padding: 0 10px; font-family: var(--mono); font-size: 10px; color: var(--label); }
+.side-keys kbd { font-family: inherit; color: var(--muted); margin-right: 4px; }
+@media (hover: none), (max-width: 1000px) { .side-keys { display: none; } }
 </style>
 <link rel="stylesheet" href="../../shared/mobile-bar.css">
 <link rel="stylesheet" href="../../shared/lucide.css">
@@ -337,8 +336,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <div class="side-foot">
       <div class="side-sep" aria-hidden="true"></div>
       <div class="side-near">
+        <a href="../price-exploration/">← Price Exploration</a>
         <a href="../design-system/">Design System for AI Agents →</a>
       </div>
+      <div class="side-keys" aria-hidden="true"><span><kbd>↑↓</kbd>sections</span><span><kbd>←→</kbd>cases</span></div>
       <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
         <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
         <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
@@ -483,7 +484,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- PREV / NEXT -->
     <nav class="pager" aria-label="More cases">
-      <span aria-hidden="true"></span>
+      <a class="prev" href="../price-exploration/"><small><span class="ar" aria-hidden="true">←</span> Previous</small><b>Price Exploration</b></a>
       <a class="next" href="../design-system/"><small>Next <span class="ar" aria-hidden="true">→</span></small><b>Design System for AI Agents</b></a>
     </nav>
   </main>
@@ -530,7 +531,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   var countEl = document.querySelector('#sideCount b');
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   if (countEl) countEl.parentNode.lastChild.textContent = '/' + pad(links.length);
-  links.forEach(function(a, k){ if (k < 9) { a.setAttribute('data-key', k + 1); a.setAttribute('aria-keyshortcuts', String(k + 1)); } });
   function setActive(id){
     if (id === current) return; current = id;
     links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-section') === id); });
@@ -554,20 +554,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     computeActive();
   }, { passive: true });
   ['wheel','touchstart','keydown'].forEach(function(t){ window.addEventListener(t, function(){ if (pinned) { pinned = false; clearTimeout(pinTimer); } }, { passive: true }); });
-  /* Number keys 1…9 jump to sections by physical key, so any layout works (ignore when typing or with modifiers) */
-  window.addEventListener('keydown', function(e){
-    if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
-    var tag = (e.target && e.target.tagName) || '';
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
-    var m = /^(?:Digit|Numpad)(\d)$/.exec(e.code || '');
-    var i = m ? +m[1] - 1 : -1;
-    if (i < 0 || i >= Math.min(links.length, 9)) return;
-    e.preventDefault();
-    var a = links[i];
-    a.classList.remove('key-hit'); void a.offsetWidth; a.classList.add('key-hit');
-    setTimeout(function(){ a.classList.remove('key-hit'); }, 700);
-    a.click();
-  });
   computeActive();
   if ('IntersectionObserver' in window) {
 
@@ -604,5 +590,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 </script>
 <script src="../lightbox.js" defer></script>
 <script src="../../shared/mobile-bar.js" defer></script>
+<script src="../../shared/keynav.js" data-prev="../price-exploration/" data-next="../design-system/" defer></script>
 </body>
 </html>

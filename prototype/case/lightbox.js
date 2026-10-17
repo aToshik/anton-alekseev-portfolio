@@ -147,8 +147,9 @@
 
   function onKey(e) {
     if (e.key === 'Escape') { e.preventDefault(); if (stage.classList.contains('zoomed')) unzoom(); else close(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); go(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); go(1); }
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.stopPropagation(); } /* keep page arrow-nav from firing behind the modal */
     else if (e.key === 'Tab') {
       var f = Array.prototype.filter.call(lb.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])'), function (x) { return !x.hidden && !x.disabled && x.offsetParent !== null; });
       if (!f.length) return;
@@ -156,7 +157,7 @@
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
-    else if (e.code === 'KeyT' || /^(?:Digit|Numpad)\d$/.test(e.code || '')) { e.stopPropagation(); } /* keep theme and section hotkeys from firing behind the modal */
+    else if (e.code === 'KeyT') { e.stopPropagation(); } /* keep theme hotkey from firing behind the modal */
   }
 
   /* click / tap the image: toggle 2x zoom around the point */
