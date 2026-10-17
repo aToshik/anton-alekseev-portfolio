@@ -313,6 +313,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 </style>
 <link rel="stylesheet" href="../../shared/mobile-bar.css">
 <link rel="stylesheet" href="../../shared/lucide.css">
+<link rel="stylesheet" href="../../shared/phase-steps.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -592,7 +593,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   });
 
   /* ---- Scrollspy (section nav) + keep active visible in a scrolling sidebar ---- */
-  var links = Array.prototype.slice.call(document.querySelectorAll('#sideNav a'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('#sideNav > a'));
   var byId = {}; links.forEach(function(a){ byId[a.getAttribute('data-section')] = a; });
   var sidebarEl = document.querySelector('.sidebar');
   function keepVisible(a){
@@ -663,6 +664,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 })();
 </script>
 <script src="../lightbox.js" defer></script>
+<script src="../../shared/phase-steps.js" defer></script>
 <script src="../../shared/mobile-bar.js" defer></script>
 </body>
 </html>
