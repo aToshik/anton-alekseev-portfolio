@@ -194,7 +194,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .side-theme:hover { border-color: var(--border-2); }
 .side-theme svg { width: 16px; height: 16px; color: var(--muted); }
 .side-theme span { font-size: 10px; }
-.side-theme kbd { margin-left: auto; min-width: 18px; height: 18px; padding: 0 4px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 4px; font-family: var(--mono); font-size: 10px; line-height: 1; color: var(--label); }
+.side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }
 
 @media (max-width: 1000px) {
   .shell { grid-template-columns: 1fr; }
@@ -399,16 +399,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .side-nav a .ico svg { width: 100%; height: 100%; }
 .side-nav a:hover .ico { color: var(--fg); }
 .side-nav a.active .ico { color: var(--accent); }
-/* Number keys 1–7 jump to sections; key cap mirrors the "T" cap on the theme button */
+/* Number keys 1–7 jump to sections; the digit shows quietly only on row hover or key press */
 .side-nav a::after {
-  content: attr(data-key); margin-left: auto; min-width: 18px; height: 18px; padding: 0 4px;
-  display: grid; place-items: center; border: 1px solid var(--border); border-radius: 4px;
-  font-family: var(--mono); font-size: 10px; line-height: 1; color: var(--label);
-  transition: color .2s, border-color .2s, background .2s, transform .12s;
+  content: attr(data-key); margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label);
+  opacity: 0; transition: opacity .2s, color .2s;
 }
-.side-nav a:hover::after { color: var(--fg); border-color: var(--border-2); }
-.side-nav a.active::after { color: var(--accent); border-color: var(--accent); }
-.side-nav a.key-hit::after { background: var(--accent); border-color: var(--accent); color: #0a0b0a; transform: translateY(1px) scale(.92); }
+.side-nav a:hover::after { opacity: 1; }
+.side-nav a.key-hit::after { opacity: 1; color: var(--accent); transition: none; }
 
 /* Tool cards: hover/focus expand revealing concrete usage */
 .tool-card { outline-offset: 2px; }
@@ -837,13 +834,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   toggles.forEach(function(el){ el.addEventListener('click', toggle); });
   sync(root.getAttribute('data-theme'), false);
 
-  /* 'T' key toggles theme (ignore when typing) */
+  /* 'T' key toggles theme by physical key, so it works on any layout (ignore when typing) */
   window.addEventListener('keydown', function(e){
-    if ((e.key === 't' || e.key === 'T') && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    if (e.code === 'KeyT' && !e.metaKey && !e.ctrlKey && !e.altKey) {
       var tag = (e.target && e.target.tagName) || '';
       if (tag !== 'INPUT' && tag !== 'TEXTAREA') toggle();
     }
-    if ((e.metaKey || e.ctrlKey) && (e.key==='k'||e.key==='K')) { e.preventDefault(); var x=document.querySelector('.explore'); if(x) x.focus(); }
+    if ((e.metaKey || e.ctrlKey) && e.code==='KeyK') { e.preventDefault(); var x=document.querySelector('.explore'); if(x) x.focus(); }
   });
 
   /* Scrollspy */
@@ -858,12 +855,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
     if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
-    var i = parseInt(e.key, 10) - 1;
-    if (isNaN(i) || i < 0 || i >= links.length) return;
+    var m = /^(?:Digit|Numpad)(\d)$/.exec(e.code || ''); /* physical key: works on any layout */
+    var i = m ? +m[1] - 1 : -1;
+    if (i < 0 || i >= links.length) return;
     e.preventDefault();
     var a = links[i];
     a.classList.remove('key-hit'); void a.offsetWidth; a.classList.add('key-hit');
-    setTimeout(function(){ a.classList.remove('key-hit'); }, 220);
+    setTimeout(function(){ a.classList.remove('key-hit'); }, 700);
     a.click();
   });
   if ('IntersectionObserver' in window) {
