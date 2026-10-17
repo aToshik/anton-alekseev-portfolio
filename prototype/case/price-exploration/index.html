@@ -96,9 +96,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
    ============================================================ */
 .shell { width: min(var(--maxw), calc(100vw - 2 * var(--edge))); margin: 0 auto; padding: calc(var(--nav-h) + 30px) 0 48px; display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); gap: clamp(16px, 1.6vw, 24px); align-items: start; }
 .sidebar { position: sticky; top: calc(var(--nav-h) + 30px); height: calc(100vh - var(--nav-h) - 54px); display: flex; flex-direction: column; gap: 18px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 14px 14px; overflow-y: auto; overscroll-behavior: contain; }
-.side-label { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); padding: 0 10px 8px; }
-.side-count { letter-spacing: .04em; font-variant-numeric: tabular-nums; }
-.side-count b { font-weight: 400; color: var(--accent); }
+.side-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); padding: 0 10px 8px; }
 .side-nav { display: flex; flex-direction: column; gap: 2px; }
 .side-nav a { position: relative; display: block; padding: 8px 10px; border-radius: 7px; color: var(--muted); font-size: 12.5px; transition: color .2s, background .2s; }
 .side-nav a:hover { color: var(--fg); background: var(--panel-2); }
@@ -373,9 +371,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
 <div class="shell">
   <!-- ======= SIDEBAR = SECTION NAV ======= -->
-  <aside class="sidebar" aria-label="Jump to section">
+  <aside class="sidebar" aria-label="On this case">
     <div>
-      <div class="side-label"><span>Jump to</span><span class="side-count" id="sideCount" aria-hidden="true"><b>01</b>/01</span></div>
+      <div class="side-label">On this case</div>
       <nav class="side-nav" id="sideNav">
         <a href="#overview" data-section="overview">Overview</a>
         <a href="#context" data-section="context">Context</a>
@@ -605,13 +603,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
      section (or one near the page end) is never overridden by the next one. */
   var sections = Array.prototype.slice.call(document.querySelectorAll('.main .section'));
   var current = null, pinned = false, pinTimer = null;
-  var countEl = document.querySelector('#sideCount b');
-  function pad(n){ return (n < 10 ? '0' : '') + n; }
-  if (countEl) countEl.parentNode.lastChild.textContent = '/' + pad(links.length);
   function setActive(id){
     if (id === current) return; current = id;
     links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-section') === id); });
-    var k = links.indexOf(byId[id]); if (countEl && k >= 0) countEl.textContent = pad(k + 1);
     var a = byId[id]; if (a) keepVisible(a);
   }
   function computeActive(){
