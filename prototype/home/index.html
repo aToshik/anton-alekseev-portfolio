@@ -839,13 +839,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   toggles.forEach(function(el){ el.addEventListener('click', toggle); });
   sync(root.getAttribute('data-theme'), false);
 
-  /* 'T' key toggles theme (ignore when typing) */
+  /* 'T' key toggles theme by physical key, so it works on any layout (ignore when typing) */
   window.addEventListener('keydown', function(e){
-    if ((e.key === 't' || e.key === 'T') && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    if (e.code === 'KeyT' && !e.metaKey && !e.ctrlKey && !e.altKey) {
       var tag = (e.target && e.target.tagName) || '';
       if (tag !== 'INPUT' && tag !== 'TEXTAREA') toggle();
     }
-    if ((e.metaKey || e.ctrlKey) && (e.key==='k'||e.key==='K')) { e.preventDefault(); var x=document.querySelector('.explore'); if(x) x.focus(); }
+    if ((e.metaKey || e.ctrlKey) && e.code==='KeyK') { e.preventDefault(); var x=document.querySelector('.explore'); if(x) x.focus(); }
   });
 
   /* Scrollspy */
@@ -860,8 +860,9 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
     if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
-    var i = parseInt(e.key, 10) - 1;
-    if (isNaN(i) || i < 0 || i >= links.length) return;
+    var m = /^(?:Digit|Numpad)(\d)$/.exec(e.code || ''); /* physical key: works on any layout */
+    var i = m ? +m[1] - 1 : -1;
+    if (i < 0 || i >= links.length) return;
     e.preventDefault();
     var a = links[i];
     a.classList.remove('key-hit'); void a.offsetWidth; a.classList.add('key-hit');

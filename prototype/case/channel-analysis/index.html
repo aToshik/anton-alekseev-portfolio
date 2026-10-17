@@ -501,7 +501,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
   syncTheme(root.getAttribute('data-theme'), false);
   window.addEventListener('keydown', function(e){
-    if ((e.key==='t'||e.key==='T') && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
+    if (e.code==='KeyT' && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
   });
 
   /* ---- Scrollspy (section nav) + keep active visible in a scrolling sidebar ---- */

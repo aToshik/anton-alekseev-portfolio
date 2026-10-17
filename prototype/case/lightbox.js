@@ -156,7 +156,7 @@
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
-    else if (e.key === 't' || e.key === 'T') { e.stopPropagation(); } /* keep theme hotkey from firing behind the modal */
+    else if (e.code === 'KeyT') { e.stopPropagation(); } /* keep theme hotkey from firing behind the modal */
   }
 
   /* click / tap the image: toggle 2x zoom around the point */
