@@ -82,6 +82,21 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .theme-btn { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; transition: color .2s, border-color .2s; }
 .theme-btn:hover { color: var(--fg); border-color: var(--border-2); }
 .theme-btn svg { width: 17px; height: 17px; }
+/* Theme toggle tooltip: label + key cap, shown on hover / keyboard focus (pointer devices only) */
+.theme-btn { position: relative; }
+.theme-btn .tip {
+  position: absolute; top: calc(100% + 8px); left: 50%; z-index: 5;
+  display: flex; align-items: center; gap: 10px; padding: 5px 5px 5px 10px; border-radius: 8px;
+  background: var(--btn-bg); color: var(--btn-fg); box-shadow: var(--shadow);
+  font-family: var(--body); font-size: 12px; font-weight: 500; line-height: 1; white-space: nowrap;
+  opacity: 0; transform: translate(-50%, -3px); pointer-events: none; transition: opacity .15s, transform .15s;
+}
+.theme-btn .tip kbd { font-family: var(--mono); font-size: 11px; line-height: 1; padding: 4px 6px; border-radius: 5px; background: color-mix(in srgb, var(--btn-fg) 16%, transparent); color: var(--btn-fg); }
+.theme-btn:hover .tip, .theme-btn:focus-visible .tip { opacity: 1; transform: translate(-50%, 0); transition-delay: .3s; }
+.theme-btn .tip-to-dark { display: none; }
+[data-theme="light"] .theme-btn .tip-to-light { display: none; }
+[data-theme="light"] .theme-btn .tip-to-dark { display: inline; }
+@media (hover: none) { .theme-btn .tip { display: none; } }
 .theme-btn .icon-sun, .side-theme .icon-sun { display: none; }
 .theme-btn .icon-moon, .side-theme .icon-moon { display: block; }
 [data-theme="light"] .theme-btn .icon-sun, [data-theme="light"] .side-theme .icon-sun { display: block; }
@@ -110,7 +125,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .side-theme { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s; }
 .side-theme:hover { border-color: var(--border-2); }
 .side-theme svg { width: 16px; height: 16px; color: var(--muted); }
-.side-theme span { font-size: 10px; } .side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }
+.side-theme span { font-size: 10px; } .side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 11px; line-height: 1; padding: 4px 6px; border-radius: 5px; background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); }
 
 @media (max-width: 1000px) {
   .shell { grid-template-columns: 1fr; }
@@ -289,9 +304,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* ---- PE case: status colors ---- */
 :root, [data-theme="dark"] { --st-red: #ef7a6b; --st-amber: #e9c255; }
 [data-theme="light"] { --st-red: #c8432f; --st-amber: #a87d00; }
-.demo-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--accent); }
-.demo-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-.demo-link svg { width: 14px; height: 14px; }
 .fail-list { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 86ch; }
 .fail { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
 .fail b { display: block; font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: -.01em; color: var(--fg); }
@@ -333,9 +345,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   </div>
   <div class="nav-right">
     <span class="nav-status"><span class="dot-sm"></span><span>Open to work</span></span>
-    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark / light theme" aria-keyshortcuts="T" aria-pressed="false">
       <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
+      <span class="tip" aria-hidden="true"><span class="tip-to-light">Light mode</span><span class="tip-to-dark">Dark mode</span><kbd>T</kbd></span>
     </button>
     <a class="btn-contact" href="mailto:aa.nooker@gmail.com?subject=Let's%20work%20together"><span>Contact now</span>
       <svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
@@ -388,10 +401,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <span class="mchip">7% MoM · growth in policy binds</span>
       </div>
       <p class="ch-tooling"><b>Figma</b> · <b>Hotjar</b> · <b>Mixpanel</b></p>
-      <a class="demo-link" href="https://www.youtube.com/watch?v=U7GUPZ-lTHo" target="_blank" rel="noopener">
-        <svg class="lu lu-circle-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="1"/><polygon class="lu-tri" points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
-        Public product demo by Kissterra<span class="visually-hidden"> (opens YouTube in a new tab)</span>
-      </a>
       <button type="button" class="hero-visual has-img" data-lightbox data-lb-title="A price test: every testing point, one sweet point" data-lb-caption="#phase-2">
         <img src="assets/stub-pe-hero.svg" alt="Price Exploration test view with testing points and the recommended sweet point (placeholder)" width="1600" height="900">
       </button>
@@ -518,7 +527,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <section class="section reveal reflection" id="reflection" aria-labelledby="reflection-t">
       <p class="eyebrow" style="margin-bottom:18px" id="reflection-t">Reflection</p>
       <p>Trust first, autopilot later. <em>One-click automation only works after buyers could see and check everything.</em></p>
-      <p class="body-copy" style="margin-top:22px;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;line-height:1.75;max-width:70ch;color:var(--muted)">The public demo today shows one-click apply with the platform taking over. That works only because buyers first had a version where they could see and check everything. If I started again, I'd push for the cross-campaign infrastructure earlier. We led with the more impressive feature, then hit technical limits exactly when the client wanted scale.</p>
+      <p class="body-copy" style="margin-top:22px;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;line-height:1.75;max-width:70ch;color:var(--muted)">The product has since moved to one-click apply, with the platform taking over. That works only because buyers first had a version where they could see and check everything. If I started again, I'd push for the cross-campaign infrastructure earlier. We led with the more impressive feature, then hit technical limits exactly when the client wanted scale.</p>
     </section>
 
     <!-- PREV / NEXT -->
