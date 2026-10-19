@@ -84,7 +84,9 @@ hero.addEventListener('pointerdown',e=>{ touch=e.pointerType!=='mouse'; const r=
 // touch: the tap point stays as a resting "cursor" (labels near it, orbit under it), until the next tap
 hero.addEventListener('pointerleave',e=>{ if(e.pointerType!=='mouse') return; real=false; hover=-1; hoverRing=-1; });
 function pick(x,y){ let k=-1, best=touch?30:18; OBJ.forEach((o,i)=>{ const d=Math.hypot(o.x-x,o.y-y); if(d<best&&!(o.z<0&&Math.hypot(o.x-C.x,o.y-C.y)<Rp)){best=d; k=i;} }); return k; }
-hero.addEventListener('click',e=>{ if(e.target.closest('.card-info, .gal')) return; const r=hero.getBoundingClientRect(), k=pick(e.clientX-r.left,e.clientY-r.top); sel=k>=0?(sel===k?-1:k):-1; });
+hero.addEventListener('click',e=>{ if(e.target.closest('.card-info, .gal')) return;
+  if(String(getSelection())) return; // the visitor was selecting text, not picking an object
+  const r=hero.getBoundingClientRect(), k=pick(e.clientX-r.left,e.clientY-r.top); sel=k>=0?(sel===k?-1:k):-1; });
 document.getElementById('poX').addEventListener('click',()=>{ sel=-1; });
 addEventListener('keydown',e=>{ if(e.key==='Escape') sel=-1; });
 
