@@ -1,12 +1,14 @@
-/* Review only: switch hero compositions with ?hero=a…e. Each variant moves the copy (hero-variants.css) and the orbit system. */
+/* Review only: switch hero compositions with ?hero=a, b, b2, b3, d, d2, d3. Each variant moves the copy (hero-variants.css) and the orbit system. */
 (function () {
   'use strict';
   var V = {
-    a: { name: 'A · Current', cx: .665, cy: .47, rw: .058, rh: .105, minx: .44 },
-    b: { name: 'B · Stage', cx: .5, cy: .47, rw: .062, rh: .11, minx: .02, maxx: .98 },
-    c: { name: 'C · Mirrored', cx: .3, cy: .47, rw: .058, rh: .105, minx: .02, maxx: .58 },
-    d: { name: 'D · Poster', cx: .6, cy: .42, rw: .056, rh: .1, minx: .3, maxx: .98 },
-    e: { name: 'E · Column', cx: .69, cy: .48, rw: .06, rh: .11, minx: .46, maxx: .98 }
+    a: { name: 'Current', cx: .665, cy: .47, rw: .058, rh: .105, minx: .44 },
+    b: { name: 'Stage 1', cx: .5, cy: .47, rw: .062, rh: .11, minx: .02, maxx: .98 },
+    b2: { name: 'Stage 2', cx: .5, cy: .4, rw: .058, rh: .1, minx: .02, maxx: .98 },
+    b3: { name: 'Stage 3', cx: .5, cy: .5, rw: .052, rh: .1, minx: .3, maxx: .72 },
+    d: { name: 'Poster 1', cx: .6, cy: .42, rw: .056, rh: .1, minx: .3, maxx: .98 },
+    d2: { name: 'Poster 2', cx: .56, cy: .62, rw: .046, rh: .082, minx: .3, maxx: .98 },
+    d3: { name: 'Poster 3', cx: .55, cy: .5, rw: .064, rh: .12, minx: .02, maxx: .98 }
   };
   var hero = document.getElementById('hero');
   var q = new URLSearchParams(location.search).get('hero');
