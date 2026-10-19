@@ -255,12 +255,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
 .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
 .tag { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); background: var(--panel); border: 1px solid var(--border-2); padding: 6px 10px; border-radius: 6px; }
-.hero-row2 { display: flex; align-items: center; gap: 24px; }
-.cmd { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
-.cmd kbd { font-family: var(--mono); font-size: 10px; color: var(--fg); background: var(--panel-2); border: 1px solid var(--border); border-radius: 5px; padding: 2px 6px; }
-.explore { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 11px; color: var(--fg); }
-.explore svg { width: 14px; height: 14px; transition: transform .2s; }
-.explore:hover svg { transform: translate(2px,-2px); }
 
 /* ---- SHIP IMPACT tiles ---- */
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
@@ -473,6 +467,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 </style>
 <link rel="stylesheet" href="../shared/mobile-bar.css">
 <link rel="stylesheet" href="../shared/lucide.css">
+<link rel="stylesheet" href="../shared/glow.css">
+<link rel="stylesheet" href="../shared/orbit.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -529,7 +525,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   <main class="main" id="main">
 
     <!-- HERO -->
-    <section class="card hero" id="hero" aria-labelledby="hero-name">
+    <section class="card hero po gl" id="hero" aria-labelledby="hero-name">
+      <canvas id="poCanvas" aria-hidden="true"></canvas>
       <p class="hero-eyebrow"><span class="a">Senior Product Designer</span><span class="dot-sm"></span><span class="b">Petah Tikva, Israel</span></p>
       <h1 id="hero-name">Anton Alekseev<span class="dot">.</span></h1>
       <div class="hero-bottom">
@@ -538,13 +535,15 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="hero-tags">
             <span class="tag">B2B SaaS</span><span class="tag">Complex systems</span><span class="tag">Data-dense platforms</span><span class="tag">InsurTech / Fintech</span><span class="tag">AI-native Design Systems</span>
           </div>
-          <div class="hero-row2">
-            <span class="cmd"><kbd>⌘ K</kbd> to explore</span>
-            <a class="explore" href="#" data-note="profile">Explore the workspace
-              <svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-            </a>
-          </div>
         </div>
+      </div>
+      <div class="card-info" id="poInfo" data-on="false" aria-live="polite">
+        <div class="ci-head"><span class="po-chip acc" id="poK"></span><span class="po-chip" id="poQ"></span>
+          <button type="button" class="ci-x" id="poX" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+        <h3 class="t" id="poT"></h3>
+        <p class="p" id="poP"></p>
+        <div class="ci-rel" id="poR"></div>
+        <a class="ci-case" id="poGo" hidden><span><small>Case</small><b id="poC"></b></span><span class="ci-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></a>
       </div>
     </section>
 
@@ -844,7 +843,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       var tag = (e.target && e.target.tagName) || '';
       if (tag !== 'INPUT' && tag !== 'TEXTAREA') toggle();
     }
-    if ((e.metaKey || e.ctrlKey) && e.code==='KeyK') { e.preventDefault(); var x=document.querySelector('.explore'); if(x) x.focus(); }
   });
 
   /* Scrollspy */
@@ -879,5 +877,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 })();
 </script>
 <script src="../shared/mobile-bar.js" defer></script>
+<script src="../shared/glow.js" defer></script>
+<script src="../shared/orbit.js" defer></script>
 </body>
 </html>
