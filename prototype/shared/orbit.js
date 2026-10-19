@@ -60,16 +60,17 @@ function layout(){ domCache=null;
     const eb=hero.querySelector('.hero-eyebrow').getBoundingClientRect(), nm=hero.querySelector('h1').getBoundingClientRect();
     const top=eb.bottom-r.top+12, bot=nm.top-r.top-12; C={x:W*.5,y:(top+bot)/2}; Rp=Math.max(18,Math.min(W*.1,(bot-top)*.16)); }
   else if(layoutMode==='chip'){ C={x:W*.5,y:H*.46}; Rp=Math.min(W*.075,H*.125); }
-  else { C={x:W*.665,y:H*.47}; Rp=Math.min(W*.058,H*.105); }
+  else { const v=hero.dataset; // a composition can move the system: data-cx/cy (share of W/H), data-rw/rh (planet radius caps)
+    C={x:W*(+v.cx||.665),y:H*(+v.cy||.47)}; Rp=Math.min(W*(+v.rw||.058),H*(+v.rh||.105)); }
   placeLabels();
 }
 function placeLabels(){
-  ctx.font=`400 10px ${MONO}`; const minX=(W>=700&&layoutMode==='left')?W*.44:12; const chosen=[];
+  ctx.font=`400 10px ${MONO}`; const minX=W>=700?(hero.dataset.minx?W*+hero.dataset.minx:layoutMode==='left'?W*.44:12):12, maxX=W>=700&&hero.dataset.maxx?W*+hero.dataset.maxx:W-12; const chosen=[];
   ORBITS.map((_,i)=>i).reverse().forEach(i=>{ let best=-1, bestA=null, bestBox=null; const tw=labW('Orbit',ORBITS[i].name);
     for(let a=0;a<Math.PI*2;a+=.04){ const p=project(ORBITS[i],R(i),a); if(p.z<.25) continue;
       const dx=p.x-C.x, dy=p.y-C.y, d=Math.hypot(dx,dy); if(d<Rp*1.35) continue;
       const ux=dx/d, uy=dy/d, ex=p.x+ux*(40+i*8), ey=p.y+uy*(40+i*8); const x0=ux>=0?ex+12:ex-12-tw;
-      if(x0<minX||x0+tw>W-12||ey<30||ey>H-30) continue;
+      if(x0<minX||x0+tw>maxX||ey<30||ey>H-30) continue;
       const qx=Math.max(x0,Math.min(C.x,x0+tw)), qy=Math.max(ey-14,Math.min(C.y,ey+14)); if(Math.hypot(qx-C.x,qy-C.y)<Rp*1.2) continue;
       const cx=x0+tw/2; if(chosen.some(c=>Math.abs(c.x-cx)<(c.w+tw)/2+16&&Math.abs(c.y-ey)<40)) continue; let sc=chosen.length?Math.min(...chosen.map(c=>Math.hypot((c.x-cx)/1.6,c.y-ey))):300; sc=Math.min(sc,260)+uy*20;
       if(sc>best){best=sc; bestA=a; bestBox={x:cx,y:ey,w:tw};} }
@@ -342,7 +343,7 @@ function updateInfo(o){
   if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open'); domCache=null;
 }
 
-new ResizeObserver(layout).observe(hero); layout();
+new ResizeObserver(layout).observe(hero); hero.addEventListener('po:layout',layout); layout();
 mouse.x=target.x=C.x+Rp*3; mouse.y=target.y=C.y-Rp*2;
 // only animate while the hero is on screen
 let visible=true, running=true;
