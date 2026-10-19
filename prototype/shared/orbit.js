@@ -52,7 +52,8 @@ function project(orb,r,th){
   const k=depthOn?(Rp*18)/(Rp*18-z):1;
   return {x:C.x+(x*c-y*s)*k, y:C.y+(x*s+y*c)*k, z:z/r, k};
 }
-function layout(){
+let domCache=null, domAge=0; // hero copy rects, see domRects()
+function layout(){ domCache=null;
   const r=hero.getBoundingClientRect(); W=r.width; H=r.height; dpr=Math.min(2,devicePixelRatio||1);
   cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
   if(W<700){ // stacked: the system sits in the free band between the eyebrow and the name
@@ -95,7 +96,11 @@ function brackets(x,y,s,len,col,a,sy){ sy=sy||s; ctx.strokeStyle=col; ctx.global
   [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([u,v])=>{ const cx=x+u*s, cy=y+v*sy; ctx.moveTo(cx-u*len,cy); ctx.lineTo(cx,cy); ctx.lineTo(cx,cy-v*len); }); ctx.stroke(); }
 const DISP='"Manrope", -apple-system, "Segoe UI", sans-serif';
 const SUBF=`400 9px ${MONO}`, NAMEF=`600 13px ${DISP}`;
-function labW(sub,name){ if(!sub){ ctx.font=NAMEF; return ctx.measureText(name).width; } ctx.font=SUBF; const a=ctx.measureText(sub.toUpperCase()).width+sub.length*1.2; ctx.font=NAMEF; return Math.max(a,ctx.measureText(name).width); }
+// text widths never change, but setting ctx.font re-parses the font every call: measure once per string
+const labCache=new Map();
+if(document.fonts) document.fonts.ready.then(()=>labCache.clear());
+function labW(sub,name){ const key=sub+'|'+name; let w=labCache.get(key); if(w===undefined){ w=measureLab(sub,name); labCache.set(key,w); } return w; }
+function measureLab(sub,name){ if(!sub){ ctx.font=NAMEF; return ctx.measureText(name).width; } ctx.font=SUBF; const a=ctx.measureText(sub.toUpperCase()).width+sub.length*1.2; ctx.font=NAMEF; return Math.max(a,ctx.measureText(name).width); }
 // two-line tag: quiet uppercase subtitle above, the name emphasised below
 function label2(sub,name,x,y,al,colName,colSub){
   ctx.textBaseline='middle';
@@ -103,13 +108,16 @@ function label2(sub,name,x,y,al,colName,colSub){
   ctx.font=SUBF; ctx.letterSpacing='1.2px'; ctx.globalAlpha=al*.75; ctx.fillStyle=colSub; ctx.fillText(sub.toUpperCase(),x,y-8);
   ctx.letterSpacing='0px'; ctx.font=NAMEF; ctx.globalAlpha=al; ctx.fillStyle=colName; ctx.fillText(name,x,y+6);
 }
+// canvas cost is per draw call, not per segment: group segments of similar alpha into a few paths
+const paths=n=>Array.from({length:n},()=>new Path2D());
+const bucket=(v,n)=>Math.max(0,Math.min(n-1,Math.floor(v*n)));
 function rotP(x,y,a){ const c=Math.cos(a), s=Math.sin(a); return [x*c-y*s, x*s+y*c]; }
 const VT=.42; function view(x,y,z){ const c=Math.cos(VT), s=Math.sin(VT); return [x, y*c-z*s, y*s+z*c]; }
 
 function drawRing(P,i,t,hot,dimmed){
   const orb=ORBITS[i], r=R(i), N=220, buckets=Array.from({length:8},()=>new Path2D());
   const base=hot?.7:.34, k=dimmed?.55:1;
-  const gb=Array.from({length:4},()=>new Path2D()), gOn=glowMode==='orbits'||glowMode==='both';
+  const gb=Array.from({length:4},()=>new Path2D()), gOn=glowMode==='orbits'||glowMode==='both', dots=paths(6);
   let prev=project(orb,r,0);
   for(let s=1;s<=N;s++){
     const p=project(orb,r,s/N*Math.PI*2); const zf=(p.z+prev.z)/2; const f=smooth(-.35,.35,zf);
@@ -118,10 +126,11 @@ function drawRing(P,i,t,hot,dimmed){
       if(f>.03){ const b=Math.min(7,Math.floor(f*8)); buckets[b].moveTo(prev.x,prev.y); buckets[b].lineTo(p.x,p.y); }
       if(gOn){ const g=glowAmt*Math.exp(-((Math.hypot((p.x+prev.x)/2-mouse.x,(p.y+prev.y)/2-mouse.y)/GLOW_R)**2))*(.35+.65*f);
         if(g>.04){ const b=Math.min(3,Math.floor(g*4)); gb[b].moveTo(prev.x,prev.y); gb[b].lineTo(p.x,p.y); } }
-      if(f<.97&&s%2===0){ ctx.globalAlpha=(1-f)*.3*k*(hot?1.6:1); ctx.fillStyle=hot?P.accent:P.fg; ctx.fillRect(p.x-.6,p.y-.6,1.2,1.2); }
+      if(f<.97&&s%2===0) dots[bucket(1-f,6)].rect(p.x-.6,p.y-.6,1.2,1.2);
     }
     prev=p;
   }
+  ctx.fillStyle=hot?P.accent:P.fg; dots.forEach((path,b)=>{ ctx.globalAlpha=(b+.5)/6*.3*k*(hot?1.6:1); ctx.fill(path); });
   ctx.strokeStyle=hot?P.accent:P.fg;
   buckets.forEach((path,b)=>{ const f=(b+.5)/8; ctx.globalAlpha=f*base*k; ctx.lineWidth=.8+f*.4; ctx.stroke(path); });
   if(gOn){ ctx.strokeStyle=P.accent; ctx.lineCap='round';
@@ -131,13 +140,14 @@ function drawRing(P,i,t,hot,dimmed){
 // glowing trail: the arc an object has just travelled, fading out behind it
 function drawTrail(P,o){
   const orb=ORBITS[o.o], r=R(o.o), dir=Math.sign(orb.speed)||1, span=.6*(.25+.75*speed), N=16;
-  let prev=project(orb,r,o.theta); ctx.strokeStyle=P.accent; ctx.lineCap='round';
+  let prev=project(orb,r,o.theta); const tb=paths(6);
   for(let j=1;j<=N;j++){ const p=project(orb,r,o.theta-dir*span*j/N);
     const zf=(p.z+prev.z)/2, behind=zf<0&&Math.hypot((p.x+prev.x)/2-C.x,(p.y+prev.y)/2-C.y)<Rp;
     if(!behind){ const a=(1-(j-1)/N)**1.7*(.4+.6*smooth(-.4,.4,zf));
-      ctx.beginPath(); ctx.moveTo(prev.x,prev.y); ctx.lineTo(p.x,p.y);
-      ctx.globalAlpha=.12*a; ctx.lineWidth=6; ctx.stroke(); ctx.globalAlpha=.8*a; ctx.lineWidth=1.4; ctx.stroke(); }
+      const path=tb[bucket(a,6)]; path.moveTo(prev.x,prev.y); path.lineTo(p.x,p.y); }
     prev=p; }
+  ctx.strokeStyle=P.accent; ctx.lineCap='round';
+  tb.forEach((path,b)=>{ const a=(b+.5)/6; ctx.globalAlpha=.12*a; ctx.lineWidth=6; ctx.stroke(path); ctx.globalAlpha=.8*a; ctx.lineWidth=1.4; ctx.stroke(path); });
   ctx.lineCap='butt'; ctx.globalAlpha=1;
 }
 
@@ -152,24 +162,28 @@ function drawPlanetBody(P,t,Ls){
   const ll=Math.hypot(Ls.x,Ls.y,Rp*1.6); const L={x:Ls.x/ll,y:Ls.y/ll,z:Rp*1.6/ll}; const rot=t*.16, tilt=-.32;
   ctx.globalAlpha=1; ctx.fillStyle=P.panel; ctx.beginPath(); ctx.arc(C.x,C.y,Rp,0,7); ctx.fill();
   ctx.lineWidth=1;
+  const wb=paths(10);
   const seg=pts=>{ for(let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i]; if(a[2]<0||b[2]<0) continue;
       const nl=Math.max(0,((a[0]+b[0])/2*L.x+(a[1]+b[1])/2*L.y+(a[2]+b[2])/2*L.z)/Rp);
-      ctx.globalAlpha=.1+.55*nl*nl; ctx.strokeStyle=P.fg; ctx.beginPath(); ctx.moveTo(C.x+a[0],C.y+a[1]); ctx.lineTo(C.x+b[0],C.y+b[1]); ctx.stroke(); } };
+      const path=wb[bucket(nl*nl,10)]; path.moveTo(C.x+a[0],C.y+a[1]); path.lineTo(C.x+b[0],C.y+b[1]); } };
   if(planetMode==='wire'){
     for(let k=0;k<9;k++){ const lon=k/9*Math.PI+rot; const pts=[];
       for(let j=0;j<=28;j++){ const lat=-Math.PI/2+j/28*Math.PI; let [x,y,z]=view(Rp*Math.cos(lat)*Math.sin(lon),Rp*Math.sin(lat),Rp*Math.cos(lat)*Math.cos(lon)); [x,y]=rotP(x,y,tilt); pts.push([x,y,z]); } seg(pts); }
     for(const lat of [-1.05,-.55,0,.55,1.05]){ const pts=[];
       for(let j=0;j<=44;j++){ const th=j/44*Math.PI*2; let [x,y,z]=view(Rp*Math.cos(lat)*Math.sin(th),Rp*Math.sin(lat),Rp*Math.cos(lat)*Math.cos(th)); [x,y]=rotP(x,y,tilt); pts.push([x,y,z]); } seg(pts); }
+    ctx.strokeStyle=P.fg; wb.forEach((path,b)=>{ const v=(b+.5)/10; ctx.globalAlpha=.1+.55*v; ctx.stroke(path); });
   } else {
     for(let i=1;i<=3;i++){ ctx.globalAlpha=.12+i*.06; ctx.strokeStyle=P.fg; ctx.beginPath(); ctx.arc(C.x,C.y,Rp*i/3.2,0,7); ctx.stroke(); }
     ctx.globalAlpha=.9; ctx.fillStyle=P.accent; ctx.fillRect(C.x-2,C.y-2,4,4);
   }
   // limb: dim outline that turns green where it faces the viewer's cursor
   const la=Math.atan2(L.y,L.x), planar=Math.min(1,Math.hypot(L.x,L.y)*1.4);
+  const lb=paths(8);
   for(let s=0;s<120;s++){ const a0=s/120*Math.PI*2, a1=(s+1)/120*Math.PI*2; const lit=Math.max(0,Math.cos((a0+a1)/2-la))**2*planar;
-    ctx.beginPath(); ctx.arc(C.x,C.y,Rp,a0,a1+.004);
-    ctx.strokeStyle=P.fg; ctx.globalAlpha=.32*(1-lit); ctx.lineWidth=1; ctx.stroke();
-    if(lit>.02){ ctx.strokeStyle=P.accent; ctx.globalAlpha=lit*.95; ctx.lineWidth=1+lit*.6; ctx.stroke(); } }
+    const path=lb[bucket(lit,8)]; path.moveTo(C.x+Rp*Math.cos(a0),C.y+Rp*Math.sin(a0)); path.arc(C.x,C.y,Rp,a0,a1+.004); }
+  lb.forEach((path,b)=>{ const lit=b?(b+.5)/8:0;
+    ctx.strokeStyle=P.fg; ctx.globalAlpha=.32*(1-lit); ctx.lineWidth=1; ctx.stroke(path);
+    if(b){ ctx.strokeStyle=P.accent; ctx.globalAlpha=lit*.95; ctx.lineWidth=1+lit*.6; ctx.stroke(path); } });
   ctx.lineWidth=1; ctx.globalAlpha=1;
 }
 
@@ -194,11 +208,14 @@ const hit=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 const PAD=4, LH=18;
 // candidate slots around an object: [dx, dy, anchor] where anchor 0 = text starts at x, 1 = text ends at x, .5 = centred
 const SLOTS=[[14,0,0],[-14,0,1],[10,-16,0],[-10,-16,1],[10,16,0],[-10,16,1],[0,-20,.5],[0,20,.5]];
+// hero copy rects are cached: reading them every frame forced a full layout 60 times a second
 function domRects(){
+  if(domCache&&domAge++<20) return domCache;
+  domAge=0;
   const hr=hero.getBoundingClientRect(), out=[];
   hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags .tag, .card-info[data-on="true"]').forEach(el=>{ const r=el.getBoundingClientRect(); if(!r.width||+getComputedStyle(el).opacity<.1) return;
     out.push({x:r.left-hr.left-8,y:r.top-hr.top-6,w:r.width+16,h:r.height+12}); });
-  return out;
+  return domCache=out;
 }
 function planetHit(r){ const qx=Math.max(r.x,Math.min(C.x,r.x+r.w)), qy=Math.max(r.y,Math.min(C.y,r.y+r.h)); return Math.hypot(qx-C.x,qy-C.y)<Rp*1.08; }
 function slotRect(o,i,w){ const [dx,dy,an]=SLOTS[i]; const x=o.x+dx-an*w; return {x:x-PAD,y:o.y+dy-LH/2,w:w+PAD*2,h:LH}; }
@@ -240,6 +257,9 @@ function drawObjLabel(P,j){
 }
 
 // ---- loop
+// hero style writes restyle its whole subtree, so skip the ones that would not change anything
+const heroVars={};
+function setVar(k,v){ if(heroVars[k]!==v) hero.style.setProperty(k,heroVars[k]=v); }
 let t=0, prev=performance.now(), speed=1;
 function frame(now){
   const dt=Math.min(.05,(now-prev)/1000); prev=now;
@@ -250,11 +270,11 @@ function frame(now){
   const tw=depthOn&&!reduce?{x:(mouse.y-C.y)/H*.22,z:(mouse.x-C.x)/W*.12}:{x:0,z:0};
   tilt.x+=(tw.x-tilt.x)*Math.min(1,dt*3); tilt.z+=(tw.z-tilt.z)*Math.min(1,dt*3);
   glowAmt+=((real?1:.45)-glowAmt)*Math.min(1,dt*3);
-  hero.style.setProperty('--mx',mouse.x.toFixed(1)+'px'); hero.style.setProperty('--my',mouse.y.toFixed(1)+'px'); hero.style.setProperty('--glow',glowAmt.toFixed(3));
+  setVar('--mx',mouse.x.toFixed(1)+'px'); setVar('--my',mouse.y.toFixed(1)+'px'); setVar('--glow',glowAmt.toFixed(3));
   hover=-1; hoverRing=-1;
   if(real){ hover=pick(target.x,target.y);
     if(hover<0){ let bd=touch?22:10; ORBITS.forEach((orb,i)=>{ for(let a=0;a<120;a++){ const p=project(orb,R(i),a/120*Math.PI*2); const d=Math.hypot(p.x-target.x,p.y-target.y); if(d<bd){bd=d; hoverRing=i;} } }); } }
-  hero.style.cursor=hover>=0?'pointer':'default';
+  setVar('cursor',hover>=0?'pointer':'default');
 
   const want=(hover>=0||sel>=0)?.08:1; speed+=(want-speed)*Math.min(1,dt*4);
   if(!reduce) t+=dt*speed;
@@ -312,14 +332,14 @@ function frame(now){
 const info=document.getElementById('poInfo'); let shown=null;
 function updateInfo(o){
   if(o===shown) return; shown=o;
-  if(!o){ info.dataset.on='false'; hero.classList.remove('card-open'); return; }
+  if(!o){ info.dataset.on='false'; hero.classList.remove('card-open'); domCache=null; return; }
   const orb=ORBITS[o.o], $=id=>document.getElementById(id);
   $('poK').textContent=`${orb.name} orbit`;
   $('poT').textContent=o.label; $('poP').textContent=o.text;
   $('poQ').textContent=orb.q;
   $('poR').innerHTML=o.rel.length?`<span class="lbl">Related</span>`+o.rel.map(id=>`<span class="po-chip">${byId[id].label}</span>`).join(''):'';
   const go=$('poGo'), url=o.kase&&CASE_URL[o.kase]; go.hidden=!o.kase; $('poC').textContent=o.kase||'';
-  if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open');
+  if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open'); domCache=null;
 }
 
 new ResizeObserver(layout).observe(hero); layout();

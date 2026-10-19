@@ -864,9 +864,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
     /* Lucide icons: draw the side-nav set in once, then hand over to hover/active gestures */
     var sn = document.querySelector('.side-nav');
     if (sn) { sn.classList.add('lu-intro'); setTimeout(function(){ sn.classList.remove('lu-intro'); }, 1600); }
+    /* start the reveal a little before a section scrolls in, so its cards are already settling when they reach the screen */
     var rev = new IntersectionObserver(function(entries, obs){
       entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    }, { rootMargin: '0px 0px 15% 0px', threshold: 0 });
     document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
   }
 
