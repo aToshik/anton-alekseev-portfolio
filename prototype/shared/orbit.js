@@ -53,7 +53,7 @@ function project(orb,r,th){
   return {x:C.x+(x*c-y*s)*k, y:C.y+(x*s+y*c)*k, z:z/r, k};
 }
 let domCache=null, domAge=0; // hero copy rects, see domRects()
-function layout(){ domCache=null;
+function layout(){ domCache=null; if(shown) measureCard();
   const r=hero.getBoundingClientRect(); W=r.width; H=r.height; dpr=Math.min(2,devicePixelRatio||1);
   cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
   if(W<700){ // stacked: the system sits in the free band between the eyebrow and the name
@@ -326,7 +326,7 @@ function frame(now){
   if(real&&cursorMark){ ctx.globalAlpha=1; ctx.fillStyle=P.accent; ctx.fillRect(target.x+12,target.y+16,4,4); }
   ctx.globalAlpha=1;
 
-  updateInfo(selObj);
+  updateInfo(selObj); if(selObj) placeCard(selObj);
   if(visible) requestAnimationFrame(frame); else running=false;
 }
 
@@ -341,6 +341,27 @@ function updateInfo(o){
   $('poR').innerHTML=o.rel.length?`<span class="lbl">Related</span>`+o.rel.map(id=>`<span class="po-chip">${byId[id].label}</span>`).join(''):'';
   const go=$('poGo'), url=o.kase&&CASE_URL[o.kase]; go.hidden=!o.kase; $('poC').textContent=o.kase||'';
   if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open'); domCache=null;
+  measureCard(); cardSide=-1;
+}
+// the card opens next to its object and follows it, never covering it; it prefers spots clear of the hero copy
+let cardW=0, cardH=0, cardSide=-1, copyRects=[];
+function measureCard(){
+  cardW=info.offsetWidth; cardH=info.offsetHeight;
+  const hr=hero.getBoundingClientRect();
+  copyRects=[...hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags')].map(el=>{ const r=el.getBoundingClientRect(); return {x:r.left-hr.left,y:r.top-hr.top,w:r.width,h:r.height}; });
+}
+function placeCard(o){
+  const G=18, M=12, ob={x:o.x-12,y:o.y-12,w:24,h:24};
+  const spots=[[o.x+G,o.y-cardH/2],[o.x-G-cardW,o.y-cardH/2],[o.x-cardW/2,o.y+G],[o.x-cardW/2,o.y-G-cardH]];
+  let best=-1, bestScore=Infinity, bestXY=null;
+  spots.forEach(([x,y],i)=>{
+    x=Math.max(M,Math.min(W-cardW-M,x)); y=Math.max(M,Math.min(H-cardH-M,y));
+    const r={x,y,w:cardW,h:cardH}; if(hit(r,ob)) return;
+    let sc=copyRects.reduce((a,c)=>a+Math.max(0,Math.min(r.x+r.w,c.x+c.w)-Math.max(r.x,c.x))*Math.max(0,Math.min(r.y+r.h,c.y+c.h)-Math.max(r.y,c.y)),0);
+    if(i!==cardSide) sc+=2000; // stay on the same side unless another one is clearly better
+    if(sc<bestScore){ bestScore=sc; best=i; bestXY=[x,y]; } });
+  if(best<0){ best=0; bestXY=[Math.max(M,Math.min(W-cardW-M,spots[0][0])),Math.max(M,Math.min(H-cardH-M,spots[0][1]))]; }
+  cardSide=best; info.style.left=Math.round(bestXY[0])+'px'; info.style.top=Math.round(bestXY[1])+'px';
 }
 
 new ResizeObserver(layout).observe(hero); layout();
