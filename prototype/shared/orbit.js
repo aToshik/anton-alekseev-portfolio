@@ -53,23 +53,24 @@ function project(orb,r,th){
   return {x:C.x+(x*c-y*s)*k, y:C.y+(x*s+y*c)*k, z:z/r, k};
 }
 let domCache=null, domAge=0; // hero copy rects, see domRects()
-function layout(){ domCache=null;
+function layout(){ domCache=null; if(shown) measureCard();
   const r=hero.getBoundingClientRect(); W=r.width; H=r.height; dpr=Math.min(2,devicePixelRatio||1);
   cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
   if(W<700){ // stacked: the system sits in the free band between the eyebrow and the name
     const eb=hero.querySelector('.hero-eyebrow').getBoundingClientRect(), nm=hero.querySelector('h1').getBoundingClientRect();
     const top=eb.bottom-r.top+12, bot=nm.top-r.top-12; C={x:W*.5,y:(top+bot)/2}; Rp=Math.max(18,Math.min(W*.1,(bot-top)*.16)); }
   else if(layoutMode==='chip'){ C={x:W*.5,y:H*.46}; Rp=Math.min(W*.075,H*.125); }
-  else { C={x:W*.665,y:H*.47}; Rp=Math.min(W*.058,H*.105); }
+  else { const v=hero.dataset; // a composition can move the system: data-cx/cy (share of W/H), data-rw/rh (planet radius caps)
+    C={x:W*(+v.cx||.665),y:H*(+v.cy||.47)}; Rp=Math.min(W*(+v.rw||.058),H*(+v.rh||.105)); }
   placeLabels();
 }
 function placeLabels(){
-  ctx.font=`400 10px ${MONO}`; const minX=(W>=700&&layoutMode==='left')?W*.44:12; const chosen=[];
+  ctx.font=`400 10px ${MONO}`; const minX=W>=700?(hero.dataset.minx?W*+hero.dataset.minx:layoutMode==='left'?W*.44:12):12, maxX=W>=700&&hero.dataset.maxx?W*+hero.dataset.maxx:W-12; const chosen=[], dom=domRects(); // orbit names also keep clear of the hero copy
   ORBITS.map((_,i)=>i).reverse().forEach(i=>{ let best=-1, bestA=null, bestBox=null; const tw=labW('Orbit',ORBITS[i].name);
     for(let a=0;a<Math.PI*2;a+=.04){ const p=project(ORBITS[i],R(i),a); if(p.z<.25) continue;
       const dx=p.x-C.x, dy=p.y-C.y, d=Math.hypot(dx,dy); if(d<Rp*1.35) continue;
       const ux=dx/d, uy=dy/d, ex=p.x+ux*(40+i*8), ey=p.y+uy*(40+i*8); const x0=ux>=0?ex+12:ex-12-tw;
-      if(x0<minX||x0+tw>W-12||ey<30||ey>H-30) continue;
+      if(x0<minX||x0+tw>maxX||ey<30||ey>H-30) continue; if(dom.some(d=>hit(d,{x:x0-4,y:ey-16,w:tw+8,h:30}))) continue;
       const qx=Math.max(x0,Math.min(C.x,x0+tw)), qy=Math.max(ey-14,Math.min(C.y,ey+14)); if(Math.hypot(qx-C.x,qy-C.y)<Rp*1.2) continue;
       const cx=x0+tw/2; if(chosen.some(c=>Math.abs(c.x-cx)<(c.w+tw)/2+16&&Math.abs(c.y-ey)<40)) continue; let sc=chosen.length?Math.min(...chosen.map(c=>Math.hypot((c.x-cx)/1.6,c.y-ey))):300; sc=Math.min(sc,260)+uy*20;
       if(sc>best){best=sc; bestA=a; bestBox={x:cx,y:ey,w:tw};} }
@@ -325,7 +326,7 @@ function frame(now){
   if(real&&cursorMark){ ctx.globalAlpha=1; ctx.fillStyle=P.accent; ctx.fillRect(target.x+12,target.y+16,4,4); }
   ctx.globalAlpha=1;
 
-  updateInfo(selObj);
+  updateInfo(selObj); if(selObj) placeCard(selObj);
   if(visible) requestAnimationFrame(frame); else running=false;
 }
 
@@ -340,6 +341,27 @@ function updateInfo(o){
   $('poR').innerHTML=o.rel.length?`<span class="lbl">Related</span>`+o.rel.map(id=>`<span class="po-chip">${byId[id].label}</span>`).join(''):'';
   const go=$('poGo'), url=o.kase&&CASE_URL[o.kase]; go.hidden=!o.kase; $('poC').textContent=o.kase||'';
   if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open'); domCache=null;
+  measureCard(); cardSide=-1;
+}
+// the card opens next to its object and follows it, never covering it; it prefers spots clear of the hero copy
+let cardW=0, cardH=0, cardSide=-1, copyRects=[];
+function measureCard(){
+  cardW=info.offsetWidth; cardH=info.offsetHeight;
+  const hr=hero.getBoundingClientRect();
+  copyRects=[...hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags')].map(el=>{ const r=el.getBoundingClientRect(); return {x:r.left-hr.left,y:r.top-hr.top,w:r.width,h:r.height}; });
+}
+function placeCard(o){
+  const G=18, M=12, ob={x:o.x-12,y:o.y-12,w:24,h:24};
+  const spots=[[o.x+G,o.y-cardH/2],[o.x-G-cardW,o.y-cardH/2],[o.x-cardW/2,o.y+G],[o.x-cardW/2,o.y-G-cardH]];
+  let best=-1, bestScore=Infinity, bestXY=null;
+  spots.forEach(([x,y],i)=>{
+    x=Math.max(M,Math.min(W-cardW-M,x)); y=Math.max(M,Math.min(H-cardH-M,y));
+    const r={x,y,w:cardW,h:cardH}; if(hit(r,ob)) return;
+    let sc=copyRects.reduce((a,c)=>a+Math.max(0,Math.min(r.x+r.w,c.x+c.w)-Math.max(r.x,c.x))*Math.max(0,Math.min(r.y+r.h,c.y+c.h)-Math.max(r.y,c.y)),0);
+    if(i!==cardSide) sc+=2000; // stay on the same side unless another one is clearly better
+    if(sc<bestScore){ bestScore=sc; best=i; bestXY=[x,y]; } });
+  if(best<0){ best=0; bestXY=[Math.max(M,Math.min(W-cardW-M,spots[0][0])),Math.max(M,Math.min(H-cardH-M,spots[0][1]))]; }
+  cardSide=best; info.style.left=Math.round(bestXY[0])+'px'; info.style.top=Math.round(bestXY[1])+'px';
 }
 
 new ResizeObserver(layout).observe(hero); layout();

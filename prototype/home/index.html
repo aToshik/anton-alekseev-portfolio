@@ -525,17 +525,48 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   <main class="main" id="main">
 
     <!-- HERO -->
-    <section class="card hero po gl" id="hero" aria-labelledby="hero-name">
+    <section class="card hero po gl" id="hero" aria-labelledby="hero-name" data-cx=".5" data-cy=".38" data-rw=".058" data-rh=".1" data-minx=".02" data-maxx=".98">
       <canvas id="poCanvas" aria-hidden="true"></canvas>
       <p class="hero-eyebrow"><span class="a">Senior Product Designer</span><span class="dot-sm"></span><span class="b">Petah Tikva, Israel</span></p>
       <h1 id="hero-name">Anton Alekseev<span class="dot">.</span></h1>
       <div class="hero-bottom">
         <p class="hero-tagline">Translating complex B2B systems into self-service experiences that scale.</p>
         <div class="hero-meta">
-          <div class="hero-tags">
-            <span class="tag">B2B SaaS</span><span class="tag">Complex systems</span><span class="tag">Data-dense platforms</span><span class="tag">InsurTech / Fintech</span><span class="tag">AI-native Design Systems</span>
+          <div class="hero-tags" role="list" aria-label="Focus areas">
+            <span class="tag" role="listitem">B2B SaaS</span><span class="tag" role="listitem">Complex systems</span><span class="tag" role="listitem">Data-dense platforms</span><span class="tag" role="listitem">InsurTech / Fintech</span><span class="tag" role="listitem">AI-native Design Systems</span>
           </div>
         </div>
+      </div>
+      <!-- Text version of the orbit map for screen readers and crawlers; keep in sync with GALAXIES in shared/orbit.js -->
+      <div class="visually-hidden" id="poMap">
+        <h2>Impact map</h2>
+        <p>Four orbits of design impact around one product, from a single screen to business results.</p>
+        <dl>
+          <dt>Interface: one screen</dt>
+          <dd><ul>
+            <li><strong>Experience</strong>: How the product feels as a whole: calm and predictable.</li>
+            <li><strong>Clarity</strong>: At a glance it is clear what is going on and what to do next. Case: <a tabindex="-1" href="../case/channel-analysis/">Channel Analysis</a>.</li>
+            <li><strong>Usability</strong>: A complex task gets done fast and without mistakes.</li>
+          </ul></dd>
+          <dt>Product: the whole flow</dt>
+          <dd><ul>
+            <li><strong>Impact</strong>: The solution changes how people work, not just a screen.</li>
+            <li><strong>Confidence</strong>: Users trust the numbers and recommendations because they can see where they come from. Case: <a tabindex="-1" href="../case/price-exploration/">Price Exploration</a>.</li>
+            <li><strong>Self-service</strong>: Customers get it done on their own, without support or an account manager. Case: Cross-Campaign Management (coming soon).</li>
+          </ul></dd>
+          <dt>Team: how others work</dt>
+          <dd><ul>
+            <li><strong>Governance</strong>: It is clear who changes the system and how, so it does not sprawl.</li>
+            <li><strong>Guidelines</strong>: Rules that let the team make the same calls without a designer.</li>
+            <li><strong>Design System</strong>: The components and tokens every screen is built from. Case: <a tabindex="-1" href="../case/design-system/">Design System for AI Agents</a>.</li>
+          </ul></dd>
+          <dt>Business: what the numbers show</dt>
+          <dd><ul>
+            <li><strong>Adoption</strong>: Features get used, not just shipped.</li>
+            <li><strong>Scale</strong>: The solution works for thousands of customers, not just one.</li>
+            <li><strong>Outcomes</strong>: A measurable result: time, money, support tickets.</li>
+          </ul></dd>
+        </dl>
       </div>
       <div class="card-info" id="poInfo" data-on="false" aria-live="polite">
         <div class="ci-head"><span class="po-chip acc" id="poK"></span><span class="po-chip" id="poQ"></span>
