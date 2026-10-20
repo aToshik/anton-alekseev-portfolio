@@ -65,12 +65,12 @@ function layout(){ domCache=null;
   placeLabels();
 }
 function placeLabels(){
-  ctx.font=`400 10px ${MONO}`; const minX=W>=700?(hero.dataset.minx?W*+hero.dataset.minx:layoutMode==='left'?W*.44:12):12, maxX=W>=700&&hero.dataset.maxx?W*+hero.dataset.maxx:W-12; const chosen=[];
+  ctx.font=`400 10px ${MONO}`; const minX=W>=700?(hero.dataset.minx?W*+hero.dataset.minx:layoutMode==='left'?W*.44:12):12, maxX=W>=700&&hero.dataset.maxx?W*+hero.dataset.maxx:W-12; const chosen=[], dom=domRects(); // orbit names also keep clear of the hero copy
   ORBITS.map((_,i)=>i).reverse().forEach(i=>{ let best=-1, bestA=null, bestBox=null; const tw=labW('Orbit',ORBITS[i].name);
     for(let a=0;a<Math.PI*2;a+=.04){ const p=project(ORBITS[i],R(i),a); if(p.z<.25) continue;
       const dx=p.x-C.x, dy=p.y-C.y, d=Math.hypot(dx,dy); if(d<Rp*1.35) continue;
       const ux=dx/d, uy=dy/d, ex=p.x+ux*(40+i*8), ey=p.y+uy*(40+i*8); const x0=ux>=0?ex+12:ex-12-tw;
-      if(x0<minX||x0+tw>maxX||ey<30||ey>H-30) continue;
+      if(x0<minX||x0+tw>maxX||ey<30||ey>H-30) continue; if(dom.some(d=>hit(d,{x:x0-4,y:ey-16,w:tw+8,h:30}))) continue;
       const qx=Math.max(x0,Math.min(C.x,x0+tw)), qy=Math.max(ey-14,Math.min(C.y,ey+14)); if(Math.hypot(qx-C.x,qy-C.y)<Rp*1.2) continue;
       const cx=x0+tw/2; if(chosen.some(c=>Math.abs(c.x-cx)<(c.w+tw)/2+16&&Math.abs(c.y-ey)<40)) continue; let sc=chosen.length?Math.min(...chosen.map(c=>Math.hypot((c.x-cx)/1.6,c.y-ey))):300; sc=Math.min(sc,260)+uy*20;
       if(sc>best){best=sc; bestA=a; bestBox={x:cx,y:ey,w:tw};} }

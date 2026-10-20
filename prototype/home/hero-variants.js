@@ -6,6 +6,7 @@
     s1: { name: 'Stage 2', cx: .5, cy: .4, rw: .058, rh: .1, minx: .02, maxx: .98 },
     s2: { name: 'Axis', cx: .5, cy: .37, rw: .054, rh: .092, minx: .02, maxx: .98 },
     s2f: { name: 'Axis · 100vh', cx: .5, cy: .38, rw: .058, rh: .1, minx: .02, maxx: .98 },
+    f: { name: 'Axis · Figma', cx: .5, cy: .4, rw: .058, rh: .1, minx: .02, maxx: .98 },
     s3: { name: 'Split base', cx: .5, cy: .4, rw: .058, rh: .1, minx: .02, maxx: .98 },
     s4: { name: 'Big name', cx: .5, cy: .5, rw: .062, rh: .11, minx: .02, maxx: .98 },
     s5: { name: 'Tagline first', cx: .56, cy: .44, rw: .056, rh: .1, minx: .3, maxx: .98 }

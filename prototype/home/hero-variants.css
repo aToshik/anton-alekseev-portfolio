@@ -21,6 +21,12 @@
   .hero.po[data-v="s2f"] .hero-eyebrow { justify-self: center; }
   .hero.po[data-v="s2f"] .hero-meta { justify-self: center; align-items: center; margin-top: 10px; } .hero.po[data-v="s2f"] .hero-tags { justify-content: center; }
 
+  /* F · Figma 415:235: Axis at full height, tags on top, eyebrow sits right above the name */
+  .hero.po[data-v="f"] { min-height: 0; height: calc(100svh - var(--nav-h) - 54px); grid-template-rows: auto 1fr auto auto auto; grid-template-areas: "tags tags" ". ." "eb eb" "name name" "tag tag"; row-gap: 0; }
+  .hero.po[data-v="f"] .hero-meta { justify-self: center; align-items: center; } .hero.po[data-v="f"] .hero-tags { justify-content: center; }
+  .hero.po[data-v="f"] .hero-eyebrow { justify-self: center; margin-bottom: 16px; }
+  .hero.po[data-v="f"] .hero-tagline { margin-top: 22px; }
+
   /* S3 · split base: centred name, then tagline left and tags right on one baseline */
   .hero.po[data-v="s3"] { grid-template-rows: auto 1fr auto auto; grid-template-areas: "eb eb" ". ." "name name" "tag tags"; row-gap: 26px; }
   .hero.po[data-v="s3"] .hero-tagline { justify-self: start; text-align: left; align-self: end; max-width: 26ch; }
