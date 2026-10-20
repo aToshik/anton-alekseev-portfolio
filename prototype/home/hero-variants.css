@@ -16,6 +16,11 @@
   .hero.po[data-v="s2"] .hero-eyebrow { justify-self: center; }
   .hero.po[data-v="s2"] .hero-meta { justify-self: center; align-items: center; margin-top: 10px; } .hero.po[data-v="s2"] .hero-tags { justify-content: center; }
 
+  /* S2F · Axis at full height: the hero fills the screen under the nav, level with the sidebar */
+  .hero.po[data-v="s2f"] { min-height: 0; height: calc(100svh - var(--nav-h) - 54px); grid-template-rows: auto 1fr auto auto auto; grid-template-areas: "eb eb" ". ." "name name" "tag tag" "tags tags"; }
+  .hero.po[data-v="s2f"] .hero-eyebrow { justify-self: center; }
+  .hero.po[data-v="s2f"] .hero-meta { justify-self: center; align-items: center; margin-top: 10px; } .hero.po[data-v="s2f"] .hero-tags { justify-content: center; }
+
   /* S3 · split base: centred name, then tagline left and tags right on one baseline */
   .hero.po[data-v="s3"] { grid-template-rows: auto 1fr auto auto; grid-template-areas: "eb eb" ". ." "name name" "tag tags"; row-gap: 26px; }
   .hero.po[data-v="s3"] .hero-tagline { justify-self: start; text-align: left; align-self: end; max-width: 26ch; }
