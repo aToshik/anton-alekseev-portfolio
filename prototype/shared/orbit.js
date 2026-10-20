@@ -343,7 +343,7 @@ function updateInfo(o){
   if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open'); domCache=null;
 }
 
-new ResizeObserver(layout).observe(hero); hero.addEventListener('po:layout',layout); layout();
+new ResizeObserver(layout).observe(hero); layout();
 mouse.x=target.x=C.x+Rp*3; mouse.y=target.y=C.y-Rp*2;
 // only animate while the hero is on screen
 let visible=true, running=true;
