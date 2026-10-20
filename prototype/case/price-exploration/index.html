@@ -174,7 +174,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .pr-dot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 0; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
 .pr-step.on { color: var(--fg); }
 .pr-step.on .pr-dot { background: var(--accent); border-color: var(--accent); }
-.pr-step.active .pr-dot { box-shadow: 0 0 0 4px var(--accent-weak); }
 .pr-num { font-family: var(--mono); font-size: 10px; color: var(--label); transition: color .2s ease; }
 .pr-step.on .pr-num { color: var(--accent); }
 .pr-name { font-size: 12px; margin-top: 2px; }
@@ -316,9 +315,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .light { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 8px; }
 .light-top { display: flex; align-items: center; gap: 10px; }
 .light-dot { width: 12px; height: 12px; border-radius: 0; flex-shrink: 0; }
-.light.red .light-dot { background: var(--st-red); box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-red) 18%, transparent); }
-.light.amber .light-dot { background: var(--st-amber); box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-amber) 18%, transparent); }
-.light.green .light-dot { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-weak); }
+.light.red .light-dot { background: var(--st-red); }
+.light.amber .light-dot { background: var(--st-amber); }
+.light.green .light-dot { background: var(--accent); }
 .light b { font-family: var(--display); font-weight: 500; font-size: 15px; letter-spacing: -.01em; }
 .light p { font-size: 13px; line-height: 1.6; color: var(--muted); }
 .light .verb { margin-top: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); }

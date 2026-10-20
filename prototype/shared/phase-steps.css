@@ -19,7 +19,6 @@
 .ss-step.on .ss-dot { background: var(--accent); border-color: var(--accent); }
 .ss-step.on .ss-num { color: var(--accent); }
 .ss-step.cur { font-weight: 500; }
-.ss-step.cur .ss-dot { box-shadow: 0 0 0 3px var(--accent-weak); }
 
 @media (prefers-reduced-motion: reduce) {
   .side-sub, .ss-fill, .ss-dot, .ss-num, .side-sub .ss-step { transition: none; }
