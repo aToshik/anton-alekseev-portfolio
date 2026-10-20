@@ -1,47 +1,35 @@
-/* Review only: hero composition variants, switched with ?hero=a, b, b2, b3, d, d2, d3 (hero-variants.js). Desktop only (≥1001px). */
+/* Review only: Stage 2 hero variations, switched with ?hero=s1…s5 (hero-variants.js). Desktop only (≥1001px). */
 @media (min-width: 1001px) { /* a container query cannot restyle the hero itself, so this keys off the viewport */
-  .hero.po[data-v] { display: grid; gap: 28px 40px; }
+  .hero.po[data-v] { display: grid; gap: 18px 40px; grid-template-columns: 1fr 1fr; }
   .hero.po[data-v] .hero-bottom { display: contents; }
   .hero.po[data-v] .hero-eyebrow { grid-area: eb; align-self: start; justify-self: start; }
-  .hero.po[data-v] h1 { grid-area: name; }
-  .hero.po[data-v] .hero-tagline { grid-area: tag; }
+  .hero.po[data-v] h1 { grid-area: name; max-width: none; white-space: nowrap; justify-self: center; text-align: center; font-size: clamp(48px, 8.4cqw, 120px); }
+  .hero.po[data-v] .hero-tagline { grid-area: tag; justify-self: center; text-align: center; max-width: 34ch; font-size: clamp(17px, 1.7cqw, 22px); color: var(--muted); }
   .hero.po[data-v] .hero-meta { grid-area: tags; }
 
-  /* B1 · stage: system in the middle, copy pinned to the four corners */
-  .hero.po[data-v="b"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "eb tags" ". ." "name tag"; }
-  .hero.po[data-v="b"] h1 { font-size: clamp(44px, 6.4cqw, 92px); align-self: end; }
-  .hero.po[data-v="b"] .hero-tagline { align-self: end; justify-self: end; text-align: right; max-width: 17ch; font-size: clamp(18px, 1.9cqw, 26px); }
-  .hero.po[data-v="b"] .hero-meta { align-self: start; align-items: flex-end; max-width: 460px; justify-self: end; }
+  /* S1 · the chosen Stage 2: eyebrow and tags on top, centred name and tagline under the system */
+  .hero.po[data-v="s1"] { grid-template-rows: auto 1fr auto auto; grid-template-areas: "eb tags" ". ." "name name" "tag tag"; }
+  .hero.po[data-v="s1"] .hero-meta { align-self: start; align-items: flex-end; justify-self: end; max-width: 460px; }
 
-  /* D1 · poster: the name runs across the bottom, the system floats above it */
-  .hero.po[data-v="d"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto 1fr auto; grid-template-areas: "eb tags" "tag tags" ". ." "name name"; }
-  .hero.po[data-v="d"] h1 { max-width: none; white-space: nowrap; font-size: clamp(56px, 12.4cqw, 176px); align-self: end; }
-  .hero.po[data-v="d"] .hero-tagline { max-width: 22ch; font-size: clamp(18px, 1.8cqw, 24px); }
-  .hero.po[data-v="d"] .hero-meta { align-self: start; align-items: flex-end; justify-self: end; max-width: 380px; }
+  /* S2 · one axis: everything centred, tags close the column under the tagline */
+  .hero.po[data-v="s2"] { grid-template-rows: auto 1fr auto auto auto; grid-template-areas: "eb eb" ". ." "name name" "tag tag" "tags tags"; }
+  .hero.po[data-v="s2"] .hero-eyebrow { justify-self: center; }
+  .hero.po[data-v="s2"] .hero-meta { justify-self: center; align-items: center; margin-top: 10px; } .hero.po[data-v="s2"] .hero-tags { justify-content: center; }
 
-  /* B2 · stage, centred: one-line name centred under the system, tagline below it */
-  .hero.po[data-v="b2"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto auto; grid-template-areas: "eb tags" ". ." "name name" "tag tag"; gap: 18px 40px; }
-  .hero.po[data-v="b2"] h1 { max-width: none; white-space: nowrap; justify-self: center; text-align: center; font-size: clamp(48px, 8.4cqw, 120px); }
-  .hero.po[data-v="b2"] .hero-tagline { justify-self: center; text-align: center; max-width: 34ch; font-size: clamp(17px, 1.7cqw, 22px); color: var(--muted); }
-  .hero.po[data-v="b2"] .hero-meta { align-self: start; align-items: flex-end; justify-self: end; max-width: 460px; }
+  /* S3 · split base: centred name, then tagline left and tags right on one baseline */
+  .hero.po[data-v="s3"] { grid-template-rows: auto 1fr auto auto; grid-template-areas: "eb eb" ". ." "name name" "tag tags"; row-gap: 26px; }
+  .hero.po[data-v="s3"] .hero-tagline { justify-self: start; text-align: left; align-self: end; max-width: 26ch; }
+  .hero.po[data-v="s3"] .hero-meta { justify-self: end; align-self: end; align-items: flex-end; max-width: 460px; }
 
-  /* B3 · stage, sides: name and tagline hold the system between them, tags along the bottom */
-  .hero.po[data-v="b3"] { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); grid-template-rows: auto 1fr auto; grid-template-areas: "eb eb eb" "name . tag" "tags tags tags"; }
-  .hero.po[data-v="b3"] h1 { align-self: center; font-size: clamp(40px, 5.4cqw, 78px); }
-  .hero.po[data-v="b3"] .hero-tagline { align-self: center; justify-self: end; text-align: right; max-width: 15ch; font-size: clamp(17px, 1.8cqw, 24px); }
-  .hero.po[data-v="b3"] .hero-meta { align-items: center; } .hero.po[data-v="b3"] .hero-tags { justify-content: center; }
+  /* S4 · big name: the name spans the card and the system's lower rings run behind it */
+  .hero.po[data-v="s4"] { grid-template-rows: auto 1fr auto auto; grid-template-areas: "eb tags" ". ." "name name" "tag tag"; }
+  .hero.po[data-v="s4"] h1 { font-size: clamp(56px, 12cqw, 172px); margin-top: -12%; }
+  .hero.po[data-v="s4"] .hero-meta { align-self: start; align-items: flex-end; justify-self: end; max-width: 460px; }
 
-  /* D2 · poster, top: the name runs across the top, the system below it */
-  .hero.po[data-v="d2"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto 1fr auto; grid-template-areas: "eb eb" "name name" ". ." "tag tags"; gap: 18px 40px; }
-  .hero.po[data-v="d2"] h1 { max-width: none; white-space: nowrap; font-size: clamp(56px, 12.4cqw, 176px); }
-  .hero.po[data-v="d2"] .hero-tagline { align-self: end; max-width: 22ch; font-size: clamp(18px, 1.8cqw, 24px); }
-  .hero.po[data-v="d2"] .hero-meta { align-self: end; align-items: flex-end; justify-self: end; max-width: 460px; }
-
-  /* D3 · poster, through: the name crosses the planet in the middle */
-  .hero.po[data-v="d3"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto 1fr auto; grid-template-areas: "eb ." ". ." "name name" ". ." "tag tags"; }
-  .hero.po[data-v="d3"] h1 { max-width: none; white-space: nowrap; justify-self: center; font-size: clamp(56px, 12.4cqw, 176px); }
-  .hero.po[data-v="d3"] .hero-tagline { align-self: end; max-width: 22ch; font-size: clamp(18px, 1.8cqw, 24px); }
-  .hero.po[data-v="d3"] .hero-meta { align-self: end; align-items: flex-end; justify-self: end; max-width: 460px; }
+  /* S5 · tagline first: a quiet tagline under the eyebrow, the name closes the card */
+  .hero.po[data-v="s5"] { grid-template-rows: auto auto 1fr auto; grid-template-areas: "eb tags" "tag tags" ". ." "name name"; }
+  .hero.po[data-v="s5"] .hero-tagline { justify-self: start; text-align: left; max-width: 24ch; }
+  .hero.po[data-v="s5"] .hero-meta { align-self: start; align-items: flex-end; justify-self: end; max-width: 460px; }
 }
 .hv-bar { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 999px;
   background: color-mix(in srgb, var(--panel-2) 92%, transparent); border: 1px solid var(--border-2); box-shadow: var(--shadow); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
