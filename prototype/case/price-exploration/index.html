@@ -77,7 +77,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .nav-links a[aria-current="page"] { color: var(--fg); background: var(--panel-2); }
 .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .nav-status { display: inline-flex; align-items: center; gap: 8px; padding-right: 6px; }
-.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 0; background: var(--accent); }
 .nav-status span { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 .theme-btn { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; transition: color .2s, border-color .2s; }
 .theme-btn:hover { color: var(--fg); border-color: var(--border-2); }
@@ -171,7 +171,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .pr-track { left: 12.5%; right: 12.5%; background: var(--border); }
 .pr-fill { left: 12.5%; width: 0; background: var(--accent); transition: width .22s ease; }
 .pr-step { position: relative; padding-top: 24px; text-align: center; color: var(--muted); transition: color .2s ease; }
-.pr-dot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
+.pr-dot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 0; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
 .pr-step.on { color: var(--fg); }
 .pr-step.on .pr-dot { background: var(--accent); border-color: var(--accent); }
 .pr-step.active .pr-dot { box-shadow: 0 0 0 4px var(--accent-weak); }
@@ -315,7 +315,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .lights { margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .light { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 8px; }
 .light-top { display: flex; align-items: center; gap: 10px; }
-.light-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.light-dot { width: 12px; height: 12px; border-radius: 0; flex-shrink: 0; }
 .light.red .light-dot { background: var(--st-red); box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-red) 18%, transparent); }
 .light.amber .light-dot { background: var(--st-amber); box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-amber) 18%, transparent); }
 .light.green .light-dot { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-weak); }

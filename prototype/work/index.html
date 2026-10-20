@@ -76,7 +76,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .nav-links a[aria-current="page"] { color: var(--fg); background: var(--panel-2); }
 .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .nav-status { display: inline-flex; align-items: center; gap: 8px; padding-right: 6px; }
-.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 0; background: var(--accent); }
 .nav-status span { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 .theme-btn { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; transition: color .2s, border-color .2s; }
 .theme-btn:hover { color: var(--fg); border-color: var(--border-2); }
@@ -121,7 +121,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .filter-btn:hover { background: var(--panel-2); color: var(--fg); }
 .filter-btn[aria-pressed="true"] { background: var(--accent-weak); color: var(--fg); border-color: var(--accent); }
 .filter-btn .fname { display: inline-flex; align-items: center; gap: 8px; }
-.filter-btn .fdot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0; transition: opacity .2s; }
+.filter-btn .fdot { width: 5px; height: 5px; border-radius: 0; background: var(--accent); opacity: 0; transition: opacity .2s; }
 .filter-btn[aria-pressed="true"] .fdot { opacity: 1; }
 .filter-btn .fcount { font-family: var(--mono); font-size: 10px; color: var(--label); }
 .filter-btn.all { font-weight: 600; }

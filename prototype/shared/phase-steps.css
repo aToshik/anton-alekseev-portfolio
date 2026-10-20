@@ -13,7 +13,7 @@
 .ss-fill { height: 0; background: var(--accent); transition: height .22s ease; }
 .side-sub .ss-step { position: relative; display: flex; align-items: baseline; gap: 8px; padding: 6px 8px 6px 20px; border-radius: 7px; color: var(--muted); font-size: 12px; line-height: 1.35; transition: color .2s, background .2s; }
 .side-sub .ss-step:hover { color: var(--fg); background: var(--panel-2); }
-.ss-dot { position: absolute; left: 0; top: 9px; width: 10px; height: 10px; border-radius: 50%; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
+.ss-dot { position: absolute; left: 0; top: 9px; width: 10px; height: 10px; border-radius: 0; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
 .ss-num { font-family: var(--mono); font-size: 10px; color: var(--label); flex-shrink: 0; transition: color .2s; }
 .ss-step.on { color: var(--fg); }
 .ss-step.on .ss-dot { background: var(--accent); border-color: var(--accent); }
