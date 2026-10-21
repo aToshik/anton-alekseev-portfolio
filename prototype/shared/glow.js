@@ -1,7 +1,7 @@
 /* Glowing borders (styles: glow.css): sections and interactive cards light up on the side nearest the cursor. */
 (function () {
   'use strict';
-  var SEL = '.nav, .sidebar, .main .card:not(.hero):not(.contact), .case-card, .tool-card, .role-card, .tiles, .phase';
+  var SEL = '.nav, .sidebar, .main .card:not(.hero):not(.contact), .case-card, .tool-card, .role-card, .tiles, .phase, .pager a';
   var els = Array.prototype.slice.call(document.querySelectorAll(SEL));
   if (!els.length) return;
   els.forEach(function (el) { el.classList.add('gl'); });

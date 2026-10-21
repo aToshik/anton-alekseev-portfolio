@@ -2,17 +2,22 @@
    glow.js adds .gl and keeps --mx / --my / --glow up to date (the orbit hero sets them itself). */
 .gl { --g: color-mix(in srgb, var(--accent) calc(var(--glow, 0) * var(--gl-k, 1) * 100%), transparent);
   border-color: transparent !important; background-clip: padding-box; }
-.gl:is(.case-card, .tool-card, .role-card, .tiles, .phase) { position: relative; } /* nav is fixed, sidebar sticky, .card already relative */
+.gl:is(.case-card, .tool-card, .role-card, .tiles, .phase, .pager a) { position: relative; } /* nav is fixed, sidebar sticky, .card already relative */
 .gl::before, .gl::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
 .gl::before { padding: 1px;
-  background: radial-gradient(var(--gl-r, 300px) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 75%),
+  background: radial-gradient(var(--gl-l, 260px) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 70%),
     linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border)));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-.gl::after { box-shadow: inset 0 0 var(--gl-blur, 24px) -6px var(--accent); opacity: calc(var(--glow, 0) * var(--gl-k, 1) * var(--haze, .9));
-  -webkit-mask: radial-gradient(var(--gl-r, 300px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%);
-  mask: radial-gradient(var(--gl-r, 300px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%); }
+.gl::after { box-shadow: inset 0 0 var(--gl-blur, 21px) -7px var(--accent); opacity: calc(var(--glow, 0) * var(--gl-k, 1) * var(--haze, .65));
+  -webkit-mask: radial-gradient(var(--gl-r, 220px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%);
+  mask: radial-gradient(var(--gl-r, 220px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%); }
 /* sections and page chrome glow softer than the interactive cards inside them */
-.gl:is(.card, .phase, .nav, .sidebar) { --gl-r: 440px; --gl-blur: 34px; --gl-k: .6; }
+.gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 380px; --gl-r: 320px; --gl-blur: 29px; --gl-k: .6; }
 .gl:hover { --gl-base: var(--border-2); }
-[data-theme="light"] .gl { --haze: .45; }
-@media (max-width: 700px) { .gl.card, .gl.phase { --gl-r: 260px; --gl-blur: 26px; } }
+/* light theme: a green shadow over a pale panel reads as grey haze, so the line is stronger and the haze multiplies in as a clean tint */
+[data-theme="light"] .gl { --haze: .7; }
+[data-theme="light"] .gl:is(.card, .phase, .nav, .sidebar) { --gl-k: .85; }
+[data-theme="light"] .gl::before { background: radial-gradient(var(--gl-l, 260px) circle at var(--mx, -999px) var(--my, -999px), var(--g), var(--g) 30%, transparent 75%),
+  linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border))); }
+[data-theme="light"] .gl::after { mix-blend-mode: multiply; box-shadow: inset 0 0 var(--gl-blur, 21px) -5px var(--accent); }
+@media (max-width: 700px) { .gl.card, .gl.phase { --gl-l: 260px; --gl-r: 200px; --gl-blur: 22px; } }
