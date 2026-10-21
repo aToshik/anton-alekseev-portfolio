@@ -293,7 +293,8 @@ function frame(now){
   ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus)));
   if((glowMode==='trail'||glowMode==='both')&&!reduce) OBJ.forEach(o=>{ if(o.z<0) drawTrail(P,o); });
   jobs.length=0;
-  const prox=o=>focus>=0?(o.o===focus?1:-1):real?Math.exp(-((Math.hypot(o.x-target.x,o.y-target.y)/radObj)**2)):0;
+  // hovering an object shows only its own label (plus its orbit name), not its orbit neighbours
+  const prox=o=>hover>=0?(o===OBJ[hover]?1:-1):focus>=0?(o.o===focus?1:-1):real?Math.exp(-((Math.hypot(o.x-target.x,o.y-target.y)/radObj)**2)):0;
   OBJ.forEach((o,k)=>{ if(o.z<0) drawObj(P,o,k,prox(o),stateOf(o)); });
   drawPlanet(P,t,{x:mouse.x-C.x,y:mouse.y-C.y});
   if((glowMode==='trail'||glowMode==='both')&&!reduce) OBJ.forEach(o=>{ if(o.z>=0) drawTrail(P,o); });
