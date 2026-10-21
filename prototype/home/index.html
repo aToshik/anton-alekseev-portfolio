@@ -423,6 +423,23 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tool-card:hover .tool-usage, .tool-card:focus-within .tool-usage { grid-template-rows: 1fr; }
 .tool-card:hover .tool-usage > p span, .tool-card:focus-within .tool-usage > p span { opacity: 1; }
 
+/* Touch: tool + journey cards open and close by tap (.open), not by sticky :hover / :focus-within */
+@media (hover: none) {
+  .tool-card:hover, .role-card:hover { background: transparent; border-color: var(--border); transform: none; box-shadow: none; }
+  .tool-card:hover .tool-mk { border-color: var(--border); }
+  .tool-card.open, .role-card.open { background: var(--panel-2); border-color: var(--border-2); }
+  .tool-card:not(.open) .tool-usage, .role-card:not(.open) .role-detail { grid-template-rows: 0fr; }
+  .tool-card:not(.open) .tool-usage > p span, .role-card:not(.open) .role-detail li { opacity: 0; }
+  .tool-card:not(.open) .reveal-foot, .role-card:not(.open) .reveal-foot { color: var(--label); }
+  .tool-card:not(.open) .reveal-foot .plus, .role-card:not(.open) .reveal-foot .plus { --bk: var(--border-2); color: inherit; }
+  .tool-card:not(.open) .reveal-foot .plus i, .role-card:not(.open) .reveal-foot .plus i { transform: none; }
+  .tool-card.open .tool-usage, .role-card.open .role-detail { grid-template-rows: 1fr; }
+  .tool-card.open .tool-usage > p span, .role-card.open .role-detail li { opacity: 1; }
+  .tool-card.open .reveal-foot, .role-card.open .reveal-foot { color: var(--fg); }
+  .tool-card.open .reveal-foot .plus, .role-card.open .reveal-foot .plus { --bk: var(--accent); color: var(--fg); }
+  .tool-card.open .reveal-foot .plus i, .role-card.open .reveal-foot .plus i { transform: rotate(45deg); }
+}
+
 
 /* Impact tiles — down arrow to the case card, nudges on hover */
 .tile .ti-case { display: inline-flex; align-items: center; gap: 6px; }
@@ -923,6 +940,16 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } });
     }, { rootMargin: '0px 0px 15% 0px', threshold: 0 });
     document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
+  }
+
+  /* Touch: tool + journey cards toggle by tap */
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
+    document.querySelectorAll('.tool-card, .role-card').forEach(function(card){
+      card.setAttribute('aria-expanded', 'false');
+      function flip(){ card.setAttribute('aria-expanded', card.classList.toggle('open') ? 'true' : 'false'); }
+      card.addEventListener('click', flip);
+      card.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+    });
   }
 
   /* Honest placeholder links */
