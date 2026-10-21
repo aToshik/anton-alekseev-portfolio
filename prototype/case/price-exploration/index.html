@@ -184,6 +184,17 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .ph-label { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--fg); margin-bottom: 12px; }
 .ph-label .n { color: var(--accent); }
 .ph-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
+/* inline cross-reference to another case + hover/focus tooltip with its card summary */
+.xref { position: relative; color: var(--fg); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color .2s, text-decoration-color .2s; }
+.xref:hover, .xref:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
+.xref-tip { position: absolute; left: 50%; top: calc(100% + 10px); z-index: 50; width: 264px; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--border-2); border-radius: var(--radius-sm); box-shadow: var(--shadow); color: var(--muted); font-family: var(--body); font-size: 13px; line-height: 1.45; text-align: left; white-space: normal; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -4px); transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
+.xref:hover .xref-tip, .xref:focus-visible .xref-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.xref-tip .xt-name { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--label); }
+.xref-tip .xt-hook { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: -.01em; line-height: 1.3; color: var(--fg); }
+.xref-tip .xt-metric { font-family: var(--mono); font-size: 11px; color: var(--label); }
+.xref-tip .xt-metric b { color: var(--accent); font-weight: 500; }
+@media (hover: none) { .xref-tip { display: none; } }
+@media (prefers-reduced-motion: reduce) { .xref-tip { transition: none; } }
 .ph-text .rej { display: block; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--label); }
 .ph-visual { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); background: var(--panel-2); min-height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 14px; }
 .ph-visual span { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); line-height: 1.6; }
@@ -488,7 +499,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-4">
         <div>
           <div class="ph-label"><span class="n">04</span> · Scale to the objects the business thinks in</div>
-          <p class="ph-text">Once the Cross-Campaign infrastructure was ready, buyers could test <strong style="color:var(--fg);font-weight:500">Bidding Groups</strong> (same-segment ad groups across campaigns, one bid price) or <strong style="color:var(--fg);font-weight:500">Channel Groups</strong> (similar channels, one bid multiplier). The algorithm got many times more data, so recommendations got more accurate and far fewer tests ended in "insufficient data".</p>
+          <p class="ph-text">Once the <a class="xref" href="../../work/index.html#case-cross">Cross-Campaign<span class="xref-tip" id="xref-cross" role="tooltip"><span class="xt-name">Cross-Campaign Management</span><span class="xt-hook">How I let buyers edit thousands of campaigns as one</span><span class="xt-metric"><b>Hours → Min</b> · bulk updates</span></span></a> infrastructure was ready, buyers could test <strong style="color:var(--fg);font-weight:500">Bidding Groups</strong> (same-segment ad groups across campaigns, one bid price) or <strong style="color:var(--fg);font-weight:500">Channel Groups</strong> (similar channels, one bid multiplier). The algorithm got many times more data, so recommendations got more accurate and far fewer tests ended in "insufficient data".</p>
           <p class="ph-text" style="margin-top:10px"><strong style="color:var(--fg);font-weight:500">Endless tests</strong> followed, and some buyers ran them only to watch auction competition in key segments. The tool had become a way to read the market. That is probably why the client called it "Price Exploration" in its communication with us, though it officially shipped as AI Bidding Optimization.</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-pe-groups.svg" alt="Price tests running on Bidding Groups and Channel Groups across campaigns (placeholder)" width="1600" height="1000" loading="lazy"></button>
