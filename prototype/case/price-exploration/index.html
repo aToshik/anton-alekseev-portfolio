@@ -197,14 +197,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .accent-block .ab-row { display: grid; grid-template-columns: 1fr 320px; gap: clamp(22px, 3vw, 40px); align-items: start; }
 .accent-block .ab-row .ph-text { margin-bottom: 0; }
 
-/* phase 3 — automation ladder (theme-aware, replaces bulk-apply stub) */
-.ladder { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
-.ladder li { position: relative; display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding-bottom: 14px; }
-.ladder li:last-child { padding-bottom: 0; }
-.ladder li::before { content: ""; position: absolute; left: 10px; top: 22px; bottom: 0; width: 1px; background: var(--border-2); }
+/* phase 3 — automation ladder, horizontal (theme-aware, replaces bulk-apply stub) */
+.phase.is-wide { grid-template-columns: 1fr; }
+.phase.is-wide .ph-text { max-width: 86ch; }
+.ladder { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.ladder li { position: relative; display: flex; flex-direction: column; gap: 12px; }
+.ladder li::before { content: ""; position: absolute; top: 10px; left: 22px; right: -12px; height: 1px; background: var(--border-2); }
 .ladder li:last-child::before { display: none; }
-.ladder .ld-dot { width: 21px; height: 21px; border-radius: 50%; border: 1px solid var(--border-2); background: var(--panel); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--label); }
-.ladder .ld-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.ladder .ld-dot { position: relative; width: 21px; height: 21px; border-radius: 50%; border: 1px solid var(--border-2); background: var(--panel-2); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--label); }
+.ladder .ld-card { flex: 1; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 13px; display: flex; flex-direction: column; gap: 5px; }
 .ladder b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
 .ladder small { font-family: var(--mono); font-size: 10px; letter-spacing: .02em; color: var(--muted); line-height: 1.5; }
 .ladder .on .ld-dot { border-color: var(--accent); color: var(--accent); }
@@ -213,8 +214,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .ladder .off .ld-card { border-style: dashed; background: transparent; }
 .ladder .off b { color: var(--label); text-decoration: line-through; text-decoration-color: var(--border-2); }
 .ladder .off .ld-dot { border-style: dashed; }
-.ph-visual.is-diagram { display: block; text-align: left; border-style: solid; border-color: var(--border); padding: 16px; }
+.ph-visual.is-diagram { display: block; text-align: left; border-style: solid; border-color: var(--border); padding: 18px; min-height: 0; }
 .ph-visual.is-diagram:hover { transform: none; }
+@media (max-width: 640px) {
+  .ladder { grid-template-columns: 1fr; gap: 10px; }
+  .ladder li { flex-direction: row; align-items: stretch; }
+  .ladder li::before { top: 22px; bottom: -10px; left: 10px; right: auto; width: 1px; height: auto; }
+  .ladder .ld-dot { flex-shrink: 0; }
+}
 
 /* loop diagram (recreated, theme-aware) */
 .loop { }
@@ -494,7 +501,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       </article>
 
-      <article class="phase" id="phase-3">
+      <article class="phase is-wide" id="phase-3">
         <div>
           <div class="ph-label"><span class="n">03</span> · Earn automation in steps</div>
           <p class="ph-text">We considered automating the whole process. Clients pushed back, not because the algorithm was wrong, but because a wrong call on budgets this size was a risk they wouldn't hand over yet. A fully automated tool would have gone unused. We invested in control and transparency instead, plus <strong style="color:var(--fg);font-weight:500">bulk apply</strong> for every test that's ready.
