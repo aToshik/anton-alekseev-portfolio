@@ -14,5 +14,10 @@
 /* sections and page chrome glow softer than the interactive cards inside them */
 .gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 380px; --gl-r: 320px; --gl-blur: 29px; --gl-k: .6; }
 .gl:hover { --gl-base: var(--border-2); }
-[data-theme="light"] .gl { --haze: .32; }
+/* light theme: a green shadow over a pale panel reads as grey haze, so the line is stronger and the haze multiplies in as a clean tint */
+[data-theme="light"] .gl { --haze: .7; }
+[data-theme="light"] .gl:is(.card, .phase, .nav, .sidebar) { --gl-k: .85; }
+[data-theme="light"] .gl::before { background: radial-gradient(var(--gl-l, 260px) circle at var(--mx, -999px) var(--my, -999px), var(--g), var(--g) 30%, transparent 75%),
+  linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border))); }
+[data-theme="light"] .gl::after { mix-blend-mode: multiply; box-shadow: inset 0 0 var(--gl-blur, 21px) -5px var(--accent); }
 @media (max-width: 700px) { .gl.card, .gl.phase { --gl-l: 260px; --gl-r: 200px; --gl-blur: 22px; } }
