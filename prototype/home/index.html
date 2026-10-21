@@ -344,17 +344,14 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   background: linear-gradient(var(--bk),var(--bk)) 0 0/5px 1px, linear-gradient(var(--bk),var(--bk)) 0 0/1px 5px, linear-gradient(var(--bk),var(--bk)) 100% 0/5px 1px, linear-gradient(var(--bk),var(--bk)) 100% 0/1px 5px,
     linear-gradient(var(--bk),var(--bk)) 0 100%/5px 1px, linear-gradient(var(--bk),var(--bk)) 0 100%/1px 5px, linear-gradient(var(--bk),var(--bk)) 100% 100%/5px 1px, linear-gradient(var(--bk),var(--bk)) 100% 100%/1px 5px;
   background-repeat: no-repeat; transition: color .25s ease; }
-.reveal-foot .plus::before { content: ''; position: absolute; inset: 3px; background: var(--accent); transform: scale(0); transition: transform .25s ease; }
 .reveal-foot .plus i { position: relative; font-style: normal; transition: transform .3s ease; }
 .tool-card:hover .reveal-foot, .tool-card:focus-within .reveal-foot,
 .role-card:hover .reveal-foot, .role-card:focus-within .reveal-foot { color: var(--fg); }
 .tool-card:hover .reveal-foot .plus, .tool-card:focus-within .reveal-foot .plus,
-.role-card:hover .reveal-foot .plus, .role-card:focus-within .reveal-foot .plus { --bk: var(--accent); color: #0b140a; }
-.tool-card:hover .reveal-foot .plus::before, .tool-card:focus-within .reveal-foot .plus::before,
-.role-card:hover .reveal-foot .plus::before, .role-card:focus-within .reveal-foot .plus::before { transform: scale(1); }
+.role-card:hover .reveal-foot .plus, .role-card:focus-within .reveal-foot .plus { --bk: var(--accent); color: var(--fg); }
 .tool-card:hover .reveal-foot .plus i, .tool-card:focus-within .reveal-foot .plus i,
 .role-card:hover .reveal-foot .plus i, .role-card:focus-within .reveal-foot .plus i { transform: rotate(45deg); }
-@media (prefers-reduced-motion: reduce) { .role-card, .tool-card, .reveal-foot .plus, .reveal-foot .plus::before, .reveal-foot .plus i, .role-detail { transition: none; } .role-card:hover, .tool-card:hover { transform: none; } .role-detail { grid-template-rows: 1fr; } .role-detail li { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .role-card, .tool-card, .reveal-foot .plus, .reveal-foot .plus i, .role-detail { transition: none; } .role-card:hover, .tool-card:hover { transform: none; } .role-detail { grid-template-rows: 1fr; } .role-detail li { opacity: 1; } }
 .role-head { display: flex; align-items: center; gap: 11px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .role-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 13px; transition: border-color .25s ease, color .25s ease; }
 .role-title { transition: color .25s ease; }
