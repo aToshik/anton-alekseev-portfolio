@@ -8,11 +8,11 @@
   background: radial-gradient(var(--gl-l, 260px) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 70%),
     linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border)));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-.gl::after { box-shadow: inset 0 0 var(--gl-blur, 18px) -8px var(--accent); opacity: calc(var(--glow, 0) * var(--gl-k, 1) * var(--haze, .45));
-  -webkit-mask: radial-gradient(var(--gl-r, 150px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%);
-  mask: radial-gradient(var(--gl-r, 150px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%); }
+.gl::after { box-shadow: inset 0 0 var(--gl-blur, 21px) -7px var(--accent); opacity: calc(var(--glow, 0) * var(--gl-k, 1) * var(--haze, .65));
+  -webkit-mask: radial-gradient(var(--gl-r, 220px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%);
+  mask: radial-gradient(var(--gl-r, 220px) circle at var(--mx, -999px) var(--my, -999px), #000, transparent 72%); }
 /* sections and page chrome glow softer than the interactive cards inside them */
-.gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 380px; --gl-r: 200px; --gl-blur: 24px; --gl-k: .6; }
+.gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 380px; --gl-r: 320px; --gl-blur: 29px; --gl-k: .6; }
 .gl:hover { --gl-base: var(--border-2); }
-[data-theme="light"] .gl { --haze: .22; }
-@media (max-width: 700px) { .gl.card, .gl.phase { --gl-l: 260px; --gl-r: 150px; --gl-blur: 18px; } }
+[data-theme="light"] .gl { --haze: .32; }
+@media (max-width: 700px) { .gl.card, .gl.phase { --gl-l: 260px; --gl-r: 200px; --gl-blur: 22px; } }
