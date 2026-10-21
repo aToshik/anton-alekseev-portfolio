@@ -197,6 +197,25 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .accent-block .ab-row { display: grid; grid-template-columns: 1fr 320px; gap: clamp(22px, 3vw, 40px); align-items: start; }
 .accent-block .ab-row .ph-text { margin-bottom: 0; }
 
+/* phase 3 — automation ladder (theme-aware, replaces bulk-apply stub) */
+.ladder { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.ladder li { position: relative; display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding-bottom: 14px; }
+.ladder li:last-child { padding-bottom: 0; }
+.ladder li::before { content: ""; position: absolute; left: 10px; top: 22px; bottom: 0; width: 1px; background: var(--border-2); }
+.ladder li:last-child::before { display: none; }
+.ladder .ld-dot { width: 21px; height: 21px; border-radius: 50%; border: 1px solid var(--border-2); background: var(--panel); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--label); }
+.ladder .ld-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.ladder b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
+.ladder small { font-family: var(--mono); font-size: 10px; letter-spacing: .02em; color: var(--muted); line-height: 1.5; }
+.ladder .on .ld-dot { border-color: var(--accent); color: var(--accent); }
+.ladder .on .ld-card { border-color: var(--accent); }
+.ladder .on b { color: var(--accent); }
+.ladder .off .ld-card { border-style: dashed; background: transparent; }
+.ladder .off b { color: var(--label); text-decoration: line-through; text-decoration-color: var(--border-2); }
+.ladder .off .ld-dot { border-style: dashed; }
+.ph-visual.is-diagram { display: block; text-align: left; border-style: solid; border-color: var(--border); padding: 16px; }
+.ph-visual.is-diagram:hover { transform: none; }
+
 /* loop diagram (recreated, theme-aware) */
 .loop { }
 .loop-row { display: flex; align-items: stretch; gap: 8px; }
@@ -482,7 +501,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
             <span class="rej">Rejected: end-to-end automation from day one.</span>
           </p>
         </div>
-        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-pe-bulk-apply.svg" alt="Bulk apply of price recommendations for ready tests (placeholder)" width="1600" height="1000" loading="lazy"></button>
+        <figure class="ph-visual is-diagram" aria-label="How much automation buyers got: from manual bids to bulk apply; full automation was rejected">
+          <ol class="ladder">
+            <li><span class="ld-dot" aria-hidden="true">1</span><div class="ld-card"><b>Manual bids</b><small>Buyer guesses the price</small></div></li>
+            <li><span class="ld-dot" aria-hidden="true">2</span><div class="ld-card"><b>Recommend + apply</b><small>One test at a time, buyer decides</small></div></li>
+            <li class="on"><span class="ld-dot" aria-hidden="true">3</span><div class="ld-card"><b>Bulk apply</b><small>Every ready test at once &middot; shipped</small></div></li>
+            <li class="off"><span class="ld-dot" aria-hidden="true">4</span><div class="ld-card"><b>Full automation</b><small>Rejected: clients kept control</small></div></li>
+          </ol>
+        </figure>
       </article>
 
       <article class="phase" id="phase-4">
