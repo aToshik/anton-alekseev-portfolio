@@ -166,10 +166,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .role-note p { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 60ch; }
 
 /* phase rail */
-.phase-rail { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); margin: 26px 0 22px; }
+.phase-rail { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); margin: 26px 0 22px; }
 .pr-track, .pr-fill { position: absolute; top: 6px; height: 2px; }
-.pr-track { left: 12.5%; right: 12.5%; background: var(--border); }
-.pr-fill { left: 12.5%; width: 0; background: var(--accent); transition: width .22s ease; }
+.pr-track { left: 16.667%; right: 16.667%; background: var(--border); }
+.pr-fill { left: 16.667%; width: 0; background: var(--accent); transition: width .22s ease; }
 .pr-step { position: relative; padding-top: 24px; text-align: center; color: var(--muted); transition: color .2s ease; }
 .pr-dot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 1px; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
 .pr-step.on { color: var(--fg); }
@@ -196,32 +196,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .accent-block .ph-text strong { color: var(--fg); font-weight: 500; }
 .accent-block .ab-row { display: grid; grid-template-columns: 1fr 320px; gap: clamp(22px, 3vw, 40px); align-items: start; }
 .accent-block .ab-row .ph-text { margin-bottom: 0; }
-
-/* phase 3 — automation ladder, horizontal (theme-aware, replaces bulk-apply stub) */
-.phase.is-wide { grid-template-columns: 1fr; }
-.phase.is-wide .ph-text { max-width: 86ch; }
-.ladder { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.ladder li { position: relative; display: flex; flex-direction: column; gap: 12px; }
-.ladder li::before { content: ""; position: absolute; top: 10px; left: 22px; right: -12px; height: 1px; background: var(--border-2); }
-.ladder li:last-child::before { display: none; }
-.ladder .ld-dot { position: relative; width: 21px; height: 21px; border-radius: 50%; border: 1px solid var(--border-2); background: var(--panel-2); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--label); }
-.ladder .ld-card { flex: 1; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 13px; display: flex; flex-direction: column; gap: 5px; }
-.ladder b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
-.ladder small { font-family: var(--mono); font-size: 10px; letter-spacing: .02em; color: var(--muted); line-height: 1.5; }
-.ladder .on .ld-dot { border-color: var(--accent); color: var(--accent); }
-.ladder .on .ld-card { border-color: var(--accent); }
-.ladder .on b { color: var(--accent); }
-.ladder .off .ld-card { border-style: dashed; background: transparent; }
-.ladder .off b { color: var(--label); text-decoration: line-through; text-decoration-color: var(--border-2); }
-.ladder .off .ld-dot { border-style: dashed; }
-.ph-visual.is-diagram { display: block; text-align: left; border-style: solid; border-color: var(--border); padding: 18px; min-height: 0; }
-.ph-visual.is-diagram:hover { transform: none; }
-@media (max-width: 640px) {
-  .ladder { grid-template-columns: 1fr; gap: 10px; }
-  .ladder li { flex-direction: row; align-items: stretch; }
-  .ladder li::before { top: 22px; bottom: -10px; left: 10px; right: auto; width: 1px; height: auto; }
-  .ladder .ld-dot { flex-shrink: 0; }
-}
 
 /* loop diagram (recreated, theme-aware) */
 .loop { }
@@ -473,8 +447,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
         <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Set up in context</span></a>
         <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Every result</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Automation in steps</span></a>
-        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Business objects</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Business objects</span></a>
       </nav>
 
       <article class="phase" id="phase-1">
@@ -501,26 +474,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       </article>
 
-      <article class="phase is-wide" id="phase-3">
+      <article class="phase" id="phase-3">
         <div>
-          <div class="ph-label"><span class="n">03</span> · Earn automation in steps</div>
-          <p class="ph-text">We considered automating the whole process. Clients pushed back, not because the algorithm was wrong, but because a wrong call on budgets this size was a risk they wouldn't hand over yet. A fully automated tool would have gone unused. We invested in control and transparency instead, plus <strong style="color:var(--fg);font-weight:500">bulk apply</strong> for every test that's ready.
-            <span class="rej">Rejected: end-to-end automation from day one.</span>
-          </p>
-        </div>
-        <figure class="ph-visual is-diagram" aria-label="How much automation buyers got: from manual bids to bulk apply; full automation was rejected">
-          <ol class="ladder">
-            <li><span class="ld-dot" aria-hidden="true">1</span><div class="ld-card"><b>Manual bids</b><small>Buyer guesses the price</small></div></li>
-            <li><span class="ld-dot" aria-hidden="true">2</span><div class="ld-card"><b>Recommend + apply</b><small>One test at a time, buyer decides</small></div></li>
-            <li class="on"><span class="ld-dot" aria-hidden="true">3</span><div class="ld-card"><b>Bulk apply</b><small>Every ready test at once &middot; shipped</small></div></li>
-            <li class="off"><span class="ld-dot" aria-hidden="true">4</span><div class="ld-card"><b>Full automation</b><small>Rejected: clients kept control</small></div></li>
-          </ol>
-        </figure>
-      </article>
-
-      <article class="phase" id="phase-4">
-        <div>
-          <div class="ph-label"><span class="n">04</span> · Scale to the objects the business thinks in</div>
+          <div class="ph-label"><span class="n">03</span> · Scale to the objects the business thinks in</div>
           <p class="ph-text">Once the Cross-Campaign infrastructure was ready, buyers could test <strong style="color:var(--fg);font-weight:500">Bidding Groups</strong> (same-segment ad groups across campaigns, one bid price) or <strong style="color:var(--fg);font-weight:500">Channel Groups</strong> (similar channels, one bid multiplier). The algorithm got many times more data, so recommendations got more accurate and far fewer tests ended in "insufficient data".</p>
           <p class="ph-text" style="margin-top:10px"><strong style="color:var(--fg);font-weight:500">Endless tests</strong> followed, and some buyers ran them only to watch auction competition in key segments. The tool had become a way to read the market. That is probably why the client called it "Price Exploration" in its communication with us, though it officially shipped as AI Bidding Optimization.</p>
         </div>
@@ -636,10 +592,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   if ('IntersectionObserver' in window) {
 
     /* phase-rail progress spy */
-    var order = ['phase-1','phase-2','phase-3','phase-4'];
+    var order = ['phase-1','phase-2','phase-3'];
     var steps = order.map(function(id){ return document.getElementById('rail-' + id.split('-')[1]); });
     var prFill = document.getElementById('prFill');
-    function setPhase(idx){ steps.forEach(function(s,i){ if(!s) return; s.classList.toggle('on', i<=idx); s.classList.toggle('active', i===idx); }); if (prFill) prFill.style.width = (idx*25) + '%'; }
+    function setPhase(idx){ steps.forEach(function(s,i){ if(!s) return; s.classList.toggle('on', i<=idx); s.classList.toggle('active', i===idx); }); if (prFill) prFill.style.width = (idx*33.333) + '%'; }
     var pspy = new IntersectionObserver(function(entries){
       entries.forEach(function(en){ if (en.isIntersecting){ var idx=order.indexOf(en.target.id); if(idx>=0) setPhase(idx); } });
     }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
