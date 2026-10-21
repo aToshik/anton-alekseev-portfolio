@@ -22,7 +22,7 @@
   body .mbar { left: 0; width: 100%; top: calc(var(--mbar-top) + env(safe-area-inset-top)); }
   body .mbar, body .mbar.show { transform: translateY(0); transition: opacity .22s ease, transform .28s cubic-bezier(.2,1,.3,1), visibility 0s; }
   html.mnav-up body .mbar.show { transform: translateY(calc(-1 * var(--nav-h))); }
-  body .mbar-btn { border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; padding: 0 18px; }
+  body .mbar-btn { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 10px 24px rgba(0,0,0,.12); padding: 0 18px; }
 
   /* menu button */
   .mnav-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 42px; padding: 0 14px 0 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--fg); font-family: var(--body); font-size: 12px; font-weight: 500; cursor: pointer; }
