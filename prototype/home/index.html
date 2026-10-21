@@ -133,7 +133,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .nav-links a[aria-current="page"] { color: var(--fg); }
 .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .nav-status { display: inline-flex; align-items: center; gap: 8px; padding-right: 6px; }
-.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 0; background: var(--accent); }
+.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 1px; background: var(--accent); }
 .nav-status span { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 .theme-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -334,16 +334,17 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tl-node { display: flex; flex-direction: column; gap: 14px; }
 .tl-years { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--label); text-align: center; }
 .tl-line { position: relative; height: 1px; background: var(--border); }
-.tl-line::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 9px; height: 9px; border-radius: 0; background: var(--accent); box-shadow: 0 0 0 3px var(--panel); }
+.tl-line::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 9px; height: 9px; border-radius: 1px; background: var(--accent); box-shadow: 0 0 0 3px var(--panel); }
 .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
 .role-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; min-height: 316px; display: flex; flex-direction: column; gap: 14px; outline-offset: 2px; transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease; }
 .role-card:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-3px); box-shadow: var(--shadow); }
 /* Shared reveal-card footer affordance (tool cards + journey cards) */
 .reveal-foot .plus { --bk: var(--border-2); position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; font-size: 12px; line-height: 1;
-  /* corner brackets, like the orbit objects */
-  background: linear-gradient(var(--bk),var(--bk)) 0 0/5px 1px, linear-gradient(var(--bk),var(--bk)) 0 0/1px 5px, linear-gradient(var(--bk),var(--bk)) 100% 0/5px 1px, linear-gradient(var(--bk),var(--bk)) 100% 0/1px 5px,
-    linear-gradient(var(--bk),var(--bk)) 0 100%/5px 1px, linear-gradient(var(--bk),var(--bk)) 0 100%/1px 5px, linear-gradient(var(--bk),var(--bk)) 100% 100%/5px 1px, linear-gradient(var(--bk),var(--bk)) 100% 100%/1px 5px;
-  background-repeat: no-repeat; transition: color .25s ease; }
+  transition: color .25s ease; }
+/* corner brackets, like the orbit objects: a 1px-rounded frame masked down to its corners */
+.reveal-foot .plus::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--bk); border-radius: 1px; transition: border-color .25s ease;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat; }
 .reveal-foot .plus i { position: relative; font-style: normal; transition: transform .3s ease; }
 .tool-card:hover .reveal-foot, .tool-card:focus-within .reveal-foot,
 .role-card:hover .reveal-foot, .role-card:focus-within .reveal-foot { color: var(--fg); }
@@ -351,7 +352,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .role-card:hover .reveal-foot .plus, .role-card:focus-within .reveal-foot .plus { --bk: var(--accent); color: var(--fg); }
 .tool-card:hover .reveal-foot .plus i, .tool-card:focus-within .reveal-foot .plus i,
 .role-card:hover .reveal-foot .plus i, .role-card:focus-within .reveal-foot .plus i { transform: rotate(45deg); }
-@media (prefers-reduced-motion: reduce) { .role-card, .tool-card, .reveal-foot .plus, .reveal-foot .plus i, .role-detail { transition: none; } .role-card:hover, .tool-card:hover { transform: none; } .role-detail { grid-template-rows: 1fr; } .role-detail li { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .role-card, .tool-card, .reveal-foot .plus, .reveal-foot .plus::before, .reveal-foot .plus i, .role-detail { transition: none; } .role-card:hover, .tool-card:hover { transform: none; } .role-detail { grid-template-rows: 1fr; } .role-detail li { opacity: 1; } }
 .role-head { display: flex; align-items: center; gap: 11px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .role-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 13px; transition: border-color .25s ease, color .25s ease; }
 .role-title { transition: color .25s ease; }
@@ -367,7 +368,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .role-detail li { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; line-height: 1.5; color: var(--muted); opacity: 0; transition: opacity .35s ease .1s; }
 .role-detail li:first-child { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
 .role-detail li + li { margin-top: 9px; }
-.role-detail li::before { content: ''; flex: 0 0 auto; width: 5px; height: 5px; margin-top: 6px; border-radius: 0; background: var(--accent); }
+.role-detail li::before { content: ''; flex: 0 0 auto; width: 5px; height: 5px; margin-top: 6px; border-radius: 1px; background: var(--accent); }
 .role-card:hover .role-detail, .role-card:focus-within .role-detail { grid-template-rows: 1fr; }
 .role-card:hover .role-detail li, .role-card:focus-within .role-detail li { opacity: 1; }
 .reveal-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); transition: color .25s ease; }
