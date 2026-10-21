@@ -336,6 +336,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tl-line { position: relative; height: 1px; background: var(--border); }
 .tl-line::before { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 9px; height: 9px; border-radius: 1px; background: var(--accent); box-shadow: 0 0 0 3px var(--panel); }
 .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+/* Mobile timeline: vertical line on the left, one square per card (hidden on desktop, where .timeline runs on top) */
+.rl-mark { display: none; }
 .role-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; min-height: 316px; display: flex; flex-direction: column; gap: 14px; outline-offset: 2px; transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease; }
 .role-card:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-3px); box-shadow: var(--shadow); }
 /* Shared reveal-card footer affordance (tool cards + journey cards) */
@@ -452,7 +454,16 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   .tiles { grid-template-columns: 1fr 1fr; }
   .tile:nth-child(3){ border-left: 0; }
   .tool-grid { grid-template-columns: 1fr 1fr; }
-  .timeline, .role-grid, .trust-grid { grid-template-columns: 1fr; }
+  .role-grid, .trust-grid { grid-template-columns: 1fr; }
+  .timeline { display: none; }
+  .role-grid { padding-left: 26px; }
+  .role-card { position: relative; min-height: 0; }
+  .role-card:hover { transform: none; }
+  /* the mark hangs left of the card: square on the role-head axis, line down to the next card's square */
+  .rl-mark { display: block; position: absolute; left: -27px; top: 37px; width: 9px; height: calc(100% + 18px); pointer-events: none; }
+  .rl-mark::before { content: ''; position: absolute; left: 0; top: 0; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 1px; background: var(--accent); z-index: 1; }
+  .rl-mark::after { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .role-card:last-child .rl-mark::after { display: none; }
   .nav-status { display: none; }
 }
 @media (max-width: 760px) {
@@ -772,6 +783,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       </div>
       <div class="role-grid stagger">
         <article class="role-card" tabindex="0">
+          <span class="rl-mark" aria-hidden="true"></span>
           <div class="role-head"><span class="role-logo">C</span><div class="role-co"><b>Camilyo</b><small>3 years 11 months</small></div></div>
           <div class="role-dates">Mar 2017 — Jan 2021</div>
           <h3 class="role-title">Product Designer</h3>
@@ -784,6 +796,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="reveal-foot"><span>View details</span><span class="plus" aria-hidden="true"><i>+</i></span></div>
         </article>
         <article class="role-card" tabindex="0">
+          <span class="rl-mark" aria-hidden="true"></span>
           <div class="role-head"><span class="role-logo">C</span><div class="role-co"><b>Camilyo</b><small>1 year 7 months</small></div></div>
           <div class="role-dates">Jan 2021 — Jul 2022</div>
           <h3 class="role-title">Sr Product Designer</h3>
@@ -796,6 +809,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="reveal-foot"><span>View details</span><span class="plus" aria-hidden="true"><i>+</i></span></div>
         </article>
         <article class="role-card" tabindex="0">
+          <span class="rl-mark" aria-hidden="true"></span>
           <div class="role-head"><span class="role-logo k">K</span><div class="role-co"><b>Kissterra</b><small>3 years 1 month</small></div></div>
           <div class="role-dates">Jul 2022 — Jul 2026</div>
           <h3 class="role-title">Sr Product Designer</h3>
