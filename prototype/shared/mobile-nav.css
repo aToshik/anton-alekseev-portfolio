@@ -1,27 +1,44 @@
 /* ============================================================
-   MOBILE NAV — primary navigation for ≤760px, where .nav-links is hidden.
-   Review: three variants, html[data-mnav="a|b|c"] (mobile-nav.js).
-   A · Menu: menu button in the nav, page list drops from the nav.
-   B · Tabs: Home / Profile / Work stay in the nav as a compact segmented control.
-   C · Dock: floating tab bar at the bottom of the screen.
+   MOBILE NAV (≤760px): the floating nav becomes a full-width top bar
+   that hides on scroll down and returns on scroll up; the section bar
+   (mobile-bar) stays docked under it and rises to the top while it is hidden.
+   The hidden .nav-links are replaced by a Menu button that drops a page list
+   with Open to work, the theme toggle and Contact (mobile-nav.js).
    ============================================================ */
-.mnav-toggle, .mnav-panel, .mnav-scrim, .mnav-dock, .mnav-switch { display: none; }
+.mnav-toggle, .mnav-panel, .mnav-scrim { display: none; }
 
 @media (max-width: 760px) {
-  /* ---------- A · Menu ---------- */
-  html[data-mnav="a"] .nav .theme-btn { display: none; }
-  html[data-mnav="a"] .mnav-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 14px 0 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--fg); font-family: var(--body); font-size: 12px; font-weight: 500; cursor: pointer; }
+  :root { --nav-h: 60px; --mbar-top: var(--nav-h); --mbar-inset: 0px; }
+
+  /* full-bleed top bar */
+  body .nav { top: 0; left: 0; width: 100%; height: calc(var(--nav-h) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 12px 0 18px; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; transform: translateY(0); transition: transform .28s cubic-bezier(.2,1,.3,1); }
+  body .nav .theme-btn { display: none; }
+  body .nav.gl { border-bottom-color: var(--border) !important; }
+  body .nav.gl::before, body .nav.gl::after { display: none; } /* no glowing frame on a full-bleed bar */
+  body .nav, body .mbar-btn { background: color-mix(in srgb, var(--nav-bg) 100%, var(--bg) 60%); }
+  html.mnav-up body .nav { transform: translateY(-100%); }
+
+  /* section bar: a second full-width row under the top bar */
+  body .mbar { left: 0; width: 100%; top: calc(var(--mbar-top) + env(safe-area-inset-top)); }
+  body .mbar, body .mbar.show { transform: translateY(0); transition: opacity .22s ease, transform .28s cubic-bezier(.2,1,.3,1), visibility 0s; }
+  html.mnav-up body .mbar.show { transform: translateY(calc(-1 * var(--nav-h))); }
+  body .mbar-btn { border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; padding: 0 18px; }
+
+  /* menu button */
+  .mnav-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 42px; padding: 0 14px 0 12px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--fg); font-family: var(--body); font-size: 12px; font-weight: 500; cursor: pointer; }
+  body .nav .btn-contact { height: 42px; padding: 0 14px; }
   .mnav-toggle svg { width: 18px; height: 18px; }
   .mnav-toggle .lu-x { display: none; }
   .mnav-toggle[aria-expanded="true"] .lu-menu { display: none; }
   .mnav-toggle[aria-expanded="true"] .lu-x { display: block; }
 
-  html[data-mnav="a"] .mnav-scrim { display: block; position: fixed; inset: 0; z-index: 598; background: rgba(0,0,0,.36); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+  .mnav-scrim { display: block; position: fixed; inset: 0; z-index: 598; background: rgba(0,0,0,.36); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
   [data-theme="light"] .mnav-scrim { background: rgba(20,24,16,.16); }
-  html[data-mnav] .mnav-scrim.show { opacity: 1; visibility: visible; transition: opacity .2s ease, visibility 0s; }
+  .mnav-scrim.show { opacity: 1; visibility: visible; transition: opacity .2s ease, visibility 0s; }
 
-  html[data-mnav="a"] .mnav-panel { display: block; position: fixed; top: calc(14px + var(--nav-h) + 6px); left: 50%; z-index: 605; width: min(var(--maxw), calc(100vw - 2 * var(--edge))); max-height: calc(100dvh - var(--nav-h) - 34px); overflow-y: auto; overscroll-behavior: contain; padding: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); transform: translate(-50%, -6px); opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s cubic-bezier(.2,1,.3,1), visibility 0s linear .2s; }
-  html[data-mnav] .mnav-panel.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .2s ease, transform .2s cubic-bezier(.2,1,.3,1), visibility 0s; }
+  /* menu panel: drops from the top bar, full width */
+  .mnav-panel { display: block; position: fixed; top: calc(var(--nav-h) + env(safe-area-inset-top)); left: 0; right: 0; z-index: 605; max-height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top)); overflow-y: auto; overscroll-behavior: contain; padding: 8px 8px 14px; background: var(--panel); border-bottom: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow); transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s cubic-bezier(.2,1,.3,1), visibility 0s linear .2s; }
+  .mnav-panel.show { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity .2s ease, transform .2s cubic-bezier(.2,1,.3,1), visibility 0s; }
   .mnav-list { display: flex; flex-direction: column; }
   .mnav-list a { position: relative; display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 0 12px; color: var(--muted); }
   .mnav-list a + a { border-top: 1px solid var(--border); }
@@ -40,34 +57,8 @@
   [data-theme="light"] .mnav-theme .icon-sun { display: block; }
   .mnav-cta { display: flex; align-items: center; justify-content: space-between; height: 52px; margin: 8px 0 0; padding: 0 18px; border-radius: 9px; background: var(--btn-bg); color: var(--btn-fg); font-family: var(--body); font-size: 14px; font-weight: 600; }
   .mnav-cta svg { width: 16px; height: 16px; }
-
-  /* ---------- B · Tabs ---------- */
-  html[data-mnav="b"] .nav { padding-left: 14px; gap: 8px; }
-  html[data-mnav="b"] .nav .nav-links { display: flex; gap: 2px; margin: 0 auto; padding: 3px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); }
-  html[data-mnav="b"] .nav .nav-links a { padding: 8px 10px; border-radius: 7px; font-size: 12px; line-height: 1.2; }
-  html[data-mnav="b"] .nav .nav-links a[aria-current="page"] { background: var(--panel-2); box-shadow: inset 0 0 0 1px var(--border-2); }
-  html[data-mnav="b"] .nav .nav-right { margin-left: 0; gap: 6px; }
-  html[data-mnav="b"] .nav .theme-btn, html[data-mnav="b"] .nav .btn-contact { width: 40px; height: 40px; padding: 0; }
-  html[data-mnav="b"] .nav .btn-contact span { display: none; }
-
-  /* ---------- C · Dock ---------- */
-  html[data-mnav="c"] .nav .btn-contact { display: none; }
-  html[data-mnav="c"] body { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
-  html[data-mnav="c"] .mnav-dock { display: flex; align-items: stretch; gap: 4px; position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 600; transform: translateX(-50%); width: min(var(--maxw), calc(100vw - 2 * var(--edge))); height: 64px; padding: 6px; background: var(--nav-bg); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
-  .mnav-dock a { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border-radius: 8px; color: var(--muted); font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
-  .mnav-dock a svg { width: 19px; height: 19px; }
-  .mnav-dock a[aria-current] { color: var(--fg); background: var(--panel-2); }
-  .mnav-dock a[aria-current]::before { content: ''; position: absolute; top: 6px; right: 8px; width: 5px; height: 5px; border-radius: 1px; background: var(--accent); }
-  .mnav-dock .mnav-mail { flex: 0 0 64px; background: var(--btn-bg); color: var(--btn-fg); }
-
-  /* ---------- review switcher ---------- */
-  html[data-mnav-review] .mnav-switch { display: flex; align-items: center; gap: 2px; position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 700; transform: translateX(-50%); padding: 5px; border-radius: 999px; background: color-mix(in srgb, var(--panel-2) 94%, transparent); border: 1px solid var(--border-2); box-shadow: var(--shadow); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-  html[data-mnav="c"] .mnav-switch { bottom: calc(92px + env(safe-area-inset-bottom)); }
-  .mnav-switch small { font: 400 10px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--label); padding: 0 6px 0 8px; }
-  .mnav-switch button { font: 500 12px var(--body); color: var(--muted); background: transparent; border: 0; border-radius: 999px; padding: 8px 12px; cursor: pointer; white-space: nowrap; }
-  .mnav-switch button[aria-pressed="true"] { background: var(--accent); color: #0b140a; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mnav-panel, .mnav-panel.show, .mnav-scrim, .mnav-scrim.show { transition: none; }
+  body .nav, body .mbar, body .mbar.show, .mnav-panel, .mnav-panel.show, .mnav-scrim, .mnav-scrim.show { transition: none; }
 }
