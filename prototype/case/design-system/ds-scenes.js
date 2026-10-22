@@ -229,23 +229,60 @@
     else { playSort(); if (replay) replay.addEventListener('click', playSort); }
   }
 
-  /* ---- D02: the v1.1 sections slide into the v1.0 template ---- */
+  /* ---- D02: the template file goes from v1.0 to v1.1 in place: the version line is
+     retyped, new sections open up between the old ones, extended ones gain a line ---- */
   var fmt = document.querySelector('.ds-format');
-  if (fmt && !reduce) {
-    var adds = [].slice.call(fmt.querySelectorAll('.ds-fs.add, .ds-fs .plus'));
-    var fmtReplay = fmt.querySelector('.ds-replay');
-    var fmtRun = 0;
-    var playFmt = async function () {
-      var run = ++fmtRun;
-      adds.forEach(function (a) { a.classList.remove('in'); });
-      await gate(fmt); await sleep(500);
-      for (var i = 0; i < adds.length && run === fmtRun; i++) { adds[i].classList.add('in'); await sleep(380); }
+  if (fmt) {
+    var fReplay = fmt.querySelector('.ds-replay');
+    var fsecs = [].slice.call(fmt.querySelectorAll('.ds-dtop, .ds-dsec'));
+    var tws = [].slice.call(fmt.querySelectorAll('.tw'));
+    var fcnt = fmt.querySelector('.cnt'), fcntFinal = fcnt.textContent;
+    var FROM = { 0: '1.0 · Updated: 2026-05-04' };
+    var fRun = 0;
+    var typeIn = async function (el, run) {
+      var target = el.getAttribute('data-t'), cur = el.textContent, p = 0;
+      while (p < cur.length && p < target.length && cur[p] === target[p]) p++;
+      el.classList.add('typing');
+      while (el.textContent.length > p) { if (run !== fRun) return; el.textContent = el.textContent.slice(0, -1); await sleep(24); }
+      for (var i = p; i < target.length; i++) { if (run !== fRun) return; el.textContent += target[i]; await sleep(42); }
+      el.classList.remove('typing');
     };
-    fmt.classList.add('ds-anim');
-    watch(fmt);
-    playFmt();
-    if (fmtReplay) fmtReplay.addEventListener('click', playFmt);
-  } else if (fmt) { var r0 = fmt.querySelector('.ds-replay'); if (r0) r0.hidden = true; }
+    var openSec = async function (sec) {
+      sec.classList.remove('pre');
+      sec.style.maxHeight = sec.scrollHeight + 'px';
+      await sleep(450); sec.style.maxHeight = '';
+    };
+    var fmtReset = function () {
+      fmt.classList.remove('done');
+      fsecs.forEach(function (d) { d.classList.remove('seen', 'act'); d.style.maxHeight = ''; if (d.classList.contains('ins')) d.classList.add('pre'); });
+      tws.forEach(function (t, i) { t.classList.remove('typing'); t.textContent = FROM[i] || ''; });
+      fmt.querySelectorAll('.dl.rv').forEach(function (l) { l.classList.remove('in'); });
+      fcnt.textContent = 'v1.0';
+    };
+    var playFmt = async function () {
+      var run = ++fRun;
+      fmtReset();
+      await gate(fmt); await sleep(700);
+      for (var i = 0; i < fsecs.length; i++) {
+        if (run !== fRun) return;
+        var sec = fsecs[i], tw = sec.querySelector('.tw'), lines = [].slice.call(sec.querySelectorAll('.dl.rv'));
+        sec.classList.add('act');
+        if (sec.classList.contains('ins')) { await openSec(sec); fcnt.textContent = 'adding ' + tw.getAttribute('data-t'); }
+        else if (tw || lines.length) fcnt.textContent = 'updating';
+        if (tw) { await gate(fmt); await typeIn(tw, run); }
+        for (var k = 0; k < lines.length; k++) { if (run !== fRun) return; await sleep(260); lines[k].classList.add('in'); }
+        await sleep(sec.classList.contains('cur') ? 380 : 650);
+        sec.classList.remove('act'); sec.classList.add('seen');
+      }
+      if (run !== fRun) return;
+      fcnt.textContent = fcntFinal; fmt.classList.add('done');
+    };
+    if (reduce) { if (fReplay) fReplay.hidden = true; fmt.classList.add('done'); }
+    else {
+      fmt.classList.add('ds-anim'); watch(fmt); playFmt();
+      if (fReplay) fReplay.addEventListener('click', playFmt);
+    }
+  }
 
   /* ---- D03: drift report rows arrive; Approve runs ds:update, Reject leaves everything as is ---- */
   var drift = document.querySelector('.ds-drift');
@@ -303,7 +340,7 @@
   /* ---- D04: ds:update rewrites table.md in place. Token rows are edited like
      in an editor (old suffix erased, new one typed), a removed row collapses,
      a new row opens up; hand-written sections are checked and left alone ---- */
-  var diff = document.querySelector('.ds-diff');
+  var diff = document.querySelector('#phase-4 .ds-diff');
   if (diff) {
     var dReplay = diff.querySelector('.ds-replay');
     var dsecs = [].slice.call(diff.querySelectorAll('.ds-dsec'));
