@@ -193,9 +193,9 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-drift.rejected .ds-row { opacity: .45; }
 .ds-result { display: grid; gap: 6px; }
 .ds-result[hidden] { display: none; }
-.ds-res-steps { display: grid; gap: 6px; }
-.ds-res { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 12px; align-items: baseline; padding: 7px 12px; border-radius: 4px; font-size: 12.5px; animation: dsIn .35s cubic-bezier(.16,1,.3,1); }
-.ds-res b { font: 500 11.5px var(--mono); color: var(--fg); }
+.ds-res-steps { display: grid; grid-template-columns: max-content minmax(0,1fr); gap: 6px; }
+.ds-res { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; gap: 12px; align-items: baseline; padding: 7px 12px; border-radius: 4px; font-size: 12.5px; animation: dsIn .35s cubic-bezier(.16,1,.3,1); }
+.ds-res b { font: 500 11.5px var(--mono); color: var(--fg); white-space: nowrap; }
 .ds-res span { color: var(--muted); }
 .ds-res.head b { color: var(--ds-hi); }
 .ds-res.ok b::before { content: "✓ "; color: var(--ds-hi); }
@@ -205,7 +205,7 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-drift.rejected .ds-res.end { background: transparent; border-color: var(--border-2); }
 .ds-result .ds-btn { justify-self: end; margin-top: 4px; }
 @keyframes dsIn { from { opacity: 0; transform: translateY(4px); } }
-@media (max-width: 640px) { .ds-res { grid-template-columns: 1fr; gap: 2px; } }
+@media (max-width: 640px) { .ds-res-steps { grid-template-columns: minmax(0,1fr); } .ds-res { grid-template-columns: 1fr; gap: 2px; } .ds-res b { white-space: normal; } }
 @media (max-width: 640px) { .ds-row { grid-template-columns: 1fr; gap: 1px; } .ds-row .nm { white-space: normal; overflow-wrap: anywhere; } }
 
 /* D04: ds:update rewrites table.md, a diff view */
@@ -230,11 +230,23 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-dsec.cur .dl code { color: var(--label); }
 .dl.del { background: var(--ds-crit-weak); } .dl.del code { color: var(--ds-crit); text-decoration: line-through; text-decoration-thickness: 1px; } .dl.del i { color: var(--ds-crit); }
 .dl.add { background: var(--ds-hi-weak); } .dl.add code { color: var(--fg); } .dl.add i { color: var(--ds-hi); }
-.ds-scan { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--ds-hi); box-shadow: 0 0 14px var(--ds-hi); opacity: 0; pointer-events: none; z-index: 2; }
-.ds-diff.run .ds-scan { animation: dsScanDown 2.8s cubic-bezier(.45,0,.55,1) forwards; }
-@keyframes dsScanDown { 0% { top: 0; opacity: 1; } 92% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
-.ds-anim .dl.del, .ds-anim .dl.add { opacity: 0; transition: opacity .35s; }
-.ds-anim .ds-dsec.seen .dl.del, .ds-anim .ds-dsec.seen .dl.add { opacity: 1; }
+.tk { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,250px) 62px; gap: 14px; align-items: center; margin: 1px 0 1px -6px; padding: 1px 6px; max-height: 26px; border-radius: 3px; overflow: hidden; transition: background .3s, max-height .45s cubic-bezier(.6,0,.3,1), opacity .35s, padding .45s, margin .45s; }
+.tk code { font: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tk .nm { color: var(--fg); }
+.tk .v { color: var(--muted); }
+.tk .op { justify-self: end; font: 9.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ds-hi); opacity: 0; transition: opacity .3s; }
+.tk[data-op="del"] .op { color: var(--ds-crit); }
+.tk.busy { background: var(--ds-crit-weak); }
+.tk[data-op="add"].busy { background: var(--ds-hi-weak); }
+.tk.busy .op, .tk.ok .op { opacity: 1; }
+.tk.ok { background: var(--ds-hi-weak); }
+.ds-diff.done .tk.ok { background: transparent; }
+.tk .nm.strike { color: var(--ds-crit); text-decoration: line-through; text-decoration-thickness: 1px; }
+.tk.pre, .tk.gone { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; margin-top: 0; margin-bottom: 0; }
+.tk .nm.typing { text-overflow: clip; }
+.tk .nm.typing::after { content: ""; display: inline-block; width: 1px; height: 1.15em; margin-left: 1px; vertical-align: -3px; background: var(--ds-hi); animation: dsCaret .8s steps(1) infinite; }
+@keyframes dsCaret { 50% { opacity: 0; } }
+.ds-dsec.act { background: color-mix(in srgb, var(--fg) 4%, transparent); }
 .ds-anim .ds-dsec.cur .st { transition: color .3s; }
 .ds-anim .ds-dsec.cur.seen .st { color: var(--fg); }
 .ds-anim .ds-dsec { transition: background .4s; }
@@ -242,7 +254,8 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 
 @media (prefers-reduced-motion: reduce) {
   .ds-tile, .ds-tile::before, .ds-tile::after, .ds-q, .ds-row, .ds-file, .ds-out, .ds-cat { transition: none; }
-  .ds-n.wait > .ds-tile, .ds-term .cur, .ds-diff.run .ds-scan { animation: none !important; }
+  .ds-n.wait > .ds-tile, .ds-term .cur, .tk .nm.typing::after { animation: none !important; }
+  .tk { transition: none; }
 }
 
 
@@ -271,5 +284,8 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 @media (max-width: 640px) {
   .ds-dsec .dh { flex-direction: column; gap: 0; }
   .dl code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .tk { grid-template-columns: minmax(0,1fr) auto; gap: 0 10px; max-height: 44px; }
+  .tk .v { grid-column: 1; grid-row: 2; }
+  .tk .op { grid-row: 1 / span 2; }
   .ds-dbody { font-size: 10.5px; }
 }

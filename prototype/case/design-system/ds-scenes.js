@@ -31,14 +31,14 @@
       { label: 'reading ~1,050 tokens', hold: 1100 },
       { label: 'diffing against the baseline', hold: 1100 },
       { label: '33 changes · 7 critical', hold: 1300 },
-      { label: 'waiting for my review', hold: 1700, wait: true },
+      { label: 'waiting for my review', hold: 1700, wait: 'approved' },
       { label: 'tokens, docs and Figma updated', hold: 1500, outs: true }
     ],
     build: [
       { label: 'specs and tokens in context', hold: 1100 },
       { label: 'agent reads both contracts', hold: 1100 },
-      { label: 'feature shipped', hold: 1100 },
-      { label: '2 questions left', hold: 1200 },
+      { label: 'data missing · questions sent back', hold: 1300 },
+      { label: 'answering the questions', hold: 1500, wait: 'answered' },
       { label: 'format updated', hold: 1300, back: true }
     ]
   };
@@ -82,7 +82,7 @@
         if (step.wait) {
           nodes[i].classList.add('wait'); await sleep(step.hold);
           nodes[i].classList.remove('wait'); nodes[i].classList.add('approved');
-          say('approved'); await sleep(800);
+          say(step.wait); await sleep(800);
           continue;
         }
         if (step.outs) { for (var k = 0; k < outs.length; k++) { await sleep(320); outs[k].classList.add('on'); } }
@@ -300,23 +300,77 @@
     }
   }
 
-  /* ---- D04: ds:update scans table.md top to bottom; only the Figma-derived section changes ---- */
+  /* ---- D04: ds:update rewrites table.md in place. Token rows are edited like
+     in an editor (old suffix erased, new one typed), a removed row collapses,
+     a new row opens up; hand-written sections are checked and left alone ---- */
   var diff = document.querySelector('.ds-diff');
   if (diff) {
     var dReplay = diff.querySelector('.ds-replay');
     var dsecs = [].slice.call(diff.querySelectorAll('.ds-dsec'));
+    var tks = [].slice.call(diff.querySelectorAll('.tk'));
+    var cnt = diff.querySelector('.cnt'), cntFinal = cnt.textContent;
+    tks.forEach(function (t) { t._from = t.querySelector('.nm').textContent; t._v = t.querySelector('.v').textContent; });
     var dRun = 0;
+    var resetTk = function (t) {
+      t.className = 'tk'; t.style.maxHeight = '';
+      var nm = t.querySelector('.nm'); nm.textContent = t._from; nm.classList.remove('typing');
+      t.querySelector('.v').textContent = t._v;
+      if (t.dataset.op === 'add') t.classList.add('pre');
+    };
+    var finalTk = function (t) {
+      t.className = 'tk';
+      if (t.dataset.op === 'del') { t.classList.add('gone'); return; }
+      t.querySelector('.nm').textContent = t.dataset.to;
+      if (t.dataset.v) t.querySelector('.v').textContent = t.dataset.v;
+    };
+    var typeTo = async function (nm, target, run) {
+      var cur = nm.textContent, p = 0;
+      while (p < cur.length && p < target.length && cur[p] === target[p]) p++;
+      nm.classList.add('typing');
+      while (nm.textContent.length > p) { if (run !== dRun) return; nm.textContent = nm.textContent.slice(0, -1); await sleep(26); }
+      await sleep(120);
+      for (var i = p; i < target.length; i++) { if (run !== dRun) return; nm.textContent += target[i]; await sleep(40); }
+      nm.classList.remove('typing');
+    };
+    var edit = async function (t, run) {
+      var nm = t.querySelector('.nm');
+      t.classList.add('busy'); await sleep(260);
+      if (t.dataset.op === 'del') {
+        nm.classList.add('strike'); await sleep(500);
+        t.classList.add('gone'); await sleep(450);
+        return;
+      }
+      if (t.dataset.op === 'add') {
+        t.classList.remove('pre'); await sleep(380);
+        await typeTo(nm, t.dataset.to, run);
+        t.querySelector('.v').textContent = t.dataset.v;
+      } else {
+        await typeTo(nm, t.dataset.to, run);
+      }
+      if (run !== dRun) return;
+      t.classList.remove('busy'); t.classList.add('ok'); await sleep(260);
+    };
     var playDiff = async function () {
       var run = ++dRun;
-      diff.classList.remove('run', 'done');
-      dsecs.forEach(function (d) { d.classList.remove('seen'); });
-      await gate(diff); await sleep(600);
+      diff.classList.remove('done');
+      dsecs.forEach(function (d) { d.classList.remove('seen', 'act'); });
+      tks.forEach(resetTk);
+      cnt.textContent = 'reading Figma…';
+      await gate(diff); await sleep(700);
+      for (var i = 0; i < dsecs.length; i++) {
+        if (run !== dRun) return;
+        var sec = dsecs[i], rowsIn = [].slice.call(sec.querySelectorAll('.tk'));
+        sec.classList.add('act');
+        if (rowsIn.length) {
+          cnt.textContent = 'regenerating Token Mapping';
+          for (var k = 0; k < rowsIn.length; k++) { await gate(diff); if (run !== dRun) return; await edit(rowsIn[k], run); }
+        } else await sleep(650);
+        sec.classList.remove('act'); sec.classList.add('seen');
+      }
       if (run !== dRun) return;
-      void diff.offsetWidth; diff.classList.add('run');
-      for (var i = 0; i < dsecs.length && run === dRun; i++) { await sleep(520); dsecs[i].classList.add('seen'); }
-      await sleep(400); if (run === dRun) diff.classList.add('done');
+      cnt.textContent = cntFinal; diff.classList.add('done');
     };
-    if (reduce) { diff.classList.add('done'); dsecs.forEach(function (d) { d.classList.add('seen'); }); if (dReplay) dReplay.hidden = true; }
+    if (reduce) { diff.classList.add('done'); dsecs.forEach(function (d) { d.classList.add('seen'); }); tks.forEach(finalTk); if (dReplay) dReplay.hidden = true; }
     else {
       diff.classList.add('ds-anim'); watch(diff); playDiff();
       if (dReplay) dReplay.addEventListener('click', playDiff);
