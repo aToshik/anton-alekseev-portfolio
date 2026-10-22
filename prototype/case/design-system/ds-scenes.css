@@ -20,9 +20,7 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 /* ---- workflow pipeline ---- */
 .ds-lane { position: relative; }
 .ds-lane + .ds-lane { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--border); }
-.ds-lane-label { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 20px; }
-.ds-status { font: 500 10.5px var(--mono); letter-spacing: .02em; text-transform: none; color: var(--ds-hi); }
-.ds-status::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 8px; border-radius: 1px; background: currentColor; vertical-align: 1px; }
+.ds-lane-label { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 38px; }
 .ds-lane-label i { font-style: normal; color: var(--accent); letter-spacing: .02em; text-transform: none; }
 .ds-nodes { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
 .ds-nodes::before { content: ""; position: absolute; top: 22px; left: 10%; right: 10%; height: 1px; background: var(--label); opacity: .55; }
@@ -41,6 +39,9 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-out.on { color: var(--ds-hi); border-color: var(--ds-hi); background: var(--ds-hi-weak); }
 .ds-fill { position: absolute; left: 0; top: 0; width: 0; height: 1px; z-index: 1; background: var(--ds-hi); box-shadow: 0 0 6px var(--ds-hi); pointer-events: none; }
 .ds-pkt { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .3s; }
+.ds-tag { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 3; pointer-events: none; }
+.ds-tag span { position: absolute; left: 0; bottom: 30px; transform: translateX(-50%); white-space: nowrap; font: 500 10px var(--mono); color: var(--ds-hi-ink); background: var(--ds-hi); border-radius: 2px; padding: 2px 6px; opacity: 0; transition: opacity .25s; }
+.ds-tag.show span { opacity: 1; }
 .ds-pkt i { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; background: var(--ds-hi); border-radius: 1px; box-shadow: 0 0 12px var(--ds-hi); }
 .ds-ret { position: relative; margin-top: 16px; height: 32px; display: flex; justify-content: center; font: 11px var(--mono); letter-spacing: .04em; color: var(--accent); }
 .ds-ret::before { content: ""; position: absolute; left: 10%; right: 10%; top: 0; height: 10px; border: 1px dashed var(--border-2); border-top: 0; border-radius: 0 0 4px 4px; }
@@ -48,6 +49,8 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-ret::before { transition: border-color .3s; }
 .ds-lane.returning .ds-ret::before { border-color: var(--ds-hi); border-style: solid; }
 @media (max-width: 760px) {
+  .ds-lane-label { margin-bottom: 18px; }
+  .ds-tag span { bottom: auto; left: 34px; top: -9px; transform: none; }
   .ds-nodes { grid-template-columns: 1fr; gap: 18px; }
   .ds-nodes::before { top: 22px; bottom: 22px; left: 22px; right: auto; width: 1px; height: auto; }
   .ds-n { grid-template-columns: 44px 1fr; justify-items: start; text-align: left; column-gap: 14px; row-gap: 2px; }
@@ -109,7 +112,11 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-fork::before { content: ""; position: absolute; left: 50%; top: 0; height: 13px; border-left: 1px solid var(--ds-hi); }
 .ds-fork span { position: absolute; left: 0; right: 0; top: 13px; height: 13px; border: 1px solid var(--ds-hi); border-bottom: 0; border-radius: 3px 3px 0 0; }
 .ds-pair { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
-.ds-col { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.ds-pair { grid-template-rows: auto 1fr; row-gap: 10px; }
+.ds-col { display: contents; }
+.ds-col:nth-child(1) > .ds-cap { grid-column: 1; grid-row: 1; } .ds-col:nth-child(1) > :last-child { grid-column: 1; grid-row: 2; }
+.ds-col:nth-child(2) > .ds-cap { grid-column: 2; grid-row: 1; } .ds-col:nth-child(2) > :last-child { grid-column: 2; grid-row: 2; }
+.ds-fp, .ds-mdv { min-width: 0; }
 .ds-cap { margin: 0; display: grid; gap: 2px; }
 .ds-cap b { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--fg); }
 .ds-cap span { font-size: 12.5px; line-height: 1.5; color: var(--muted); }
@@ -128,9 +135,6 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-mdv { background: var(--panel); border: 1px solid var(--border-2); border-radius: 6px; overflow: hidden; }
 .ds-mdv-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--border-2); background: var(--panel-2); font: 10.5px var(--mono); color: var(--label); }
 .ds-mdv-h b { color: var(--fg); font-weight: 500; }
-.ds-mdv-h .tabs { display: inline-flex; gap: 2px; }
-.ds-mdv-h .tabs i { font-style: normal; padding: 2px 8px; border-radius: 4px; }
-.ds-mdv-h .tabs i.on { background: var(--panel); color: var(--fg); border: 1px solid var(--border-2); }
 .ds-mdv-b { position: relative; padding: 12px 14px 14px; font-size: 11.5px; line-height: 1.5; color: var(--muted); }
 .ds-mdv-b h4 { margin: 0 0 2px; padding-bottom: 6px; border-bottom: 1px solid var(--border); font: 600 17px var(--display); color: var(--fg); }
 .ds-mdv-b .meta { margin: 6px 0 0; padding-left: 8px; border-left: 3px solid var(--border-2); font-size: 11px; color: var(--label); }
@@ -149,10 +153,7 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-toast span { color: #b6bcc6; }
 .ds-toast .acts { display: flex; gap: 12px; margin-top: 8px; font-weight: 600; color: #8fb3ff; }
 .ds-toast .x { position: absolute; right: 9px; top: 6px; color: #b6bcc6; }
-.ds-toast .timer { position: absolute; left: 3px; right: 0; bottom: 0; height: 2px; background: #477fd3; transform-origin: left; }
-.ds-live .ds-toast .timer { animation: dsTimer 5s linear infinite; }
-@keyframes dsTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
-@media (max-width: 900px) { .ds-pair { grid-template-columns: 1fr; } .ds-fork { display: none; } .ds-canvas { margin-bottom: 14px; } }
+@media (max-width: 900px) { .ds-pair { grid-template-columns: 1fr; grid-template-rows: none; } .ds-col > .ds-cap, .ds-col > :last-child { grid-column: auto !important; grid-row: auto !important; } .ds-col:nth-child(2) > .ds-cap { margin-top: 10px; } .ds-fork { display: none; } .ds-canvas { margin-bottom: 14px; } }
 
 /* D03: drift report */
 .ds-drift { display: grid; gap: 12px; }
@@ -241,7 +242,7 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 
 @media (prefers-reduced-motion: reduce) {
   .ds-tile, .ds-tile::before, .ds-tile::after, .ds-q, .ds-row, .ds-file, .ds-out, .ds-cat { transition: none; }
-  .ds-n.wait > .ds-tile, .ds-term .cur, .ds-toast .timer, .ds-diff.run .ds-scan { animation: none !important; }
+  .ds-n.wait > .ds-tile, .ds-term .cur, .ds-diff.run .ds-scan { animation: none !important; }
 }
 
 

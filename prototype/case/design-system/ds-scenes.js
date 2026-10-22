@@ -28,14 +28,14 @@
   /* ---- workflow pipeline: a packet walks the nodes, waits for the designer ---- */
   var PLANS = {
     maintain: [
-      { label: 'reading ~1,050 tokens', hold: 1100, idle: 'idle until the next sync' },
+      { label: 'reading ~1,050 tokens', hold: 1100 },
       { label: 'diffing against the baseline', hold: 1100 },
       { label: '33 changes · 7 critical', hold: 1300 },
       { label: 'waiting for my review', hold: 1700, wait: true },
       { label: 'tokens, docs and Figma updated', hold: 1500, outs: true }
     ],
     build: [
-      { label: 'specs and tokens in context', hold: 1100, idle: 'waiting for the next feature' },
+      { label: 'specs and tokens in context', hold: 1100 },
       { label: 'agent reads both contracts', hold: 1100 },
       { label: 'feature shipped', hold: 1100 },
       { label: '2 questions left', hold: 1200 },
@@ -48,13 +48,14 @@
     var tiles = nodes.map(function (n) { return n.querySelector('.ds-tile'); });
     var outs = [].slice.call(lane.querySelectorAll('.ds-out'));
     var pkt = lane.querySelector('.ds-pkt'), fill = lane.querySelector('.ds-fill');
-    var status = lane.querySelector('.ds-status');
+    var tag = lane.querySelector('.ds-tag'), tagText = tag.querySelector('span');
     var ret = lane.querySelector('.ds-ret');
     var start;
     /* the packet slides along the connector behind the tiles; the line lights up behind it */
     function move(p, dur) {
       var t = dur ? 'transform ' + dur + 'ms cubic-bezier(.6,0,.3,1), opacity .3s' : '';
       pkt.style.transition = t; pkt.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)';
+      tag.style.transition = t; tag.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)';
       if (!fill) return;
       fill.style.transition = dur ? 'width ' + dur + 'ms cubic-bezier(.6,0,.3,1), height ' + dur + 'ms cubic-bezier(.6,0,.3,1)' : 'none';
       var vertical = start.x === center(tiles[tiles.length - 1], lane).x;
@@ -62,7 +63,7 @@
       if (vertical) { fill.style.width = '1px'; fill.style.height = Math.max(0, p.y - start.y) + 'px'; }
       else { fill.style.height = '1px'; fill.style.width = Math.max(0, p.x - start.x) + 'px'; }
     }
-    function say(t) { if (status) status.textContent = t; }
+    function say(t) { tagText.textContent = t; tag.classList.toggle('show', !!t); }
     function clear() { nodes.forEach(function (n) { n.classList.remove('on'); }); }
     for (;;) {
       await gate(lane);
@@ -81,25 +82,25 @@
         if (step.wait) {
           nodes[i].classList.add('wait'); await sleep(step.hold);
           nodes[i].classList.remove('wait'); nodes[i].classList.add('approved');
-          say('approved by the designer'); await sleep(800);
+          say('approved'); await sleep(800);
           continue;
         }
         if (step.outs) { for (var k = 0; k < outs.length; k++) { await sleep(320); outs[k].classList.add('on'); } }
         await sleep(step.hold);
       }
       if (plan[plan.length - 1].back && ret && ret.offsetParent) {
-        lane.classList.add('returning'); say('better specs for the next feature');
+        lane.classList.add('returning'); say('better specs');
         await sleep(1600);
         lane.classList.remove('returning');
         clear(); nodes[0].classList.add('on'); await sleep(800);
       }
-      pkt.style.opacity = 0; await sleep(500);
-      clear(); move(start, 0); say(plan[0].idle || ''); await sleep(500);
+      pkt.style.opacity = 0; say(''); await sleep(500);
+      clear(); move(start, 0); await sleep(500);
     }
   }
   [].slice.call(document.querySelectorAll('.ds-lane')).forEach(function (lane, i) {
     watch(lane);
-    if (reduce) { var p = lane.querySelector('.ds-pkt'); if (p) p.hidden = true; lane.querySelectorAll('.ds-out').forEach(function (o) { o.classList.add('on'); }); return; }
+    if (reduce) { var p = lane.querySelector('.ds-pkt'); if (p) p.hidden = true; lane.querySelector('.ds-tag').hidden = true; lane.querySelectorAll('.ds-out').forEach(function (o) { o.classList.add('on'); }); return; }
     setTimeout(function () { runLane(lane); }, i * 1800);
   });
 
@@ -227,10 +228,6 @@
     if (reduce) { layout(true); if (replay) replay.hidden = true; }
     else { playSort(); if (replay) replay.addEventListener('click', playSort); }
   }
-
-  /* ---- D01: the toast timer runs while the scene is on screen ---- */
-  var two = document.querySelector('.ds-two');
-  if (two && !reduce) watch(two);
 
   /* ---- D02: the v1.1 sections slide into the v1.0 template ---- */
   var fmt = document.querySelector('.ds-format');
