@@ -297,18 +297,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; }
 }
 
-/* ---- DS case: two-lane workflow ---- */
-.wf-lane + .wf-lane { margin-top: 22px; }
-.wf-lane-label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); }
-.wf-lane-label i { font-style: normal; letter-spacing: .02em; text-transform: none; color: var(--accent); }
-.loop-node.human { border-style: dashed; border-color: var(--fg); }
-.loop-node .who { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
-.loop-node.accent .who { color: var(--accent); }
-.loop-node em { font-style: normal; color: var(--accent); font-weight: 500; }
-.wf-legend { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
-.wf-legend span { display: inline-flex; align-items: center; gap: 8px; }
-.wf-legend i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--accent); }
-.wf-legend i.h { border: 1px dashed var(--fg); }
+/* ---- DS case: skills grid ---- */
 .skills { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .skill { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
 .skill code { font-family: var(--mono); font-size: 12px; color: var(--accent); }
@@ -330,9 +319,27 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/lucide.css">
 <link rel="stylesheet" href="../../shared/glow.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
+<link rel="stylesheet" href="ds-scenes.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<!-- Lucide icons (ISC) for the live scenes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="ds-figma" viewBox="0 0 24 24"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></symbol>
+  <symbol id="ds-term" viewBox="0 0 24 24"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2"/></symbol>
+  <symbol id="ds-md" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 17v-5l2 2 2-2v5"/><path d="M16 12v5"/><path d="m14.5 15.5 1.5 1.5 1.5-1.5"/></symbol>
+  <symbol id="ds-diff" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 10h6"/><path d="M12 7v6"/><path d="M9 17h6"/></symbol>
+  <symbol id="ds-user" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></symbol>
+  <symbol id="ds-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+  <symbol id="ds-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <symbol id="ds-ship" viewBox="0 0 24 24"><path d="m16 16 2 2 4-4"/><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="m7.5 4.27 9 5.15"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></symbol>
+  <symbol id="ds-ask" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="ds-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+  <symbol id="ds-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></symbol>
+  <symbol id="ds-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="ds-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="ds-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+</svg>
 
 <!-- ======= FLOATING NAV ======= -->
 <nav class="nav" aria-label="Primary">
@@ -446,12 +453,13 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="eyebrow" style="margin-bottom:12px">Insight</p>
       <h2 class="sec-title" id="insight-t">Tokens said how it looks. Nothing said how it behaves.</h2>
       <p class="body-copy">The questions weren't about missing details. They were about missing <strong>categories</strong> of information. After the Analytics Table shipped, developers came back with 15 questions. I sorted them:</p>
-      <div class="cats" role="list" aria-label="15 developer questions by category">
+      <div class="cats visually-hidden" role="list" aria-label="15 developer questions by category">
         <span class="cat" role="listitem"><b>8</b>behavior edge cases</span>
         <span class="cat" role="listitem"><b>2</b>consumer vs component</span>
         <span class="cat" role="listitem"><b>2</b>accessibility strings</span>
         <span class="cat" role="listitem"><b>3</b>tokens, sizes, spec authority</span>
       </div>
+      <div class="ds-sort" aria-hidden="true"><div class="ds-sort-in"></div><button type="button" class="ds-replay" tabindex="-1">Replay</button></div>
       <p class="body-copy" style="margin-top:18px">None of these had a place in the doc template. Careful writing couldn't fix it. <strong>The template had to change, and something had to keep it true as Figma moved.</strong></p>
     </section>
 
@@ -469,40 +477,101 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Generated vs curated</span></a>
       </nav>
 
-      <article class="phase" id="phase-1">
+      <article class="phase wide" id="phase-1">
         <div>
           <div class="ph-label"><span class="n">01</span> · One component, two contracts</div>
           <p class="ph-text">Each component got a compact, structured description in Figma, written for agents to parse (anatomy, props, tokens, a11y in a fixed syntax), and a full Markdown spec in the code repo for developers. Figma's "Link to documentation" points straight to the repo doc.
             <span class="rej">Rejected: one long doc for everyone. Agents lose precision in prose; developers lose context in a terse contract.</span>
           </p>
         </div>
-        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-figma-md.svg" alt="Figma component description next to its .md spec (placeholder)" width="1600" height="1000" loading="lazy"></button>
+        <figure class="ds-scene" aria-label="The Toast component with its compact Figma description for agents on the left and its Markdown spec for developers on the right" style="margin:0">
+          <div class="ds-contracts">
+            <div class="ds-card">
+              <h5><svg class="ds-i"><use href="#ds-figma"/></svg>Figma description · for agents</h5>
+<pre><b>Toast</b> / transient, non-blocking
+<i>anatomy</i> / icon · title · desc? · actions? · close
+<i>props</i> / Status: Info|Success|Warning|Error
+<i>tokens</i> / toast/bg-color · toast/indicator-color/*
+<i>dismiss</i> / × ✓ · timer 5s ✓ · CTA ✓ · Esc ✗
+<i>a11y</i> / role=alert · aria-live by status
+<i>docs</i> / → docs/components/toast.md</pre>
+            </div>
+            <div class="ds-mid" aria-hidden="true"><span class="ds-wire l"></span><span class="ds-wire r"></span>
+              <div class="ds-toast"><span class="x">×</span><b>Bids updated</b><span>4 ad groups now use suggested bids.</span><div class="acts"><span>Undo</span><span>View</span></div><i class="timer"></i></div>
+              <span class="cap">Toast · TerraUI</span>
+            </div>
+            <div class="ds-card">
+              <h5><svg class="ds-i"><use href="#ds-md"/></svg>toast.md · for developers</h5>
+              <h6>## Behavior · dismiss matrix</h6>
+              <table><tbody>
+                <tr><td>× button</td><td class="y">closes</td></tr>
+                <tr><td>Auto-timer 5s</td><td class="y">closes</td></tr>
+                <tr><td>CTA click</td><td class="y">closes</td></tr>
+                <tr><td>Escape</td><td class="x">no</td></tr>
+                <tr><td>Click outside</td><td class="x">no</td></tr>
+              </tbody></table>
+              <h6>## Consumer contract</h6>
+              <pre>Stack limit → global toast provider</pre>
+            </div>
+          </div>
+        </figure>
       </article>
 
-      <article class="phase" id="phase-2">
+      <article class="phase wide" id="phase-2">
         <div>
           <div class="ph-label"><span class="n">02</span> · A doc format driven by real failures</div>
           <p class="ph-text">Every question category became a section. <strong style="color:var(--fg);font-weight:500">States</strong>: entry condition and visual for loading, error, empty. <strong style="color:var(--fg);font-weight:500">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong style="color:var(--fg);font-weight:500">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
         </div>
-        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-questions.svg" alt="Developer questions mapped to new doc sections (placeholder)" width="1600" height="1000" loading="lazy"></button>
       </article>
 
-      <article class="phase" id="phase-3">
+      <article class="phase wide" id="phase-3">
         <div>
           <div class="ph-label"><span class="n">03</span> · Every difference gets a name</div>
           <p class="ph-text">The goal was never zero drift; Figma is supposed to change. The goal was that no change goes unnoticed or unnamed. Every difference is classified by risk before anything is written. Critical: a token or prop removed or renamed. High: a value changed. Low: something new added. Nothing is applied without my approval.
             <span class="rej">Rejected: fully automatic sync. A rename can break code; a person should see it first.</span>
           </p>
         </div>
-        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-drift.svg" alt="Drift report with risk labels (placeholder)" width="1600" height="1000" loading="lazy"></button>
+        <figure class="ds-scene ds-drift" style="margin:0" aria-label="Drift report from a real audit run: 33 changes, 7 critical token renames and removals in the Table component, 26 low-risk additions">
+          <div class="top"><b>Drift report</b><span>run d460cccb · Table token restructure</span></div>
+          <div class="bar" aria-hidden="true"><i class="c"></i><i class="l"></i></div>
+          <div class="lg"><span class="c">7 critical</span><span>26 low</span><span>33 changes</span></div>
+          <div class="ds-rows">
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>table/row-color/default</s> → table/row/bg-color/default</span></div>
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>table/row-color/hover</s> → table/row/bg-color/hover</span></div>
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>table/row-color/active</s> → table/row/bg-color/active</span></div>
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>table/table/padding-x</s> → table/padding-x</span></div>
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>table/table/row-gap</s> → table/row-gap</span></div>
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">removed</span><span class="nm">table/row-color/total</span></div>
+              <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>date-picker/action-bar-color</s> → date-picker/action_bar-color</span></div>
+              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">color/bg-interactive-selected</span></div>
+              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">button-icon/icon-color/active</span></div>
+              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">+ 24 more tokens</span></div>
+          </div>
+          <div class="foot" aria-hidden="true"><span class="hint">Nothing is applied until approved</span><span class="ds-btn">Reject</span><span class="ds-btn pri">Approve 33 changes</span></div>
+        </figure>
       </article>
 
-      <article class="phase" id="phase-4">
+      <article class="phase wide" id="phase-4">
         <div>
           <div class="ph-label"><span class="n">04</span> · Generated vs curated sections</div>
           <p class="ph-text">Props and token mappings are regenerated from Figma. Purpose and implementation rules are written by hand and never overwritten. Automation keeps facts fresh without erasing judgment.</p>
         </div>
-        <button type="button" class="ph-visual has-img" data-lightbox><img src="assets/stub-ds-doc-sections.svg" alt="Component doc with generated and curated sections (placeholder)" width="1600" height="1000" loading="lazy"></button>
+        <figure class="ds-scene" style="margin:0" aria-label="table.md: Variant API and Token Mapping are regenerated from Figma; Purpose, Accessibility and Implementation rules are hand-written and kept">
+          <div class="ds-doc">
+            <div class="ds-secs">
+              <div class="ds-sec cur"><div><h6>Purpose</h6><p>Ordinary product tables, not the analytics family</p></div><span class="st"><svg class="ds-i"><use href="#ds-lock"/></svg>hand-written<span class="kept">&nbsp;· kept</span></span></div>
+              <div class="ds-sec gen"><div><h6>Variant API</h6><p>columns · slot</p></div><span class="st"><svg class="ds-i"><use href="#ds-figma"/></svg>from Figma</span></div>
+              <div class="ds-sec gen"><div><h6>Token Mapping</h6><p><span data-tok data-from="table/row-color/default" data-to="table/row/bg-color/default">table/row-color/default</span></p></div><span class="st"><svg class="ds-i"><use href="#ds-figma"/></svg>from Figma</span></div>
+              <div class="ds-sec cur"><div><h6>Accessibility</h6><p>role=grid · aria-sort on column headers</p></div><span class="st"><svg class="ds-i"><use href="#ds-lock"/></svg>hand-written<span class="kept">&nbsp;· kept</span></span></div>
+              <div class="ds-sec cur"><div><h6>Implementation rules</h6><p>Row status uses table/indicator-color/*</p></div><span class="st"><svg class="ds-i"><use href="#ds-lock"/></svg>hand-written<span class="kept">&nbsp;· kept</span></span></div>
+            </div>
+            <div class="ds-doc-side">
+              <div class="k"><i></i><span>Generated: rewritten from Figma on every update</span></div>
+              <div class="k"><i class="c"></i><span>Curated: my judgment, never overwritten</span></div>
+              <button type="button" class="ds-run" tabindex="-1" aria-hidden="true"><svg class="ds-i"><use href="#ds-refresh"/></svg>Run ds:update</button>
+            </div>
+          </div>
+        </figure>
       </article>
     </section>
 
@@ -513,41 +582,44 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="accent-block">
         <p class="ph-text">The system runs as two loops. In the first, agents keep Figma and the repo in sync, and I approve every change: component docs, Figma descriptions and the token files in the repo update together. In the second, coding agents build from <strong>two layers of documentation</strong> (the compact spec in each Figma component's description and the full .md doc in the repo) and from tokens that always match Figma. Whatever they still can't answer improves the format.</p>
 
-        <div class="loop" role="img" aria-label="Maintain loop: Figma → ds:audit → drift report → designer review → ds:update. Build loop: two contracts → coding agent → feature shipped → open questions → doc format, feeding back into better specs.">
-          <div class="wf-lane">
-            <div class="wf-lane-label">Maintain <i>· ds:sync, one command</i></div>
-            <div class="loop-row">
-              <div class="loop-node"><span class="who">Source</span><b>Figma</b><span>56 components · ~1,050 tokens</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node accent"><span class="who">Skill</span><b>ds:audit</b><span>reads Figma via MCP, diffs against baseline</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node"><span class="who">Output</span><b>Drift report</b><span>every change risk-rated</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node human"><span class="who">Designer</span><b>Review</b><span>approve or reject, nothing changes silently</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node accent"><span class="who">Skill</span><b>ds:update</b><span>repo tokens + docs, Figma descriptions</span></div>
+        <div class="ds-flow" role="img" aria-label="Maintain loop: Figma → ds:audit → drift report → designer review → ds:update, which updates token files, docs and Figma descriptions. Build loop: specs and tokens → coding agent → feature shipped → open questions → doc format v1.1, feeding back into better specs.">
+          <div class="ds-lane" data-lane="maintain">
+            <div class="ds-lane-label">Maintain <i>· ds:sync, one command</i></div>
+            <div class="ds-nodes">
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-figma"/></svg></div><span class="who">Source</span><b>Figma</b><span class="sub">56 components · ~1,050 tokens</span></div>
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-term"/></svg></div><span class="who">Skill</span><b>ds:audit</b><span class="sub">reads Figma via MCP, diffs against baseline</span></div>
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-diff"/></svg></div><span class="who">Output</span><b>Drift report</b><span class="sub">every change risk-rated</span></div>
+              <div class="ds-n"><div class="ds-tile human"><svg class="ds-i"><use href="#ds-user"/></svg></div><span class="ok"><svg class="ds-i"><use href="#ds-check"/></svg></span><span class="who">Designer</span><b>Review</b><span class="sub">nothing changes silently</span></div>
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-term"/></svg></div><span class="who">Skill</span><b>ds:update</b><div class="ds-outs"><span class="ds-out">tokens.json</span><span class="ds-out">docs .md</span><span class="ds-out">Figma desc</span></div></div>
             </div>
+            <div class="ds-pkt" aria-hidden="true"><i></i><span></span></div>
           </div>
-          <div class="wf-lane">
-            <div class="wf-lane-label">Build <i>· agentic development</i></div>
-            <div class="loop-row">
-              <div class="loop-node"><span class="who">Context</span><b>Specs + tokens</b><span>Figma description, repo .md, current token files</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node accent"><span class="who">Agent</span><b>Coding agent</b><span>Cursor · Claude Code read both</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node"><span class="who">Result</span><b>Feature shipped</b><span>built from the spec, not from guesses</span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node"><span class="who">Signal</span><b>Open questions</b><span>grouped by category</span><span><em>15 → 2</em></span></div>
-              <span class="loop-sep" aria-hidden="true">→</span>
-              <div class="loop-node human"><span class="who">Designer</span><b>Doc format v1.1</b><span>States · Behavior · Consumer contract</span></div>
+          <div class="ds-lane" data-lane="build">
+            <div class="ds-lane-label">Build <i>· agentic development</i></div>
+            <div class="ds-nodes">
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-layers"/></svg></div><span class="who">Context</span><b>Specs + tokens</b><span class="sub">Figma description · repo .md · token files</span></div>
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-bot"/></svg></div><span class="who">Agent</span><b>Coding agent</b><span class="sub">Cursor · Claude Code read both</span></div>
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-ship"/></svg></div><span class="who">Result</span><b>Feature shipped</b><span class="sub">built from the spec, not from guesses</span></div>
+              <div class="ds-n"><div class="ds-tile"><svg class="ds-i"><use href="#ds-ask"/></svg></div><span class="who">Signal</span><b>Open questions</b><span class="sub">grouped by category · <em>15 → 2</em></span></div>
+              <div class="ds-n"><div class="ds-tile human"><svg class="ds-i"><use href="#ds-checks"/></svg></div><span class="who">Designer</span><b>Doc format v1.1</b><span class="sub">States · Behavior · Consumer contract</span></div>
             </div>
-            <div class="loop-return">
-              <svg class="rp-svg" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true"><line class="rp" x1="100" y1="1.5" x2="0" y2="1.5" vector-effect="non-scaling-stroke"/></svg>
-              <span>↺ better specs: every question the agents still ask becomes part of the format</span>
-            </div>
+            <div class="ds-ret"><span>↺ every question the agents still ask becomes part of the format</span></div>
+            <div class="ds-pkt" aria-hidden="true"><i></i><span></span></div>
           </div>
-          <div class="wf-legend" aria-hidden="true"><span><i></i>AI agent or skill</span><span><i class="h"></i>Designer decision</span></div>
+          <div class="ds-legend" aria-hidden="true"><span><span class="ds-tile"><svg class="ds-i"><use href="#ds-term"/></svg></span>Skill</span><span><span class="ds-tile"><svg class="ds-i"><use href="#ds-bot"/></svg></span>AI agent</span><span><span class="ds-tile human"><svg class="ds-i"><use href="#ds-user"/></svg></span>Designer decision</span></div>
         </div>
+
+        <div class="ds-sync" aria-label="Replay of a real ds:sync run">
+          <div class="ds-term" aria-hidden="true"><div class="bar"><i></i><i></i><i></i><span>claude code · terraui</span></div><div class="ds-term-body"></div></div>
+          <div class="ds-files">
+            <h4>Updated after approval</h4>
+            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-braces"/></svg><span class="badge">JSON</span></div><div><b>components.tokens.json</b><span>7 renamed or removed · 26 added</span></div></div>
+            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-md"/></svg><span class="badge">MD</span></div><div><b>docs/table.md</b><span>Token Mapping regenerated</span></div></div>
+            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-md"/></svg><span class="badge">MD</span></div><div><b>docs/date-picker.md</b><span>Token Mapping regenerated</span></div></div>
+            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-figma"/></svg></div><div><b>Figma · Table</b><span>component description rewritten</span></div></div>
+          </div>
+        </div>
+        <p class="ds-sync-cap">A real run: the Table token restructure, 33 changes found, applied after one approval.</p>
 
         <div class="skills">
           <div class="skill"><code>ds:audit</code><p>Reads every token and component prop from Figma through the Figma MCP, compares them with the last approved baseline and writes a risk-rated drift report.</p></div>
@@ -685,5 +757,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <script src="../../shared/mobile-bar.js" defer></script>
 <script src="../../shared/mobile-nav.js" defer></script>
 <script src="../../shared/glow.js" defer></script>
+<script src="ds-scenes.js" defer></script>
 </body>
 </html>
