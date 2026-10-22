@@ -404,7 +404,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="ch-context">Design System · AI · B2B&nbsp;&nbsp;|&nbsp;&nbsp;MarketingOS, Kissterra · sole product designer · 56 components · ~1,050 tokens</p>
       <h1 class="ch-hook">How I made a design system AI agents can build from</h1>
       <div class="ch-meta">
-        <span class="mchip">15 → 2 · design questions per feature</span>
+        <span class="mchip">15 → 2 · design questions after doc format v1.1</span>
         <span class="mchip">Minutes, not hours · Figma → repo sync</span>
       </div>
       <p class="ch-tooling"><b>Figma</b> · <b>Claude Code</b> skills · <b>Figma MCP</b> · <b>DTCG</b> tokens · consumed by <b>Cursor</b> &amp; <b>Claude Code</b></p>
@@ -421,7 +421,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <section class="section reveal" id="context" aria-labelledby="context-t">
       <p class="eyebrow" style="margin-bottom:12px">Context</p>
       <h2 class="sec-title" id="context-t">Engineers started shipping with AI agents</h2>
-      <p class="body-copy">MarketingOS is Kissterra's dense B2B analytics and campaign platform. I built its design system as the sole product designer. Then the frontend team moved to AI-assisted development: Cursor and Claude Code implemented features straight from Figma and specs. Our engineers started shipping features with AI coding agents, and those agents read my design system literally.</p>
+      <p class="body-copy">MarketingOS is Kissterra's dense B2B analytics and campaign platform. I built its design system as the sole product designer. Then the frontend team moved to AI-assisted development: Cursor and Claude Code implemented features straight from Figma and specs, and those agents read my design system literally.</p>
     </section>
 
     <!-- THE SYSTEM -->
@@ -488,13 +488,12 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ds-contracts">
             <div class="ds-card">
               <h5><svg class="ds-i"><use href="#ds-figma"/></svg>Figma description · for agents</h5>
-<pre><b>Toast</b> / transient, non-blocking
-<i>anatomy</i> / icon · title · desc? · actions? · close
-<i>props</i> / Status: Info|Success|Warning|Error
-<i>tokens</i> / toast/bg-color · toast/indicator-color/*
-<i>dismiss</i> / × ✓ · timer 5s ✓ · CTA ✓ · Esc ✗
-<i>a11y</i> / role=alert · aria-live by status
-<i>docs</i> / → docs/components/toast.md</pre>
+<pre><i>Updated:</i> 2026-05-20 · Node: 3223:162
+<i>Anatomy:</i> icon · title · description? · primary-action? · secondary-action? · close
+<i>Props:</i> Status(Warning|<b>Info</b>|Success|Error=Info) · Description?(bool=true) · Actions?(bool=true) · State(Default|Hover=Default)
+<i>Tokens:</i> bg→toast/bg-color · border→toast/border-color · indicator→toast/indicator-color/{status}
+<i>A11y:</i> role=alert · aria-live=assertive(Error|Warning) · polite(Info|Success)</pre>
+              <p class="ds-link">Link to documentation → docs/components/toast.md</p>
             </div>
             <div class="ds-mid" aria-hidden="true"><span class="ds-wire l"></span><span class="ds-wire r"></span>
               <div class="ds-toast"><span class="x">×</span><b>Bids updated</b><span>4 ad groups now use suggested bids.</span><div class="acts"><span>Undo</span><span>View</span></div><i class="timer"></i></div>
@@ -522,6 +521,34 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ph-label"><span class="n">02</span> · A doc format driven by real failures</div>
           <p class="ph-text">Every question category became a section. <strong style="color:var(--fg);font-weight:500">States</strong>: entry condition and visual for loading, error, empty. <strong style="color:var(--fg);font-weight:500">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong style="color:var(--fg);font-weight:500">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
         </div>
+        <figure class="ds-scene ds-format" style="margin:0" aria-label="Component doc template: version 1.0 had Purpose, Variant API, Anatomy, Token Mapping, Accessibility and Implementation rules. Version 1.1 adds States, Behavior and Consumer contract, a Source column in Variant API and default accessibility strings.">
+          <div class="ds-fcols">
+            <div class="ds-fcol old">
+              <div class="ds-fhead"><b>v1.0</b><span>written for people</span></div>
+              <div class="ds-fs "><div><h6>Purpose</h6></div></div>
+              <div class="ds-fs "><div><h6>Variant API</h6></div></div>
+              <div class="ds-fs "><div><h6>Anatomy</h6></div></div>
+              <div class="ds-fs "><div><h6>Token Mapping</h6></div></div>
+              <div class="ds-fs "><div><h6>Accessibility</h6></div></div>
+              <div class="ds-fs "><div><h6>Implementation rules</h6></div></div>
+            </div>
+            <div class="ds-farrow" aria-hidden="true">→</div>
+            <div class="ds-fcol">
+              <div class="ds-fhead"><b>v1.1</b><span>shaped by the 15 questions</span></div>
+              <div class="ds-fs "><div><h6>Purpose</h6></div></div>
+              <div class="ds-fs "><div><h6>Variant API</h6><p><span class="plus">+ Source column: Figma or code</span></p></div></div>
+              <div class="ds-fs "><div><h6>Anatomy</h6></div></div>
+              <div class="ds-fs add"><div><h6>States</h6><p>Entry condition + visual for loading, error, empty</p></div><span class="tg">new</span></div>
+              <div class="ds-fs add"><div><h6>Behavior</h6><p>Dismiss matrix · sort model · drag limits</p></div><span class="tg">new</span></div>
+              <div class="ds-fs add"><div><h6>Consumer contract</h6><p>Component owns vs consumer provides: sorting, empty-state copy, dynamic labels</p></div><span class="tg">new</span></div>
+              <div class="ds-fs "><div><h6>Token Mapping</h6></div></div>
+              <div class="ds-fs "><div><h6>Accessibility</h6><p><span class="plus">+ default aria-label strings written out</span></p></div></div>
+              <div class="ds-fs "><div><h6>Implementation rules</h6></div></div>
+            </div>
+          </div>
+          <p class="ds-fnote">Each new part answers a question category: 8 behavior edge cases, 2 consumer vs component, 2 accessibility strings.</p>
+          <button type="button" class="ds-replay" tabindex="-1" aria-hidden="true">Replay</button>
+        </figure>
       </article>
 
       <article class="phase wide" id="phase-3">
@@ -544,8 +571,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
               <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">removed</span><span class="nm">table/row-color/total</span></div>
               <div class="ds-row" data-r="c"><span class="ds-risk c">critical</span><span class="t">renamed</span><span class="nm"><s>date-picker/action-bar-color</s> → date-picker/action_bar-color</span></div>
               <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">color/bg-interactive-selected</span></div>
-              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">button-icon/icon-color/active</span></div>
-              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">+ 24 more tokens</span></div>
+              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">table/row/bg-color/selected</span></div>
+              <div class="ds-row" data-r="l"><span class="ds-risk l">low</span><span class="t">added</span><span class="nm">+ 22 tokens (table-filter, dropdown) · 2 descriptions</span></div>
           </div>
           <div class="foot" aria-hidden="true"><span class="hint">Nothing is applied until approved</span><span class="ds-btn">Reject</span><span class="ds-btn pri">Approve 33 changes</span></div>
         </figure>
@@ -561,7 +588,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
             <div class="ds-secs">
               <div class="ds-sec cur"><div><h6>Purpose</h6><p>Ordinary product tables, not the analytics family</p></div><span class="st"><svg class="ds-i"><use href="#ds-lock"/></svg>hand-written<span class="kept">&nbsp;· kept</span></span></div>
               <div class="ds-sec gen"><div><h6>Variant API</h6><p>columns · slot</p></div><span class="st"><svg class="ds-i"><use href="#ds-figma"/></svg>from Figma</span></div>
-              <div class="ds-sec gen"><div><h6>Token Mapping</h6><p><span data-tok data-from="table/row-color/default" data-to="table/row/bg-color/default">table/row-color/default</span></p></div><span class="st"><svg class="ds-i"><use href="#ds-figma"/></svg>from Figma</span></div>
+              <div class="ds-sec gen"><div><h6>Token Mapping</h6><p><span data-tok data-from="table/table/row-gap · 4px" data-to="table/row-gap · 4px">table/table/row-gap · 4px</span></p></div><span class="st"><svg class="ds-i"><use href="#ds-figma"/></svg>from Figma</span></div>
               <div class="ds-sec cur"><div><h6>Accessibility</h6><p>role=grid · aria-sort on column headers</p></div><span class="st"><svg class="ds-i"><use href="#ds-lock"/></svg>hand-written<span class="kept">&nbsp;· kept</span></span></div>
               <div class="ds-sec cur"><div><h6>Implementation rules</h6><p>Row status uses table/indicator-color/*</p></div><span class="st"><svg class="ds-i"><use href="#ds-lock"/></svg>hand-written<span class="kept">&nbsp;· kept</span></span></div>
             </div>
@@ -613,10 +640,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
           <div class="ds-term" aria-hidden="true"><div class="bar"><i></i><i></i><i></i><span>claude code · terraui</span></div><div class="ds-term-body"></div></div>
           <div class="ds-files">
             <h4>Updated after approval</h4>
-            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-braces"/></svg><span class="badge">JSON</span></div><div><b>components.tokens.json</b><span>7 renamed or removed · 26 added</span></div></div>
+            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-braces"/></svg><span class="badge">JSON</span></div><div><b>components + semantic .tokens.json</b><span>6 renamed · 1 removed · 24 added</span></div></div>
             <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-md"/></svg><span class="badge">MD</span></div><div><b>docs/table.md</b><span>Token Mapping regenerated</span></div></div>
             <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-md"/></svg><span class="badge">MD</span></div><div><b>docs/date-picker.md</b><span>Token Mapping regenerated</span></div></div>
-            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-figma"/></svg></div><div><b>Figma · Table</b><span>component description rewritten</span></div></div>
+            <div class="ds-file"><div class="ds-tile"><svg class="ds-i"><use href="#ds-figma"/></svg></div><div><b>Figma · Date Picker</b><span>component description rewritten</span></div></div>
           </div>
         </div>
         <p class="ds-sync-cap">A real run: the Table token restructure, 33 changes found, applied after one approval.</p>
@@ -635,12 +662,12 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="eyebrow" style="margin-bottom:12px">Impact</p>
       <h2 class="sec-title" id="impact-t">Agentic development stopped waiting on design</h2>
       <div class="impact-grid">
-        <div class="itile"><b>15 → 2</b><span>design questions per complex feature: agents and engineers stopped waiting on design</span></div>
+        <div class="itile"><b>15 → 2</b><span>design questions: 15 on one complex feature, 2 across the next two after v1.1</span></div>
         <div class="itile"><b>Minutes, not hours</b><span>to sync docs and repo tokens after a Figma change, with one command</span></div>
-        <div class="itile"><b>7 breaking renames</b><span>caught and reviewed before reaching code (9 audits in 16 days)</span></div>
+        <div class="itile"><b>7 breaking changes</b><span>caught and reviewed before reaching code (9 audits in 16 days)</span></div>
         <div class="itile"><b>56 · ~1,050</b><span>components and tokens, one format for people and agents</span></div>
       </div>
-      <p class="impact-note">Coding agents built from complete, current specs and from tokens that always match Figma, instead of guessing. The two features after v1.1 produced <b>2 design questions combined</b>, both product copy decisions no spec could answer. Audits caught a table restructure with <b>7 breaking token renames</b> before it reached an engineer.</p>
+      <p class="impact-note">Coding agents built from complete, current specs and from tokens that always match Figma, instead of guessing. The two features after v1.1 produced <b>2 design questions combined</b>, both product copy decisions no spec could answer. Audits caught a table restructure with <b>7 breaking token changes</b> (six renames and a removal) before it reached an engineer.</p>
     </section>
 
     <!-- REFLECTION -->

@@ -103,7 +103,7 @@
   var SYNC = [
     ['<span class="p">›</span> /ds:sync', 600],
     ['<span class="d">  ds:audit · reading Figma through MCP…</span>', 900],
-    ['<span class="g">  ✓</span> 56 components · ~1,050 tokens read', 500],
+    ['<span class="g">  ✓</span> 54 components · 3 token collections read', 500],
     ['<span class="g">  ✓</span> diff vs approved baseline', 700],
     ['', 100],
     ['  33 changes   <span class="c">■ 7 critical</span>   <span class="d">■ 26 low</span>', 700],
@@ -115,10 +115,10 @@
     ['', 100],
     ['  Apply all 33 changes? [y/N] ', 0, 'ask'],
     ['<span class="d">  ds:update · applying</span>', 500],
-    ['  <span class="p">✎</span> components.tokens.json', 450, 0],
+    ['  <span class="p">✎</span> components + semantic .tokens.json', 450, 0],
     ['  <span class="p">✎</span> docs/components/table.md', 450, 1],
     ['  <span class="p">✎</span> docs/components/date-picker.md', 450, 2],
-    ['  <span class="p">✎</span> Figma · Table description', 450, 3],
+    ['  <span class="p">✎</span> Figma · Date Picker description', 450, 3],
     ['<span class="g">  ✓</span> baseline saved · 0 drift', 2800]
   ];
   var sync = document.querySelector('.ds-sync');
@@ -218,6 +218,24 @@
     else { playSort(); if (replay) replay.addEventListener('click', playSort); }
   }
 
+  /* ---- D02: the v1.1 sections slide into the v1.0 template ---- */
+  var fmt = document.querySelector('.ds-format');
+  if (fmt && !reduce) {
+    var adds = [].slice.call(fmt.querySelectorAll('.ds-fs.add, .ds-fs .plus'));
+    var fmtReplay = fmt.querySelector('.ds-replay');
+    var fmtRun = 0;
+    var playFmt = async function () {
+      var run = ++fmtRun;
+      adds.forEach(function (a) { a.classList.remove('in'); });
+      await gate(fmt); await sleep(500);
+      for (var i = 0; i < adds.length && run === fmtRun; i++) { adds[i].classList.add('in'); await sleep(380); }
+    };
+    fmt.classList.add('ds-anim');
+    watch(fmt);
+    playFmt();
+    if (fmtReplay) fmtReplay.addEventListener('click', playFmt);
+  } else if (fmt) { var r0 = fmt.querySelector('.ds-replay'); if (r0) r0.hidden = true; }
+
   /* ---- D03: drift report rows arrive, critical ones flash ---- */
   var drift = document.querySelector('.ds-drift');
   if (drift && !reduce) {
@@ -239,10 +257,11 @@
   /* ---- D04: ds:update rewrites generated sections, keeps curated ones ---- */
   var doc = document.querySelector('.ds-doc');
   if (doc) {
-    var val = doc.querySelector('[data-tok]'), flip = false;
+    var val = doc.querySelector('[data-tok]');
     var runDoc = function () {
+      val.textContent = val.getAttribute('data-from'); val.className = '';
       doc.classList.remove('run'); void doc.offsetWidth; doc.classList.add('run');
-      setTimeout(function () { flip = !flip; val.textContent = flip ? val.getAttribute('data-to') : val.getAttribute('data-from'); val.className = 'chg'; }, reduce ? 0 : 450);
+      setTimeout(function () { val.textContent = val.getAttribute('data-to'); val.className = 'chg'; }, reduce ? 0 : 450);
     };
     var btn = doc.querySelector('.ds-run');
     if (btn) btn.addEventListener('click', runDoc);

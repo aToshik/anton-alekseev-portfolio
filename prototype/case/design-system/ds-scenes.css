@@ -20,7 +20,7 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 /* ---- workflow pipeline ---- */
 .ds-lane { position: relative; }
 .ds-lane + .ds-lane { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--border); }
-.ds-lane-label { font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 18px; }
+.ds-lane-label { font: 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 38px; }
 .ds-lane-label i { font-style: normal; color: var(--accent); letter-spacing: .02em; text-transform: none; }
 .ds-nodes { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
 .ds-nodes::before { content: ""; position: absolute; top: 22px; left: 10%; right: 10%; height: 1px; background: repeating-linear-gradient(90deg, var(--border-2) 0 4px, transparent 4px 8px); }
@@ -47,6 +47,7 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
 .ds-legend span { display: inline-flex; align-items: center; gap: 8px; }
 .ds-legend .ds-tile { width: 18px; height: 18px; } .ds-legend svg.ds-i { width: 11px; height: 11px; }
 @media (max-width: 760px) {
+  .ds-lane-label { margin-bottom: 18px; }
   .ds-nodes { grid-template-columns: 1fr; gap: 18px; }
   .ds-nodes::before { top: 22px; bottom: 22px; left: 22px; right: auto; width: 1px; height: auto; background: repeating-linear-gradient(180deg, var(--border-2) 0 4px, transparent 4px 8px); }
   .ds-n { grid-template-columns: 44px 1fr; justify-items: start; text-align: left; column-gap: 14px; row-gap: 2px; }
@@ -191,3 +192,29 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
   .ds-tile, .ds-tile::before, .ds-tile::after, .ds-q, .ds-row, .ds-file, .ds-out, .ds-sort .col-h { transition: none; }
   .ds-n.wait > .ds-tile, .ds-term .cur, .ds-wire, .ds-toast .timer, .ds-doc.run .ds-sec.gen::after { animation: none !important; }
 }
+
+/* D01: link field under the Figma description */
+.ds-card .ds-link { margin: 10px 0 0; padding-top: 8px; border-top: 1px solid var(--border); font: 10.5px var(--mono); color: var(--accent); }
+
+/* D02: doc template v1.0 → v1.1 */
+.ds-fcols { display: grid; grid-template-columns: minmax(0,1fr) 28px minmax(0,1.25fr); gap: 10px; align-items: start; }
+.ds-fcol { display: grid; gap: 6px; }
+.ds-fhead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+.ds-fhead b { font: 600 15px var(--display); color: var(--fg); }
+.ds-fhead span { font: 10px var(--mono); letter-spacing: .04em; color: var(--label); }
+.ds-fs { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 7px 12px; background: var(--panel); border: 1px solid var(--border-2); border-radius: 4px; }
+.ds-fs h6 { margin: 0; font: 500 12.5px var(--display); color: var(--fg); }
+.ds-fs p { margin: 2px 0 0; font: 10.5px/1.5 var(--mono); color: var(--muted); }
+.ds-fcol.old .ds-fs { background: transparent; border-style: dashed; }
+.ds-fcol.old .ds-fs h6 { color: var(--muted); font-weight: 400; }
+.ds-fs.add { border-color: var(--ds-hi); border-left-width: 2px; background: var(--ds-hi-weak); }
+.ds-fs .tg { font: 9.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ds-hi); }
+.ds-fs .plus { color: var(--ds-hi); }
+.ds-farrow { align-self: start; padding-top: 128px; text-align: center; font: 16px var(--mono); color: var(--label); }
+.ds-fnote { margin: 14px 0 0; font: 11px/1.6 var(--mono); color: var(--label); max-width: calc(100% - 90px); }
+.ds-format .ds-replay { right: 14px; bottom: 14px; }
+.ds-anim .ds-fs.add { opacity: 0; transform: translateX(-8px); transition: opacity .4s, transform .4s cubic-bezier(.16,1,.3,1); }
+.ds-anim .ds-fs.add.in { opacity: 1; transform: none; }
+.ds-anim .ds-fs .plus { opacity: 0; transition: opacity .4s; }
+.ds-anim .ds-fs .plus.in { opacity: 1; }
+@media (max-width: 760px) { .ds-fcols { grid-template-columns: 1fr; } .ds-farrow { transform: rotate(90deg); } .ds-fcol.old { display: none; } .ds-farrow { display: none; } .ds-fnote { max-width: none; margin-bottom: 30px; } }
