@@ -82,12 +82,14 @@ const smooth=(a,b,x)=>{ const t=Math.min(1,Math.max(0,(x-a)/(b-a))); return t*t*
 const mouse={x:0,y:0}, target={x:0,y:0};
 let real=false, touch=false, hover=-1, hoverRing=-1, sel=-1;
 hero.addEventListener('pointermove',e=>{ const r=hero.getBoundingClientRect(); target.x=e.clientX-r.left; target.y=e.clientY-r.top; real=true; });
-hero.addEventListener('pointerdown',e=>{ touch=e.pointerType!=='mouse'; const r=hero.getBoundingClientRect(); target.x=e.clientX-r.left; target.y=e.clientY-r.top; real=true; });
+let downX=0, downY=0;
+hero.addEventListener('pointerdown',e=>{ touch=e.pointerType!=='mouse'; downX=e.clientX; downY=e.clientY; const r=hero.getBoundingClientRect(); target.x=e.clientX-r.left; target.y=e.clientY-r.top; real=true; });
 // touch: the tap point stays as a resting "cursor" (labels near it, orbit under it), until the next tap
 hero.addEventListener('pointerleave',e=>{ if(e.pointerType!=='mouse') return; real=false; hover=-1; hoverRing=-1; });
 function pick(x,y){ let k=-1, best=touch?30:18; OBJ.forEach((o,i)=>{ const d=Math.hypot(o.x-x,o.y-y); if(d<best&&!(o.z<0&&Math.hypot(o.x-C.x,o.y-C.y)<Rp)){best=d; k=i;} }); return k; }
 hero.addEventListener('click',e=>{ if(e.target.closest('.card-info, .gal')) return;
-  if(String(getSelection())) return; // the visitor was selecting text, not picking an object
+  // a drag means the visitor was selecting text, not picking an object (a leftover selection elsewhere does not count)
+  if(Math.hypot(e.clientX-downX,e.clientY-downY)>6&&String(getSelection())) return;
   const r=hero.getBoundingClientRect(), k=pick(e.clientX-r.left,e.clientY-r.top); sel=k>=0?(sel===k?-1:k):-1; });
 document.getElementById('poX').addEventListener('click',()=>{ sel=-1; });
 addEventListener('keydown',e=>{ if(e.key==='Escape') sel=-1; });
