@@ -28,18 +28,18 @@
   /* ---- workflow pipeline: a packet walks the nodes, waits for the designer ---- */
   var PLANS = {
     maintain: [
-      { label: '~1,050 tokens', hold: 1100 },
-      { label: 'diff vs baseline', hold: 1100 },
+      { label: 'reading ~1,050 tokens', hold: 1100, idle: 'idle until the next sync' },
+      { label: 'diffing against the baseline', hold: 1100 },
       { label: '33 changes · 7 critical', hold: 1300 },
-      { label: 'waiting for review', hold: 1700, wait: true },
-      { label: '3 targets updated', hold: 1500, outs: true }
+      { label: 'waiting for my review', hold: 1700, wait: true },
+      { label: 'tokens, docs and Figma updated', hold: 1500, outs: true }
     ],
     build: [
-      { label: '2 layers of docs', hold: 1100 },
-      { label: 'reads both contracts', hold: 1100 },
+      { label: 'specs and tokens in context', hold: 1100, idle: 'waiting for the next feature' },
+      { label: 'agent reads both contracts', hold: 1100 },
       { label: 'feature shipped', hold: 1100 },
-      { label: '2 questions', hold: 1200 },
-      { label: 'new doc section', hold: 1300, back: true }
+      { label: '2 questions left', hold: 1200 },
+      { label: 'format updated', hold: 1300, back: true }
     ]
   };
   async function runLane(lane) {
@@ -47,50 +47,54 @@
     var nodes = [].slice.call(lane.querySelectorAll('.ds-n'));
     var tiles = nodes.map(function (n) { return n.querySelector('.ds-tile'); });
     var outs = [].slice.call(lane.querySelectorAll('.ds-out'));
-    var pkt = lane.querySelector('.ds-pkt'), label = pkt.querySelector('span');
+    var pkt = lane.querySelector('.ds-pkt'), fill = lane.querySelector('.ds-fill');
+    var status = lane.querySelector('.ds-status');
     var ret = lane.querySelector('.ds-ret');
-    function move(p) { pkt.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)'; }
+    var start;
+    /* the packet slides along the connector behind the tiles; the line lights up behind it */
+    function move(p, dur) {
+      var t = dur ? 'transform ' + dur + 'ms cubic-bezier(.6,0,.3,1), opacity .3s' : '';
+      pkt.style.transition = t; pkt.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)';
+      if (!fill) return;
+      fill.style.transition = dur ? 'width ' + dur + 'ms cubic-bezier(.6,0,.3,1), height ' + dur + 'ms cubic-bezier(.6,0,.3,1)' : 'none';
+      var vertical = start.x === center(tiles[tiles.length - 1], lane).x;
+      fill.style.left = start.x + 'px'; fill.style.top = start.y + 'px';
+      if (vertical) { fill.style.width = '1px'; fill.style.height = Math.max(0, p.y - start.y) + 'px'; }
+      else { fill.style.height = '1px'; fill.style.width = Math.max(0, p.x - start.x) + 'px'; }
+    }
+    function say(t) { if (status) status.textContent = t; }
     function clear() { nodes.forEach(function (n) { n.classList.remove('on'); }); }
     for (;;) {
       await gate(lane);
       nodes.forEach(function (n) { n.classList.remove('on', 'wait', 'approved'); });
       outs.forEach(function (o) { o.classList.remove('on'); });
-      pkt.style.transition = 'none'; pkt.style.opacity = 0;
-      move(center(tiles[0], lane)); void pkt.offsetWidth;
-      pkt.style.transition = ''; pkt.style.opacity = 1;
+      start = center(tiles[0], lane);
+      pkt.style.opacity = 0; move(start, 0); void pkt.offsetWidth;
+      pkt.style.opacity = 1;
       for (var i = 0; i < nodes.length; i++) {
         await gate(lane);
-        move(center(tiles[i], lane));
+        move(center(tiles[i], lane), i ? 700 : 0);
         await sleep(i ? 700 : 300);
         var step = plan[i];
         clear(); nodes[i].classList.add('on');
-        label.textContent = step.label;
+        say(step.label);
         if (step.wait) {
           nodes[i].classList.add('wait'); await sleep(step.hold);
           nodes[i].classList.remove('wait'); nodes[i].classList.add('approved');
-          label.textContent = 'approved'; await sleep(700);
+          say('approved by the designer'); await sleep(800);
           continue;
         }
         if (step.outs) { for (var k = 0; k < outs.length; k++) { await sleep(320); outs[k].classList.add('on'); } }
         await sleep(step.hold);
       }
-      if (plan[plan.length - 1].back) {
-        var first = center(tiles[0], lane), last = center(tiles[nodes.length - 1], lane);
-        label.textContent = 'better specs'; clear();
-        if (ret && ret.offsetParent && first.x !== last.x) {
-          var y = center(ret, lane).y - 6;
-          move({ x: last.x, y: y }); await sleep(700);
-          pkt.style.transition = 'transform 1.4s cubic-bezier(.6,0,.3,1), opacity .3s';
-          move({ x: first.x, y: y }); await sleep(1400);
-          pkt.style.transition = '';
-        } else {
-          pkt.style.transition = 'transform 1.6s cubic-bezier(.6,0,.3,1), opacity .3s';
-        }
-        move(first); await sleep(pkt.style.transition ? 1600 : 700);
-        pkt.style.transition = '';
-        nodes[0].classList.add('on'); await sleep(600);
+      if (plan[plan.length - 1].back && ret && ret.offsetParent) {
+        lane.classList.add('returning'); say('better specs for the next feature');
+        await sleep(1600);
+        lane.classList.remove('returning');
+        clear(); nodes[0].classList.add('on'); await sleep(800);
       }
-      pkt.style.opacity = 0; await sleep(900);
+      pkt.style.opacity = 0; await sleep(500);
+      clear(); move(start, 0); say(plan[0].idle || ''); await sleep(500);
     }
   }
   [].slice.call(document.querySelectorAll('.ds-lane')).forEach(function (lane, i) {
@@ -151,53 +155,59 @@
     }
   }
 
-  /* ---- Insight: 15 questions sort into the doc sections that answer them ---- */
+  /* ---- Insight: 15 questions sort into categories, each category became part of the doc ---- */
   var sortEl = document.querySelector('.ds-sort');
   if (sortEl) {
     var CATS = [
-      { n: 8, name: 'Behavior', sec: '→ ## Behavior · ## States', qs: ['Sort cycle: asc, desc, off?', 'How many columns can I drag?', 'Loading: skeleton or spinner?', 'Empty table: what shows?', 'Can a pinned column move?', 'Minimum column width?', 'Error state for a row?', 'Sticky header on scroll?'] },
-      { n: 2, name: 'Consumer', sec: '→ ## Consumer contract', qs: ['Who sorts the data?', 'Who writes the empty copy?'] },
-      { n: 2, name: 'A11y', sec: '→ ## Accessibility', qs: ['aria-label for sort?', 'Screen reader text for drag?'] },
-      { n: 3, name: 'Tokens & spec', sec: '→ ## Token Mapping', qs: ['Row height token?', 'Figma or spec: which wins?', 'Hover token missing?'] }
+      { n: 8, name: 'Behavior edge cases', to: 'States + Behavior sections', qs: ['Sort cycle: asc, desc, off?', 'Which columns can be dragged?', 'Loading: skeleton or spinner?', 'Empty table: what shows?', 'Can a pinned column move?', 'Minimum column width?', 'Error state for a row?', 'Sticky header on scroll?'] },
+      { n: 2, name: 'Component vs consumer', to: 'Consumer contract section', qs: ['Who sorts the data?', 'Who writes the empty copy?'] },
+      { n: 2, name: 'Accessibility strings', to: 'Default aria-label strings', qs: ['aria-label for sort?', 'Screen reader text for drag?'] },
+      { n: 3, name: 'Tokens, sizes, authority', to: 'Token Mapping + Source column', qs: ['Row height token?', 'Figma or spec: which wins?', 'Hover token missing?'] }
     ];
     var inner = sortEl.querySelector('.ds-sort-in');
-    var heads = [], chips = [];
+    var cards = [], chips = [];
     CATS.forEach(function (c, ci) {
-      var h = document.createElement('div'); h.className = 'col-h';
-      h.innerHTML = '<b>' + c.n + '</b>' + c.name + '<em>' + c.sec + '</em>';
-      inner.appendChild(h); heads.push(h);
+      var card = document.createElement('div'); card.className = 'ds-cat';
+      card.innerHTML = '<div class="hd"><b>' + c.n + '</b><span>' + c.name + '</span></div><div class="ft"><em>Became</em>' + c.to + '</div>';
+      inner.appendChild(card); cards.push(card);
       c.qs.forEach(function (q) { var el = document.createElement('div'); el.className = 'ds-q'; el.textContent = q; el.setAttribute('data-c', ci); inner.appendChild(el); chips.push(el); });
     });
     var rnd = function (i) { var x = Math.sin(i * 91.7 + 3.1) * 43758.5453; return x - Math.floor(x); };
-    var HEAD = 46, ROW = 32, GROUP = 18;
+    var HEAD = 52, ROW = 32, FOOT = 50, PAD = 10, GROUP = 12;
     var layout = function (sorted) {
       var W = inner.clientWidth;
-      var columns = W < 440 ? [[0, 1, 2, 3]] : W < 620 ? [[0], [1, 2, 3]] : [[0], [1], [2], [3]];
+      var columns = W < 440 ? [[0, 1, 2, 3]] : W < 700 ? [[0], [1, 2, 3]] : [[0], [1], [2], [3]];
       var gap = 10, cw = (W - gap * (columns.length - 1)) / columns.length;
       var pos = {}, colH = [];
       columns.forEach(function (cats, col) {
         var y = 0;
         cats.forEach(function (ci, j) {
           if (j) y += GROUP;
-          pos[ci] = { x: col * (cw + gap), y: y };
-          y += HEAD + CATS[ci].qs.length * ROW;
+          var h = HEAD + CATS[ci].qs.length * ROW + FOOT;
+          pos[ci] = { x: col * (cw + gap), y: y, h: h };
+          y += h;
         });
         colH.push(y);
       });
+      /* equal-height cards when every category has its own column */
+      if (columns.length === 4) { var mh = Math.max.apply(null, colH); CATS.forEach(function (c, ci) { pos[ci].h = mh; }); }
       var H = Math.max.apply(null, colH);
       sortEl.style.height = (H + 18 + 52) + 'px';
       sortEl.classList.toggle('sorted', sorted);
-      heads.forEach(function (h, ci) { h.style.transform = 'translate(' + pos[ci].x + 'px,' + pos[ci].y + 'px)'; h.style.width = cw + 'px'; });
+      cards.forEach(function (card, ci) {
+        card.style.transform = 'translate(' + pos[ci].x + 'px,' + pos[ci].y + 'px)';
+        card.style.width = cw + 'px'; card.style.height = pos[ci].h + 'px';
+      });
       var count = [0, 0, 0, 0];
       chips.forEach(function (el, i) {
         var ci = +el.getAttribute('data-c');
         if (sorted) {
           var k = count[ci]++;
-          el.style.width = cw + 'px';
-          el.style.transform = 'translate(' + pos[ci].x + 'px,' + (pos[ci].y + HEAD + k * ROW) + 'px)';
+          el.style.width = (cw - PAD * 2) + 'px';
+          el.style.transform = 'translate(' + (pos[ci].x + PAD) + 'px,' + (pos[ci].y + HEAD + k * ROW) + 'px)';
           el.style.transitionDelay = (i * 35) + 'ms';
         } else {
-          var w = Math.min(210, W * 0.46);
+          var w = Math.min(220, W * 0.46);
           el.style.width = w + 'px';
           el.style.transform = 'translate(' + (rnd(i) * (W - w)) + 'px,' + (rnd(i + 40) * (H - 26)) + 'px) rotate(' + ((rnd(i + 80) - 0.5) * 10) + 'deg)';
           el.style.transitionDelay = '0ms';
@@ -218,6 +228,10 @@
     else { playSort(); if (replay) replay.addEventListener('click', playSort); }
   }
 
+  /* ---- D01: the toast timer runs while the scene is on screen ---- */
+  var two = document.querySelector('.ds-two');
+  if (two && !reduce) watch(two);
+
   /* ---- D02: the v1.1 sections slide into the v1.0 template ---- */
   var fmt = document.querySelector('.ds-format');
   if (fmt && !reduce) {
@@ -236,38 +250,79 @@
     if (fmtReplay) fmtReplay.addEventListener('click', playFmt);
   } else if (fmt) { var r0 = fmt.querySelector('.ds-replay'); if (r0) r0.hidden = true; }
 
-  /* ---- D03: drift report rows arrive, critical ones flash ---- */
+  /* ---- D03: drift report rows arrive; Approve runs ds:update, Reject leaves everything as is ---- */
   var drift = document.querySelector('.ds-drift');
-  if (drift && !reduce) {
+  if (drift) {
     var rows = [].slice.call(drift.querySelectorAll('.ds-row'));
-    var approve = drift.querySelector('.ds-btn.pri');
-    drift.classList.add('ds-anim');
-    watch(drift);
-    gate(drift).then(async function () {
-      await sleep(250);
-      for (var i = 0; i < rows.length; i++) {
-        var r = rows[i]; r.classList.add('in');
-        if (r.getAttribute('data-r') === 'c') { r.classList.add('flash'); (function (x) { setTimeout(function () { x.classList.remove('flash'); }, 900); })(r); }
-        await sleep(140);
+    var foot = drift.querySelector('.foot'), result = drift.querySelector('.ds-result');
+    var steps = result.querySelector('.ds-res-steps');
+    var approve = drift.querySelector('[data-act="approve"]');
+    var APPLY = [
+      ['components + semantic .tokens.json', '6 renamed · 1 removed · 24 added'],
+      ['docs/table.md · docs/date-picker.md', 'Token Mapping regenerated'],
+      ['Figma descriptions', 'Date Picker · it_close rewritten'],
+      ['Baseline', 'saved · 0 drift until Figma changes again']
+    ];
+    var busy = false;
+    var stepLine = function (title, sub, cls) { var d = document.createElement('div'); d.className = 'ds-res ' + (cls || ''); d.innerHTML = '<b>' + title + '</b><span>' + sub + '</span>'; steps.appendChild(d); return d; };
+    var decide = async function (act) {
+      if (busy) return; busy = true;
+      approve.classList.remove('pulse');
+      foot.hidden = true; steps.innerHTML = ''; result.hidden = false;
+      drift.classList.remove('applied', 'rejected');
+      if (act === 'approve') {
+        drift.classList.add('applied');
+        stepLine('ds:update', 'applying the 33 approved changes', 'head');
+        for (var i = 0; i < APPLY.length; i++) { await sleep(reduce ? 0 : 450); stepLine(APPLY[i][0], APPLY[i][1], 'ok'); }
+        await sleep(reduce ? 0 : 350);
+        stepLine('Result', 'engineers and their agents get the new token names before writing code', 'end');
+      } else {
+        drift.classList.add('rejected');
+        stepLine('Rejected', 'nothing was written: tokens, docs and Figma descriptions stay as they were', 'head');
+        await sleep(reduce ? 0 : 350);
+        stepLine('Next ds:sync', 'shows the same changes again, until they are fixed in Figma or approved', 'end');
       }
-      await sleep(400); if (approve) approve.classList.add('pulse');
+      busy = false;
+    };
+    drift.querySelectorAll('[data-act="approve"], [data-act="reject"]').forEach(function (b) { b.addEventListener('click', function () { decide(b.getAttribute('data-act')); }); });
+    result.querySelector('[data-act="reset"]').addEventListener('click', function () {
+      drift.classList.remove('applied', 'rejected'); result.hidden = true; foot.hidden = false; approve.focus();
     });
+    if (!reduce) {
+      drift.classList.add('ds-anim');
+      watch(drift);
+      gate(drift).then(async function () {
+        await sleep(250);
+        for (var i = 0; i < rows.length; i++) {
+          var r = rows[i]; r.classList.add('in');
+          if (r.getAttribute('data-r') === 'c') { r.classList.add('flash'); (function (x) { setTimeout(function () { x.classList.remove('flash'); }, 900); })(r); }
+          await sleep(140);
+        }
+        await sleep(400); approve.classList.add('pulse');
+      });
+    }
   }
 
-  /* ---- D04: ds:update rewrites generated sections, keeps curated ones ---- */
-  var doc = document.querySelector('.ds-doc');
-  if (doc) {
-    var val = doc.querySelector('[data-tok]');
-    var runDoc = function () {
-      val.textContent = val.getAttribute('data-from'); val.className = '';
-      doc.classList.remove('run'); void doc.offsetWidth; doc.classList.add('run');
-      setTimeout(function () { val.textContent = val.getAttribute('data-to'); val.className = 'chg'; }, reduce ? 0 : 450);
+  /* ---- D04: ds:update scans table.md top to bottom; only the Figma-derived section changes ---- */
+  var diff = document.querySelector('.ds-diff');
+  if (diff) {
+    var dReplay = diff.querySelector('.ds-replay');
+    var dsecs = [].slice.call(diff.querySelectorAll('.ds-dsec'));
+    var dRun = 0;
+    var playDiff = async function () {
+      var run = ++dRun;
+      diff.classList.remove('run', 'done');
+      dsecs.forEach(function (d) { d.classList.remove('seen'); });
+      await gate(diff); await sleep(600);
+      if (run !== dRun) return;
+      void diff.offsetWidth; diff.classList.add('run');
+      for (var i = 0; i < dsecs.length && run === dRun; i++) { await sleep(520); dsecs[i].classList.add('seen'); }
+      await sleep(400); if (run === dRun) diff.classList.add('done');
     };
-    var btn = doc.querySelector('.ds-run');
-    if (btn) btn.addEventListener('click', runDoc);
-    if (!reduce) {
-      watch(doc);
-      (async function () { for (;;) { await gate(doc); await sleep(1200); await gate(doc); runDoc(); await sleep(3600); } })();
+    if (reduce) { diff.classList.add('done'); dsecs.forEach(function (d) { d.classList.add('seen'); }); if (dReplay) dReplay.hidden = true; }
+    else {
+      diff.classList.add('ds-anim'); watch(diff); playDiff();
+      if (dReplay) dReplay.addEventListener('click', playDiff);
     }
   }
 })();
