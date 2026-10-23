@@ -104,58 +104,6 @@
     setTimeout(function () { runLane(lane); }, i * 1800);
   });
 
-  /* ---- ds:sync replay (run d460cccb, Table token restructure) ---- */
-  var SYNC = [
-    ['<span class="p">›</span> /ds:sync', 600],
-    ['<span class="d">  ds:audit · reading Figma through MCP…</span>', 900],
-    ['<span class="g">  ✓</span> 54 components · 3 token collections read', 500],
-    ['<span class="g">  ✓</span> diff vs approved baseline', 700],
-    ['', 100],
-    ['  33 changes   <span class="c">■ 7 critical</span>   <span class="d">■ 26 low</span>', 700],
-    ['  <span class="c">CRITICAL</span> renamed  table/row-color/default', 250],
-    ['  <span class="d">               →</span>  table/row/bg-color/default', 250],
-    ['  <span class="c">CRITICAL</span> renamed  table/table/padding-x → table/padding-x', 250],
-    ['  <span class="c">CRITICAL</span> removed  table/row-color/total', 250],
-    ['<span class="d">  … 4 more critical · 26 low</span>', 600],
-    ['', 100],
-    ['  Apply all 33 changes? [y/N] ', 0, 'ask'],
-    ['<span class="d">  ds:update · applying</span>', 500],
-    ['  <span class="p">✎</span> components + semantic .tokens.json', 450, 0],
-    ['  <span class="p">✎</span> docs/components/table.md', 450, 1],
-    ['  <span class="p">✎</span> docs/components/date-picker.md', 450, 2],
-    ['  <span class="p">✎</span> Figma · Date Picker description', 450, 3],
-    ['<span class="g">  ✓</span> baseline saved · 0 drift', 2800]
-  ];
-  var sync = document.querySelector('.ds-sync');
-  if (sync) {
-    var body = sync.querySelector('.ds-term-body');
-    var files = [].slice.call(sync.querySelectorAll('.ds-file'));
-    var addLine = function (html) { var ln = document.createElement('div'); ln.className = 'ln'; ln.innerHTML = html || ' '; body.appendChild(ln); return ln; };
-    watch(sync);
-    if (reduce) {
-      SYNC.forEach(function (l) { addLine(l[2] === 'ask' ? l[0] + '<span class="p">y</span>' : l[0]); });
-      files.forEach(function (f) { f.classList.add('on'); });
-    } else {
-      (async function () {
-        for (;;) {
-          await gate(sync);
-          body.innerHTML = ''; files.forEach(function (f) { f.classList.remove('on'); });
-          for (var i = 0; i < SYNC.length; i++) {
-            await gate(sync);
-            var l = SYNC[i], ln = addLine(l[0]);
-            if (l[2] === 'ask') {
-              var cur = document.createElement('span'); cur.className = 'cur'; ln.appendChild(cur);
-              await sleep(1600); cur.remove();
-              ln.insertAdjacentHTML('beforeend', '<span class="p">y</span>  <span class="d">← designer</span>');
-              await sleep(500);
-            } else if (typeof l[2] === 'number') files[l[2]].classList.add('on');
-            await sleep(l[1]);
-          }
-        }
-      })();
-    }
-  }
-
   /* ---- Insight: 15 questions sort into categories, each category became part of the doc ---- */
   var sortEl = document.querySelector('.ds-sort');
   if (sortEl) {
