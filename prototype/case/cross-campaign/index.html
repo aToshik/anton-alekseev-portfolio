@@ -422,7 +422,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <section class="section reveal" id="problem" aria-labelledby="problem-t">
       <p class="eyebrow" style="margin-bottom:12px">Problem</p>
       <h2 class="sec-title" id="problem-t">Every change lived inside one campaign</h2>
-      <p class="body-copy">To change the price of one segment everywhere, a buyer opened each campaign, found the ad group, edited it and saved, then moved to the next one. There was no list of all ad groups or all channels, so there was also no way to compare them or find the ones that needed a change.</p>
+      <p class="body-copy">To change the price of one segment everywhere, a buyer opened each campaign, made the change there and saved, then moved to the next one. There was no list of all ad groups or all channels, so there was also no way to compare them or find the ones that needed a change.</p>
       <div class="fail-list">
         <div class="fail"><b>Hours of clicks</b><span>one strategic update meant repeating the same edit campaign by campaign.</span></div>
         <div class="fail"><b>Errors at scale</b><span>one missed campaign kept the old price and quietly kept spending.</span></div>
@@ -452,9 +452,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-1">
         <div>
           <div class="ph-label"><span class="n">01</span> · Every ad group and channel in one place, ready to act on</div>
-          <p class="ph-text">Two new tables, Ad Groups and Channels, list every object across all campaigns. A long table on its own only adds rows, so it shipped with what makes it useful: filters, bulk actions on any selection (bid price, price bounds, a price test), and indicators from <strong style="color:var(--fg);font-weight:500">Price Exploration</strong> and <strong style="color:var(--fg);font-weight:500">Channel Analysis</strong> right in the row. Export and Import were rebuilt for every cross-campaign object, for buyers who still prefer a spreadsheet for mass edits.
-            <span class="rej">Rejected: a bulk edit mode inside each campaign. Faster, but still one campaign at a time.</span>
-          </p>
+          <p class="ph-text">Two new tables, Ad Groups and Channels, list every object across all campaigns. A long table on its own only adds rows, so it shipped with what makes it useful: filters, bulk actions on any selection (bid price, price bounds, a price test), and indicators from <strong style="color:var(--fg);font-weight:500">Price Exploration</strong> and <strong style="color:var(--fg);font-weight:500">Channel Analysis</strong> right in the row. Export and Import were rebuilt for every cross-campaign object, for buyers who still prefer a spreadsheet for mass edits.</p>
         </div>
         <div class="ph-visual" role="img" aria-label="Placeholder: Bulk actions on a selection across campaigns"><span>Bulk actions on a selection across campaigns</span></div>
       </article>
@@ -462,9 +460,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-2">
         <div>
           <div class="ph-label"><span class="n">02</span> · Group what the business manages as one</div>
-          <p class="ph-text">Buyers assign ad groups from different campaigns to a <strong style="color:var(--fg);font-weight:500">Bidding Group</strong> with one bid price. Channels work the same way in <strong style="color:var(--fg);font-weight:500">Channel Groups</strong> with one multiplier. Both tables got two views: Flat lists every object, Grouped folds them under their group, so buyers scan and steer at group level and expand only when they need detail. Groups also gave <a class="xref" href="../price-exploration/#phase-3">Price Exploration<span class="xref-tip" id="xref-price" role="tooltip"><span class="xt-name">Price Exploration</span><span class="xt-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</span><span class="xt-metric"><b>$8M → $30M+</b> · monthly media investment</span></span></a> many times more data per test.
-            <span class="rej">Rejected: saved selections. A filter remembers the rows, but each row keeps its own price, so buyers would edit them one by one again.</span>
-          </p>
+          <p class="ph-text">Buyers assign ad groups from different campaigns to a <strong style="color:var(--fg);font-weight:500">Bidding Group</strong> with one bid price. Channels work the same way in <strong style="color:var(--fg);font-weight:500">Channel Groups</strong> with one multiplier. Both tables got two views: Flat lists every object, Grouped folds them under their group, so buyers scan and steer at group level and expand only when they need detail. Groups also gave <a class="xref" href="../price-exploration/#phase-3">Price Exploration<span class="xref-tip" id="xref-price" role="tooltip"><span class="xt-name">Price Exploration</span><span class="xt-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</span><span class="xt-metric"><b>$8M → $30M+</b> · monthly media investment</span></span></a> many times more data per test.</p>
         </div>
         <div class="ph-visual" role="img" aria-label="Placeholder: Flat and Grouped views, Bidding and Channel Groups"><span>Flat → Grouped view<br>Bidding &amp; Channel Groups</span></div>
       </article>
@@ -472,9 +468,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-3">
         <div>
           <div class="ph-label"><span class="n">03</span> · Set rules once for every campaign</div>
-          <p class="ph-text">Bid modifiers (by state, device, homeowner, age and more) used to be set campaign by campaign. <strong style="color:var(--fg);font-weight:500">Cross-Campaign Settings</strong> holds one set of modifier groups for the whole account, with Import and Export. Campaign-level modifiers stay for real exceptions.
-            <span class="rej">Rejected: copying modifiers from one campaign to the others. A copy drifts the moment someone edits one campaign.</span>
-          </p>
+          <p class="ph-text">Bid modifiers (by state, device, homeowner, age and more) and filters used to be set campaign by campaign. <strong style="color:var(--fg);font-weight:500">Cross-Campaign Settings</strong> became the top level of the hierarchy: one set of rules for the whole account, with Import and Export. Each campaign can still add its own custom settings or override the account ones. Buyers set a rule once and handle exceptions where they live, which gave them both speed and control.</p>
         </div>
         <div class="ph-visual" role="img" aria-label="Placeholder: Cross-Campaign Settings · modifiers"><span>Cross-Campaign Settings · modifiers</span></div>
       </article>
