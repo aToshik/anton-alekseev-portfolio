@@ -186,6 +186,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .ph-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
 /* inline cross-reference to another case + hover/focus tooltip with its card summary */
 .xref { position: relative; color: var(--fg); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color .2s, text-decoration-color .2s; }
+.xref::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 6px 0 2px; border-radius: 1px; background: var(--accent); vertical-align: .14em; }
 .xref:hover, .xref:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
 .xref-tip { position: absolute; left: 50%; top: calc(100% + 10px); z-index: 50; width: 264px; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--border-2); border-radius: var(--radius-sm); box-shadow: var(--shadow); color: var(--muted); font-family: var(--body); font-size: 13px; line-height: 1.45; text-align: left; white-space: normal; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -4px); transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
 .xref:hover .xref-tip, .xref:focus-visible .xref-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
@@ -337,6 +338,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .evidence div { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; line-height: 1.6; color: var(--muted); }
 .evidence b { display: block; font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 4px; }
 @media (max-width: 820px) { .lights, .evidence { grid-template-columns: 1fr; } }
+.term { color: var(--fg); font-weight: 500; }
 </style>
 <link rel="stylesheet" href="../../shared/mobile-bar.css">
 <link rel="stylesheet" href="../../shared/mobile-nav.css">
@@ -476,7 +478,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-2">
         <div>
           <div class="ph-label"><span class="n">02</span> · Show every result, not just the best one</div>
-          <p class="ph-text">We could have shown only the sweet point, one recommended price. Instead each test plots all its testing points with predicted win rate, lead volume and CPL, and marks the sweet point among them. In practice buyers often picked a price the data rated lower, because it fit their strategy. That led to the <strong style="color:var(--fg);font-weight:500">Score Method</strong>: buyers choose whether "best" means performance (including ROE) or auction competitiveness only.
+          <p class="ph-text">We could have shown only the sweet point, one recommended price. Instead each test plots all its testing points with predicted win rate, lead volume and CPL, and marks the sweet point among them. In practice buyers often picked a price the data rated lower, because it fit their strategy. That led to the <strong class="term">Score Method</strong>: buyers choose whether "best" means performance (including ROE) or auction competitiveness only.
             <span class="rej">Rejected: one recommended price change, with the rest of the data hidden.</span>
           </p>
         </div>
@@ -486,8 +488,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-3">
         <div>
           <div class="ph-label"><span class="n">03</span> · Scale to the objects the business thinks in</div>
-          <p class="ph-text">Once the <a class="xref" href="../cross-campaign/">Cross-Campaign<span class="xref-tip" id="xref-cross" role="tooltip"><span class="xt-name">Cross-Campaign Management</span><span class="xt-hook">How I let buyers edit thousands of campaigns as one</span><span class="xt-metric"><b>Hours → Min</b> · bulk updates</span></span></a> infrastructure was ready, buyers could test <strong style="color:var(--fg);font-weight:500">Bidding Groups</strong> (same-segment ad groups across campaigns, one bid price) or <strong style="color:var(--fg);font-weight:500">Channel Groups</strong> (similar channels, one bid multiplier). The algorithm got many times more data, so recommendations got more accurate and far fewer tests ended in "insufficient data".</p>
-          <p class="ph-text" style="margin-top:10px"><strong style="color:var(--fg);font-weight:500">Endless tests</strong> followed, and some buyers ran them only to watch auction competition in key segments. The tool had become a way to read the market. That is probably why the client called it "Price Exploration" in its communication with us, though it officially shipped as AI Bidding Optimization.</p>
+          <p class="ph-text">Once the <a class="xref" href="../cross-campaign/">Cross-Campaign<span class="xref-tip" id="xref-cross" role="tooltip"><span class="xt-name">Cross-Campaign Management</span><span class="xt-hook">How I let buyers edit thousands of campaigns as one</span><span class="xt-metric"><b>Hours → Min</b> · bulk updates</span></span></a> infrastructure was ready, buyers could test <strong class="term">Bidding Groups</strong> (same-segment ad groups across campaigns, one bid price) or <strong class="term">Channel Groups</strong> (similar channels, one bid multiplier). The algorithm got many times more data, so recommendations got more accurate and far fewer tests ended in "insufficient data".</p>
+          <p class="ph-text" style="margin-top:10px"><strong class="term">Endless tests</strong> followed, and some buyers ran them only to watch auction competition in key segments. The tool had become a way to read the market. That is probably why the client called it "Price Exploration" in its communication with us, though it officially shipped as AI Bidding Optimization.</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-title="Switch between Bidding Groups and Channel Groups" data-lb-video="assets/groups.mp4" data-lb-chapters="0 Switches to Channel Groups | 8.3 Returns to Bidding Groups"><img src="assets/groups.png" alt="Optimization Modes: the buyer switches the tab to Channel Groups, sees an empty state, then switches back to Bidding Groups, where tests restart with saved settings and start collecting data" width="1920" height="1080" loading="lazy"></button>
       </article>
