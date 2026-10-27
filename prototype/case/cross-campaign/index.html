@@ -186,6 +186,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .ph-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
 /* inline cross-reference to another case + hover/focus tooltip with its card summary */
 .xref { position: relative; color: var(--fg); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color .2s, text-decoration-color .2s; }
+.xref::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 6px 0 2px; border-radius: 1px; background: var(--accent); vertical-align: .14em; }
 .xref:hover, .xref:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
 .xref-tip { position: absolute; left: 50%; top: calc(100% + 10px); z-index: 50; width: 264px; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--border-2); border-radius: var(--radius-sm); box-shadow: var(--shadow); color: var(--muted); font-family: var(--body); font-size: 13px; line-height: 1.45; text-align: left; white-space: normal; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -4px); transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
 .xref:hover .xref-tip, .xref:focus-visible .xref-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
@@ -331,7 +332,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 @media (max-width: 820px) { .impact-grid.ig3 { grid-template-columns: 1fr; } }
 .edge-shot { margin-top: 12px; max-width: 760px; }
 @media (max-width: 820px) { .evidence, .evidence.ev3 { grid-template-columns: 1fr; } }
-.term { color: var(--fg); font-weight: 500; background: color-mix(in srgb, var(--fg) 8%, transparent); padding: 1px 6px; border-radius: 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.term { color: var(--fg); font-weight: 500; }
 </style>
 <link rel="stylesheet" href="../../shared/mobile-bar.css">
 <link rel="stylesheet" href="../../shared/mobile-nav.css">
