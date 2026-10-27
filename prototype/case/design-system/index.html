@@ -313,6 +313,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .cat { display: inline-flex; align-items: baseline; gap: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--muted); }
 .cat b { font-family: var(--display); font-weight: 600; color: var(--fg); }
 @media (max-width: 820px) { .skills { grid-template-columns: 1fr; } }
+.term { color: var(--fg); font-weight: 500; background: color-mix(in srgb, var(--fg) 8%, transparent); padding: 1px 6px; border-radius: 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 </style>
 <link rel="stylesheet" href="../../shared/mobile-bar.css">
 <link rel="stylesheet" href="../../shared/mobile-nav.css">
@@ -532,7 +533,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase wide" id="phase-2">
         <div>
           <div class="ph-label"><span class="n">02</span> · A doc format driven by real failures</div>
-          <p class="ph-text">Every question category became a section. <strong style="color:var(--fg);font-weight:500">States</strong>: entry condition and visual for loading, error, empty. <strong style="color:var(--fg);font-weight:500">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong style="color:var(--fg);font-weight:500">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
+          <p class="ph-text">Every question category became a section. <strong class="term">States</strong>: entry condition and visual for loading, error, empty. <strong class="term">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong class="term">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
         </div>
         <figure class="ds-scene ds-diff ds-format" style="margin:0" aria-label="The component doc template, docs/component-doc-format.md, goes from version 1.0 to 1.1: States, Behavior and Consumer contract sections are inserted, Variant API gets a Source column and Accessibility gets default aria-label strings. Each change is labelled with the developer questions it answers; Purpose, Anatomy, Token Mapping and Implementation Rules stay as they were.">
           <div class="ds-dbar"><span class="fn"><svg class="ds-i"><use href="#ds-md"/></svg>docs/component-doc-format.md</span><span class="sum">v1.0 → v1.1 · <b class="cnt">3 sections added · 2 extended</b> · 4 unchanged</span></div>
