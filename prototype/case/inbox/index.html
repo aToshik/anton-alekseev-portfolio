@@ -323,7 +323,30 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .fail b { display: block; font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: -.01em; color: var(--fg); }
 .fail span { display: block; margin-top: 4px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .fail-list.ev3 { grid-template-columns: repeat(3, 1fr); }
-.loop.cycle { margin: 22px 0 6px; }
+
+/* before / after: modules → one thread */
+.ba { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: stretch; margin: 22px 0 6px; }
+.ba-col { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.ba-col.after { border-color: var(--accent); }
+.ba-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); }
+.ba-col.after .ba-tag { color: var(--accent); }
+.ba-mods { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ba-mod { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; }
+.ba-mod:last-child { grid-column: 1 / -1; }
+.ba-mod b, .ba-card b, .ba-head b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
+.ba-mod span { font-family: var(--mono); font-size: 10px; color: var(--muted); line-height: 1.5; }
+.ba-note { margin-top: auto; font-size: 12.5px; color: var(--muted); }
+.ba-arrow { align-self: center; font-family: var(--mono); font-size: 16px; color: var(--accent); }
+.ba-thread { display: flex; flex-direction: column; gap: 8px; }
+.ba-head { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.ba-av { width: 18px; height: 18px; border-radius: 50%; background: var(--panel-2); border: 1px solid var(--border-2); }
+.ba-src { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }
+.ba-card { display: flex; align-items: center; gap: 8px; background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; }
+.ba-st { font-family: var(--mono); font-size: 10px; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 1px 8px; }
+.ba-card i, .ba-ctx i { margin-left: auto; font-style: normal; font-family: var(--mono); font-size: 10px; color: var(--label); }
+.ba-ev { text-align: center; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.ba-ctx { display: flex; gap: 8px; font-size: 12px; color: var(--muted); border-top: 1px dashed var(--border-2); padding-top: 8px; }
+@media (max-width: 820px) { .ba { grid-template-columns: 1fr; } .ba-arrow { transform: rotate(90deg); justify-self: center; } }
 @media (max-width: 640px) { .fail-list, .fail-list.ev3 { grid-template-columns: 1fr; } }
 
 
@@ -452,24 +475,30 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <section class="section reveal" id="decisions" aria-labelledby="decisions-t">
       <p class="eyebrow" style="margin-bottom:12px">Key decisions</p>
       <h2 class="sec-title" id="decisions-t">From separate features to one cycle</h2>
-      <p class="body-copy">Every step of the deal happens in the same thread.</p>
-      <div class="loop cycle" role="img" aria-label="One cycle in one thread: request, conversation, booking or estimate, invoice, payment, review, and back to the next request">
-        <div class="loop-row">
-          <div class="loop-node"><b>Request</b><span>any channel</span></div>
-          <span class="loop-sep" aria-hidden="true">→</span>
-          <div class="loop-node accent"><b>Conversation</b><span>one thread</span></div>
-          <span class="loop-sep" aria-hidden="true">→</span>
-          <div class="loop-node"><b>Booking / estimate</b><span>from the card</span></div>
-          <span class="loop-sep" aria-hidden="true">→</span>
-          <div class="loop-node"><b>Invoice</b><span>sent in chat</span></div>
-          <span class="loop-sep" aria-hidden="true">→</span>
-          <div class="loop-node"><b>Payment</b><span>partial or full</span></div>
-          <span class="loop-sep" aria-hidden="true">→</span>
-          <div class="loop-node"><b>Review</b><span>one saved reply</span></div>
+      <p class="body-copy">Bookings, sales, reviews, leads and customer history used to live in separate modules. Inbox brings them into one thread, so every step of the deal happens in the same place: request, booking or estimate, invoice, payment, review.</p>
+      <div class="ba" role="img" aria-label="Before: five separate modules, Calendar, Sales, Presence, Marketing and CRM, each holding part of the customer. After: one customer thread where a booking, an estimate, an invoice, a payment and a review request appear as cards">
+        <div class="ba-col">
+          <p class="ba-tag">Before · 5 modules</p>
+          <div class="ba-mods">
+            <div class="ba-mod"><b>Calendar</b><span>bookings · classes</span></div>
+            <div class="ba-mod"><b>Sales</b><span>estimates · invoices · payments</span></div>
+            <div class="ba-mod"><b>Presence</b><span>reviews · Google · Facebook</span></div>
+            <div class="ba-mod"><b>Marketing</b><span>ad leads · campaigns</span></div>
+            <div class="ba-mod"><b>CRM</b><span>customer history</span></div>
+          </div>
+          <p class="ba-note">The owner jumps between screens to serve one customer.</p>
         </div>
-        <div class="loop-return">
-          <svg class="rp-svg" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true"><line class="rp" x1="100" y1="1.5" x2="0" y2="1.5" vector-effect="non-scaling-stroke"/></svg>
-          <span>↺ next request, same thread</span>
+        <span class="ba-arrow" aria-hidden="true">→</span>
+        <div class="ba-col after">
+          <p class="ba-tag">After · 1 thread</p>
+          <div class="ba-thread">
+            <div class="ba-head"><span class="ba-av"></span><b>Alice Morris</b><span class="ba-src">Email · SMS · Facebook</span></div>
+            <div class="ba-card"><b>Booking request</b><span class="ba-st">Accepted</span><i>Calendar</i></div>
+            <div class="ba-card"><b>Estimate #14 → Invoice</b><span class="ba-st">Paid</span><i>Sales</i></div>
+            <div class="ba-ev">Just added payment $150 via Credit card</div>
+            <div class="ba-card"><b>Review request</b><span class="ba-st">Sent</span><i>Presence</i></div>
+            <div class="ba-ctx">Contact details · history next to the chat <i>CRM</i></div>
+          </div>
         </div>
       </div>
 
