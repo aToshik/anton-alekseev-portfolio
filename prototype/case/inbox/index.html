@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Inbox, Camilyo — Anton Alekseev</title>
+<meta name="description" content="Case study: turning a small business CRM into one conversation. Bookings, estimates, invoices, payments and reviews from every channel in one Inbox thread.">
+<meta property="og:title" content="Inbox, Camilyo — Case study">
+<meta property="og:description" content="How I turned a small business CRM into one conversation.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://antonalekseev.design/work/inbox">
+<meta property="og:image" content="../../home/assets/og-image.png">
+<meta name="theme-color" content="#0a0b0a">
+
+<script>
+(function () {
+  try { var s = localStorage.getItem('pf-theme'); if (s === 'light' || s === 'dark') { document.documentElement.setAttribute('data-theme', s); return; } } catch (e) {}
+  var pl = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  document.documentElement.setAttribute('data-theme', pl ? 'light' : 'dark');
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../lightbox.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS — shared with the home prototype (dark + light)
+   ============================================================ */
+:root, [data-theme="dark"] {
+  --bg: #0a0b0a; --panel: #141714; --panel-2: #191c19;
+  --fg: #f0f2ea; --muted: #a0a59b; --label: #8e948a;
+  --border: #292d29; --border-2: #353934;
+  --accent: #83de72; --accent-weak: rgba(131,222,114,.14); --lime: #b8f24a;
+  --nav-bg: rgba(20,23,20,.86); --btn-bg: #f0f2ea; --btn-fg: #0e100e;
+  --shadow: 0 18px 50px rgba(0,0,0,.32), 0 2px 8px rgba(0,0,0,.25);
+}
+[data-theme="light"] {
+  --bg: #e9eae2; --panel: #ffffff; --panel-2: #f4f5ef;
+  --fg: #14160f; --muted: #5c6156; --label: #6f7568;
+  --border: #e0e2d7; --border-2: #d3d6ca;
+  --accent: #4ea832; --accent-weak: rgba(78,168,50,.12); --lime: #b8f24a;
+  --nav-bg: rgba(255,255,255,.82); --btn-bg: #14160f; --btn-fg: #f4f5ef;
+  --shadow: 0 18px 50px rgba(20,24,16,.10), 0 2px 8px rgba(20,24,16,.06);
+}
+:root {
+  --display: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 12px; --radius-sm: 8px; --maxw: 1480px; --edge: 14px; --side-w: 230px; --nav-h: 62px;
+}
+:root[data-theme="dark"]  { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; transition: background .3s ease, color .3s ease; }
+a { color: inherit; text-decoration: none; }
+a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.skip-link { position: absolute; left: 12px; top: -48px; z-index: 1000; background: var(--accent); color: #0b140a; font-family: var(--mono); font-size: 12px; padding: 10px 14px; border-radius: var(--radius-sm); transition: top .2s; }
+.skip-link:focus { top: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ============================================================
+   FLOATING NAV (shared)
+   ============================================================ */
+.nav { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 600; width: min(var(--maxw), calc(100vw - 2 * var(--edge))); display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 18px; height: var(--nav-h); background: var(--nav-bg); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.nav-logo { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.06em; color: var(--fg); }
+.nav-logo .dot { color: var(--accent); }
+.nav-links { display: flex; gap: 4px; margin-left: 6px; }
+.nav-links a { font-family: var(--body); font-weight: 500; font-size: 13px; color: var(--muted); padding: 9px 15px; border-radius: var(--radius-sm); transition: color .2s, background .2s; }
+.nav-links a:hover { color: var(--fg); }
+.nav-links a[aria-current="page"] { color: var(--fg); background: var(--panel-2); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.nav-status { display: inline-flex; align-items: center; gap: 8px; padding-right: 6px; }
+.nav-status .dot-sm { width: 7px; height: 7px; border-radius: 1px; background: var(--accent); }
+.nav-status span { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.theme-btn { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; transition: color .2s, border-color .2s; }
+.theme-btn:hover { color: var(--fg); border-color: var(--border-2); }
+.theme-btn svg { width: 17px; height: 17px; }
+/* Theme toggle tooltip: label + key cap, shown on hover / keyboard focus (pointer devices only) */
+.theme-btn { position: relative; }
+.theme-btn .tip {
+  position: absolute; top: calc(100% + 8px); left: 50%; z-index: 5;
+  display: flex; align-items: center; gap: 10px; padding: 5px 5px 5px 10px; border-radius: 8px;
+  background: var(--btn-bg); color: var(--btn-fg); box-shadow: var(--shadow);
+  font-family: var(--body); font-size: 12px; font-weight: 500; line-height: 1; white-space: nowrap;
+  opacity: 0; transform: translate(-50%, -3px); pointer-events: none; transition: opacity .15s, transform .15s;
+}
+.theme-btn .tip kbd { font-family: var(--mono); font-size: 11px; line-height: 1; padding: 4px 6px; border-radius: 5px; background: color-mix(in srgb, var(--btn-fg) 16%, transparent); color: var(--btn-fg); }
+.theme-btn:hover .tip, .theme-btn:focus-visible .tip { opacity: 1; transform: translate(-50%, 0); transition-delay: .3s; }
+.theme-btn .tip-to-dark { display: none; }
+[data-theme="light"] .theme-btn .tip-to-light { display: none; }
+[data-theme="light"] .theme-btn .tip-to-dark { display: inline; }
+@media (hover: none) { .theme-btn .tip { display: none; } }
+.theme-btn .icon-sun, .side-theme .icon-sun { display: none; }
+.theme-btn .icon-moon, .side-theme .icon-moon { display: block; }
+[data-theme="light"] .theme-btn .icon-sun, [data-theme="light"] .side-theme .icon-sun { display: block; }
+[data-theme="light"] .theme-btn .icon-moon, [data-theme="light"] .side-theme .icon-moon { display: none; }
+.btn-contact { display: inline-flex; align-items: center; gap: 14px; justify-content: center; height: 46px; padding: 0 18px; border-radius: 9px; cursor: pointer; border: 0; background: var(--btn-bg); color: var(--btn-fg); font-family: var(--body); font-weight: 600; font-size: 12px; transition: filter .2s, transform .15s; }
+.btn-contact:hover { filter: brightness(1.04); } .btn-contact:active { transform: translateY(1px); } .btn-contact svg { width: 15px; height: 15px; }
+@media (max-width: 1000px) { .nav-status { display: none; } }
+@media (max-width: 760px) { .nav-links { display: none; } .btn-contact span { display: none; } }
+
+/* ============================================================
+   SHELL: sidebar (section nav) + main
+   ============================================================ */
+.shell { width: min(var(--maxw), calc(100vw - 2 * var(--edge))); margin: 0 auto; padding: calc(var(--nav-h) + 30px) 0 48px; display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); gap: clamp(16px, 1.6vw, 24px); align-items: start; }
+.sidebar { position: sticky; top: calc(var(--nav-h) + 30px); height: calc(100vh - var(--nav-h) - 54px); display: flex; flex-direction: column; gap: 18px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 14px 14px; overflow-y: auto; overscroll-behavior: contain; }
+.side-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); padding: 0 10px 8px; }
+.side-nav { display: flex; flex-direction: column; gap: 2px; }
+.side-nav a { position: relative; display: block; padding: 8px 10px; border-radius: 7px; color: var(--muted); font-size: 12.5px; transition: color .2s, background .2s; }
+.side-nav a:hover { color: var(--fg); background: var(--panel-2); }
+.side-nav a.active { color: var(--fg); background: var(--panel-2); font-weight: 500; }
+.side-nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 16px; border-radius: 2px; background: var(--accent); }
+.side-sep { height: 1px; background: var(--border); }
+.side-near { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
+.side-near a { font-family: var(--mono); font-size: 11px; color: var(--label); padding: 4px 6px; border-radius: 6px; transition: color .2s, background .2s; }
+.side-near a:hover { color: var(--fg); background: var(--panel-2); }
+.side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 14px; }
+.side-theme { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s; }
+.side-theme:hover { border-color: var(--border-2); }
+.side-theme svg { width: 16px; height: 16px; color: var(--muted); }
+.side-theme span { font-size: 10px; } .side-theme kbd { margin-left: auto; font-family: var(--mono); font-size: 11px; line-height: 1; padding: 4px 6px; border-radius: 5px; background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); }
+
+@media (max-width: 1000px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; overflow: visible; }
+  .side-foot { margin-top: 10px; }
+  .side-nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .side-nav a { white-space: nowrap; }
+  .side-nav a.active::before { display: none; }
+  .side-near { flex-direction: row; }
+}
+
+/* ============================================================
+   MAIN / case content
+   ============================================================ */
+.main { min-width: 0; display: flex; flex-direction: column; gap: clamp(28px, 4vw, 52px); }
+.crumb { font-family: var(--mono); font-size: 11px; color: var(--label); display: flex; gap: 8px; }
+.crumb a { color: var(--muted); } .crumb a:hover { color: var(--fg); }
+.crumb [aria-current] { color: var(--fg); }
+
+.section { scroll-margin-top: 92px; }
+.eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
+.sec-title { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -.03em; line-height: 1.1; margin-bottom: 18px; }
+.body-copy { font-size: 15px; line-height: 1.75; color: var(--muted); max-width: 70ch; }
+.body-copy strong { color: var(--fg); font-weight: 500; }
+
+/* header (TIER 1) */
+.ch-context { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); line-height: 1.7; }
+.ch-hook { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 5vw, 58px); line-height: 1.02; letter-spacing: -.04em; margin: 18px 0 22px; text-wrap: balance; max-width: 20ch; }
+.ch-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.mchip { font-family: var(--display); font-weight: 500; font-size: 14px; letter-spacing: -.01em; color: var(--accent); background: var(--accent-weak); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 14px; }
+.ch-tooling { margin-top: 16px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ch-tooling b { color: var(--fg); font-weight: 500; }
+.hero-visual { margin-top: 26px; border: 1px dashed var(--border-2); border-radius: var(--radius); background: var(--panel); min-height: clamp(220px, 32vw, 380px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; }
+.hero-visual b { font-family: var(--display); font-weight: 500; font-size: 15px; color: var(--muted); }
+.hero-visual small { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+
+.role-note { margin-top: 28px; display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding-top: 24px; border-top: 1px solid var(--border); }
+.role-note p { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 60ch; }
+
+/* phase rail */
+.phase-rail { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); margin: 26px 0 22px; }
+.pr-track, .pr-fill { position: absolute; top: 6px; height: 2px; }
+.pr-track { left: 12.5%; right: 12.5%; background: var(--border); }
+.pr-fill { left: 12.5%; width: 0; background: var(--accent); transition: width .22s ease; }
+.pr-step { position: relative; padding-top: 24px; text-align: center; color: var(--muted); transition: color .2s ease; }
+.pr-dot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 1px; background: var(--panel); border: 2px solid var(--border-2); transition: background .25s, border-color .25s, box-shadow .25s; z-index: 1; }
+.pr-step.on { color: var(--fg); }
+.pr-step.on .pr-dot { background: var(--accent); border-color: var(--accent); }
+.pr-num { margin-right: 8px; font-family: var(--mono); font-size: 10px; color: var(--label); transition: color .2s ease; }
+.pr-step.on .pr-num { color: var(--accent); }
+.pr-name { font-size: 12px; margin-top: 2px; }
+
+/* phase block */
+.phase { scroll-margin-top: 96px; display: grid; grid-template-columns: 1fr 320px; gap: clamp(22px, 3vw, 40px); align-items: start; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 30px); }
+.phase + .phase, .accent-block + .phase, .phase + .accent-block { margin-top: 16px; }
+.ph-label { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--fg); margin-bottom: 12px; }
+.ph-label .n { color: var(--accent); }
+.ph-text { font-size: 14px; line-height: 1.7; color: var(--muted); }
+/* inline cross-reference to another case + hover/focus tooltip with its card summary */
+.xref { position: relative; color: var(--fg); text-decoration: underline; text-decoration-color: var(--border-2); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color .2s, text-decoration-color .2s; }
+.xref::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 6px 0 2px; border-radius: 1px; background: var(--accent); vertical-align: .14em; }
+.xref:hover, .xref:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
+.xref-tip { position: absolute; left: 50%; top: calc(100% + 10px); z-index: 50; width: 264px; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--border-2); border-radius: var(--radius-sm); box-shadow: var(--shadow); color: var(--muted); font-family: var(--body); font-size: 13px; line-height: 1.45; text-align: left; white-space: normal; opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -4px); transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
+.xref:hover .xref-tip, .xref:focus-visible .xref-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.xref-tip .xt-name { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--label); }
+.xref-tip .xt-hook { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: -.01em; line-height: 1.3; color: var(--fg); }
+.xref-tip .xt-metric { font-family: var(--mono); font-size: 11px; color: var(--label); }
+.xref-tip .xt-metric b { color: var(--accent); font-weight: 500; }
+@media (hover: none) { .xref-tip { display: none; } }
+@media (prefers-reduced-motion: reduce) { .xref-tip { transition: none; } }
+.ph-text .rej { display: block; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--label); }
+.ph-visual { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); background: var(--panel-2); min-height: 150px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 14px; }
+.ph-visual span { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); line-height: 1.6; }
+
+/* phase 3 — full-width accent block */
+.accent-block { border: 1px solid var(--accent); background: var(--accent-weak); border-radius: var(--radius); padding: clamp(24px, 3.2vw, 38px); }
+.accent-block .ph-label { color: var(--fg); margin-bottom: 14px; }
+.accent-block .ph-label em { font-style: normal; color: var(--accent); }
+.accent-block .ph-text { max-width: 86ch; margin-bottom: 26px; color: var(--muted); }
+.accent-block .ph-text strong { color: var(--fg); font-weight: 500; }
+.accent-block .ab-row { display: grid; grid-template-columns: 1fr 320px; gap: clamp(22px, 3vw, 40px); align-items: start; }
+.accent-block .ab-row .ph-text { margin-bottom: 0; }
+
+/* loop diagram (recreated, theme-aware) */
+.loop { }
+.loop-row { display: flex; align-items: stretch; gap: 8px; }
+.loop-node { flex: 1; min-width: 0; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 13px; display: flex; flex-direction: column; gap: 6px; }
+.loop-node b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
+.loop-node span { font-family: var(--mono); font-size: 10px; letter-spacing: .02em; color: var(--muted); line-height: 1.5; }
+.loop-node.accent { border-color: var(--accent); background: var(--panel); }
+.loop-node.accent b { color: var(--accent); }
+.loop-sep { display: flex; align-items: center; justify-content: center; color: var(--label); font-family: var(--mono); font-size: 14px; flex-shrink: 0; }
+.loop-return span { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--accent); padding-top: 2px; }
+
+/* impact tiles */
+.impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.itile { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; display: flex; flex-direction: column; gap: 6px; min-height: 120px; }
+.itile b { font-family: var(--display); font-weight: 500; font-size: clamp(18px, 2vw, 24px); letter-spacing: -.02em; }
+.itile.qual b { color: var(--accent); font-size: 17px; }
+.itile span { font-size: 12px; color: var(--muted); margin-top: auto; }
+.itile .tag { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
+.impact-note { margin-top: 16px; font-size: 14px; color: var(--muted); }
+.impact-note b { color: var(--accent); font-weight: 500; }
+.impact-note a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border-2); }
+
+/* reflection */
+.reflection p { font-family: var(--display); font-weight: 500; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.3; letter-spacing: -.02em; color: var(--fg); max-width: 24ch; text-wrap: balance; }
+.reflection em { font-style: normal; color: var(--muted); }
+.reflection p.eyebrow { font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .14em; line-height: 1.6; color: var(--label); max-width: none; }
+
+/* prev / next */
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 24px; border-top: 1px solid var(--border); }
+.pager a { border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel); padding: 18px 20px; transition: border-color .25s, background .25s, transform .2s; }
+.pager a:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-2px); }
+.pager small { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); }
+.pager b { display: block; margin-top: 6px; font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: -.02em; }
+.pager .next { text-align: right; }
+
+/* ---- loop-return dashed path ---- */
+.loop-return { margin-top: 14px; padding-top: 14px; position: relative; display: flex; justify-content: center; }
+.loop-return .rp-svg { position: absolute; top: 0; left: 0; width: 100%; height: 3px; overflow: visible; }
+.loop-return .rp { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 5 5; fill: none; }
+
+/* ---- PASS 2: loop reveal animation (gated, plays once) ---- */
+@keyframes loopIn { to { opacity: 1; transform: none; } }
+@keyframes aiPulse { 0% { box-shadow: 0 0 0 0 var(--accent-weak); } 45% { box-shadow: 0 0 0 9px var(--accent-weak); } 100% { box-shadow: 0 0 0 0 transparent; } }
+@keyframes rpMarch { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+.motion-ok .loop .loop-row > * { opacity: 0; transform: translateY(8px); }
+.motion-ok .loop.in .loop-row > * { animation: loopIn .42s cubic-bezier(.16,1,.3,1) forwards; }
+.motion-ok .loop.in .loop-row > *:nth-child(1){animation-delay:.04s}
+.motion-ok .loop.in .loop-row > *:nth-child(2){animation-delay:.1s}
+.motion-ok .loop.in .loop-row > *:nth-child(3){animation-delay:.16s}
+.motion-ok .loop.in .loop-row > *:nth-child(4){animation-delay:.22s}
+.motion-ok .loop.in .loop-row > *:nth-child(5){animation-delay:.28s}
+.motion-ok .loop.in .loop-row > *:nth-child(6){animation-delay:.34s}
+.motion-ok .loop.in .loop-row > *:nth-child(7){animation-delay:.4s}
+.motion-ok .loop.in .loop-row > *:nth-child(8){animation-delay:.46s}
+.motion-ok .loop.in .loop-row > *:nth-child(9){animation-delay:.52s}
+.motion-ok .loop.in .loop-row > *:nth-child(10){animation-delay:.58s}
+.motion-ok .loop.in .loop-row > *:nth-child(11){animation-delay:.64s}
+.motion-ok .loop.in .loop-node.accent { animation: loopIn .42s cubic-bezier(.16,1,.3,1) .28s forwards, aiPulse 1.1s ease .95s 1; }
+.motion-ok .loop .rp { stroke-dashoffset: 0; }
+.motion-ok .loop.in .rp { animation: rpMarch .9s linear .7s 1; }
+
+/* ---- PASS 2: micro-polish ---- */
+.hero-visual, .ph-visual { transition: border-color .25s ease, transform .25s ease; }
+.hero-visual:hover, .ph-visual:hover { border-color: var(--border); transform: translateY(-2px); }
+@keyframes chipUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.motion-ok .ch-meta .mchip { animation: chipUp .5s cubic-bezier(.16,1,.3,1) both; }
+.motion-ok .ch-meta .mchip:nth-child(2) { animation-delay: .08s; }
+.motion-ok .reveal .impact-grid > * { opacity: 0; transform: translateY(10px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); }
+.motion-ok .reveal.in .impact-grid > * { opacity: 1; transform: none; }
+.impact-grid > *:nth-child(1){transition-delay:.04s}.impact-grid > *:nth-child(2){transition-delay:.1s}
+.impact-grid > *:nth-child(3){transition-delay:.16s}.impact-grid > *:nth-child(4){transition-delay:.22s}
+.pager .ar { display: inline-block; transition: transform .2s ease; }
+.pager .prev:hover .ar { transform: translateX(-3px); }
+.pager .next:hover .ar { transform: translateX(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual, .ph-visual, .pager .ar, .pr-fill, .pr-dot, .pr-step, .pr-num { transition: none; }
+  .hero-visual:hover, .ph-visual:hover { transform: none; }
+  .pager .prev:hover .ar, .pager .next:hover .ar { transform: none; }
+  .loop.in .loop-row > *, .loop.in .loop-node.accent, .loop.in .rp, .ch-meta .mchip { animation: none; }
+}
+
+/* reveal — enhancement only */
+.motion-ok .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.motion-ok .reveal.in { opacity: 1; transform: none; }
+
+/* responsive */
+@media (max-width: 820px) {
+  .phase, .accent-block .ab-row { grid-template-columns: 1fr; }
+  .ph-visual { min-height: 120px; }
+  .role-note { grid-template-columns: 1fr; gap: 8px; }
+}
+@media (max-width: 760px) {
+  .loop-row { flex-direction: column; }
+  .loop-sep { transform: rotate(90deg); padding: 2px 0; }
+  .phase-rail { grid-template-columns: 1fr 1fr; gap: 10px 0; }
+  .pr-track, .pr-fill { display: none; }
+  .pr-step { padding-top: 0; padding-left: 22px; text-align: left; }
+  .pr-dot { top: 2px; left: 0; transform: none; }
+}
+@media (max-width: 520px) {
+  .impact-grid { grid-template-columns: 1fr; }
+  .pager { grid-template-columns: 1fr; } .pager .next { text-align: left; }
+}
+
+
+/* ---- PE case: status colors ---- */
+:root, [data-theme="dark"] { --st-red: #ef7a6b; --st-amber: #e9c255; }
+[data-theme="light"] { --st-red: #c8432f; --st-amber: #a87d00; }
+.fail-list { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 86ch; }
+.fail { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
+.fail b { display: block; font-family: var(--display); font-weight: 500; font-size: 16px; letter-spacing: -.01em; color: var(--fg); }
+.fail span { display: block; margin-top: 4px; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.fail-list.ev3 { grid-template-columns: repeat(3, 1fr); }
+.loop.cycle { margin: 22px 0 6px; }
+@media (max-width: 640px) { .fail-list, .fail-list.ev3 { grid-template-columns: 1fr; } }
+
+
+/* traffic-light readiness */
+.evidence { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.evidence div { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.evidence b { display: block; font-family: var(--mono); font-weight: 400; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 4px; }
+.evidence.ev3 { grid-template-columns: repeat(3, 1fr); }
+.impact-grid.ig3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 820px) { .impact-grid.ig3 { grid-template-columns: 1fr; } }
+@media (max-width: 820px) { .evidence, .evidence.ev3 { grid-template-columns: 1fr; } }
+.term { color: var(--fg); font-weight: 500; }
+</style>
+<link rel="stylesheet" href="../../shared/mobile-bar.css">
+<link rel="stylesheet" href="../../shared/mobile-nav.css">
+<link rel="stylesheet" href="../../shared/lucide.css">
+<link rel="stylesheet" href="../../shared/glow.css">
+<link rel="stylesheet" href="../../shared/phase-steps.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ======= FLOATING NAV ======= -->
+<nav class="nav" aria-label="Primary">
+  <a class="nav-logo" href="../../home/index.html" aria-label="Anton Alekseev, home">AA<span class="dot">.</span></a>
+  <div class="nav-links">
+    <a href="../../home/index.html">Home</a>
+    <a href="#" data-note="profile">Profile</a>
+    <a href="../../work/index.html" aria-current="page">Work</a>
+  </div>
+  <div class="nav-right">
+    <span class="nav-status"><span class="dot-sm"></span><span>Open to work</span></span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark / light theme" aria-keyshortcuts="T" aria-pressed="false">
+      <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
+      <span class="tip" aria-hidden="true"><span class="tip-to-light">Light mode</span><span class="tip-to-dark">Dark mode</span><kbd>T</kbd></span>
+    </button>
+    <a class="btn-contact" href="mailto:aa.nooker@gmail.com?subject=Let's%20work%20together"><span>Contact now</span>
+      <svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+  </div>
+</nav>
+
+<span id="top"></span>
+
+<div class="shell">
+  <!-- ======= SIDEBAR = SECTION NAV ======= -->
+  <aside class="sidebar" aria-label="On this case">
+    <div>
+      <div class="side-label">On this case</div>
+      <nav class="side-nav" id="sideNav">
+        <a href="#overview" data-section="overview">Overview</a>
+        <a href="#context" data-section="context">Context</a>
+        <a href="#problem" data-section="problem">Problem</a>
+        <a href="#insight" data-section="insight">Insight</a>
+        <a href="#decisions" data-section="decisions">Decisions</a>
+        <a href="#edge-cases" data-section="edge-cases">Edge cases</a>
+        <a href="#impact" data-section="impact">Impact</a>
+        <a href="#reflection" data-section="reflection">Reflection</a>
+      </nav>
+    </div>
+    <div class="side-foot">
+      <div class="side-sep" aria-hidden="true"></div>
+      <div class="side-near">
+        <a href="../cross-campaign/">← Cross-Campaign Management</a>
+        <a href="../channel-analysis/">Channel Analysis →</a>
+      </div>
+      <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
+        <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="icon-sun lu lu-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><g class="lu-rays"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></g></svg>
+        <span class="lbl-dark">Light mode</span><kbd>T</kbd>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ======= MAIN ======= -->
+  <main class="main" id="main">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="../../work/index.html">Work</a><span aria-hidden="true">/</span><span aria-current="page">Inbox</span></nav>
+
+    <!-- OVERVIEW / header -->
+    <header class="section" id="overview">
+      <p class="ch-context">Conversational · Self-service · B2B · B2C&nbsp;&nbsp;|&nbsp;&nbsp;Camilyo · sole product designer · SMB SaaS</p>
+      <h1 class="ch-hook">How I turned a small business CRM into one conversation</h1>
+      <div class="ch-meta">
+        <span class="mchip">8 → 1 · request types, one thread</span>
+        <span class="mchip">CRM → Chat · one cycle from request to payment</span>
+      </div>
+      <p class="ch-tooling"><b>Figma</b> · <b>Heap</b> · <b>FullStory</b></p>
+      <div class="hero-visual" role="img" aria-label="Placeholder for the hero visual">
+        <b>Hero · Inbox on desktop and phone</b>
+        <small>One thread with a booking, a payment and events · 1920×1080</small>
+      </div>
+      <div class="role-note">
+        <span class="eyebrow">My role</span>
+        <p>Sole product designer. I designed the feature from scratch, end to end: concept, flows, UI for web and the hybrid mobile app, interactive prototypes, handoff and QA. I worked with the PM and the dev team.</p>
+      </div>
+    </header>
+
+    <!-- CONTEXT -->
+    <section class="section reveal" id="context" aria-labelledby="context-t">
+      <p class="eyebrow" style="margin-bottom:12px">Context</p>
+      <h2 class="sec-title" id="context-t">One owner, many doors</h2>
+      <p class="body-copy">Camilyo is an all-in-one platform for small service businesses: salons, studios, coaches, consultants. It covers the website, bookings and classes, sales (estimates, invoices, payments), marketing, presence on Google and Facebook, and a CRM, on web and mobile. Customers reach a business through all of these doors: a booking on the site, a contact form, an estimate request, a call-me-back, a phone call, a Google review, a Facebook message, email or SMS.</p>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section reveal" id="problem" aria-labelledby="problem-t">
+      <p class="eyebrow" style="margin-bottom:12px">Problem</p>
+      <h2 class="sec-title" id="problem-t">Every request lived in its own module</h2>
+      <p class="body-copy">Each request type looked different and came with a different amount of information and different actions. To handle one customer, the owner jumped between Calendar, Sales, Presence and Marketing, and opened the CRM every time they needed context: past requests, bookings, products, services.</p>
+      <div class="fail-list ev3">
+        <div class="fail"><b>Slow replies</b><span>the owner had to find the request first, then the module that could act on it.</span></div>
+        <div class="fail"><b>Lost context</b><span>the customer's history sat in the CRM, away from the conversation.</span></div>
+        <div class="fail"><b>Lost deals</b><span>the moment a customer was ready to book or pay passed while the owner switched screens.</span></div>
+      </div>
+    </section>
+
+    <!-- INSIGHT -->
+    <section class="section reveal" id="insight" aria-labelledby="insight-t">
+      <p class="eyebrow" style="margin-bottom:12px">Insight</p>
+      <h2 class="sec-title" id="insight-t">Owners already know how to run a conversation</h2>
+      <p class="body-copy">Everyone runs their life in messengers: WhatsApp, Messenger, Telegram. A small business owner doesn't need a new tool to learn. <strong>So we didn't build a request manager. We used the chat pattern everyone already knows, and put the business objects inside the conversation.</strong></p>
+    </section>
+
+    <!-- DECISIONS -->
+    <section class="section reveal" id="decisions" aria-labelledby="decisions-t">
+      <p class="eyebrow" style="margin-bottom:12px">Key decisions</p>
+      <h2 class="sec-title" id="decisions-t">From separate features to one cycle</h2>
+      <p class="body-copy">Every step of the deal happens in the same thread.</p>
+      <div class="loop cycle" role="img" aria-label="One cycle in one thread: request, conversation, booking or estimate, invoice, payment, review, and back to the next request">
+        <div class="loop-row">
+          <div class="loop-node"><b>Request</b><span>any channel</span></div>
+          <span class="loop-sep" aria-hidden="true">→</span>
+          <div class="loop-node accent"><b>Conversation</b><span>one thread</span></div>
+          <span class="loop-sep" aria-hidden="true">→</span>
+          <div class="loop-node"><b>Booking / estimate</b><span>from the card</span></div>
+          <span class="loop-sep" aria-hidden="true">→</span>
+          <div class="loop-node"><b>Invoice</b><span>sent in chat</span></div>
+          <span class="loop-sep" aria-hidden="true">→</span>
+          <div class="loop-node"><b>Payment</b><span>partial or full</span></div>
+          <span class="loop-sep" aria-hidden="true">→</span>
+          <div class="loop-node"><b>Review</b><span>one saved reply</span></div>
+        </div>
+        <div class="loop-return">
+          <svg class="rp-svg" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true"><line class="rp" x1="100" y1="1.5" x2="0" y2="1.5" vector-effect="non-scaling-stroke"/></svg>
+          <span>↺ next request, same thread</span>
+        </div>
+      </div>
+
+      <nav class="phase-rail" aria-label="Jump to decision">
+        <span class="pr-track" aria-hidden="true"></span>
+        <span class="pr-fill" aria-hidden="true" id="prFill"></span>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">One thread</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">One card</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Close the deal</span></a>
+        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Close the loop</span></a>
+      </nav>
+
+      <article class="phase" id="phase-1">
+        <div>
+          <div class="ph-label"><span class="n">01</span> · One customer, one thread, every channel</div>
+          <p class="ph-text">Contacts on the left, the conversation on the right. Requests from any source land in the customer's thread with where they came from ("Sent from Women's Haircut page at 15:45"). The owner picks the reply channel in the composer: Email, SMS, Facebook or Google My Business. Reviews are answered as a reply in the thread, and answered or missed calls show up as events. "Show pending only" leaves just what still needs an answer.</p>
+        </div>
+        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Thread with requests from several channels<br>+ channel picker in the composer</span></div>
+      </article>
+
+      <article class="phase" id="phase-2">
+        <div>
+          <div class="ph-label"><span class="n">02</span> · One card for every request, with a lifecycle</div>
+          <p class="ph-text">Booking, class, estimate, invoice, form, email, call-me-back and review share one card: source, icon and title, a status, the key details (service, team member, time, price) and the next action in the footer. The card is a live object. A booking moves from <strong class="term">Pending</strong> to Accepted, Completed, No-show or Declined, and every change leaves a one-line event in the thread: rescheduled, reassigned, payment added. Clicking an event scrolls back to its card and highlights it.</p>
+        </div>
+        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Card states: Pending → Accepted → Completed / No-show / Declined<br>+ collage of request types</span></div>
+      </article>
+
+      <article class="phase" id="phase-3">
+        <div>
+          <div class="ph-label"><span class="n">03</span> · Close the deal without leaving the chat</div>
+          <p class="ph-text">The owner accepts, reschedules or reassigns a booking right from the card. The flow warns when the time overlaps another event or the team member doesn't provide the service, and tells the owner the customer will be notified. An estimate request becomes an estimate, then an invoice, then a partial or full payment, each as a card in the same thread. The composer shares a service, a coupon, media or a <strong class="term">saved reply</strong> with variables like {CustomerName}. Contact details (upcoming bookings, invoices due, classes, campaigns) open next to the chat, so the CRM comes to the conversation, not the other way around.</p>
+        </div>
+        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Video: booking from the chat,<br>estimate → invoice → payment</span></div>
+      </article>
+
+      <article class="phase" id="phase-4">
+        <div>
+          <div class="ph-label"><span class="n">04</span> · Close the loop</div>
+          <p class="ph-text">After the service, the same thread starts the next cycle. One saved reply asks for a Google or Facebook review. A lead that came from an ad gets a quick "relevant or not" mark right in the thread, and that feedback improves the campaign ("You marked Eleanor as an irrelevant lead, and improved your campaign"). The conversation that closed one deal also makes the next lead better.</p>
+        </div>
+        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Review request + ad lead feedback<br>in the thread</span></div>
+      </article>
+    </section>
+
+    <!-- EDGE CASES -->
+    <section class="section reveal" id="edge-cases" aria-labelledby="edge-t">
+      <p class="eyebrow" style="margin-bottom:12px">Edge cases</p>
+      <h2 class="sec-title" id="edge-t">A chat that still works when the data doesn't</h2>
+      <p class="body-copy">Real businesses start empty, serve groups and switch devices all day, so the thread had to hold up outside the happy path.</p>
+      <div class="evidence">
+        <div><b>Empty start</b>A new account sees "One way for all the customers requests" and can import contacts from Google.</div>
+        <div><b>No channel</b>If a customer has no email or phone, the composer says so and offers another channel.</div>
+        <div><b>Group threads</b>A class with several participants is one thread with stacked avatars.</div>
+        <div><b>Every screen</b>Adaptive layouts from 1024 to 1920 px, and the same Inbox in the hybrid React Native app for iOS and Android.</div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="section reveal" id="impact" aria-labelledby="impact-t">
+      <p class="eyebrow" style="margin-bottom:12px">Impact</p>
+      <h2 class="sec-title" id="impact-t">CRM in a conversational UI</h2>
+      <div class="impact-grid ig3">
+        <div class="itile"><span class="tag">Design</span><b>8 → 1</b><span>request types in one thread, with one card anatomy</span></div>
+        <div class="itile qual"><span class="tag">Qualitative</span><b>5 modules → 1 chat</b><span>Calendar, Sales, Presence, Marketing and CRM in one conversation</span></div>
+        <div class="itile qual"><span class="tag">Qualitative</span><b>Web + iOS + Android</b><span>one experience on every platform</span></div>
+      </div>
+      <p class="impact-note">We didn't track exact numbers for Inbox. The change is in the workflow: before, every request had its own screen and its own rules. After, every request is a card in a conversation and ends with a next action. Owners book, quote, invoice and get paid without leaving the chat, with the customer's history right next to it.</p>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="section reveal reflection" id="reflection" aria-labelledby="reflection-t">
+      <p class="eyebrow" style="margin-bottom:18px" id="reflection-t">Reflection</p>
+      <p>The best interface was the one people already used. <em>The hard part wasn't the chat. It was making every business object behave the same inside it.</em></p>
+      <p class="body-copy" style="margin-top:22px;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;line-height:1.75;max-width:70ch;color:var(--muted)">A chat was easy to agree on. The real work was the card: one anatomy and one lifecycle for eight very different requests, so the owner never had to learn a new screen. Once every object spoke the same language, joining separate features into one cycle stopped being an integration problem and became a conversation.</p>
+    </section>
+
+    <!-- PREV / NEXT -->
+    <nav class="pager" aria-label="More cases">
+      <a class="prev" href="../cross-campaign/"><small><span class="ar" aria-hidden="true">←</span> Previous</small><b>Cross-Campaign Management</b></a>
+      <a class="next" href="../channel-analysis/"><small>Next <span class="ar" aria-hidden="true">→</span></small><b>Channel Analysis</b></a>
+    </nav>
+  </main>
+</div>
+
+<div id="theme-live" class="visually-hidden" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+
+  /* ---- Theme (shared) ---- */
+  var toggles = ['themeBtn','themeBtnSide'].map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var live = document.getElementById('theme-live');
+  function syncTheme(t, announce){
+    toggles.forEach(function(el){ el.setAttribute('aria-pressed', t==='light'?'true':'false'); });
+    var lbl = document.querySelector('.side-theme .lbl-dark'); if (lbl) lbl.textContent = t==='light'?'Dark mode':'Light mode';
+    if (announce && live) live.textContent = (t==='light'?'Light':'Dark') + ' theme';
+  }
+  function setTheme(t, announce){ root.setAttribute('data-theme', t); try { localStorage.setItem('pf-theme', t); } catch(e){} var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', t==='light'?'#e9eae2':'#0a0b0a'); syncTheme(t, announce); }
+  function toggleTheme(){ setTheme(root.getAttribute('data-theme')==='light'?'dark':'light', true); }
+  toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
+  syncTheme(root.getAttribute('data-theme'), false);
+  window.addEventListener('keydown', function(e){
+    if (e.code==='KeyT' && !e.metaKey && !e.ctrlKey && !e.altKey) { var tag=(e.target&&e.target.tagName)||''; if (tag!=='INPUT'&&tag!=='TEXTAREA') toggleTheme(); }
+  });
+
+  /* ---- Scrollspy (section nav) + keep active visible in a scrolling sidebar ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#sideNav > a'));
+  var byId = {}; links.forEach(function(a){ byId[a.getAttribute('data-section')] = a; });
+  var sidebarEl = document.querySelector('.sidebar');
+  function keepVisible(a){
+    if (!sidebarEl || sidebarEl.scrollHeight <= sidebarEl.clientHeight) return;
+    var ar = a.getBoundingClientRect(), sr = sidebarEl.getBoundingClientRect();
+    if (ar.top < sr.top) sidebarEl.scrollTop -= (sr.top - ar.top) + 8;
+    else if (ar.bottom > sr.bottom) sidebarEl.scrollTop += (ar.bottom - sr.bottom) + 8;
+  }
+  /* Active = the last section whose top has passed the reading line (just under the sticky nav).
+     A click sets its target active right away and pins it until the user scrolls again, so a short
+     section (or one near the page end) is never overridden by the next one. */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.main .section'));
+  var current = null, pinned = false, pinTimer = null;
+  function setActive(id){
+    if (id === current) return; current = id;
+    links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('data-section') === id); });
+    var a = byId[id]; if (a) keepVisible(a);
+  }
+  function computeActive(){
+    var vh = window.innerHeight, left = document.documentElement.scrollHeight - vh - window.scrollY;
+    /* near the page end the line slides down, so short final sections still get their turn */
+    /* the reading line sits just below where a jumped-to section lands (scroll-padding + its scroll-margin) */
+    var line = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 96) + (sections.length ? parseFloat(getComputedStyle(sections[0]).scrollMarginTop) || 0 : 0) + 24 + (left < vh ? (vh - 160) * (1 - Math.max(left, 0) / vh) : 0);
+    var id = sections.length ? sections[0].id : null;
+    sections.forEach(function(s){ if (s.getBoundingClientRect().top <= line) id = s.id; });
+    if (left <= 2 && sections.length) id = sections[sections.length - 1].id;
+    if (id) setActive(id);
+  }
+  function unpinSoon(){ clearTimeout(pinTimer); pinTimer = setTimeout(function(){ pinned = false; }, 150); }
+  links.forEach(function(a){ a.addEventListener('click', function(){ pinned = true; setActive(a.getAttribute('data-section')); unpinSoon(); }); });
+  window.addEventListener('scroll', function(){
+    if (pinned) { unpinSoon(); return; }  /* smooth scroll from the click is still running */
+    computeActive();
+  }, { passive: true });
+  ['wheel','touchstart','keydown'].forEach(function(t){ window.addEventListener(t, function(){ if (pinned) { pinned = false; clearTimeout(pinTimer); } }, { passive: true }); });
+  computeActive();
+  if ('IntersectionObserver' in window) {
+
+    /* phase-rail progress spy */
+    var order = ['phase-1','phase-2','phase-3','phase-4'];
+    var steps = order.map(function(id){ return document.getElementById('rail-' + id.split('-')[1]); });
+    var prFill = document.getElementById('prFill');
+    function setPhase(idx){ steps.forEach(function(s,i){ if(!s) return; s.classList.toggle('on', i<=idx); s.classList.toggle('active', i===idx); }); if (prFill) prFill.style.width = (idx*25) + '%'; }
+    var pspy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ var idx=order.indexOf(en.target.id); if(idx>=0) setPhase(idx); } });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    order.forEach(function(id){ var el=document.getElementById(id); if(el) pspy.observe(el); });
+    setPhase(0);
+  }
+
+  /* ---- Reveal (enhancement only) ---- */
+  var motionOK = !window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (motionOK && 'IntersectionObserver' in window) {
+    document.body.classList.add('motion-ok');
+    var rev = new IntersectionObserver(function(entries, obs){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } }); }, { rootMargin: '0px 0px 15% 0px', threshold: 0 });
+    document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
+
+    /* feedback-loop diagram — animate once on reveal */
+    var loops = document.querySelectorAll('.loop');
+    if (loops.length) {
+      var lio = new IntersectionObserver(function(entries, obs){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } }); }, { rootMargin: '0px 0px -12% 0px', threshold: .2 });
+      loops.forEach(function(l){ lio.observe(l); });
+    }
+  }
+
+  /* placeholder links */
+  document.querySelectorAll('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+})();
+</script>
+<script src="../lightbox.js" defer></script>
+<script src="../../shared/phase-steps.js" defer></script>
+<script src="../../shared/mobile-bar.js" defer></script>
+<script src="../../shared/mobile-nav.js" defer></script>
+<script src="../../shared/glow.js" defer></script>
+</body>
+</html>
