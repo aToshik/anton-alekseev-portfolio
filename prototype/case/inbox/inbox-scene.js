@@ -8,7 +8,6 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
   var alerts = Array.prototype.slice.call(scene.querySelectorAll('.ib-n[data-to]'));
-  var total = scene.querySelector('[data-total]');
 
   var visible = false, waiting = null;
   function gate() { return visible ? Promise.resolve() : new Promise(function (r) { waiting = r; }); }
@@ -24,12 +23,7 @@
     var n = Math.max(0, (parseInt(b.textContent, 10) || 0) + delta);
     b.textContent = n; b.classList.toggle('zero', n === 0);
   }
-  function count(el, delta) {
-    if (!el) return;
-    var n = (parseInt(el.textContent, 10) || 0) + delta; el.textContent = n;
-  }
   function slotFor(a) { return scene.querySelector('.ib-card[data-id="' + a.getAttribute('data-to') + '"]'); }
-  function threadCount(slot) { return slot.closest('.ib-thread').querySelector('.ib-cnt b'); }
 
   function reset() {
     alerts.forEach(function (a) { a.classList.remove('gone'); var s = slotFor(a); s.classList.remove('in'); s.classList.add('slot'); });
@@ -37,14 +31,11 @@
       var b = m.querySelector('.ib-badge'); if (!b) return;
       var n = m.querySelectorAll('.ib-n[data-to]').length; b.textContent = n; b.classList.toggle('zero', n === 0);
     });
-    scene.querySelectorAll('.ib-cnt b').forEach(function (b) { b.textContent = '0'; });
-    if (total) total.textContent = '0';
   }
   function land(a) {
     var s = slotFor(a);
     a.classList.add('gone'); badge(a.closest('.ib-mod'), -1);
     s.classList.remove('slot'); s.classList.add('in');
-    count(threadCount(s), 1); count(total, 1);
   }
   function finalState() { reset(); alerts.forEach(land); }
 
@@ -61,8 +52,7 @@
     g.style.transform = 'translate(' + (to.left - from.left) + 'px,' + (to.top - from.top) + 'px)';
     return sleep(640).then(function () {
       g.remove(); s.classList.remove('slot'); s.classList.add('in');
-      count(threadCount(s), 1); count(total, 1);
-    });
+      });
   }
 
   if (reduce) { finalState(); return; }
@@ -70,7 +60,7 @@
   (async function loop() {
     for (;;) {
       await gate(); await sleep(700);
-      for (var i = 0; i < alerts.length; i++) { await gate(); await fly(alerts[i]); await sleep(260); }
+      for (var i = 0; i < alerts.length; i++) { await gate(); await fly(alerts[i]); await sleep(360); }
       await sleep(3600); await gate();
       reset(); await sleep(500);
     }

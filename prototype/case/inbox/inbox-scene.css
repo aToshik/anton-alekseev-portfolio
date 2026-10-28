@@ -10,9 +10,8 @@
 .ib-col.after .ib-total b { color: var(--accent); }
 
 /* modules */
-.ib-mods { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ib-mod { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); padding: 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.ib-mod:last-child { grid-column: 1 / -1; }
+.ib-mods { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ib-mod { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); padding: 12px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .ib-mh { display: flex; align-items: center; gap: 8px; }
 .ib-mh b, .ib-th b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
 .ib-badge { margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--st-red, #ef7a6b); color: #fff; font-family: var(--mono); font-size: 10px; line-height: 18px; text-align: center; transition: opacity .25s, transform .25s; }
@@ -27,7 +26,7 @@
 
 /* threads */
 .ib-threads { display: flex; flex-direction: column; gap: 8px; }
-.ib-thread { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel-2); padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.ib-thread { flex: 1; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel-2); padding: 12px; display: flex; flex-direction: column; gap: 6px; }
 .ib-th { display: flex; align-items: center; gap: 8px; }
 .ib-av { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--panel); border: 1px solid var(--border-2); }
 .ib-th .ib-cnt { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }

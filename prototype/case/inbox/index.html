@@ -454,65 +454,27 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <p class="eyebrow" style="margin-bottom:12px">Key decisions</p>
       <h2 class="sec-title" id="decisions-t">From separate features to one cycle</h2>
       <p class="body-copy">Alerts that needed the owner were scattered across modules. Inbox gathers them into one thread per customer, so every step of the deal happens in the same place: request, booking or estimate, invoice, payment, review.</p>
-      <figure class="ib-scene" role="img" aria-label="Before: eight alerts are scattered across product modules. Calendar has a booking request from Alice, a class booking and a call-me-back from Eleanor. Sales has an estimate request from Mike and a payment from Alice. Presence has a Google review from Alice and a contact form from Mike. Marketing has a missed call from Mike. CRM holds only history. After: each alert lands as a card in one thread per customer: Alice with booking, payment and review, Mike with estimate, contact form and missed call, Eleanor with class booking and call-me-back. Inbox shows 8 pending in one place.">
+      <figure class="ib-scene" role="img" aria-label="Before: four alerts about one customer sit in four modules: a booking request in Calendar, an estimate request in Sales, a Google review in Presence and a missed call in Marketing. After: all four land as cards in one thread with Alice Morris.">
         <div class="ib-col">
-          <p class="ib-tag">Before · 5 modules<span class="ib-total">alerts in 4 places</span></p>
+          <p class="ib-tag">Before</p>
           <div class="ib-mods">
-            <div class="ib-mod">
-              <div class="ib-mh"><b>Calendar</b><span class="ib-badge">3</span></div>
-              <span class="ib-n" data-to="a1">Booking request <em>· Alice</em></span>
-              <span class="ib-n" data-to="e1">Class booking <em>· Eleanor</em></span>
-              <span class="ib-n" data-to="e2">Call me back <em>· Eleanor</em></span>
-            </div>
-            <div class="ib-mod">
-              <div class="ib-mh"><b>Sales</b><span class="ib-badge">2</span></div>
-              <span class="ib-n" data-to="m1">Estimate request <em>· Mike</em></span>
-              <span class="ib-n" data-to="a2">Payment $150 <em>· Alice</em></span>
-            </div>
-            <div class="ib-mod">
-              <div class="ib-mh"><b>Presence</b><span class="ib-badge">2</span></div>
-              <span class="ib-n" data-to="a3">Google review <em>· Alice</em></span>
-              <span class="ib-n" data-to="m2">Contact form <em>· Mike</em></span>
-            </div>
-            <div class="ib-mod">
-              <div class="ib-mh"><b>Marketing</b><span class="ib-badge">1</span></div>
-              <span class="ib-n" data-to="m3">Missed call <em>· Mike</em></span>
-            </div>
-            <div class="ib-mod">
-              <div class="ib-mh"><b>CRM</b></div>
-              <span class="ib-empty">customer history, opened separately every time</span>
-            </div>
+            <div class="ib-mod"><div class="ib-mh"><b>Calendar</b><span class="ib-badge">1</span></div><span class="ib-n" data-to="c1">Booking request</span></div>
+            <div class="ib-mod"><div class="ib-mh"><b>Sales</b><span class="ib-badge">1</span></div><span class="ib-n" data-to="c2">Estimate request</span></div>
+            <div class="ib-mod"><div class="ib-mh"><b>Presence</b><span class="ib-badge">1</span></div><span class="ib-n" data-to="c3">Google review</span></div>
+            <div class="ib-mod"><div class="ib-mh"><b>Marketing</b><span class="ib-badge">1</span></div><span class="ib-n" data-to="c4">Missed call</span></div>
           </div>
-          <p class="ib-note">The owner jumps between screens to serve one customer.</p>
         </div>
         <div class="ib-col after">
-          <p class="ib-tag">After · Inbox<span class="ib-total">Show pending only · <b data-total>8</b></span></p>
-          <div class="ib-threads">
-            <div class="ib-thread">
-              <div class="ib-th"><span class="ib-av"></span><b>Alice Morris</b><span class="ib-cnt"><b>3</b> pending</span></div>
-              <div class="ib-cards">
-                <span class="ib-card" data-id="a1">Booking request <i>Calendar</i></span>
-                <span class="ib-card" data-id="a2">Payment $150 <i>Sales</i></span>
-                <span class="ib-card" data-id="a3">Google review <i>Presence</i></span>
-              </div>
-            </div>
-            <div class="ib-thread">
-              <div class="ib-th"><span class="ib-av"></span><b>Mike Sandler</b><span class="ib-cnt"><b>3</b> pending</span></div>
-              <div class="ib-cards">
-                <span class="ib-card" data-id="m1">Estimate request <i>Sales</i></span>
-                <span class="ib-card" data-id="m2">Contact form <i>Presence</i></span>
-                <span class="ib-card" data-id="m3">Missed call <i>Marketing</i></span>
-              </div>
-            </div>
-            <div class="ib-thread">
-              <div class="ib-th"><span class="ib-av"></span><b>Eleanor Pena</b><span class="ib-cnt"><b>2</b> pending</span></div>
-              <div class="ib-cards">
-                <span class="ib-card" data-id="e1">Class booking <i>Calendar</i></span>
-                <span class="ib-card" data-id="e2">Call me back <i>Calendar</i></span>
-              </div>
+          <p class="ib-tag">After</p>
+          <div class="ib-thread">
+            <div class="ib-th"><span class="ib-av"></span><b>Alice Morris</b></div>
+            <div class="ib-cards">
+              <span class="ib-card" data-id="c1">Booking request</span>
+              <span class="ib-card" data-id="c2">Estimate request</span>
+              <span class="ib-card" data-id="c3">Google review</span>
+              <span class="ib-card" data-id="c4">Missed call</span>
             </div>
           </div>
-          <p class="ib-note">Customer history opens next to each thread, so CRM comes to the conversation.</p>
         </div>
       </figure>
 
