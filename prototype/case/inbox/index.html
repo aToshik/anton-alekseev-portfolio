@@ -324,29 +324,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .fail span { display: block; margin-top: 4px; font-size: 13px; line-height: 1.55; color: var(--muted); }
 .fail-list.ev3 { grid-template-columns: repeat(3, 1fr); }
 
-/* before / after: modules → one thread */
-.ba { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: stretch; margin: 22px 0 6px; }
-.ba-col { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-.ba-col.after { border-color: var(--accent); }
-.ba-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); }
-.ba-col.after .ba-tag { color: var(--accent); }
-.ba-mods { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.ba-mod { border: 1px dashed var(--border-2); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 3px; }
-.ba-mod:last-child { grid-column: 1 / -1; }
-.ba-mod b, .ba-card b, .ba-head b { font-family: var(--display); font-weight: 500; font-size: 13px; letter-spacing: -.01em; color: var(--fg); }
-.ba-mod span { font-family: var(--mono); font-size: 10px; color: var(--muted); line-height: 1.5; }
-.ba-note { margin-top: auto; font-size: 12.5px; color: var(--muted); }
-.ba-arrow { align-self: center; font-family: var(--mono); font-size: 16px; color: var(--accent); }
-.ba-thread { display: flex; flex-direction: column; gap: 8px; }
-.ba-head { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-.ba-av { width: 18px; height: 18px; border-radius: 50%; background: var(--panel-2); border: 1px solid var(--border-2); }
-.ba-src { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--label); }
-.ba-card { display: flex; align-items: center; gap: 8px; background: var(--panel-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; }
-.ba-st { font-family: var(--mono); font-size: 10px; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 1px 8px; }
-.ba-card i, .ba-ctx i { margin-left: auto; font-style: normal; font-family: var(--mono); font-size: 10px; color: var(--label); }
-.ba-ev { text-align: center; font-family: var(--mono); font-size: 10px; color: var(--muted); }
-.ba-ctx { display: flex; gap: 8px; font-size: 12px; color: var(--muted); border-top: 1px dashed var(--border-2); padding-top: 8px; }
-@media (max-width: 820px) { .ba { grid-template-columns: 1fr; } .ba-arrow { transform: rotate(90deg); justify-self: center; } }
 @media (max-width: 640px) { .fail-list, .fail-list.ev3 { grid-template-columns: 1fr; } }
 
 
@@ -365,6 +342,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/lucide.css">
 <link rel="stylesheet" href="../../shared/glow.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
+<link rel="stylesheet" href="inbox-scene.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -475,32 +453,68 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <section class="section reveal" id="decisions" aria-labelledby="decisions-t">
       <p class="eyebrow" style="margin-bottom:12px">Key decisions</p>
       <h2 class="sec-title" id="decisions-t">From separate features to one cycle</h2>
-      <p class="body-copy">Bookings, sales, reviews, leads and customer history used to live in separate modules. Inbox brings them into one thread, so every step of the deal happens in the same place: request, booking or estimate, invoice, payment, review.</p>
-      <div class="ba" role="img" aria-label="Before: five separate modules, Calendar, Sales, Presence, Marketing and CRM, each holding part of the customer. After: one customer thread where a booking, an estimate, an invoice, a payment and a review request appear as cards">
-        <div class="ba-col">
-          <p class="ba-tag">Before · 5 modules</p>
-          <div class="ba-mods">
-            <div class="ba-mod"><b>Calendar</b><span>bookings · classes</span></div>
-            <div class="ba-mod"><b>Sales</b><span>estimates · invoices · payments</span></div>
-            <div class="ba-mod"><b>Presence</b><span>reviews · Google · Facebook</span></div>
-            <div class="ba-mod"><b>Marketing</b><span>ad leads · campaigns</span></div>
-            <div class="ba-mod"><b>CRM</b><span>customer history</span></div>
+      <p class="body-copy">Alerts that needed the owner were scattered across modules. Inbox gathers them into one thread per customer, so every step of the deal happens in the same place: request, booking or estimate, invoice, payment, review.</p>
+      <figure class="ib-scene" role="img" aria-label="Before: eight alerts are scattered across product modules. Calendar has a booking request from Alice, a class booking and a call-me-back from Eleanor. Sales has an estimate request from Mike and a payment from Alice. Presence has a Google review from Alice and a contact form from Mike. Marketing has a missed call from Mike. CRM holds only history. After: each alert lands as a card in one thread per customer: Alice with booking, payment and review, Mike with estimate, contact form and missed call, Eleanor with class booking and call-me-back. Inbox shows 8 pending in one place.">
+        <div class="ib-col">
+          <p class="ib-tag">Before · 5 modules<span class="ib-total">alerts in 4 places</span></p>
+          <div class="ib-mods">
+            <div class="ib-mod">
+              <div class="ib-mh"><b>Calendar</b><span class="ib-badge">3</span></div>
+              <span class="ib-n" data-to="a1">Booking request <em>· Alice</em></span>
+              <span class="ib-n" data-to="e1">Class booking <em>· Eleanor</em></span>
+              <span class="ib-n" data-to="e2">Call me back <em>· Eleanor</em></span>
+            </div>
+            <div class="ib-mod">
+              <div class="ib-mh"><b>Sales</b><span class="ib-badge">2</span></div>
+              <span class="ib-n" data-to="m1">Estimate request <em>· Mike</em></span>
+              <span class="ib-n" data-to="a2">Payment $150 <em>· Alice</em></span>
+            </div>
+            <div class="ib-mod">
+              <div class="ib-mh"><b>Presence</b><span class="ib-badge">2</span></div>
+              <span class="ib-n" data-to="a3">Google review <em>· Alice</em></span>
+              <span class="ib-n" data-to="m2">Contact form <em>· Mike</em></span>
+            </div>
+            <div class="ib-mod">
+              <div class="ib-mh"><b>Marketing</b><span class="ib-badge">1</span></div>
+              <span class="ib-n" data-to="m3">Missed call <em>· Mike</em></span>
+            </div>
+            <div class="ib-mod">
+              <div class="ib-mh"><b>CRM</b></div>
+              <span class="ib-empty">customer history, opened separately every time</span>
+            </div>
           </div>
-          <p class="ba-note">The owner jumps between screens to serve one customer.</p>
+          <p class="ib-note">The owner jumps between screens to serve one customer.</p>
         </div>
-        <span class="ba-arrow" aria-hidden="true">→</span>
-        <div class="ba-col after">
-          <p class="ba-tag">After · 1 thread</p>
-          <div class="ba-thread">
-            <div class="ba-head"><span class="ba-av"></span><b>Alice Morris</b><span class="ba-src">Email · SMS · Facebook</span></div>
-            <div class="ba-card"><b>Booking request</b><span class="ba-st">Accepted</span><i>Calendar</i></div>
-            <div class="ba-card"><b>Estimate #14 → Invoice</b><span class="ba-st">Paid</span><i>Sales</i></div>
-            <div class="ba-ev">Just added payment $150 via Credit card</div>
-            <div class="ba-card"><b>Review request</b><span class="ba-st">Sent</span><i>Presence</i></div>
-            <div class="ba-ctx">Contact details · history next to the chat <i>CRM</i></div>
+        <div class="ib-col after">
+          <p class="ib-tag">After · Inbox<span class="ib-total">Show pending only · <b data-total>8</b></span></p>
+          <div class="ib-threads">
+            <div class="ib-thread">
+              <div class="ib-th"><span class="ib-av"></span><b>Alice Morris</b><span class="ib-cnt"><b>3</b> pending</span></div>
+              <div class="ib-cards">
+                <span class="ib-card" data-id="a1">Booking request <i>Calendar</i></span>
+                <span class="ib-card" data-id="a2">Payment $150 <i>Sales</i></span>
+                <span class="ib-card" data-id="a3">Google review <i>Presence</i></span>
+              </div>
+            </div>
+            <div class="ib-thread">
+              <div class="ib-th"><span class="ib-av"></span><b>Mike Sandler</b><span class="ib-cnt"><b>3</b> pending</span></div>
+              <div class="ib-cards">
+                <span class="ib-card" data-id="m1">Estimate request <i>Sales</i></span>
+                <span class="ib-card" data-id="m2">Contact form <i>Presence</i></span>
+                <span class="ib-card" data-id="m3">Missed call <i>Marketing</i></span>
+              </div>
+            </div>
+            <div class="ib-thread">
+              <div class="ib-th"><span class="ib-av"></span><b>Eleanor Pena</b><span class="ib-cnt"><b>2</b> pending</span></div>
+              <div class="ib-cards">
+                <span class="ib-card" data-id="e1">Class booking <i>Calendar</i></span>
+                <span class="ib-card" data-id="e2">Call me back <i>Calendar</i></span>
+              </div>
+            </div>
           </div>
+          <p class="ib-note">Customer history opens next to each thread, so CRM comes to the conversation.</p>
         </div>
-      </div>
+      </figure>
 
       <nav class="phase-rail" aria-label="Jump to decision">
         <span class="pr-track" aria-hidden="true"></span>
@@ -679,6 +693,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 })();
 </script>
 <script src="../lightbox.js" defer></script>
+<script src="inbox-scene.js" defer></script>
 <script src="../../shared/phase-steps.js" defer></script>
 <script src="../../shared/mobile-bar.js" defer></script>
 <script src="../../shared/mobile-nav.js" defer></script>
