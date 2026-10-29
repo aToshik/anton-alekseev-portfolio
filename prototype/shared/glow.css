@@ -3,7 +3,9 @@
 .gl { --g: color-mix(in srgb, var(--accent) calc(var(--glow, 0) * var(--gl-k, 1) * 100%), transparent);
   border-color: transparent !important; background-clip: padding-box; }
 .gl:is(.case-card, .tool-card, .role-card, .tiles, .phase, .pager a) { position: relative; } /* nav is fixed, sidebar sticky, .card already relative */
-.gl::before, .gl::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+/* the ring sits inside the transparent 1px border, on the padding box, so its radius is 1px smaller than the element's;
+   with the full radius the white panel peeked out at the corners as a second line */
+.gl::before, .gl::after { content: ""; position: absolute; inset: 0; border-radius: calc(var(--radius, 12px) - 1px); pointer-events: none; }
 .gl::before { padding: 1px;
   background: radial-gradient(var(--gl-l, 260px) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 70%),
     linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border)));
