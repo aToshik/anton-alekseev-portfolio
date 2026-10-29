@@ -1,0 +1,25 @@
+/* Light theme refinements, shared by every page (loaded after the page styles and glow.css).
+   --accent stays the fill colour (squares, icons, glow); --accent-ink is the readable text green. */
+:root { --accent-ink: var(--accent); }
+[data-theme="light"] { --accent-ink: #2f7a1c; } /* 5.4:1 on white, #4ea832 is only 3:1 */
+
+/* small green text: metrics, phase numbers, counters */
+[data-theme="light"] :is(.case-metric b, .cc-metric b, .cc-view, .chip.accent, .mz-chip.accent, .mz-tip b, .eyebrow .n,
+  .side-nav a.active .n, .side-count, .wh-count, .mchip, .ph-label .n, .pr-step.on .pr-num, .ss-step.on .ss-num,
+  .accent-block .ph-label em, .impact-note b, .itile.qual b, .loop-node.accent b, .loop-return span,
+  .xref:hover, .xref:focus-visible, .xref-tip .xt-metric b, .skill code, .po-chip.acc,
+  .mbar-idx, .mbar-list a.active .n, .mbar-list a.mbar-sub.active .n, .mnav-list a[aria-current] .n) { color: var(--accent-ink); }
+[data-theme="light"] :is(.mchip, .chip.accent, .mz-chip.accent) { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
+
+/* sections lift off the page with a faint shadow, not just a hairline */
+[data-theme="light"] :is(.card, .phase, .sidebar) { box-shadow: 0 1px 2px rgba(20,24,16,.05), 0 6px 18px -10px rgba(20,24,16,.08); }
+
+/* dark product shots sit in a thin dark frame, like a screen, instead of a raw black block */
+[data-theme="light"] { --shot-frame: #101310; }
+[data-theme="light"] [data-lightbox].has-img { padding: 6px; background: var(--shot-frame); border-color: var(--shot-frame);
+  box-shadow: 0 18px 40px -22px rgba(20,24,16,.45); }
+[data-theme="light"] [data-lightbox].has-img :is(img, video) { border-radius: 6px; }
+[data-theme="light"] .mock-shot { padding: 6px 6px 0; background: var(--shot-frame); border-color: var(--shot-frame); }
+[data-theme="light"] .mock-shot img { border-radius: 4px 4px 0 0; }
+[data-theme="light"] .cc-shot { background: var(--shot-frame); border-color: var(--shot-frame); }
+[data-theme="light"] .cc-shot img { inset: 6px 6px 0; width: calc(100% - 12px); height: calc(100% - 6px); border-radius: 4px 4px 0 0; }
