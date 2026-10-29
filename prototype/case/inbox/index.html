@@ -343,6 +343,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/glow.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="inbox-scene.css">
+<link rel="stylesheet" href="inbox-desk.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -488,12 +489,27 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Close the loop</span></a>
       </nav>
 
-      <article class="phase" id="phase-1">
+      <article class="phase wide" id="phase-1">
         <div>
-          <div class="ph-label"><span class="n">01</span> · One customer, one thread, every channel</div>
-          <p class="ph-text">Contacts on the left, the conversation on the right. Requests from any source land in the customer's thread with where they came from ("Sent from Women's Haircut page at 15:45"). The owner picks the reply channel in the composer: Email, SMS, Facebook or Google My Business. Reviews are answered as a reply in the thread, and answered or missed calls show up as events. "Show pending only" leaves just what still needs an answer.</p>
+          <div class="ph-label"><span class="n">01</span> · One customer, one thread, every door</div>
+          <p class="ph-text">A salon gets bookings, a contractor gets estimate requests, a shop gets orders, and all of them get forms, calls, reviews and messages. Every request lands in the customer's thread with its source ("Sent from Women's Haircut page at 15:45"). The owner replies in the same composer and picks the channel the customer wrote in: Email, SMS, WhatsApp or Messenger. "Show pending only" leaves just what still needs an answer.
+            <span class="rej">Rejected: an inbox per channel, like most messaging tools, and a queue of requests, like a ticket system. Both split one customer into pieces, and the owner lost the history again.</span>
+          </p>
         </div>
-        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Thread with requests from several channels<br>+ channel picker in the composer</span></div>
+        <figure class="ibd" aria-label="A small Inbox for three kinds of business. For a hair salon: a booking request, a Google review, a missed call and a WhatsApp message. For a lawn care company: an estimate request, a call-me-back request, an email and an SMS. For a running store: a new order, a contact form, a gift card purchase and a Facebook message. Each request lands in the contact list with its source, the newest opens in the thread, and the reply channel switches to the one the customer used.">
+          <div class="ibd-biz"><span>Business</span><button type="button" aria-pressed="true">Hair salon</button><button type="button" aria-pressed="false">Lawn care</button><button type="button" aria-pressed="false">Running store</button></div>
+          <div class="ibd-app" aria-hidden="true">
+            <div class="ibd-list">
+              <div class="ibd-lh"><b>Inbox</b><span class="ibd-pend">Pending <b>0</b></span></div>
+              <ul class="ibd-rows"></ul>
+            </div>
+            <div class="ibd-conv">
+              <div class="ibd-ch"><span class="ibd-av"></span><b>Inbox</b></div>
+              <div class="ibd-msgs"><span class="ibd-empty">Waiting for customers</span></div>
+              <div class="ibd-comp"><span class="ibd-chan"></span><span class="ibd-ph">Type your message</span><span class="ibd-send">Send</span><ul class="ibd-menu"></ul></div>
+            </div>
+          </div>
+        </figure>
       </article>
 
       <article class="phase" id="phase-2">
@@ -657,6 +673,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 </script>
 <script src="../lightbox.js" defer></script>
 <script src="inbox-scene.js" defer></script>
+<script src="inbox-desk.js" defer></script>
 <script src="../../shared/phase-steps.js" defer></script>
 <script src="../../shared/mobile-bar.js" defer></script>
 <script src="../../shared/mobile-nav.js" defer></script>
