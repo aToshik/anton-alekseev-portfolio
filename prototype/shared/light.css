@@ -23,3 +23,8 @@
 [data-theme="light"] .mock-shot img { border-radius: 4px 4px 0 0; }
 [data-theme="light"] .cc-shot { background: var(--shot-frame); border-color: var(--shot-frame); }
 [data-theme="light"] .cc-shot img { inset: 6px 6px 0; width: calc(100% - 12px); height: calc(100% - 6px); border-radius: 4px 4px 0 0; }
+
+/* glow in light: a clean green line only; the multiplied haze over the grey hover fill read as dirt */
+[data-theme="light"] .gl::after { display: none; }
+[data-theme="light"] :is(.case-card, .tool-card, .role-card, .cc, .tile, .pager a).gl:hover { background: var(--panel);
+  box-shadow: 0 12px 28px -18px rgba(20,24,16,.22); }
