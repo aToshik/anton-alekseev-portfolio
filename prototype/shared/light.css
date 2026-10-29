@@ -11,8 +11,8 @@
   .mbar-idx, .mbar-list a.active .n, .mbar-list a.mbar-sub.active .n, .mnav-list a[aria-current] .n) { color: var(--accent-ink); }
 [data-theme="light"] :is(.mchip, .chip.accent, .mz-chip.accent) { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
 
-/* sections lift off the page with a faint shadow, not just a hairline */
-[data-theme="light"] :is(.card, .phase, .sidebar) { box-shadow: 0 1px 2px rgba(20,24,16,.05), 0 6px 18px -10px rgba(20,24,16,.08); }
+/* the nav's big dark shadow fell on the white panels below it as a grey smudge: keep it short in light */
+[data-theme="light"] { --shadow: 0 1px 2px rgba(20,24,16,.06), 0 6px 16px -12px rgba(20,24,16,.14); }
 
 /* dark product shots sit in a thin dark frame, like a screen, instead of a raw black block */
 [data-theme="light"] { --shot-frame: #101310; }
@@ -24,7 +24,11 @@
 [data-theme="light"] .cc-shot { background: var(--shot-frame); border-color: var(--shot-frame); }
 [data-theme="light"] .cc-shot img { inset: 6px 6px 0; width: calc(100% - 12px); height: calc(100% - 6px); border-radius: 4px 4px 0 0; }
 
-/* glow in light: a clean green line only; the multiplied haze over the grey hover fill read as dirt */
+/* glow in light: a short, crisp green line only. The multiplied haze over the grey hover fill and the long
+   green-to-grey fade along the border read as dirt. */
 [data-theme="light"] .gl::after { display: none; }
-[data-theme="light"] :is(.case-card, .tool-card, .role-card, .cc, .tile, .pager a).gl:hover { background: var(--panel);
-  box-shadow: 0 12px 28px -18px rgba(20,24,16,.22); }
+[data-theme="light"] .gl { --gl-l: 180px; }
+[data-theme="light"] .gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 240px; }
+[data-theme="light"] .gl::before { background: radial-gradient(var(--gl-l) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 62%),
+  linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border))); }
+[data-theme="light"] :is(.case-card, .tool-card, .role-card, .cc, .tile, .pager a).gl:hover { background: var(--panel); }
