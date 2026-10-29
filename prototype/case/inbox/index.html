@@ -483,10 +483,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="phase-rail" aria-label="Jump to decision">
         <span class="pr-track" aria-hidden="true"></span>
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
-        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">One thread</span></a>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Every door</span></a>
         <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">One card</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Close the deal</span></a>
-        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Close the loop</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Estimate to payment</span></a>
+        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Share the business</span></a>
       </nav>
 
       <article class="phase wide" id="phase-1">
@@ -515,25 +515,31 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <article class="phase" id="phase-2">
         <div>
           <div class="ph-label"><span class="n">02</span> · One card for every request, with a lifecycle</div>
-          <p class="ph-text">Booking, class, estimate, invoice, form, email, call-me-back and review share one card: source, icon and title, a status, the key details (service, team member, time, price) and the next action in the footer. The card is a live object. A booking moves from <strong class="term">Pending</strong> to Accepted, Completed, No-show or Declined, and every change leaves a one-line event in the thread: rescheduled, reassigned, payment added. Clicking an event scrolls back to its card and highlights it.</p>
+          <p class="ph-text">Booking, class, estimate, invoice, order, form, call-me-back and review share one card: source, title, status, key details and the next action. The card is a live object. A booking moves from <strong class="term">Pending</strong> to Accepted, Completed, No-show or Declined in place, and every change leaves a one-line event in the thread: rescheduled, reassigned, paid. Clicking an event scrolls back to its card and highlights it. One anatomy also means the owner learns every request type once.
+            <span class="rej">Rejected: a new message for every status change. The thread filled up with copies of the same booking, so the card changes in place and short events keep the history.</span>
+          </p>
         </div>
-        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Card states: Pending → Accepted → Completed / No-show / Declined<br>+ collage of request types</span></div>
+        <div class="ph-visual" role="img" aria-label="Placeholder"><span>A booking card from Pending to Completed<br>with events in the thread (video coming)</span></div>
       </article>
 
       <article class="phase" id="phase-3">
         <div>
-          <div class="ph-label"><span class="n">03</span> · Close the deal from the chat</div>
-          <p class="ph-text">The card holds the quick decision: Accept or Decline right in the chat. Detailed changes, like a new time, another service or team member, happen where their context lives, in the Calendar. There the flow warns when the time overlaps another event or the team member doesn't provide the service, and tells the owner the customer will be notified. An estimate request becomes an estimate, then an invoice, then a partial or full payment, each as a card in the same thread. The composer shares a service, a coupon, media or a <strong class="term">saved reply</strong> with variables like {CustomerName}. Contact details (upcoming bookings, invoices due, classes, campaigns) open next to the chat, so the CRM comes to the conversation, not the other way around.</p>
+          <div class="ph-label"><span class="n">03</span> · From estimate to payment without leaving the chat</div>
+          <p class="ph-text">Kenneth asks for a lawn care quote through the site. The owner opens the estimate builder over the thread, with the request and contact already filled in, adds the service and sends it with a personal note. The estimate card follows the deal: Sent, Approved, <strong class="term">Invoiced</strong>. One click turns the approved estimate into an invoice, and the deposit and the final payment land as events in the same thread. Contact details open next to the chat, so the CRM comes to the conversation, not the other way around.
+            <span class="rej">Rejected: sending the owner to the Sales module, which broke the conversation, and a full builder inside a chat bubble, which was too heavy. The builder opens over the chat, and the estimate turns into the invoice, so nobody types the same items twice.</span>
+          </p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-title="Accept in the chat, adjust in the Calendar" data-lb-video="assets/booking-flow.mp4" data-lb-chapters="0 Booking request in the thread | 4.6 Details in the Calendar | 10.3 Back in the thread: accepted, then completed"><img src="assets/booking-flow.png" alt="Inbox thread with Stephanie Sharkey: a pending booking request card under a Google review. The owner opens the booking in the Calendar side panel, accepts it, gets an Appointment accepted snackbar, and back in the thread the card turns Accepted, then Completed with the invoice paid" width="1920" height="1080" loading="lazy"></button>
       </article>
 
       <article class="phase" id="phase-4">
         <div>
-          <div class="ph-label"><span class="n">04</span> · Close the loop</div>
-          <p class="ph-text">After the service, the same thread starts the next cycle. One saved reply asks for a Google or Facebook review. A lead that came from an ad gets a quick "relevant or not" mark right in the thread, and that feedback improves the campaign ("You marked Eleanor as an irrelevant lead, and improved your campaign"). The conversation that closed one deal also makes the next lead better.</p>
+          <div class="ph-label"><span class="n">04</span> · Answer with the business, not just words</div>
+          <p class="ph-text">Most questions are "how much", "when are you free" or "do you have it". The composer shares the business itself: a product or service page with its price, a coupon, a team member or a <strong class="term">saved reply</strong> with variables like {CustomerName}. Daniel asks on Facebook about running shoes in his size, the owner attaches the product page with a short note, and his order comes back to the same thread as a card.
+            <span class="rej">Rejected: a plain text answer with a price. It started another round of questions, while a shared product page is already a way to buy.</span>
+          </p>
         </div>
-        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Review request + ad lead feedback<br>in the thread</span></div>
+        <div class="ph-visual" role="img" aria-label="Placeholder"><span>Facebook question → product link<br>→ order in the thread (video coming)</span></div>
       </article>
     </section>
 
