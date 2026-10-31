@@ -289,11 +289,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-foot .go::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--bk); border-radius: 1px; transition: border-color .25s ease;
   -webkit-mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat; }
-.case-foot .go svg { width: 11px; height: 11px; transition: transform .3s ease; }
+.case-foot .go i { width: 4px; height: 4px; border-radius: 1px; background: var(--label); transition: width .3s ease, height .3s ease, background-color .25s ease; }
 .case-card:hover .case-foot, .case-card:focus-within .case-foot { color: var(--fg); }
-.case-card:hover .case-foot .go, .case-card:focus-within .case-foot .go { --bk: var(--accent); color: var(--fg); }
-.case-card:hover .case-foot .go svg, .case-card:focus-within .case-foot .go svg { transform: translate(1.5px, -1.5px); }
-@media (prefers-reduced-motion: reduce) { .case-foot, .case-foot .go::before, .case-foot .go svg { transition: none; } }
+.case-card:hover .case-foot .go, .case-card:focus-within .case-foot .go { --bk: var(--accent); }
+/* hover: the dot grows, turns green and breathes, like a live status */
+.case-card:hover .case-foot .go i, .case-card:focus-within .case-foot .go i { width: 8px; height: 8px; background: var(--accent); animation: goPulse 1.4s ease-in-out .3s infinite; }
+@keyframes goPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.55); opacity: .55; } }
+@media (prefers-reduced-motion: reduce) { .case-foot, .case-foot .go::before, .case-foot .go i { transition: none; animation: none !important; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
@@ -671,7 +673,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/channel-analysis/assets/card.webp" alt="" width="1200" height="677" loading="lazy" decoding="async">
           </div>
-          <div class="case-foot"><a class="case-link" href="../case/channel-analysis/" aria-label="Open Channel Analysis case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <div class="case-foot"><a class="case-link" href="../case/channel-analysis/" aria-label="Open Channel Analysis case">View case</a><span class="go" aria-hidden="true"><i></i></span></div>
         </article>
 
         <article class="case-card is-link" id="case-ds">
@@ -682,7 +684,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/design-system/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
           </div>
-          <div class="case-foot"><a class="case-link" href="../case/design-system/" aria-label="Open Design System for AI Agents case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <div class="case-foot"><a class="case-link" href="../case/design-system/" aria-label="Open Design System for AI Agents case">View case</a><span class="go" aria-hidden="true"><i></i></span></div>
         </article>
 
         <article class="case-card is-link" id="case-price">
@@ -693,7 +695,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/price-exploration/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
           </div>
-          <div class="case-foot"><a class="case-link" href="../case/price-exploration/" aria-label="Open Price Exploration case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <div class="case-foot"><a class="case-link" href="../case/price-exploration/" aria-label="Open Price Exploration case">View case</a><span class="go" aria-hidden="true"><i></i></span></div>
         </article>
 
         <article class="case-card is-link" id="case-cross">
@@ -704,7 +706,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/cross-campaign/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
           </div>
-          <div class="case-foot"><a class="case-link" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <div class="case-foot"><a class="case-link" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case">View case</a><span class="go" aria-hidden="true"><i></i></span></div>
         </article>
 
       </div>
