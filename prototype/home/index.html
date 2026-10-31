@@ -264,9 +264,11 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); }
 /* no overflow clip (hover brackets grow past the strip), so the outer tiles round their own corners */
 .tiles { --r: calc(var(--radius) - 1px); }
-.tile:first-child { border-radius: var(--r) 0 0 var(--r); } .tile:last-child { border-radius: 0 var(--r) var(--r) 0; }
-@media (max-width: 1000px) { .tile:first-child { border-radius: var(--r) 0 0 0; } .tile:nth-child(2) { border-radius: 0 var(--r) 0 0; } .tile:nth-child(3) { border-radius: 0 0 0 var(--r); } .tile:last-child { border-radius: 0 0 var(--r) 0; } }
-@media (max-width: 520px) { .tile:first-child { border-radius: var(--r) var(--r) 0 0; } .tile:nth-child(2), .tile:nth-child(3) { border-radius: 0; } .tile:last-child { border-radius: 0 0 var(--r) var(--r); } }
+/* which corners of a tile are outer corners of the strip (1) - used for the tile itself and for its hover brackets */
+.tile { --tl: 0; --tr: 0; --bl: 0; --bri: 0; border-radius: calc(var(--tl) * var(--r)) calc(var(--tr) * var(--r)) calc(var(--bri) * var(--r)) calc(var(--bl) * var(--r)); }
+.tile:first-child { --tl: 1; --bl: 1; } .tile:last-child { --tr: 1; --bri: 1; }
+@media (max-width: 1000px) { .tile:first-child { --tl: 1; --bl: 0; } .tile:nth-child(2) { --tr: 1; } .tile:nth-child(3) { --bl: 1; } .tile:last-child { --tr: 0; --bri: 1; } }
+@media (max-width: 520px) { .tile:first-child { --tl: 1; --tr: 1; --bl: 0; } .tile:nth-child(2) { --tr: 0; } .tile:nth-child(3) { --bl: 0; } .tile:last-child { --tr: 0; --bl: 1; --bri: 1; } }
 .tile { padding: clamp(18px,2vw,26px); border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; min-height: 164px; transition: background .25s; }
 .tile:first-child { border-left: 0; }
 .tile { background: var(--card); }
@@ -310,7 +312,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px); opacity: 0; inset: 6px; transition: opacity .2s ease, inset .35s cubic-bezier(.3,1.35,.5,1);
   -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
-.tile::before { border-radius: 0; }
+.tile::before { --o: calc(var(--radius) + 6px); border-radius: calc(var(--tl) * var(--o)) calc(var(--tr) * var(--o)) calc(var(--bri) * var(--o)) calc(var(--bl) * var(--o)); }
 :is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
 @media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .case-foot, .case-foot::before, .case-foot .go::before, .case-foot .go i { transition: none !important; } }
