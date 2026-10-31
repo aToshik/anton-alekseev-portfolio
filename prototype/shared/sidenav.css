@@ -1,0 +1,92 @@
+/* ============================================================
+   SIDE MENUS — one language for the Home / case section nav and
+   the Work filters. Three variants to compare, picked by
+   ?side=a|b|c (kept for the tab in sessionStorage):
+   A · Rail      — a thin track with square markers, filled up to
+                   the current section (same axis as the phase steps)
+   B · Brackets  — current item framed by green corner brackets
+   C · Index     — mono numbers 01…, current item outlined
+   Desktop only: at ≤1000px the sidebar is a chip row / mobile bar.
+   ============================================================ */
+@media (min-width: 1001px) {
+  html[data-side] { --sn-snap: cubic-bezier(.3,1.35,.5,1); }
+
+  /* ---- shared reset: no pill fills, no left bar ---- */
+  html[data-side] .side-nav a { border-radius: 4px; font-size: 12px; }
+  html[data-side] .side-nav a:hover,
+  html[data-side] .side-nav a.active { background: transparent; }
+  html[data-side] .side-nav > a.active { font-weight: 500; }
+  html[data-side] .side-nav > a::before { content: none; }
+  html[data-side] .side-nav > a.active::before { content: none; }
+
+  /* Work filters are toggles: a square checkbox shows the state */
+  html[data-side] .filter-btn { border-radius: 4px; border-color: transparent; }
+  html[data-side] .filter-btn:hover,
+  html[data-side] .filter-btn[aria-pressed="true"] { background: transparent; border-color: transparent; }
+  html[data-side] .filter-btn .fdot { opacity: 1; width: 8px; height: 8px; border-radius: 1px; background: transparent; box-shadow: inset 0 0 0 1px var(--border-2); transition: background .25s var(--sn-snap), box-shadow .25s; }
+  html[data-side] .filter-btn:hover .fdot { box-shadow: inset 0 0 0 1px var(--muted); }
+  html[data-side] .filter-btn[aria-pressed="true"] .fdot { background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  html[data-side] .filter-btn.all .fdot { display: none; }
+
+  /* ============ A · RAIL ============ */
+  html[data-side="a"] .side-nav { position: relative; --fill: 0px; }
+  html[data-side="a"] .side-nav::before,
+  html[data-side="a"] .side-nav::after {
+    content: ''; position: absolute; left: 18.5px; width: 1px; top: 18px; pointer-events: none;
+  }
+  html[data-side="a"] .side-nav::before { bottom: 18px; background: var(--border); }
+  html[data-side="a"] .side-nav::after { height: var(--fill); background: var(--accent); transition: height .35s var(--sn-snap); }
+  html[data-side="a"] .side-nav > a { padding-left: 34px; }
+  html[data-side="a"] .side-nav > a::before {
+    content: ''; position: absolute; left: 15px; top: 50%; width: 8px; height: 8px; margin-top: -4px;
+    border-radius: 1px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--border-2); z-index: 1;
+    transition: background .3s var(--sn-snap), box-shadow .3s, transform .3s var(--sn-snap);
+  }
+  html[data-side="a"] .side-nav > a:hover::before { box-shadow: inset 0 0 0 1px var(--muted); }
+  html[data-side="a"] .side-nav > a.past::before { background: var(--panel); box-shadow: inset 0 0 0 1px var(--accent); }
+  html[data-side="a"] .side-nav > a.active::before { content: ''; background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); transform: scale(1.25); }
+  /* phase steps sit on the same axis */
+  html[data-side="a"] .ss-track, html[data-side="a"] .ss-fill { display: none; }
+  html[data-side="a"] .side-sub .ss-step { padding-left: 34px; margin-left: -14px; }
+  html[data-side="a"] .side-sub .ss-step:hover { background: transparent; }
+  html[data-side="a"] .ss-dot { left: 16px; top: 10px; width: 6px; height: 6px; border: 0; box-shadow: inset 0 0 0 1px var(--border-2); background: var(--panel); }
+  html[data-side="a"] .ss-step.on .ss-dot { background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  /* Work filters: the checkbox is the marker, no rail */
+  html[data-side="a"] .filter-btn:hover,
+  html[data-side="a"] .filter-btn[aria-pressed="true"] { color: var(--fg); }
+
+  /* ============ B · BRACKETS ============ */
+  html[data-side="b"] .side-nav > a::after,
+  html[data-side="b"] .filter-btn::after {
+    content: ''; position: absolute; inset: 4px; pointer-events: none;
+    border: 1px solid var(--border-2); border-radius: 4px; opacity: 0;
+    -webkit-mask: conic-gradient(at 7px 7px, #0000 75%, #000 0) 0 0 / calc(100% - 7px) calc(100% - 7px);
+            mask: conic-gradient(at 7px 7px, #0000 75%, #000 0) 0 0 / calc(100% - 7px) calc(100% - 7px);
+    transition: opacity .35s var(--sn-snap), inset .35s var(--sn-snap), border-color .35s;
+  }
+  html[data-side="b"] .filter-btn { position: relative; }
+  html[data-side="b"] .side-nav > a:hover::after,
+  html[data-side="b"] .filter-btn:hover::after { opacity: 1; inset: 0; }
+  html[data-side="b"] .side-nav > a.active::after,
+  html[data-side="b"] .filter-btn[aria-pressed="true"]::after { opacity: 1; inset: 0; border-color: var(--accent); }
+  html[data-side="b"] .side-sub .ss-step:hover { background: transparent; }
+
+  /* ============ C · INDEX ============ */
+  html[data-side="c"] .side-nav { counter-reset: sn; }
+  html[data-side="c"] .side-nav > a { counter-increment: sn; border: 1px solid transparent; transition: color .2s, border-color .25s; }
+  html[data-side="c"] .side-nav > a::before {
+    content: counter(sn, decimal-leading-zero); position: static; width: auto; height: auto; transform: none; background: none;
+    font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--label); margin-right: 10px; transition: color .2s;
+  }
+  html[data-side="c"] .side-nav > a.active::before { content: counter(sn, decimal-leading-zero); color: var(--accent-ink, var(--accent)); }
+  html[data-side="c"] .side-nav > a:hover { border-color: var(--border); }
+  html[data-side="c"] .side-nav > a.active { border-color: var(--border-2); }
+  html[data-side="c"] .side-nav > a .ico { display: none; }
+  html[data-side="c"] .filter-btn { border: 1px solid transparent; }
+  html[data-side="c"] .filter-btn:hover { border-color: var(--border); }
+  html[data-side="c"] .filter-btn[aria-pressed="true"] { border-color: var(--border-2); }
+  html[data-side="c"] .side-sub .ss-step:hover { background: transparent; color: var(--fg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-side] .side-nav::after, html[data-side] .side-nav > a::before, html[data-side] .side-nav > a::after, html[data-side] .filter-btn::after { transition: none; }
+}
