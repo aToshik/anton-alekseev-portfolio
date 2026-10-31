@@ -27,6 +27,15 @@
 /* glow in light: a short, crisp green line only. The multiplied haze over the grey hover fill and the long
    green-to-grey fade along the border read as dirt. */
 [data-theme="light"] .gl::after { display: none; }
+/* variant C: the light spills outside, onto the darker page, where green reads as light rather than a stain.
+   The halo sits behind the element (z-index -1) and is masked off its box, so the card itself stays clean white.
+   Inside white sections (.card) and clipped boxes (sidebar, tiles) there is nowhere for it to fall: line only. */
+[data-theme="light"] .gl:not(.card, .tiles, .sidebar)::after { display: block; inset: -18px; padding: 18px; border-radius: 30px;
+  box-shadow: none; mix-blend-mode: normal; z-index: -1; opacity: calc(var(--glow, 0) * var(--gl-k, 1));
+  background: radial-gradient(190px circle at calc(var(--mx, -999px) + 18px) calc(var(--my, -999px) + 18px), rgba(120,205,90,.55), transparent 70%);
+  filter: blur(8px);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
 [data-theme="light"] .gl { --gl-l: 180px; }
 [data-theme="light"] .gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 240px; }
 [data-theme="light"] .gl::before { background: radial-gradient(var(--gl-l) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 62%),
