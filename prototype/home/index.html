@@ -291,12 +291,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-link::after { content: ''; position: absolute; inset: 0; z-index: 3; border-radius: var(--radius); }
 .case-link:focus-visible { outline: none; }
 .case-card:has(.case-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
-/* target in the card head: drawn with backgrounds (not a positioned pseudo) so the link's ::after can still cover the whole card */
-.case-card .go { margin-left: auto; --bk: var(--border-2); display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: none;
-  background: linear-gradient(var(--bk), var(--bk)) 0 0/5px 1px no-repeat, linear-gradient(var(--bk), var(--bk)) 0 0/1px 5px no-repeat, linear-gradient(var(--bk), var(--bk)) 100% 0/5px 1px no-repeat, linear-gradient(var(--bk), var(--bk)) 100% 0/1px 5px no-repeat, linear-gradient(var(--bk), var(--bk)) 0 100%/5px 1px no-repeat, linear-gradient(var(--bk), var(--bk)) 0 100%/1px 5px no-repeat, linear-gradient(var(--bk), var(--bk)) 100% 100%/5px 1px no-repeat, linear-gradient(var(--bk), var(--bk)) 100% 100%/1px 5px no-repeat; transition: --bk .35s var(--snap); }
-.case-card .go i { width: 4px; height: 4px; border-radius: 1px; background: var(--label); transition: width .35s var(--snap), height .35s var(--snap), background-color .35s var(--snap); }
-.case-card:hover .go, .case-card:focus-within .go { --bk: var(--accent); }
-.case-card:hover .go i, .case-card:focus-within .go i { width: 8px; height: 8px; background: var(--accent); }
 /* hover = corner brackets grow out of the card past its edge (same language as orbit objects and the "+" buttons), instead of edge glow */
 :root { --snap: cubic-bezier(.3,1.35,.5,1); } /* one timing for the card brackets and the target, so they land together */
 @property --bk { syntax: '<color>'; inherits: true; initial-value: transparent; }
@@ -313,7 +307,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 @media (max-width: 1000px) { .tile:first-child::before, .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; } }
 :is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
 @media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
-@media (prefers-reduced-motion: reduce) { .case-card .go, .case-card .go i { transition: none !important; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
@@ -687,7 +680,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         <article class="case-card is-link" id="case-channel">
           <div class="case-head"><span class="chip">Data Viz</span><span class="chip">AI</span>
           
-            <a class="case-link go" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"><i></i></a>
+            <a class="case-link" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"></a>
           </div>
           <div class="case-title"><p class="case-name">Channel Analysis</p><h3 class="case-hook">How I turned silent channel decay into a one-click decision</h3></div>
           <div class="case-metric"><b>Weeks → Hours</b><span>detection time</span></div>
@@ -699,7 +692,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         <article class="case-card is-link" id="case-ds">
           <div class="case-head"><span class="chip">Design System</span><span class="chip">AI</span>
           
-            <a class="case-link go" href="../case/design-system/" aria-label="Open Design System for AI Agents case"><i></i></a>
+            <a class="case-link" href="../case/design-system/" aria-label="Open Design System for AI Agents case"></a>
           </div>
           <div class="case-title"><p class="case-name">Design System for AI Agents</p><h3 class="case-hook">How I made a design system AI agents can build from</h3></div>
           <div class="case-metric"><b>15 → 2</b><span>design questions per feature</span></div>
@@ -711,7 +704,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         <article class="case-card is-link" id="case-price">
           <div class="case-head"><span class="chip">Optimization</span><span class="chip">AI</span>
           
-            <a class="case-link go" href="../case/price-exploration/" aria-label="Open Price Exploration case"><i></i></a>
+            <a class="case-link" href="../case/price-exploration/" aria-label="Open Price Exploration case"></a>
           </div>
           <div class="case-title"><p class="case-name">Price Exploration</p><h3 class="case-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h3></div>
           <div class="case-metric"><b>$8M → $30M+</b><span>monthly media investment</span></div>
@@ -723,7 +716,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         <article class="case-card is-link" id="case-cross">
           <div class="case-head"><span class="chip">Workflow</span><span class="chip">Infra</span>
           
-            <a class="case-link go" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case"><i></i></a>
+            <a class="case-link" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case"></a>
           </div>
           <div class="case-title"><p class="case-name">Cross-Campaign Management</p><h3 class="case-hook">How I let buyers edit thousands of campaigns as one</h3></div>
           <div class="case-metric"><b>Hours → Min</b><span>bulk updates</span></div>
