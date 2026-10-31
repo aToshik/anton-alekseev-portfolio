@@ -278,11 +278,22 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-card:hover { background: var(--card-h); border-color: var(--border-2); }
 .case-head { display: flex; align-items: center; gap: 8px; }
 .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; }
-.case-arrow { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background .2s, color .2s; }
-.case-card:hover .case-arrow { background: var(--accent); color: #0b140a; border-color: var(--accent); }
-.case-arrow svg { width: 14px; height: 14px; }
 .case-card.is-link { position: relative; cursor: pointer; }
-.case-card.is-link .case-arrow::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+/* CTA: same footer as Tools / Journey cards, square bracket control instead of the round filled button */
+.case-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); transition: color .25s ease; }
+.case-link { color: inherit; text-decoration: none; }
+.case-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+.case-link:focus-visible { outline: none; }
+.case-card:has(.case-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.case-foot .go { --bk: var(--border-2); position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; color: var(--label); }
+.case-foot .go::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--bk); border-radius: 1px; transition: border-color .25s ease;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat; }
+.case-foot .go svg { width: 11px; height: 11px; transition: transform .3s ease; }
+.case-card:hover .case-foot, .case-card:focus-within .case-foot { color: var(--fg); }
+.case-card:hover .case-foot .go, .case-card:focus-within .case-foot .go { --bk: var(--accent); color: var(--fg); }
+.case-card:hover .case-foot .go svg, .case-card:focus-within .case-foot .go svg { transform: translate(1.5px, -1.5px); }
+@media (prefers-reduced-motion: reduce) { .case-foot, .case-foot .go::before, .case-foot .go svg { transition: none; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
@@ -654,46 +665,46 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
         <article class="case-card is-link" id="case-channel">
           <div class="case-head"><span class="chip">Data Viz</span><span class="chip">AI</span>
-            <a class="case-arrow" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
           </div>
           <div class="case-title"><p class="case-name">Channel Analysis</p><h3 class="case-hook">How I turned silent channel decay into a one-click decision</h3></div>
           <div class="case-metric"><b>Weeks → Hours</b><span>detection time</span></div>
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/channel-analysis/assets/card.webp" alt="" width="1200" height="677" loading="lazy" decoding="async">
           </div>
+          <div class="case-foot"><a class="case-link" href="../case/channel-analysis/" aria-label="Open Channel Analysis case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
         </article>
 
         <article class="case-card is-link" id="case-ds">
           <div class="case-head"><span class="chip">Design System</span><span class="chip">AI</span>
-            <a class="case-arrow" href="../case/design-system/" aria-label="Open Design System for AI Agents case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
           </div>
           <div class="case-title"><p class="case-name">Design System for AI Agents</p><h3 class="case-hook">How I made a design system AI agents can build from</h3></div>
           <div class="case-metric"><b>15 → 2</b><span>design questions per feature</span></div>
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/design-system/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
           </div>
+          <div class="case-foot"><a class="case-link" href="../case/design-system/" aria-label="Open Design System for AI Agents case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
         </article>
 
         <article class="case-card is-link" id="case-price">
           <div class="case-head"><span class="chip">Optimization</span><span class="chip">AI</span>
-            <a class="case-arrow" href="../case/price-exploration/" aria-label="Open Price Exploration case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
           </div>
           <div class="case-title"><p class="case-name">Price Exploration</p><h3 class="case-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h3></div>
           <div class="case-metric"><b>$8M → $30M+</b><span>monthly media investment</span></div>
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/price-exploration/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
           </div>
+          <div class="case-foot"><a class="case-link" href="../case/price-exploration/" aria-label="Open Price Exploration case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
         </article>
 
         <article class="case-card is-link" id="case-cross">
           <div class="case-head"><span class="chip">Workflow</span><span class="chip">Infra</span>
-            <a class="case-arrow" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
           </div>
           <div class="case-title"><p class="case-name">Cross-Campaign Management</p><h3 class="case-hook">How I let buyers edit thousands of campaigns as one</h3></div>
           <div class="case-metric"><b>Hours → Min</b><span>bulk updates</span></div>
           <div class="mock mock-shot" aria-hidden="true">
             <img src="../case/cross-campaign/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
           </div>
+          <div class="case-foot"><a class="case-link" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case">View case</a><span class="go" aria-hidden="true"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
         </article>
 
       </div>
