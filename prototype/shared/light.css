@@ -33,4 +33,4 @@
 [data-theme="light"] .gl:is(.card, .phase, .nav, .sidebar) { --gl-l: 240px; }
 [data-theme="light"] .gl::before { background: radial-gradient(var(--gl-l) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 62%),
   linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border))); }
-[data-theme="light"] :is(.case-card, .tool-card, .role-card, .cc, .tile, .pager a).gl:hover { background-color: var(--panel); }
+[data-theme="light"] :is(.case-card, .tool-card, .role-card, .cc, .tile, .pager a).gl:hover { background-color: var(--card-h, var(--panel)); }
