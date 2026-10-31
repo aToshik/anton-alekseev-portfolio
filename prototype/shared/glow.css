@@ -1,11 +1,14 @@
 /* Glowing border: the grey border itself turns green near the cursor, with a soft haze inside.
    glow.js adds .gl and keeps --mx / --my / --glow up to date (the orbit hero sets them itself). */
 .gl { --g: color-mix(in srgb, var(--accent) calc(var(--glow, 0) * var(--gl-k, 1) * 100%), transparent);
-  border-color: transparent !important; background-clip: padding-box; }
+  border-color: transparent !important; background-clip: padding-box !important; } /* hover rules use the background shorthand, which would reset the clip and paint a second line under the border */
 .gl:is(.case-card, .tool-card, .role-card, .tiles, .phase, .pager a) { position: relative; } /* nav is fixed, sidebar sticky, .card already relative */
 /* the ring sits inside the transparent 1px border, on the padding box, so its radius is 1px smaller than the element's;
    with the full radius the white panel peeked out at the corners as a second line */
 .gl::before, .gl::after { content: ""; position: absolute; inset: 0; border-radius: calc(var(--radius, 12px) - 1px); pointer-events: none; }
+/* elements that don't clip their overflow draw the ring right over the border, so it meets an outer shadow
+   with no 1px page-coloured gap (that gap read as a second line under the nav) */
+.gl:not(.card, .tiles, .sidebar)::before, .gl:not(.card, .tiles, .sidebar)::after { inset: -1px; border-radius: inherit; }
 .gl::before { padding: 1px;
   background: radial-gradient(var(--gl-l, 260px) circle at var(--mx, -999px) var(--my, -999px), var(--g), transparent 70%),
     linear-gradient(var(--gl-base, var(--border)), var(--gl-base, var(--border)));
