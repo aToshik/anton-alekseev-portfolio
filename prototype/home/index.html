@@ -313,6 +313,11 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
 .tile::before { --o: calc(var(--radius) + 6px); border-radius: calc(var(--tl) * var(--o)) calc(var(--tr) * var(--o)) calc(var(--bri) * var(--o)) calc(var(--bl) * var(--o)); }
+/* Impact strip: outer tiles show only their outer corners, middle tiles a short bar at the top and bottom centre */
+.tile::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; }
+.tile:first-child::before { -webkit-mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; }
+.tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; }
+@media (max-width: 1000px) { .tile:first-child::before, .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; } }
 :is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
 @media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .case-foot, .case-foot::before, .case-foot .go::before, .case-foot .go i { transition: none !important; } }
