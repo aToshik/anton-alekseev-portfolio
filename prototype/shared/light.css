@@ -10,7 +10,7 @@
   .xref:hover, .xref:focus-visible, .xref-tip .xt-metric b, .skill code, .po-chip.acc,
   .mbar-idx, .mbar-list a.active .n, .mbar-list a.mbar-sub.active .n, .mnav-list a[aria-current] .n,
   .ds-lane-label i, .ds-mdv-b td.y, .ds-n .sub em, .ds-ret, .light.green .verb, .lb-chap.on .lb-chap-label b, .lb-title .n,
-  .tile:hover .ti-case::after, .tile:focus-visible .ti-case::after) { color: var(--accent-ink); }
+  .tile:hover .ti-case::after, .tile:focus-visible .ti-case::after, .ib-col.after .ib-tag, .ib-col.after .ib-total b, .ib-th .ib-cnt b) { color: var(--accent-ink); }
 [data-theme="light"] :is(.mchip, .chip.accent, .mz-chip.accent) { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
 
 /* the nav's big dark shadow fell on the white panels below it as a grey smudge: keep it short in light */
