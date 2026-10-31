@@ -287,9 +287,11 @@ function frame(now){
   const stateOf=o=>!selObj?0:o===selObj?1:!showRel?0:selObj.rel.includes(o.id)?2:-1;
 
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
-  // faint grid crosses
-  ctx.strokeStyle=P.fg; ctx.lineWidth=1; ctx.globalAlpha=.08; ctx.beginPath();
-  for(let gx=W*.12;gx<W;gx+=W*.125) for(let gy=H*.16;gy<H;gy+=H*.17){ ctx.moveTo(gx-3,gy); ctx.lineTo(gx+3,gy); ctx.moveTo(gx,gy-3); ctx.lineTo(gx,gy+3); } ctx.stroke();
+  // depth grid: the same faint crosses repeated in shrinking layers toward the planet, like a corridor going back forever
+  { const vx=W*(+hero.dataset.cx||.5), vy=H*(+hero.dataset.cy||.38); ctx.strokeStyle=P.fg; ctx.lineWidth=1;
+    for(const z of [1,1.7,2.9,5,8.6]){ const s=1/z; ctx.globalAlpha=.085*Math.pow(s,.6); ctx.beginPath(); const a=3*Math.max(s,.45);
+      for(let gx=W*.12;gx<W;gx+=W*.125) for(let gy=H*.16;gy<H;gy+=H*.17){ const x=vx+(gx-vx)*s, y=vy+(gy-vy)*s; ctx.moveTo(x-a,y); ctx.lineTo(x+a,y); ctx.moveTo(x,y-a); ctx.lineTo(x,y+a); }
+      ctx.stroke(); } }
 
   const focus=sel>=0?-1:hover>=0?OBJ[hover].o:hoverRing;
   ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus)));
