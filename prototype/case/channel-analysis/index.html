@@ -10,7 +10,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://antonalekseev.design/work/channel-analysis">
 <meta property="og:image" content="../../home/assets/og-image.png">
-<meta name="theme-color" content="#0a0b0a">
+<meta name="theme-color" content="#0e100e">
 
 <script>
 (function () {
@@ -30,7 +30,7 @@
    TOKENS — shared with the home prototype (dark + light)
    ============================================================ */
 :root, [data-theme="dark"] {
-  --bg: #0a0b0a; --panel: #141714; --panel-2: #191c19;
+  --bg: #0e100e; --panel: #141714; --panel-2: #191c19;
   --fg: #f0f2ea; --muted: #a0a59b; --label: #8e948a;
   --border: #292d29; --border-2: #353934;
   --accent: #83de72; --accent-weak: rgba(131,222,114,.14); --lime: #b8f24a;
@@ -516,7 +516,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     var lbl = document.querySelector('.side-theme .lbl-dark'); if (lbl) lbl.textContent = t==='light'?'Dark mode':'Light mode';
     if (announce && live) live.textContent = (t==='light'?'Light':'Dark') + ' theme';
   }
-  function setTheme(t, announce){ root.setAttribute('data-theme', t); try { localStorage.setItem('pf-theme', t); } catch(e){} var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', t==='light'?'#e9eae2':'#0a0b0a'); syncTheme(t, announce); }
+  function setTheme(t, announce){ root.setAttribute('data-theme', t); try { localStorage.setItem('pf-theme', t); } catch(e){} var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', t==='light'?'#e7e9e0':'#0e100e'); syncTheme(t, announce); }
   function toggleTheme(){ setTheme(root.getAttribute('data-theme')==='light'?'dark':'light', true); }
   toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
   syncTheme(root.getAttribute('data-theme'), false);

@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="assets/og-image.png">
-<meta name="theme-color" content="#0a0b0a">
+<meta name="theme-color" content="#0e100e">
 
 <script>
 (function () {
@@ -38,7 +38,7 @@
    v2 TOKENS — dark default, light override
    ============================================================ */
 :root, [data-theme="dark"] {
-  --bg:        #0a0b0a;
+  --bg:        #0e100e;
   --panel:     #141714;
   --panel-2:   #191c19;   /* nested / hover */
   --card:      #191c19;   /* interactive cards inside sections */
@@ -908,7 +908,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   function setTheme(t, announce){
     root.setAttribute('data-theme', t);
     try { localStorage.setItem('pf-theme', t); } catch(e){}
-    document.querySelector('meta[name=theme-color]').setAttribute('content', t==='light' ? '#e9eae2' : '#0a0b0a');
+    document.querySelector('meta[name=theme-color]').setAttribute('content', t==='light' ? '#e7e9e0' : '#0e100e');
     sync(t, announce);
   }
   function toggle(){ setTheme(root.getAttribute('data-theme')==='light'?'dark':'light', true); }
