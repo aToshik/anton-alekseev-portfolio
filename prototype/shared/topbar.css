@@ -4,6 +4,6 @@
    - the bar is a little wider than the layout under it (16px each side; never closer than 4px to the window edge), so it reads as the frame's top. */
 @media (min-width: 761px) {
   body::before { content: ''; position: fixed; left: 0; right: 0; top: 0; height: calc(14px + var(--nav-h) / 2); background: var(--bg); z-index: 599; pointer-events: none; }
-  body .nav { width: min(calc(var(--maxw) + 24px), calc(100vw - 2 * var(--edge) + 24px)); }
+  body .nav { width: min(calc(var(--maxw) + 32px), calc(100vw - 2 * var(--edge) + 32px), calc(100vw - 8px)); }
 }
 @media (min-width: 761px) and (max-width: 1000px) { body .nav { width: calc(100vw - 2 * var(--edge) + 8px); } }
