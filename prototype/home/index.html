@@ -41,6 +41,8 @@
   --bg:        #0a0b0a;
   --panel:     #141714;
   --panel-2:   #191c19;   /* nested / hover */
+  --card:      #191c19;   /* interactive cards inside sections */
+  --card-h:    #1f231f;
   --fg:        #f0f2ea;
   --muted:     #a0a59b;
   --label:     #8e948a;
@@ -58,6 +60,8 @@
   --bg:        #e7e9e0;
   --panel:     #ffffff;
   --panel-2:   #f4f5ef;
+  --card:      #f4f5ef;
+  --card-h:    #ffffff;
   --fg:        #14160f;
   --muted:     #5c6156;
   --label:     #6f7568;
@@ -260,7 +264,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .tile { padding: clamp(18px,2vw,26px); border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; min-height: 164px; transition: background .25s; }
 .tile:first-child { border-left: 0; }
-.tile:hover { background: var(--panel-2); }
+.tile { background: var(--card); }
+.tile:hover { background: var(--card-h); }
 .tile .ti-n { font-family: var(--mono); font-size: 10px; color: var(--label); }
 .tile .ti-metric { font-family: var(--display); font-weight: 500; font-size: clamp(20px,2.1vw,27px); letter-spacing: -.03em; margin-top: auto; }
 .tile .ti-sub { font-size: 12px; color: var(--muted); }
@@ -269,7 +274,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* ---- SELECTED WORK ---- */
 .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .case-card { border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(20px,2.2vw,28px); display: flex; flex-direction: column; gap: 18px; transition: background .25s, border-color .25s; }
-.case-card:hover { background: var(--panel-2); border-color: var(--border-2); }
+.case-card { background: var(--card); }
+.case-card:hover { background: var(--card-h); border-color: var(--border-2); }
 .case-head { display: flex; align-items: center; gap: 8px; }
 .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; }
 .case-arrow { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background .2s, color .2s; }
@@ -317,7 +323,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* ---- AI tools ---- */
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
 .tool-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
-.tool-card:hover { background: var(--panel-2); border-color: var(--border-2); transform: translateY(-3px); box-shadow: var(--shadow); }
+.tool-card { background: var(--card); }
+.tool-card:hover { background: var(--card-h); border-color: var(--border-2); transform: translateY(-3px); box-shadow: var(--shadow); }
 .tool-mk { width: 38px; height: 38px; border-radius: 9px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--fg); transition: border-color .25s, color .25s; }
 .tool-card:hover .tool-mk { border-color: var(--border-2); }
 .tool-mk svg { width: 19px; height: 19px; display: block; }
@@ -339,7 +346,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* Mobile timeline: vertical line on the left, one square per card (hidden on desktop, where .timeline runs on top) */
 .rl-mark { display: none; }
 .role-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; min-height: 316px; display: flex; flex-direction: column; gap: 14px; outline-offset: 2px; transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease; }
-.role-card:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-3px); box-shadow: var(--shadow); }
+.role-card { background: var(--card); }
+.role-card:hover { border-color: var(--border-2); background: var(--card-h); transform: translateY(-3px); box-shadow: var(--shadow); }
 /* Shared reveal-card footer affordance (tool cards + journey cards) */
 .reveal-foot .plus { --bk: var(--border-2); position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; font-size: 12px; line-height: 1;
   transition: color .25s ease; }
