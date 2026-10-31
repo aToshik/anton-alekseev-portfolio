@@ -299,15 +299,16 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-foot .go::before { transition-delay: 0s; }
 .case-card:hover .case-foot .go::before, .case-card:focus-within .case-foot .go::before { transition-delay: .3s; }
 .case-card:hover .case-foot .go i, .case-card:focus-within .case-foot .go i { width: 8px; height: 8px; background: var(--accent); transition-delay: .35s; }
-/* hover = corner brackets snap onto the card (same language as orbit objects and the "+" buttons), instead of edge glow */
+/* hover = corner brackets grow out of the card past its edge (same language as orbit objects and the "+" buttons), instead of edge glow */
 .case-card, .tool-card, .role-card, .tile { position: relative; }
 :is(.case-card, .tool-card, .role-card, .tile)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
-  border: 1px solid var(--accent); border-radius: var(--radius); opacity: 0; transform: scale(1.025); transition: opacity .2s ease, transform .3s cubic-bezier(.3,1.4,.5,1);
+  border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px); opacity: 0; inset: 6px; transition: opacity .2s ease, inset .35s cubic-bezier(.3,1.35,.5,1);
   -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
-.tile::before { inset: 0; border-radius: 0; }
-:is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; transform: none; } }
+.tile::before { inset: 10px; border-radius: 0; }
+:is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
+.tile:is(:hover, :focus-within)::before { inset: 0; } /* the tiles strip clips its children, so here the brackets stop at the edge */
+@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .case-foot, .case-foot::before, .case-foot .go::before, .case-foot .go i { transition: none !important; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
