@@ -165,6 +165,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .role-note { margin-top: 28px; display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding-top: 24px; border-top: 1px solid var(--border); }
 .role-note p { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 60ch; }
 
+.ph-text .rej { display: block; margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--label); }
 /* phase rail */
 .phase-rail { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); margin: 26px 0 22px; }
 .pr-track, .pr-fill { position: absolute; top: 6px; height: 2px; }
@@ -343,7 +344,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/glow.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="inbox-scene.css">
-<link rel="stylesheet" href="inbox-desk.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -489,27 +489,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Reply tools</span></a>
       </nav>
 
-      <article class="phase wide" id="phase-1">
+      <article class="phase" id="phase-1">
         <div>
           <div class="ph-label"><span class="n">01</span> · Every business, its own kind of request</div>
           <p class="ph-text">A salon lives on bookings, a lawn care company on estimates and invoices, a store on orders, a law firm on call-backs, a yoga studio on booked classes and a designer on contact forms. Inbox does not turn all of them into plain messages. Each request lands in the customer's thread as a card made for it, with its source ("Sent from Balayage page at 18:12"), the details the owner needs and the action that moves it forward: Accept, Create estimate, Update status, Call back. The list shows the request type under the name, with a badge until it is handled.
             <span class="rej">Rejected: an inbox per channel, like most messaging tools, and one generic "new message" for every request. Both hid what the customer actually wanted, so the owner had to open each one to find out.</span>
           </p>
         </div>
-        <figure class="ibd" aria-label="A small Inbox for three kinds of business. For a hair salon: a booking request, a Google review, a missed call and a WhatsApp message. For a lawn care company: an estimate request, a call-me-back request, an email and an SMS. For a running store: a new order, a contact form, a gift card purchase and a Facebook message. Each request lands in the contact list with its source, the newest opens in the thread, and the reply channel switches to the one the customer used.">
-          <div class="ibd-biz"><span>Business</span><button type="button" aria-pressed="true">Hair salon</button><button type="button" aria-pressed="false">Lawn care</button><button type="button" aria-pressed="false">Running store</button></div>
-          <div class="ibd-app" aria-hidden="true">
-            <div class="ibd-list">
-              <div class="ibd-lh"><b>Inbox</b><span class="ibd-pend">Pending <b>0</b></span></div>
-              <ul class="ibd-rows"></ul>
-            </div>
-            <div class="ibd-conv">
-              <div class="ibd-ch"><span class="ibd-av"></span><b>Inbox</b></div>
-              <div class="ibd-msgs"><span class="ibd-empty">Waiting for customers</span></div>
-              <div class="ibd-comp"><span class="ibd-chan"></span><span class="ibd-ph">Type your message</span><span class="ibd-send">Send</span><ul class="ibd-menu"></ul></div>
-            </div>
-          </div>
-        </figure>
+        <button type="button" class="ph-visual has-img" data-lightbox data-lb-title="Every business, its own kind of request" data-lb-video="assets/businesses.mp4" data-lb-chapters="0 Salon | 3 Lawn care | 6 Store | 9 Law firm | 12 Yoga | 15 Design"><img src="assets/businesses.png" alt="A schematic Inbox for six businesses. A beauty salon gets a booking request, a lawn care company an estimate request, a running store a new order, a law firm a call-me-back request, a yoga studio a booked session and an interior designer a contact form. Each one lands in the list with its type and opens as its own card with the details and the next action" width="1920" height="1080" loading="lazy"></button>
       </article>
 
       <article class="phase" id="phase-2">
@@ -679,7 +666,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 </script>
 <script src="../lightbox.js" defer></script>
 <script src="inbox-scene.js" defer></script>
-<script src="inbox-desk.js" defer></script>
 <script src="../../shared/phase-steps.js" defer></script>
 <script src="../../shared/mobile-bar.js" defer></script>
 <script src="../../shared/mobile-nav.js" defer></script>
