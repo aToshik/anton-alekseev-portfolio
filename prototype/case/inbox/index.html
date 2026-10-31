@@ -10,7 +10,7 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://antonalekseev.design/work/inbox">
 <meta property="og:image" content="../../home/assets/og-image.png">
-<meta name="theme-color" content="#0a0b0a">
+<meta name="theme-color" content="#0e100e">
 
 <script>
 (function () {
@@ -30,7 +30,7 @@
    TOKENS — shared with the home prototype (dark + light)
    ============================================================ */
 :root, [data-theme="dark"] {
-  --bg: #0a0b0a; --panel: #141714; --panel-2: #191c19;
+  --bg: #0e100e; --panel: #141714; --panel-2: #191c19;
   --fg: #f0f2ea; --muted: #a0a59b; --label: #8e948a;
   --border: #292d29; --border-2: #353934;
   --accent: #83de72; --accent-weak: rgba(131,222,114,.14); --lime: #b8f24a;
@@ -38,9 +38,9 @@
   --shadow: 0 18px 50px rgba(0,0,0,.32), 0 2px 8px rgba(0,0,0,.25);
 }
 [data-theme="light"] {
-  --bg: #e9eae2; --panel: #ffffff; --panel-2: #f4f5ef;
+  --bg: #e7e9e0; --panel: #ffffff; --panel-2: #f4f5ef;
   --fg: #14160f; --muted: #5c6156; --label: #6f7568;
-  --border: #e0e2d7; --border-2: #d3d6ca;
+  --border: #d9dccf; --border-2: #c8ccbe;
   --accent: #4ea832; --accent-weak: rgba(78,168,50,.12); --lime: #b8f24a;
   --nav-bg: rgba(255,255,255,.82); --btn-bg: #14160f; --btn-fg: #f4f5ef;
   --shadow: 0 18px 50px rgba(20,24,16,.10), 0 2px 8px rgba(20,24,16,.06);
@@ -342,6 +342,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/mobile-nav.css">
 <link rel="stylesheet" href="../../shared/lucide.css">
 <link rel="stylesheet" href="../../shared/glow.css">
+<link rel="stylesheet" href="../../shared/light.css">
+<link rel="stylesheet" href="../../shared/topbar.css">
+<link rel="stylesheet" href="../../shared/sidenav.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="inbox-scene.css">
 </head>
@@ -585,7 +588,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     var lbl = document.querySelector('.side-theme .lbl-dark'); if (lbl) lbl.textContent = t==='light'?'Dark mode':'Light mode';
     if (announce && live) live.textContent = (t==='light'?'Light':'Dark') + ' theme';
   }
-  function setTheme(t, announce){ root.setAttribute('data-theme', t); try { localStorage.setItem('pf-theme', t); } catch(e){} var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', t==='light'?'#e9eae2':'#0a0b0a'); syncTheme(t, announce); }
+  function setTheme(t, announce){ root.setAttribute('data-theme', t); try { localStorage.setItem('pf-theme', t); } catch(e){} var m=document.querySelector('meta[name=theme-color]'); if(m) m.setAttribute('content', t==='light'?'#e7e9e0':'#0e100e'); syncTheme(t, announce); }
   function toggleTheme(){ setTheme(root.getAttribute('data-theme')==='light'?'dark':'light', true); }
   toggles.forEach(function(el){ el.addEventListener('click', toggleTheme); });
   syncTheme(root.getAttribute('data-theme'), false);
@@ -667,6 +670,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <script src="../lightbox.js" defer></script>
 <script src="inbox-scene.js" defer></script>
 <script src="../../shared/phase-steps.js" defer></script>
+<script src="../../shared/sidenav.js" defer></script>
 <script src="../../shared/mobile-bar.js" defer></script>
 <script src="../../shared/mobile-nav.js" defer></script>
 <script src="../../shared/glow.js" defer></script>

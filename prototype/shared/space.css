@@ -1,0 +1,7 @@
+/* Space background (space.js): the page colour moves to <html>, so the fixed canvas can sit between it and the panels */
+html.has-space { background: var(--bg); }
+html.has-space body { background: transparent; }
+.space-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; display: block; }
+/* sections are slightly see-through so the space reads behind them (the gaps alone are too thin to carry it);
+   inner cards stay opaque, so text and screenshots sit on a solid surface */
+html.has-space .main .card:not(.contact), html.has-space .sidebar { background-color: color-mix(in srgb, var(--panel) 84%, transparent); }

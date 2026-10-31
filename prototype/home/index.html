@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html class="has-space" lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="assets/og-image.png">
-<meta name="theme-color" content="#0a0b0a">
+<meta name="theme-color" content="#0e100e">
 
 <script>
 (function () {
@@ -38,9 +38,11 @@
    v2 TOKENS — dark default, light override
    ============================================================ */
 :root, [data-theme="dark"] {
-  --bg:        #0a0b0a;
+  --bg:        #0e100e;
   --panel:     #141714;
   --panel-2:   #191c19;   /* nested / hover */
+  --card:      #191c19;   /* interactive cards inside sections */
+  --card-h:    #1f231f;
   --fg:        #f0f2ea;
   --muted:     #a0a59b;
   --label:     #8e948a;
@@ -58,6 +60,8 @@
   --bg:        #e7e9e0;
   --panel:     #ffffff;
   --panel-2:   #f4f5ef;
+  --card:      color-mix(in srgb, #4ea832 6%, #ffffff);
+  --card-h:    color-mix(in srgb, #4ea832 3%, #ffffff);
   --fg:        #14160f;
   --muted:     #5c6156;
   --label:     #6f7568;
@@ -257,10 +261,18 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tag { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); background: var(--panel); border: 1px solid var(--border-2); padding: 6px 10px; border-radius: 6px; }
 
 /* ---- SHIP IMPACT tiles ---- */
-.tiles { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--radius); }
+/* no overflow clip (hover brackets grow past the strip), so the outer tiles round their own corners */
+.tiles { --r: calc(var(--radius) - 1px); }
+/* which corners of a tile are outer corners of the strip (1) - used for the tile itself and for its hover brackets */
+.tile { --tl: 0; --tr: 0; --bl: 0; --bri: 0; border-radius: calc(var(--tl) * var(--r)) calc(var(--tr) * var(--r)) calc(var(--bri) * var(--r)) calc(var(--bl) * var(--r)); }
+.tile:first-child { --tl: 1; --bl: 1; } .tile:last-child { --tr: 1; --bri: 1; }
+@media (max-width: 1000px) { .tile:first-child { --tl: 1; --bl: 0; } .tile:nth-child(2) { --tr: 1; } .tile:nth-child(3) { --bl: 1; } .tile:last-child { --tr: 0; --bri: 1; } }
+@media (max-width: 520px) { .tile:first-child { --tl: 1; --tr: 1; --bl: 0; } .tile:nth-child(2) { --tr: 0; } .tile:nth-child(3) { --bl: 0; } .tile:last-child { --tr: 0; --bl: 1; --bri: 1; } }
 .tile { padding: clamp(18px,2vw,26px); border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; min-height: 164px; transition: background .25s; }
 .tile:first-child { border-left: 0; }
-.tile:hover { background: var(--panel-2); }
+.tile { background: var(--card); }
+.tile:hover { background: var(--card-h); }
 .tile .ti-n { font-family: var(--mono); font-size: 10px; color: var(--label); }
 .tile .ti-metric { font-family: var(--display); font-weight: 500; font-size: clamp(20px,2.1vw,27px); letter-spacing: -.03em; margin-top: auto; }
 .tile .ti-sub { font-size: 12px; color: var(--muted); }
@@ -269,14 +281,32 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* ---- SELECTED WORK ---- */
 .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .case-card { border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(20px,2.2vw,28px); display: flex; flex-direction: column; gap: 18px; transition: background .25s, border-color .25s; }
-.case-card:hover { background: var(--panel-2); border-color: var(--border-2); }
+.case-card { background: var(--card); }
+.case-card:hover { background: var(--card-h); border-color: var(--border-2); }
 .case-head { display: flex; align-items: center; gap: 8px; }
 .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; }
-.case-arrow { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background .2s, color .2s; }
-.case-card:hover .case-arrow { background: var(--accent); color: #0b140a; border-color: var(--accent); }
-.case-arrow svg { width: 14px; height: 14px; }
 .case-card.is-link { position: relative; cursor: pointer; }
-.case-card.is-link .case-arrow::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+/* CTA: same footer as Tools / Journey cards, square bracket control instead of the round filled button */
+.case-link { color: inherit; text-decoration: none; }
+.case-link::after { content: ''; position: absolute; inset: 0; z-index: 3; border-radius: var(--radius); }
+.case-link:focus-visible { outline: none; }
+.case-card:has(.case-link:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* hover = corner brackets grow out of the card past its edge (same language as orbit objects and the "+" buttons), instead of edge glow */
+:root { --snap: cubic-bezier(.3,1.35,.5,1); } /* one timing for the card brackets and the target, so they land together */
+@property --bk { syntax: '<color>'; inherits: true; initial-value: transparent; }
+.case-card, .tool-card, .role-card, .tile { position: relative; }
+:is(.case-card, .tool-card, .role-card, .tile)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
+  border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px); opacity: 0; inset: 6px; transition: opacity .35s var(--snap), inset .35s var(--snap);
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
+.tile::before { --o: calc(var(--radius) + 6px); border-radius: calc(var(--tl) * var(--o)) calc(var(--tr) * var(--o)) calc(var(--bri) * var(--o)) calc(var(--bl) * var(--o)); }
+/* Impact strip: outer tiles show only their outer corners, middle tiles a short bar at the top and bottom centre */
+.tile::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; }
+.tile:first-child::before { -webkit-mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; }
+.tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; }
+@media (max-width: 1000px) { .tile:first-child::before, .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; } }
+:is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
+@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
@@ -317,7 +347,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* ---- AI tools ---- */
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
 .tool-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 14px; min-height: 150px; transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
-.tool-card:hover { background: var(--panel-2); border-color: var(--border-2); transform: translateY(-3px); box-shadow: var(--shadow); }
+.tool-card { background: var(--card); }
+.tool-card:hover { background: var(--card-h); border-color: var(--border-2); transform: translateY(-3px); box-shadow: var(--shadow); }
 .tool-mk { width: 38px; height: 38px; border-radius: 9px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--fg); transition: border-color .25s, color .25s; }
 .tool-card:hover .tool-mk { border-color: var(--border-2); }
 .tool-mk svg { width: 19px; height: 19px; display: block; }
@@ -339,15 +370,16 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* Mobile timeline: vertical line on the left, one square per card (hidden on desktop, where .timeline runs on top) */
 .rl-mark { display: none; }
 .role-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; min-height: 316px; display: flex; flex-direction: column; gap: 14px; outline-offset: 2px; transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease; }
-.role-card:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-3px); box-shadow: var(--shadow); }
+.role-card { background: var(--card); }
+.role-card:hover { border-color: var(--border-2); background: var(--card-h); transform: translateY(-3px); box-shadow: var(--shadow); }
 /* Shared reveal-card footer affordance (tool cards + journey cards) */
 .reveal-foot .plus { --bk: var(--border-2); position: relative; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; font-size: 12px; line-height: 1;
   transition: color .25s ease; }
 /* corner brackets, like the orbit objects: a 1px-rounded frame masked down to its corners */
-.reveal-foot .plus::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--bk); border-radius: 1px; transition: border-color .25s ease;
+.reveal-foot .plus::before { content: ''; position: absolute; inset: 0; border: 1px solid var(--bk); border-radius: 1px; transition: border-color .35s var(--snap);
   -webkit-mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 0/5px 5px no-repeat, linear-gradient(#000 0 0) 0 100%/5px 5px no-repeat, linear-gradient(#000 0 0) 100% 100%/5px 5px no-repeat; }
-.reveal-foot .plus i { position: relative; font-style: normal; transition: transform .3s ease; }
+.reveal-foot .plus i { position: relative; font-style: normal; transition: transform .35s var(--snap); }
 .tool-card:hover .reveal-foot, .tool-card:focus-within .reveal-foot,
 .role-card:hover .reveal-foot, .role-card:focus-within .reveal-foot { color: var(--fg); }
 .tool-card:hover .reveal-foot .plus, .tool-card:focus-within .reveal-foot .plus,
@@ -506,6 +538,9 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 <link rel="stylesheet" href="../shared/lucide.css">
 <link rel="stylesheet" href="../shared/glow.css">
 <link rel="stylesheet" href="../shared/light.css">
+<link rel="stylesheet" href="../shared/topbar.css">
+<link rel="stylesheet" href="../shared/sidenav.css">
+<link rel="stylesheet" href="../shared/space.css">
 <link rel="stylesheet" href="../shared/orbit.css">
 </head>
 <body>
@@ -563,7 +598,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   <main class="main" id="main">
 
     <!-- HERO -->
-    <section class="card hero po gl" id="hero" aria-labelledby="hero-name" data-cx=".5" data-cy=".38" data-rw=".058" data-rh=".1" data-minx=".02" data-maxx=".98">
+    <section class="card hero po" id="hero" aria-labelledby="hero-name" data-cx=".5" data-cy=".38" data-rw=".058" data-rh=".1" data-minx=".02" data-maxx=".98">
       <canvas id="poCanvas" aria-hidden="true"></canvas>
       <p class="hero-eyebrow"><span class="a">Senior Product Designer</span><span class="dot-sm"></span><span class="b">Petah Tikva, Israel</span></p>
       <h1 id="hero-name">Anton Alekseev<span class="dot">.</span></h1>
@@ -646,7 +681,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
         <article class="case-card is-link" id="case-channel">
           <div class="case-head"><span class="chip">Data Viz</span><span class="chip">AI</span>
-            <a class="case-arrow" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          
+            <a class="case-link" href="../case/channel-analysis/" aria-label="Open Channel Analysis case"></a>
           </div>
           <div class="case-title"><p class="case-name">Channel Analysis</p><h3 class="case-hook">How I turned silent channel decay into a one-click decision</h3></div>
           <div class="case-metric"><b>Weeks → Hours</b><span>detection time</span></div>
@@ -657,7 +693,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
         <article class="case-card is-link" id="case-ds">
           <div class="case-head"><span class="chip">Design System</span><span class="chip">AI</span>
-            <a class="case-arrow" href="../case/design-system/" aria-label="Open Design System for AI Agents case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          
+            <a class="case-link" href="../case/design-system/" aria-label="Open Design System for AI Agents case"></a>
           </div>
           <div class="case-title"><p class="case-name">Design System for AI Agents</p><h3 class="case-hook">How I made a design system AI agents can build from</h3></div>
           <div class="case-metric"><b>15 → 2</b><span>design questions per feature</span></div>
@@ -668,7 +705,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
         <article class="case-card is-link" id="case-price">
           <div class="case-head"><span class="chip">Optimization</span><span class="chip">AI</span>
-            <a class="case-arrow" href="../case/price-exploration/" aria-label="Open Price Exploration case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          
+            <a class="case-link" href="../case/price-exploration/" aria-label="Open Price Exploration case"></a>
           </div>
           <div class="case-title"><p class="case-name">Price Exploration</p><h3 class="case-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h3></div>
           <div class="case-metric"><b>$8M → $30M+</b><span>monthly media investment</span></div>
@@ -679,7 +717,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 
         <article class="case-card is-link" id="case-cross">
           <div class="case-head"><span class="chip">Workflow</span><span class="chip">Infra</span>
-            <a class="case-arrow" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case"><svg class="lu lu-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          
+            <a class="case-link" href="../case/cross-campaign/" aria-label="Open Cross-Campaign Management case"></a>
           </div>
           <div class="case-title"><p class="case-name">Cross-Campaign Management</p><h3 class="case-hook">How I let buyers edit thousands of campaigns as one</h3></div>
           <div class="case-metric"><b>Hours → Min</b><span>bulk updates</span></div>
@@ -883,7 +922,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   function setTheme(t, announce){
     root.setAttribute('data-theme', t);
     try { localStorage.setItem('pf-theme', t); } catch(e){}
-    document.querySelector('meta[name=theme-color]').setAttribute('content', t==='light' ? '#e9eae2' : '#0a0b0a');
+    document.querySelector('meta[name=theme-color]').setAttribute('content', t==='light' ? '#e7e9e0' : '#0e100e');
     sync(t, announce);
   }
   function toggle(){ setTheme(root.getAttribute('data-theme')==='light'?'dark':'light', true); }
@@ -940,9 +979,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   });
 })();
 </script>
+<script src="../shared/sidenav.js" defer></script>
 <script src="../shared/mobile-bar.js" defer></script>
 <script src="../shared/mobile-nav.js" defer></script>
-<script src="../shared/glow.js" defer></script>
+<script src="../shared/space.js" defer></script>
 <script src="../shared/orbit.js" defer></script>
 </body>
 </html>
