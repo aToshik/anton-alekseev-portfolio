@@ -1,9 +1,9 @@
-/* Side menu variant switch (?side=a|b|c, kept for the tab) + rail fill for variant A. */
+/* Side menu variant switch (?side=a|b|c|d, kept for the tab) + rail fill for variant A. */
 (function () {
   var root = document.documentElement, v = 'a';
   try {
     var q = new URLSearchParams(location.search).get('side');
-    if (q && /^[abc]$/.test(q)) sessionStorage.setItem('side', q);
+    if (q && /^[abcd]$/.test(q)) sessionStorage.setItem('side', q);
     v = sessionStorage.getItem('side') || 'a';
   } catch (e) {}
   root.setAttribute('data-side', v);
