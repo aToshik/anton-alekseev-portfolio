@@ -1,0 +1,9 @@
+/* Floating top bar (desktop/tablet; on ≤760px mobile-nav.css makes it full-bleed):
+   - a strip of page colour from the top of the window down to the bar's middle, so content scrolling up
+     disappears behind it instead of peeking out in the 14px gap above the bar;
+   - the bar is a little wider than the layout under it (8px each side), so it reads as the frame's top. */
+@media (min-width: 761px) {
+  body::before { content: ''; position: fixed; left: 0; right: 0; top: 0; height: calc(14px + var(--nav-h) / 2); background: var(--bg); z-index: 599; pointer-events: none; }
+  body .nav { width: min(calc(var(--maxw) + 24px), calc(100vw - 2 * var(--edge) + 24px)); }
+}
+@media (min-width: 761px) and (max-width: 1000px) { body .nav { width: calc(100vw - 2 * var(--edge) + 8px); } }
