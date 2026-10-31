@@ -292,10 +292,14 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-foot .go i { width: 4px; height: 4px; border-radius: 1px; background: var(--label); transition: width .3s ease, height .3s ease, background-color .25s ease; }
 .case-card:hover .case-foot, .case-card:focus-within .case-foot { color: var(--fg); }
 .case-card:hover .case-foot .go, .case-card:focus-within .case-foot .go { --bk: var(--accent); }
-/* hover: the dot grows, turns green and breathes, like a live status */
-.case-card:hover .case-foot .go i, .case-card:focus-within .case-foot .go i { width: 8px; height: 8px; background: var(--accent); animation: goPulse 1.4s ease-in-out .3s infinite; }
-@keyframes goPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.55); opacity: .55; } }
-@media (prefers-reduced-motion: reduce) { .case-foot, .case-foot .go::before, .case-foot .go i { transition: none; animation: none !important; } }
+/* hover: a green line runs along the footer rule to the brackets, then the dot lights up (no loop) */
+.case-foot { position: relative; }
+.case-foot::before { content: ''; position: absolute; left: 0; top: -1px; height: 1px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.65,0,.35,1); }
+.case-card:hover .case-foot::before, .case-card:focus-within .case-foot::before { transform: scaleX(1); }
+.case-foot .go::before { transition-delay: 0s; }
+.case-card:hover .case-foot .go::before, .case-card:focus-within .case-foot .go::before { transition-delay: .3s; }
+.case-card:hover .case-foot .go i, .case-card:focus-within .case-foot .go i { width: 8px; height: 8px; background: var(--accent); transition-delay: .35s; }
+@media (prefers-reduced-motion: reduce) { .case-foot, .case-foot::before, .case-foot .go::before, .case-foot .go i { transition: none !important; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
