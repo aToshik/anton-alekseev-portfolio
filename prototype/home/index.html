@@ -350,40 +350,50 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .why-ref:hover, .why-ref:focus-visible { color: var(--accent); }
 /* scene stage */
 .ws { position: relative; height: 150px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); overflow: hidden; }
-.ws-sq { position: absolute; width: 8px; height: 8px; border-radius: 1px; border: 1px solid var(--border-2); background: var(--panel-2); transform: translate(-50%, -50%); }
-/* 01 loop: a square walks Request > Booking > Paid > Review, each stop lights up as it passes */
-.ws-loop { position: absolute; inset: 34px 44px; border: 1px dashed var(--border-2); border-radius: 2px; }
-.ws-loop .ws-sq:nth-of-type(1) { left: 0; top: 0; } .ws-loop .ws-sq:nth-of-type(2) { left: 100%; top: 0; }
-.ws-loop .ws-sq:nth-of-type(3) { left: 100%; top: 100%; } .ws-loop .ws-sq:nth-of-type(4) { left: 0; top: 100%; }
 .ws-lb { position: absolute; font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); white-space: nowrap; }
-.ws-lb.tl { left: -4px; bottom: calc(100% + 8px); } .ws-lb.tr { right: -4px; bottom: calc(100% + 8px); }
-.ws-lb.br { right: -4px; top: calc(100% + 8px); } .ws-lb.bl { left: -4px; top: calc(100% + 8px); }
-.ws-run { position: absolute; left: 0; top: 0; width: 10px; height: 10px; border-radius: 1px; background: var(--accent); transform: translate(-50%, -50%); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent); }
-/* 02 black box: an opaque square dissolves into testing points, the best one is marked */
-.ws-axis { position: absolute; left: 24px; right: 24px; bottom: 26px; height: 1px; background: var(--border); }
-.ws-pt { position: absolute; width: 8px; height: 8px; border-radius: 1px; background: var(--border-2); transform: translate(-50%, 50%); }
-.ws-pt.best { background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent); }
-.ws-pick { position: absolute; left: 54%; bottom: 26px; height: 74px; border-left: 1px dashed var(--accent); opacity: .7; }
-.ws-pick span { position: absolute; left: 6px; top: -4px; font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
-.ws-box { position: absolute; left: 50%; top: 46%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border: 1px solid var(--border-2); border-radius: 2px; background: var(--bg); opacity: 0; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 13px; color: var(--label); }
-/* 03 one rule: a change applied once runs across the whole grid */
-.ws-src { position: absolute; left: 20px; top: 50%; width: 46px; height: 46px; margin-top: -23px; border: 1px solid var(--accent); border-radius: 2px; display: flex; align-items: center; justify-content: center; text-align: center; font-family: var(--mono); font-size: 9px; line-height: 1.25; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
-.ws-grid { position: absolute; left: 84px; right: 18px; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
-.ws-grid i { aspect-ratio: 1; border-radius: 1px; border: 1px solid var(--border-2); background: var(--accent); border-color: var(--accent); }
-.motion-ok #why .ws-grid i { background: transparent; border-color: var(--border-2); }
+/* 01 path: the view starts on one screen, widens to the whole job, then a square walks it end to end */
+.ws-path { position: absolute; left: 12%; right: 12%; top: 50%; height: 1px; background: var(--border-2); }
+.ws-node { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 1px; border: 1px solid var(--border-2); background: var(--panel-2); }
+.ws-node.cur { border-color: var(--accent); }
+.ws-path .ws-lb { top: 16px; transform: translateX(-50%); }
+.ws-frame { position: absolute; top: 50%; height: 58px; margin-top: -22px; left: -6%; right: -6%; border: 1px solid var(--accent); border-radius: 3px; opacity: .55;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 0/8px 8px no-repeat, linear-gradient(#000 0 0) 0 100%/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 100%/8px 8px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 0/8px 8px no-repeat, linear-gradient(#000 0 0) 0 100%/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 100%/8px 8px no-repeat; }
+.ws-walk { position: absolute; top: 50%; left: 100%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 1px; background: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent); opacity: 0; }
+/* 02 why: an opaque box opens, the factors behind a call show up and lead to one next step */
+.ws-why { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ws-why .bar { fill: var(--border-2); }
+.ws-why .ln { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; opacity: .8; }
+.ws-why .out { fill: var(--accent); }
+.ws-why text { font-family: var(--mono); font-size: 8px; letter-spacing: .06em; fill: var(--label); }
+.ws-why .box { fill: var(--bg); stroke: var(--border-2); opacity: 0; }
+.ws-why .box-q { font-size: 13px; fill: var(--label); opacity: 0; }
+/* 03 pattern: scattered, inconsistent pieces snap into one shared pattern, column by column */
+.ws-src { position: absolute; left: 20px; top: 50%; width: 52px; height: 46px; margin-top: -23px; border: 1px solid var(--accent); border-radius: 2px; display: flex; align-items: center; justify-content: center; text-align: center; font-family: var(--mono); font-size: 9px; line-height: 1.25; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+.ws-grid { position: absolute; left: 90px; right: 18px; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.ws-grid i { aspect-ratio: 1; border-radius: 1px; border: 1px solid var(--accent); background: var(--accent); }
 @media (prefers-reduced-motion: no-preference) {
-  .motion-ok #why.in .ws-run { animation: wsRun 6s cubic-bezier(.65,0,.35,1) infinite; }
-  .motion-ok #why.in .ws-loop .ws-sq { animation: wsStop 6s linear infinite; }
-  .motion-ok #why.in .ws-loop .ws-sq:nth-of-type(2) { animation-delay: 1.5s; } .motion-ok #why.in .ws-loop .ws-sq:nth-of-type(3) { animation-delay: 3s; } .motion-ok #why.in .ws-loop .ws-sq:nth-of-type(4) { animation-delay: 4.5s; }
-  .motion-ok #why.in .ws-box { animation: wsBox 6s ease-in-out infinite; }
-  .motion-ok #why.in .ws-pt, .motion-ok #why.in .ws-pick { animation: wsPt 6s ease-in-out infinite; animation-delay: var(--d, 0s); }
-  .motion-ok #why.in .ws-grid i { animation: wsWave 4.5s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  .motion-ok #why.in .ws-frame { animation: wsFrame 6s cubic-bezier(.65,0,.35,1) infinite; }
+  .motion-ok #why.in .ws-walk { animation: wsWalk 6s cubic-bezier(.45,0,.55,1) infinite; }
+  .motion-ok #why.in .ws-node:not(.cur) { animation: wsNode 6s linear infinite; }
+  .motion-ok #why.in .ws-path .ws-lb:not(.cur) { animation: wsLb 6s linear infinite; }
+  .motion-ok #why.in .ws-why .box, .motion-ok #why.in .ws-why .box-q { animation: wsBox 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-why .bar { animation: wsBar 6s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: left center; }
+  .motion-ok #why.in .ws-why .ln { animation: wsLn 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-why .out, .motion-ok #why.in .ws-why .out-lb { animation: wsOut 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-grid i { animation: wsAlign 5s cubic-bezier(.3,1.35,.5,1) infinite; animation-delay: var(--d, 0s); }
 }
-@keyframes wsRun { 0%, 4% { left: 0; top: 0; } 21%, 29% { left: 100%; top: 0; } 46%, 54% { left: 100%; top: 100%; } 71%, 79% { left: 0; top: 100%; } 96%, 100% { left: 0; top: 0; } }
-@keyframes wsStop { 0%, 6% { background: var(--accent); border-color: var(--accent); } 18%, 100% { background: var(--panel-2); border-color: var(--border-2); } }
-@keyframes wsBox { 0%, 28% { opacity: 1; transform: scale(1); } 40%, 88% { opacity: 0; transform: scale(.6); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes wsPt { 0%, 34% { opacity: 0; } 46%, 86% { opacity: 1; } 96%, 100% { opacity: 0; } }
-@keyframes wsWave { 0%, 14% { background: transparent; border-color: var(--border-2); } 26%, 70% { background: var(--accent); border-color: var(--accent); } 86%, 100% { background: transparent; border-color: var(--border-2); } }
+@keyframes wsFrame { 0%, 22% { left: 42%; right: 42%; } 36%, 92% { left: -6%; right: -6%; } 100% { left: 42%; right: 42%; } }
+@keyframes wsWalk { 0%, 38% { left: 0; opacity: 0; } 42% { left: 0; opacity: 1; } 84% { left: 100%; opacity: 1; } 90%, 100% { left: 100%; opacity: 0; } }
+@keyframes wsNode { 0%, 30% { opacity: .25; } 38%, 92% { opacity: 1; } 100% { opacity: .25; } }
+@keyframes wsLb { 0%, 30% { opacity: 0; } 38%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes wsBox { 0%, 26% { opacity: 1; } 36%, 92% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes wsBar { 0%, 30% { transform: scaleX(0); } 40%, 92% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes wsLn { 0%, 42% { stroke-dashoffset: 1; opacity: 0; } 43% { opacity: .8; } 60%, 92% { stroke-dashoffset: 0; opacity: .8; } 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes wsOut { 0%, 58% { opacity: 0; } 64%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes wsAlign { 0%, 16% { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s)); background: transparent; border-color: var(--border-2); }
+  30%, 72% { transform: none; background: var(--accent); border-color: var(--accent); }
+  88%, 100% { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s)); background: transparent; border-color: var(--border-2); } }
 
 /* ---- AI tools ---- */
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
@@ -784,10 +794,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       <div class="why-grid stagger">
         <article class="why-card">
           <div class="ws" aria-hidden="true">
-            <div class="ws-loop">
-              <span class="ws-lb tl">Request</span><span class="ws-lb tr">Booking</span><span class="ws-lb br">Paid</span><span class="ws-lb bl">Review</span>
-              <i class="ws-sq"></i><i class="ws-sq"></i><i class="ws-sq"></i><i class="ws-sq"></i>
-              <i class="ws-run"></i>
+            <div class="ws-path">
+              <i class="ws-node" style="left:0"></i><i class="ws-node" style="left:25%"></i><i class="ws-node cur" style="left:50%"></i><i class="ws-node" style="left:75%"></i><i class="ws-node" style="left:100%"></i>
+              <span class="ws-lb" style="left:0">Before</span><span class="ws-lb cur" style="left:50%">Screen</span><span class="ws-lb" style="left:100%">After</span>
+              <i class="ws-frame"></i><i class="ws-walk"></i>
             </div>
           </div>
           <span class="why-n">01</span>
@@ -797,10 +807,19 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         </article>
         <article class="why-card">
           <div class="ws" aria-hidden="true">
-            <div class="ws-axis"></div>
-            <i class="ws-pt" style="left:16%;bottom:40px;--d:0s"></i><i class="ws-pt" style="left:28%;bottom:56px;--d:.08s"></i><i class="ws-pt" style="left:41%;bottom:76px;--d:.16s"></i><i class="ws-pt best" style="left:54%;bottom:96px;--d:.24s"></i><i class="ws-pt" style="left:67%;bottom:86px;--d:.32s"></i><i class="ws-pt" style="left:80%;bottom:66px;--d:.4s"></i>
-            <div class="ws-pick" style="--d:.5s"><span>Best bid</span></div>
-            <div class="ws-box">?</div>
+            <svg class="ws-why" viewBox="0 0 260 150" preserveAspectRatio="xMidYMid meet">
+              <text x="34" y="36">WHY</text>
+              <rect class="bar" x="34" y="48" width="58" height="6" rx="1" style="--d:0s"/>
+              <rect class="bar" x="34" y="72" width="40" height="6" rx="1" style="--d:.1s"/>
+              <rect class="bar" x="34" y="96" width="70" height="6" rx="1" style="--d:.2s"/>
+              <path class="ln" pathLength="1" d="M96 51 C140 51 150 75 186 75"/>
+              <path class="ln" pathLength="1" d="M78 75 L186 75"/>
+              <path class="ln" pathLength="1" d="M108 99 C145 99 150 75 186 75"/>
+              <rect class="out" x="186" y="69" width="12" height="12" rx="1"/>
+              <text class="out-lb" x="192" y="100" text-anchor="middle">NEXT STEP</text>
+              <rect class="box" x="26" y="30" width="96" height="84" rx="2"/>
+              <text class="box-q" x="74" y="77" text-anchor="middle">?</text>
+            </svg>
           </div>
           <span class="why-n">02</span>
           <h3 class="why-t">Make the black box readable</h3>
@@ -809,8 +828,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
         </article>
         <article class="why-card">
           <div class="ws" aria-hidden="true">
-            <div class="ws-src">1<br>rule</div>
-            <div class="ws-grid"><i style="--d:0.00s"></i><i style="--d:0.07s"></i><i style="--d:0.14s"></i><i style="--d:0.21s"></i><i style="--d:0.28s"></i><i style="--d:0.35s"></i><i style="--d:0.42s"></i><i style="--d:0.49s"></i><i style="--d:0.56s"></i><i style="--d:0.63s"></i><i style="--d:0.05s"></i><i style="--d:0.12s"></i><i style="--d:0.19s"></i><i style="--d:0.26s"></i><i style="--d:0.33s"></i><i style="--d:0.40s"></i><i style="--d:0.47s"></i><i style="--d:0.54s"></i><i style="--d:0.61s"></i><i style="--d:0.68s"></i><i style="--d:0.10s"></i><i style="--d:0.17s"></i><i style="--d:0.24s"></i><i style="--d:0.31s"></i><i style="--d:0.38s"></i><i style="--d:0.45s"></i><i style="--d:0.52s"></i><i style="--d:0.59s"></i><i style="--d:0.66s"></i><i style="--d:0.73s"></i><i style="--d:0.15s"></i><i style="--d:0.22s"></i><i style="--d:0.29s"></i><i style="--d:0.36s"></i><i style="--d:0.43s"></i><i style="--d:0.50s"></i><i style="--d:0.57s"></i><i style="--d:0.64s"></i><i style="--d:0.71s"></i><i style="--d:0.78s"></i></div>
+            <div class="ws-src">One<br>pattern</div>
+            <div class="ws-grid"><i style="--d:0.00s;--x:0px;--y:-3px;--r:15deg;--s:0.55"></i><i style="--d:0.07s;--x:-4px;--y:3px;--r:-25deg;--s:0.85"></i><i style="--d:0.14s;--x:4px;--y:-5px;--r:30deg;--s:0.70"></i><i style="--d:0.21s;--x:-5px;--y:-4px;--r:15deg;--s:1.00"></i><i style="--d:0.28s;--x:-4px;--y:-2px;--r:-25deg;--s:1.15"></i><i style="--d:0.35s;--x:1px;--y:-5px;--r:30deg;--s:0.55"></i><i style="--d:0.42s;--x:-2px;--y:5px;--r:45deg;--s:1.15"></i><i style="--d:0.49s;--x:-5px;--y:4px;--r:30deg;--s:1.00"></i><i style="--d:0.56s;--x:-5px;--y:-2px;--r:-25deg;--s:1.15"></i><i style="--d:0.03s;--x:-3px;--y:-1px;--r:15deg;--s:0.70"></i><i style="--d:0.10s;--x:3px;--y:-4px;--r:30deg;--s:0.85"></i><i style="--d:0.17s;--x:3px;--y:5px;--r:-15deg;--s:0.55"></i><i style="--d:0.24s;--x:4px;--y:4px;--r:45deg;--s:0.70"></i><i style="--d:0.31s;--x:0px;--y:-4px;--r:30deg;--s:0.55"></i><i style="--d:0.38s;--x:4px;--y:-5px;--r:30deg;--s:0.70"></i><i style="--d:0.45s;--x:2px;--y:5px;--r:30deg;--s:1.00"></i><i style="--d:0.52s;--x:0px;--y:2px;--r:30deg;--s:1.00"></i><i style="--d:0.59s;--x:0px;--y:-1px;--r:-15deg;--s:0.70"></i><i style="--d:0.06s;--x:-2px;--y:-4px;--r:30deg;--s:0.85"></i><i style="--d:0.13s;--x:3px;--y:2px;--r:0deg;--s:1.00"></i><i style="--d:0.20s;--x:-1px;--y:4px;--r:-25deg;--s:0.55"></i><i style="--d:0.27s;--x:3px;--y:1px;--r:-15deg;--s:0.85"></i><i style="--d:0.34s;--x:-3px;--y:2px;--r:15deg;--s:0.55"></i><i style="--d:0.41s;--x:5px;--y:-4px;--r:30deg;--s:1.15"></i><i style="--d:0.48s;--x:0px;--y:0px;--r:45deg;--s:0.85"></i><i style="--d:0.55s;--x:4px;--y:2px;--r:30deg;--s:1.00"></i><i style="--d:0.62s;--x:-4px;--y:-4px;--r:0deg;--s:1.00"></i><i style="--d:0.09s;--x:5px;--y:-4px;--r:-25deg;--s:0.85"></i><i style="--d:0.16s;--x:5px;--y:4px;--r:45deg;--s:1.00"></i><i style="--d:0.23s;--x:-1px;--y:1px;--r:45deg;--s:0.85"></i><i style="--d:0.30s;--x:-5px;--y:2px;--r:0deg;--s:0.70"></i><i style="--d:0.37s;--x:4px;--y:-4px;--r:15deg;--s:0.55"></i><i style="--d:0.44s;--x:-2px;--y:-1px;--r:-15deg;--s:0.70"></i><i style="--d:0.51s;--x:1px;--y:1px;--r:15deg;--s:0.55"></i><i style="--d:0.58s;--x:-3px;--y:2px;--r:15deg;--s:1.15"></i><i style="--d:0.65s;--x:-1px;--y:-3px;--r:15deg;--s:1.15"></i></div>
           </div>
           <span class="why-n">03</span>
           <h3 class="why-t">Fix it once, for everyone</h3>
