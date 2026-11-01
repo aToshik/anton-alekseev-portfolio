@@ -343,6 +343,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .why-t { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -.02em; line-height: 1.2; }
 .why-d { font-size: 13px; line-height: 1.65; color: var(--muted); }
 .why-refs { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+/* "Seen in" label before the case links */
+.why-seen { width: 100%; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
 .why-ref { position: relative; z-index: 3; display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--fg); text-decoration: none; transition: color .2s; }
 .why-ref::before { content: ''; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); }
 .why-ref:hover, .why-ref:focus-visible { color: var(--accent); }
@@ -790,8 +792,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <span class="why-n">01</span>
           <h3 class="why-t">Follow the job, not the screen</h3>
-          <p class="why-d">I map what happens before and after the click. Eight request types became one customer thread, from first message to paid invoice.</p>
-          <div class="why-refs"><a class="why-ref" href="../case/inbox/">Inbox</a></div>
+          <p class="why-d">A screen is one moment in someone's day. I start from the whole job: what triggers it, who else is involved, what happens after. Then I design the path, not the page.</p>
+          <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/inbox/">Inbox</a></div>
         </article>
         <article class="why-card">
           <div class="ws" aria-hidden="true">
@@ -802,8 +804,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <span class="why-n">02</span>
           <h3 class="why-t">Make the black box readable</h3>
-          <p class="why-d">People act on what they understand. I turn algorithms and silent data into a visible reason and one clear next step.</p>
-          <div class="why-refs"><a class="why-ref" href="../case/price-exploration/">Price Exploration</a><a class="why-ref" href="../case/channel-analysis/">Channel Analysis</a></div>
+          <p class="why-d">People don't act on what they don't understand. When a system makes a call, I show why it did, and turn that into one clear next step.</p>
+          <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/price-exploration/">Price Exploration</a><a class="why-ref" href="../case/channel-analysis/">Channel Analysis</a></div>
         </article>
         <article class="why-card">
           <div class="ws" aria-hidden="true">
@@ -812,8 +814,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <span class="why-n">03</span>
           <h3 class="why-t">Fix it once, for everyone</h3>
-          <p class="why-d">One rule beats a thousand edits. Bulk tools for media buyers, specs that AI agents build from.</p>
-          <div class="why-refs"><a class="why-ref" href="../case/cross-campaign/">Cross-Campaign</a><a class="why-ref" href="../case/design-system/">Design System for AI</a></div>
+          <p class="why-d">If a problem keeps coming back, I solve the pattern, not the instance. Rules, components and bulk actions that keep working as the product and the team grow.</p>
+          <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/cross-campaign/">Cross-Campaign</a><a class="why-ref" href="../case/design-system/">Design System for AI</a></div>
         </article>
       </div>
     </section>
