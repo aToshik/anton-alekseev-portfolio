@@ -12,7 +12,7 @@
   document.body.prepend(cv);
   var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1;
   var seed = 11; function rnd() { return (seed = (seed * 16807) % 2147483647) / 2147483647; }
-  var N = calm ? 60 : 150, P = [], sinkEl = document.querySelector('.contact');
+  var N = calm ? 60 : 150, P = [];
   for (var i = 0; i < N; i++) { var a = rnd() * Math.PI * 2, r = .2 + rnd() * 1.1; P.push({ x: Math.cos(a) * r, y: Math.sin(a) * r, p: rnd(), v: 45 + rnd() * 35, b: .55 + rnd() * .45 }); }
   function size() { W = innerWidth; H = innerHeight; dpr = Math.min(2, devicePixelRatio || 1); cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
   size(); addEventListener('resize', size);
@@ -31,19 +31,11 @@
     var light = root.getAttribute('data-theme') === 'light';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = colour();
     var cx = W / 2, cy = H * .45, sc = Math.max(W, H) * .6, k = light ? .55 : 1;
-    var sink = null;                                                             // ?foot=3: the lime card pulls the flow in
-    if (root.getAttribute('data-foot') === '3' && sinkEl) { var sr = sinkEl.getBoundingClientRect(); if (sr.bottom > 0 && sr.top < H) sink = { x: sr.left + sr.width / 2, y: sr.top + sr.height / 2, w: sr.width / 2, h: sr.height / 2 }; }
     for (var i = 0; i < N; i++) {
       var s = P[i], z = 1 - .93 * (((s.p + T / s.v) % 1 + 1) % 1), f = .1 / z, n = 1 - z;
       var x = cx + s.x * sc * f - mx * .05 * n, y = cy + s.y * sc * f * .8 - my * .05 * n;
-      var glow = 1;
-      if (sink) {
-        var ddx = sink.x - x, ddy = sink.y - y, d = Math.max(0, Math.hypot(Math.max(0, Math.abs(ddx) - sink.w), Math.max(0, Math.abs(ddy) - sink.h)));
-        var pull = Math.exp(-d / 260); x += ddx * .18 * pull; y += ddy * .18 * pull; glow = 1 + 2.2 * pull;
-        if (pull > .2) ctx.fillStyle = light ? '#4ea832' : '#d6f79a'; else ctx.fillStyle = colour();
-      }
       if (x < -4 || y < -4 || x > W + 4 || y > H + 4) continue;
-      ctx.globalAlpha = Math.min(1, (.07 + .5 * n * n) * Math.min(1, n * 6) * s.b * k * glow);
+      ctx.globalAlpha = (.07 + .5 * n * n) * Math.min(1, n * 6) * s.b * k;
       var r = .6 + 1.8 * n * n; ctx.fillRect(x - r / 2, y - r / 2, r, r);
     }
   }

@@ -1,53 +1,23 @@
 /* ============================================================
-   CONTACT FOOTER — 3 variants to compare (Home), ?foot=1|2|3 (0 = original lime)
-   1 · Dark     — see-through dark section, lime "together.", visual by ?fx=a|b|c
-   2 · Lime + space — lime card keeps its fill, dark points drift inside it
-   3 · Light source — lime card glows onto the dark, space points pull towards it
+   CONTACT FOOTER (Home), chosen 2026-11-01: see-through dark section
+   (the space shows through), lime "together.", and points that flow
+   in from the edges and land in "Start a conversation" (footer.js).
    ============================================================ */
-.contact { position: relative; isolation: isolate; }
+.contact {
+  --hz: #b8f24a;
+  position: relative; isolation: isolate; overflow: hidden;
+  background: color-mix(in srgb, var(--panel) 72%, transparent); border-color: var(--border); color: var(--fg);
+}
+[data-theme="light"] .contact { --hz: #4ea832; }
 .contact > * { position: relative; z-index: 1; }
-
-/* ---------- 1 · HORIZON ---------- */
-html[data-foot="1"] .contact {
-  --hz: #b8f24a; --hz-fill: #0b0d0b; --rise: 0px;
-  background: color-mix(in srgb, var(--panel) 72%, transparent); border-color: var(--border); color: var(--fg); overflow: hidden;
-}
-html[data-theme="light"][data-foot="1"] .contact { --hz: #4ea832; --hz-fill: color-mix(in srgb, #4ea832 7%, #ffffff); }
-html[data-foot="1"] .contact .eyebrow, html[data-foot="1"] .contact .eyebrow .n { color: var(--label); }
-html[data-foot="1"] .contact h2 { color: var(--fg); }
-html[data-foot="1"] .contact h2 .t2 { color: var(--hz); }
-html[data-foot="1"] .contact-sub { color: var(--muted); }
-html[data-foot="1"] .contact-btn { background: var(--btn-bg); color: var(--btn-fg); }
-html[data-foot="1"] .contact-methods { border-color: color-mix(in srgb, var(--hz) 28%, transparent); }
-html[data-foot="1"] .cm + .cm { border-color: color-mix(in srgb, var(--hz) 28%, transparent); }
-html[data-foot="1"] .cm small { color: var(--label); }
-html[data-foot="1"] .cm a, html[data-foot="1"] .cm span { color: var(--fg); }
-html[data-foot="1"] .contact-foot { color: var(--label); }
-/* the visual inside the dark section, ?fx=a|b|c (footer.js) */
+.contact .eyebrow, .contact .eyebrow .n { color: var(--label); }
+.contact h2 { color: var(--fg); }
+.contact h2 .t2 { color: var(--hz); }
+.contact-sub { color: var(--muted); }
+.contact-btn { background: var(--btn-bg); color: var(--btn-fg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hz) 50%, transparent), 0 0 34px 2px color-mix(in srgb, var(--hz) 30%, transparent); }
+.contact-methods, .cm + .cm { border-color: color-mix(in srgb, var(--hz) 28%, transparent); }
+.cm small { color: var(--label); }
+.cm a, .cm span { color: var(--fg); }
+.contact-foot { color: var(--label); }
 .ct-fx { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 0 !important; pointer-events: none; }
-html[data-foot="1"] .contact { --hz-glow: color-mix(in srgb, var(--hz) 20%, transparent); }
-html[data-theme="light"][data-foot="1"] .contact { --hz-glow: color-mix(in srgb, var(--hz) 16%, transparent); }
-/* c · core light behind "together." (same light as the hero core) */
-html[data-foot="1"][data-fx="c"] .contact::before {
-  content: ''; position: absolute; z-index: 0; pointer-events: none; left: -10%; top: 10%; width: 80%; height: 90%;
-  background: radial-gradient(closest-side, var(--hz-glow), transparent);
-  animation: ctBreath 7s ease-in-out infinite alternate;
-}
-html[data-foot="1"][data-fx="c"] .contact h2 .t2 { text-shadow: 0 0 40px color-mix(in srgb, var(--hz) 35%, transparent); }
-@keyframes ctBreath { from { transform: scale(.94); opacity: .8; } to { transform: scale(1.06); opacity: 1; } }
-/* b · the button is where the flow lands */
-html[data-foot="1"][data-fx="b"] .contact-btn { box-shadow: 0 0 0 1px color-mix(in srgb, var(--hz) 50%, transparent), 0 0 34px 2px color-mix(in srgb, var(--hz) 30%, transparent); }
-@media (prefers-reduced-motion: reduce) { html[data-foot="1"] .contact::before { animation: none; } }
-
-/* ---------- 2 · LIME + SPACE ---------- */
-.ct-space { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 0 !important; pointer-events: none; border-radius: inherit; }
-html:not([data-foot="2"]) .ct-space { display: none; }
-html[data-foot="2"] .contact { overflow: hidden; }
-
-/* ---------- 3 · LIGHT SOURCE ---------- */
-html[data-foot="3"] .contact {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lime) 60%, transparent), 0 0 80px 4px color-mix(in srgb, var(--lime) 28%, transparent), 0 0 260px 60px color-mix(in srgb, var(--lime) 12%, transparent);
-}
-html[data-theme="light"][data-foot="3"] .contact {
-  box-shadow: 0 0 0 1px color-mix(in srgb, #4ea832 40%, transparent), 0 0 70px 2px color-mix(in srgb, #4ea832 22%, transparent), 0 0 220px 40px color-mix(in srgb, #4ea832 10%, transparent);
-}
