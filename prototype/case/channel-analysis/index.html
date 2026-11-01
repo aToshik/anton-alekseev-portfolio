@@ -118,9 +118,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .side-nav a.active { color: var(--fg); background: var(--panel-2); font-weight: 500; }
 .side-nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 16px; border-radius: 2px; background: var(--accent); }
 .side-sep { height: 1px; background: var(--border); }
-.side-near { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
-.side-near a { font-family: var(--mono); font-size: 11px; color: var(--label); padding: 4px 6px; border-radius: 6px; transition: color .2s, background .2s; }
-.side-near a:hover { color: var(--fg); background: var(--panel-2); }
 .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 14px; }
 .side-theme { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s; }
 .side-theme:hover { border-color: var(--border-2); }
@@ -134,7 +131,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .side-nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
   .side-nav a { white-space: nowrap; }
   .side-nav a.active::before { display: none; }
-  .side-near { flex-direction: row; }
 }
 
 /* ============================================================
@@ -354,7 +350,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <div class="side-foot">
       <div class="side-sep" aria-hidden="true"></div>
       <div class="side-near">
-        <a href="../design-system/">Design System for AI Agents →</a>
+        <span class="sn-btn sn-prev" aria-hidden="true"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></span>
+        <a class="sn-label" href="../../work/">Cases</a>
+        <a class="sn-btn sn-next" href="../design-system/" aria-label="Next case: Design System for AI Agents" title="Design System for AI Agents"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
       </div>
       <button class="side-theme" id="themeBtnSide" type="button" aria-label="Toggle dark / light theme" aria-pressed="false">
         <svg class="icon-moon lu lu-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>

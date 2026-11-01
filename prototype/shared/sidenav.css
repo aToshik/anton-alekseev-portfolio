@@ -22,3 +22,14 @@
   .filter-btn[aria-pressed="true"] .fdot { background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
   .filter-btn.all .fdot { display: none; }
 }
+
+/* ---- case sidebar: Previous / Next = two arrow buttons, "Cases" label in the middle ---- */
+.side-near { display: flex; align-items: center; gap: 6px; padding: 0 4px; }
+.side-near .sn-btn { position: relative; flex: none; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); transition: color .2s, border-color .2s, background .2s; }
+.side-near .sn-btn svg { width: 16px; height: 16px; transition: transform .2s ease; }
+.side-near a.sn-btn:hover, .side-near a.sn-btn:focus-visible { color: var(--fg); border-color: var(--border-2); background: var(--panel-2); }
+.side-near a.sn-prev:hover svg { transform: translateX(-2px); }
+.side-near a.sn-next:hover svg { transform: translateX(2px); }
+.side-near span.sn-btn { opacity: .35; }
+.side-near .sn-label { flex: 1; text-align: center; font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--label); padding: 6px 0; border-radius: 6px; transition: color .2s; }
+.side-near .sn-label:hover { color: var(--fg); }

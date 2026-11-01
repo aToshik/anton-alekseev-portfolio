@@ -9,10 +9,14 @@ button[data-lightbox] { appearance: none; -webkit-appearance: none; }
 [data-lightbox].has-img { padding: 0; min-height: 0; overflow: hidden; border-style: solid; border-color: var(--border); background: var(--panel-2); display: block; }
 [data-lightbox].has-img img, [data-lightbox].has-img video { display: block; width: 100%; height: auto; }
 [data-lightbox]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.lb-zoom { position: absolute; top: 10px; right: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: var(--nav-bg); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--border); color: var(--fg); font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; opacity: 0; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
-.lb-zoom svg { width: 13px; height: 13px; }
-[data-lightbox]:hover .lb-zoom, [data-lightbox]:focus-visible .lb-zoom { opacity: 1; transform: none; }
-@media (hover: none) { .lb-zoom { opacity: 1; transform: none; padding: 6px; } .lb-zoom span { display: none; } }
+/* Play / Expand tag: square-ish chip in the button language (radius 6, mono label).
+   Shown when the decision card is hovered, turns lime (primary) on the frame itself. */
+.lb-zoom { position: absolute; z-index: 4; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 11px 0 9px; border-radius: 6px; background: var(--nav-bg); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--border-2); color: var(--fg); font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; opacity: 0; transform: translateY(-4px); transition: opacity .25s ease, transform .35s var(--snap, ease), background .2s ease, color .2s ease, border-color .2s ease; pointer-events: none; }
+.lb-zoom svg { width: 12px; height: 12px; }
+[data-lightbox] .lb-zoom span { color: inherit; font: inherit; letter-spacing: inherit; line-height: 1; }
+.phase:hover .lb-zoom { opacity: 1; transform: none; }
+[data-lightbox]:hover .lb-zoom, [data-lightbox]:focus-visible .lb-zoom { opacity: 1; transform: none; background: var(--btn-bg); border-color: var(--btn-bg); color: var(--btn-fg); }
+@media (hover: none) { .lb-zoom { opacity: 1; transform: none; padding: 0; width: 30px; justify-content: center; } .lb-zoom span { display: none; } }
 
 /* ---- overlay ---- */
 .lb { position: fixed; inset: 0; z-index: 2000; display: grid; grid-template-columns: minmax(0, 1fr) 360px; grid-template-rows: auto minmax(0, 1fr); background: color-mix(in srgb, var(--bg) 98%, transparent); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s linear .25s; }
