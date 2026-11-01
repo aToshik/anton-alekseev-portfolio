@@ -1,0 +1,23 @@
+/* ============================================================
+   CONTACT FOOTER (Home), chosen 2026-11-01: see-through dark section
+   (the space shows through), lime "together.", and points that flow
+   in from the edges and land in "Start a conversation" (footer.js).
+   ============================================================ */
+.contact {
+  --hz: #b8f24a;
+  position: relative; isolation: isolate; overflow: hidden;
+  background: color-mix(in srgb, var(--panel) 72%, transparent); border-color: var(--border); color: var(--fg);
+}
+[data-theme="light"] .contact { --hz: #4ea832; }
+.contact > * { position: relative; z-index: 1; }
+.contact .eyebrow, .contact .eyebrow .n { color: var(--label); }
+.contact h2 { color: var(--fg); }
+.contact h2 .t2 { color: var(--hz); }
+.contact-sub { color: var(--muted); }
+.contact-btn { background: var(--btn-bg); color: var(--btn-fg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hz) 50%, transparent), 0 0 34px 2px color-mix(in srgb, var(--hz) 30%, transparent); }
+.contact-methods, .cm + .cm { border-color: color-mix(in srgb, var(--hz) 28%, transparent); }
+.cm small { color: var(--label); }
+.cm a, .cm span { color: var(--fg); }
+.contact-foot { color: var(--label); }
+.ct-fx { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 0 !important; pointer-events: none; }

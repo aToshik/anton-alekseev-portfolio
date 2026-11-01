@@ -80,6 +80,7 @@ const smooth=(a,b,x)=>{ const t=Math.min(1,Math.max(0,(x-a)/(b-a))); return t*t*
 
 // ---- pointer
 const mouse={x:0,y:0}, target={x:0,y:0};
+let fieldT=0; const FIELD=(()=>{ let seed=7; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647; return Array.from({length:220},()=>{ const a=rnd()*Math.PI*2, r=.25+rnd()*.95; return {x:Math.cos(a)*r, y:Math.sin(a)*r, p:rnd(), v:38+rnd()*30, b:.6+rnd()*.4}; }); })();
 let real=false, touch=false, hover=-1, hoverRing=-1, sel=-1;
 hero.addEventListener('pointermove',e=>{ const r=hero.getBoundingClientRect(); target.x=e.clientX-r.left; target.y=e.clientY-r.top; real=true; });
 let downX=0, downY=0;
@@ -287,9 +288,13 @@ function frame(now){
   const stateOf=o=>!selObj?0:o===selObj?1:!showRel?0:selObj.rel.includes(o.id)?2:-1;
 
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
-  // faint grid crosses
-  ctx.strokeStyle=P.fg; ctx.lineWidth=1; ctx.globalAlpha=.08; ctx.beginPath();
-  for(let gx=W*.12;gx<W;gx+=W*.125) for(let gy=H*.16;gy<H;gy+=H*.17){ ctx.moveTo(gx-3,gy); ctx.lineTo(gx+3,gy); ctx.moveTo(gx,gy-3); ctx.lineTo(gx,gy+3); } ctx.stroke();
+  // depth field: points drift slowly out of the planet toward the viewer (near ones bigger, brighter, faster)
+  // and shift against the cursor by depth, so the scene reads as an endless space behind the orbit
+  if(!reduce) fieldT+=dt;
+  { const ox=(mouse.x-C.x), oy=(mouse.y-C.y), sc=Math.max(W,H)*.62; ctx.fillStyle=P.fg;
+    for(const st of FIELD){ const z=1-.93*(((st.p+fieldT/st.v)%1+1)%1), f=.1/z, n=1-z;
+      const x=C.x+st.x*sc*f-ox*.06*n, y=C.y+st.y*sc*f*.8-oy*.06*n; if(x<-4||y<-4||x>W+4||y>H+4) continue;
+      const fadeIn=Math.min(1,n*6); ctx.globalAlpha=(.06+.5*n*n)*fadeIn*st.b; const r=.5+1.7*n*n; ctx.fillRect(x-r/2,y-r/2,r,r); } }
 
   const focus=sel>=0?-1:hover>=0?OBJ[hover].o:hoverRing;
   ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus)));

@@ -50,3 +50,10 @@
   .hero.po .hero-eyebrow { flex-direction: column; align-items: center; gap: 5px; }
   .hero.po .hero-eyebrow span { white-space: nowrap; } .hero.po .hero-eyebrow .dot-sm { display: none; }
 }
+
+/* depth: light from the core behind the planet + vignette that sinks the edges toward the page, so the scene reads as a deep space, not a flat panel */
+.hero.po { --core: color-mix(in srgb, var(--accent) 10%, transparent); --void: color-mix(in srgb, var(--bg) 92%, transparent);
+  background-image:
+    radial-gradient(ellipse 30% 34% at 50% 38%, var(--core), transparent 72%),
+    radial-gradient(ellipse 80% 78% at 50% 40%, transparent 38%, var(--void) 100%); }
+[data-theme="light"] .hero.po { --core: color-mix(in srgb, #4ea832 9%, transparent); --void: color-mix(in srgb, #dfe2d6 85%, transparent); }
