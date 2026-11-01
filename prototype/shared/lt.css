@@ -44,3 +44,17 @@ html[data-theme="light"][data-lt="atlas"] .contact h2 .t2 {
 html[data-theme="light"][data-lt="atlas"] .contact { --hz: #3f8f27; }
 html[data-theme="light"][data-lt="atlas"] .contact-btn { box-shadow: 0 0 0 4px var(--hl); }
 html[data-theme="light"][data-lt="atlas"] :is(.case-card, .tool-card, .role-card, .tile)::before { border-color: var(--fg); }
+
+/* ---------- DUSK: the same space, a few stops lighter ---------- */
+html[data-theme="light"][data-lt="dusk"] {
+  color-scheme: dark;
+  --bg: #2b302c; --panel: #333934; --panel-2: #3a413b; --card: #3a413b; --card-h: #424a43;
+  --fg: #f4f6ef; --muted: #c2c7bb; --label: #a9afa3; --border: #464e47; --border-2: #545d55;
+  --accent: #9de68c; --accent-ink: #9de68c; --accent-weak: rgba(157,230,140,.16);
+  --lime: #c6f560; --nav-bg: rgba(51,57,52,.86); --btn-bg: #f4f6ef; --btn-fg: #20241f;
+  --shadow: 0 18px 50px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.16);
+  --shot-frame: #1d211d; --hz: #c6f560;
+}
+html[data-theme="light"][data-lt="dusk"] .hero.po { --core: color-mix(in srgb, #9de68c 13%, transparent); --void: color-mix(in srgb, #2b302c 88%, transparent); }
+html[data-theme="light"][data-lt="dusk"] .contact { --hz: #c6f560; }
+html[data-theme="light"][data-lt="dusk"] .role-logo.k { background: var(--fg); color: var(--panel); }

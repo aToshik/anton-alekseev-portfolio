@@ -20,7 +20,7 @@
   addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') { tx = e.clientX - W / 2; ty = e.clientY - H / 2; } }, { passive: true });
   var lastY = scrollY, vel = 0, T = 0, prev = performance.now(), raf = 0;
   function mode() { return window.ltMode ? window.ltMode(null) : (root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); }
-  function colour() { var m = mode(); return m === 'atlas' ? '#2a2b24' : m === 'light' ? '#6f7568' : '#f0f2ea'; }
+  function colour() { var m = mode(); return m === 'atlas' ? '#2a2b24' : m === 'light' ? '#6f7568' : m === 'dusk' ? '#fbfcf6' : '#f0f2ea'; }
   function frame(now) {
     raf = requestAnimationFrame(frame);
     var dt = Math.min(.05, (now - prev) / 1000); prev = now;
@@ -29,7 +29,7 @@
     var boost = calm ? 0 : Math.max(-6, Math.min(6, vel / 400));            // scroll speeds the flow, sign = direction
     if (!reduce) T += dt * (calm ? 0 : .35 + boost);
     mx += (tx - mx) * Math.min(1, dt * 4); my += (ty - my) * Math.min(1, dt * 4);
-    var md = mode(), light = md !== 'dark', atlas = md === 'atlas';
+    var md = mode(), light = md === 'light' || md === 'atlas', atlas = md === 'atlas';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = colour();
     var cx = W / 2, cy = H * .45, sc = Math.max(W, H) * .6, k = light ? .55 : 1;
     for (var i = 0; i < N; i++) {
