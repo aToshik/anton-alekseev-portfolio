@@ -1,0 +1,20 @@
+/* ============================================================
+   INTERACTIVE CARDS outside Home (Work case cards, case Prev/Next):
+   same language as Home — tinted card, no lift, hover/focus =
+   green corner brackets growing out past the edge. Replaces glow.
+   ============================================================ */
+:root { --snap: cubic-bezier(.3,1.35,.5,1); --card: #191c19; --card-h: #1f231f; }
+[data-theme="light"] { --card: color-mix(in srgb, #4ea832 6%, #ffffff); --card-h: color-mix(in srgb, #4ea832 3%, #ffffff); }
+
+.case-card, .pager a { position: relative; background: var(--card); }
+.case-card:hover, .pager a:hover { background: var(--card-h); border-color: var(--border-2); transform: none; box-shadow: none; }
+
+:is(.case-card, .pager a)::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none; inset: 6px; opacity: 0;
+  border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px);
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
+  transition: opacity .35s var(--snap), inset .35s var(--snap);
+}
+:is(.case-card, .pager a):is(:hover, :focus-visible, :focus-within)::before { opacity: 1; inset: -7px; }
+@media (prefers-reduced-motion: reduce) { :is(.case-card, .pager a)::before { transition: none; } }
