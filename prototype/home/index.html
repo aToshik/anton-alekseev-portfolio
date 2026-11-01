@@ -294,8 +294,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* hover = corner brackets grow out of the card past its edge (same language as orbit objects and the "+" buttons), instead of edge glow */
 :root { --snap: cubic-bezier(.3,1.35,.5,1); } /* one timing for the card brackets and the target, so they land together */
 @property --bk { syntax: '<color>'; inherits: true; initial-value: transparent; }
-.case-card, .tool-card, .role-card, .tile { position: relative; }
-:is(.case-card, .tool-card, .role-card, .tile)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
+.case-card, .tool-card, .role-card, .tile, .why-card { position: relative; }
+:is(.case-card, .tool-card, .role-card, .tile, .why-card)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
   border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px); opacity: 0; inset: 6px; transition: opacity .35s var(--snap), inset .35s var(--snap);
   -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
@@ -305,8 +305,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tile:first-child::before { -webkit-mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; }
 .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; }
 @media (max-width: 1000px) { .tile:first-child::before, .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; } }
-:is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
-@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
+:is(.case-card, .tool-card, .role-card, .tile, .why-card):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
+@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile, .why-card)::before { transition: none; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
@@ -357,14 +357,65 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .mz-actionbar small { font-family:var(--mono); font-size:8px; color:var(--muted); }
 .mz-actionbar .btn { font-family:var(--mono); font-size:8px; color:#0b140a; background:var(--lime); border-radius:5px; padding:4px 9px; }
 
-/* ---- WHY (how I work) ---- */
-.why-rows { display: flex; flex-direction: column; }
-.why-row { display: grid; grid-template-columns: 40px minmax(160px, 320px) 1fr; gap: 20px; align-items: start; padding: 26px 0; border-top: 1px solid var(--border); }
-.why-row:last-child { border-bottom: 1px solid var(--border); }
-.why-ico { color: var(--accent); width: 28px; height: 28px; transform-origin: 50% 60%; }
-.why-ico svg { width: 100%; height: 100%; }
-.why-t { font-family: var(--display); font-weight: 500; font-size: 17px; letter-spacing: -.02em; }
-.why-d { font-size: 13px; line-height: 1.7; color: var(--muted); max-width: 46ch; }
+/* ---- WHY (how I work): three principle cards, each with a small square-language scene ---- */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+.why-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 12px; transition: background .25s ease, border-color .25s ease; }
+.why-card:hover { background: var(--card-h); border-color: var(--border-2); }
+.why-n { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--label); margin-top: 6px; }
+.why-t { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -.02em; line-height: 1.2; }
+.why-d { font-size: 13px; line-height: 1.65; color: var(--muted); }
+.why-refs { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+/* "Seen in" label before the case links */
+.why-seen { width: 100%; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
+.why-ref { position: relative; z-index: 3; display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--fg); text-decoration: none; transition: color .2s; }
+.why-ref::before { content: ''; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); }
+.why-ref:hover, .why-ref:focus-visible { color: var(--accent); }
+/* scene stage */
+.ws { position: relative; height: 150px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); overflow: hidden; }
+.ws-lb { position: absolute; font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); white-space: nowrap; }
+/* 01 path: the view starts on one screen, widens to the whole job, then a square walks it end to end */
+.ws-path { position: absolute; left: 12%; right: 12%; top: 50%; height: 1px; background: var(--border-2); }
+.ws-node { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 1px; border: 1px solid var(--border-2); background: var(--panel-2); }
+.ws-node.cur { border-color: var(--accent); }
+.ws-path .ws-lb { top: 16px; transform: translateX(-50%); }
+.ws-frame { position: absolute; top: 50%; height: 58px; margin-top: -22px; left: -6%; right: -6%; border: 1px solid var(--accent); border-radius: 3px; opacity: .55;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 0/8px 8px no-repeat, linear-gradient(#000 0 0) 0 100%/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 100%/8px 8px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 0/8px 8px no-repeat, linear-gradient(#000 0 0) 0 100%/8px 8px no-repeat, linear-gradient(#000 0 0) 100% 100%/8px 8px no-repeat; }
+.ws-walk { position: absolute; top: 50%; left: 100%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 1px; background: var(--accent); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent); opacity: 0; }
+/* 02 why: an opaque box opens, the factors behind a call show up and lead to one next step */
+.ws-why { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ws-why .bar { fill: var(--border-2); }
+.ws-why .ln { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 0; opacity: .8; }
+.ws-why .out { fill: var(--accent); }
+.ws-why text { font-family: var(--mono); font-size: 8px; letter-spacing: .06em; fill: var(--label); }
+.ws-why .box { fill: var(--bg); stroke: var(--border-2); opacity: 0; }
+.ws-why .box-q { font-size: 13px; fill: var(--label); opacity: 0; }
+/* 03 pattern: scattered, inconsistent pieces snap into one shared pattern, column by column */
+.ws-src { position: absolute; left: 20px; top: 50%; width: 52px; height: 46px; margin-top: -23px; border: 1px solid var(--accent); border-radius: 2px; display: flex; align-items: center; justify-content: center; text-align: center; font-family: var(--mono); font-size: 9px; line-height: 1.25; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+.ws-grid { position: absolute; left: 90px; right: 18px; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.ws-grid i { aspect-ratio: 1; border-radius: 1px; border: 1px solid var(--accent); background: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ok #why.in .ws-frame { animation: wsFrame 6s cubic-bezier(.65,0,.35,1) infinite; }
+  .motion-ok #why.in .ws-walk { animation: wsWalk 6s cubic-bezier(.45,0,.55,1) infinite; }
+  .motion-ok #why.in .ws-node:not(.cur) { animation: wsNode 6s linear infinite; }
+  .motion-ok #why.in .ws-path .ws-lb:not(.cur) { animation: wsLb 6s linear infinite; }
+  .motion-ok #why.in .ws-why .box, .motion-ok #why.in .ws-why .box-q { animation: wsBox 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-why .bar { animation: wsBar 6s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: left center; }
+  .motion-ok #why.in .ws-why .ln { animation: wsLn 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-why .out, .motion-ok #why.in .ws-why .out-lb { animation: wsOut 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-grid i { animation: wsAlign 5s cubic-bezier(.3,1.35,.5,1) infinite; animation-delay: var(--d, 0s); }
+}
+@keyframes wsFrame { 0%, 22% { left: 42%; right: 42%; } 36%, 92% { left: -6%; right: -6%; } 100% { left: 42%; right: 42%; } }
+@keyframes wsWalk { 0%, 38% { left: 0; opacity: 0; } 42% { left: 0; opacity: 1; } 84% { left: 100%; opacity: 1; } 90%, 100% { left: 100%; opacity: 0; } }
+@keyframes wsNode { 0%, 30% { opacity: .25; } 38%, 92% { opacity: 1; } 100% { opacity: .25; } }
+@keyframes wsLb { 0%, 30% { opacity: 0; } 38%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes wsBox { 0%, 26% { opacity: 1; } 36%, 92% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes wsBar { 0%, 30% { transform: scaleX(0); } 40%, 92% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes wsLn { 0%, 42% { stroke-dashoffset: 1; opacity: 0; } 43% { opacity: .8; } 60%, 92% { stroke-dashoffset: 0; opacity: .8; } 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes wsOut { 0%, 58% { opacity: 0; } 64%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes wsAlign { 0%, 16% { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s)); background: transparent; border-color: var(--border-2); }
+  30%, 72% { transform: none; background: var(--accent); border-color: var(--accent); }
+  88%, 100% { transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(var(--s)); background: transparent; border-color: var(--border-2); } }
 
 /* ---- AI tools ---- */
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
@@ -505,7 +556,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 @media (prefers-reduced-motion: reduce) {
   .tool-usage { grid-template-rows: 1fr; transition: none; }
   .tool-usage > p span { opacity: 1; }
-  .why-ico { animation: none; transform: none; }
 }
 
 /* ============================================================
@@ -539,10 +589,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 }
 @media (max-width: 760px) {
   .work-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
   .sec-top { grid-template-columns: 1fr; }
   .hero-bottom { grid-template-columns: 1fr; align-items: start; }
   .hero-meta { align-items: flex-start; } .hero-tags { justify-content: flex-start; }
-  .why-row { grid-template-columns: 34px 1fr; } .why-row .why-d { grid-column: 1 / -1; }
   .contact-lead { grid-template-columns: 1fr; } .contact-sub { justify-self: start; }
   .nav-links { display: none; }
 }
@@ -766,26 +816,55 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       <div class="sec-top">
         <div>
           <p class="eyebrow h-eyebrow-row">How I work</p>
-          <h2 class="disp" id="why-title" style="font-size:clamp(32px,4.6vw,56px)">Designers who can hold both ends, <span class="mut">strategy and craft</span>, are rare<span class="dot">.</span></h2>
+          <h2 class="disp" id="why-title" style="font-size:clamp(32px,4.6vw,56px)">I design the whole loop, <span class="mut">not just the screen</span><span class="dot">.</span></h2>
         </div>
-        <p class="sec-sub">I move between product direction and production detail without losing the thread.</p>
+        <p class="sec-sub">Media buyers, small business owners, AI agents. Different users, same habit: find where the work really breaks, then fix it at the root.</p>
       </div>
-      <div class="why-rows stagger">
-        <div class="why-row">
-          <span class="why-ico"><svg class="lu lu-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></span>
-          <span class="why-t">Lifecycle, not the screen</span>
-          <span class="why-d">I map the whole operating loop—before, during, and after the click—so the product solves the actual job.</span>
-        </div>
-        <div class="why-row">
-          <span class="why-ico"><svg class="lu lu-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-l1" d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path class="lu-l2" d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/><path class="lu-l3" d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/></svg></span>
-          <span class="why-t">Systems first, screens second</span>
-          <span class="why-d">I create reusable rules that help teams make consistent decisions without slowing down the work.</span>
-        </div>
-        <div class="why-row">
-          <span class="why-ico"><svg class="lu lu-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-r1" d="M3 6h18"/><path class="lu-r2" d="M7 12h10"/><path class="lu-r3" d="M10 18h4"/></svg></span>
-          <span class="why-t">Density is not the enemy</span>
-          <span class="why-d">For expert tools, clarity comes from hierarchy and context—not from hiding the information people need.</span>
-        </div>
+      <div class="why-grid stagger">
+        <article class="why-card">
+          <div class="ws" aria-hidden="true">
+            <div class="ws-path">
+              <i class="ws-node" style="left:0"></i><i class="ws-node" style="left:25%"></i><i class="ws-node cur" style="left:50%"></i><i class="ws-node" style="left:75%"></i><i class="ws-node" style="left:100%"></i>
+              <span class="ws-lb" style="left:0">Before</span><span class="ws-lb cur" style="left:50%">Screen</span><span class="ws-lb" style="left:100%">After</span>
+              <i class="ws-frame"></i><i class="ws-walk"></i>
+            </div>
+          </div>
+          <span class="why-n">01</span>
+          <h3 class="why-t">Follow the job, not the screen</h3>
+          <p class="why-d">A screen is one moment in someone's day. I start from the whole job: what triggers it, who else is involved, what happens after. Then I design the path, not the page.</p>
+          <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/inbox/">Inbox</a></div>
+        </article>
+        <article class="why-card">
+          <div class="ws" aria-hidden="true">
+            <svg class="ws-why" viewBox="0 0 260 150" preserveAspectRatio="xMidYMid meet">
+              <text x="34" y="36">WHY</text>
+              <rect class="bar" x="34" y="48" width="58" height="6" rx="1" style="--d:0s"/>
+              <rect class="bar" x="34" y="72" width="40" height="6" rx="1" style="--d:.1s"/>
+              <rect class="bar" x="34" y="96" width="70" height="6" rx="1" style="--d:.2s"/>
+              <path class="ln" pathLength="1" d="M96 51 C140 51 150 75 186 75"/>
+              <path class="ln" pathLength="1" d="M78 75 L186 75"/>
+              <path class="ln" pathLength="1" d="M108 99 C145 99 150 75 186 75"/>
+              <rect class="out" x="186" y="69" width="12" height="12" rx="1"/>
+              <text class="out-lb" x="192" y="100" text-anchor="middle">NEXT STEP</text>
+              <rect class="box" x="26" y="30" width="96" height="84" rx="2"/>
+              <text class="box-q" x="74" y="77" text-anchor="middle">?</text>
+            </svg>
+          </div>
+          <span class="why-n">02</span>
+          <h3 class="why-t">Make the black box readable</h3>
+          <p class="why-d">People don't act on what they don't understand. When a system makes a call, I show why it did, and turn that into one clear next step.</p>
+          <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/price-exploration/">Price Exploration</a><a class="why-ref" href="../case/channel-analysis/">Channel Analysis</a></div>
+        </article>
+        <article class="why-card">
+          <div class="ws" aria-hidden="true">
+            <div class="ws-src">One<br>pattern</div>
+            <div class="ws-grid"><i style="--d:0.00s;--x:0px;--y:-3px;--r:15deg;--s:0.55"></i><i style="--d:0.07s;--x:-4px;--y:3px;--r:-25deg;--s:0.85"></i><i style="--d:0.14s;--x:4px;--y:-5px;--r:30deg;--s:0.70"></i><i style="--d:0.21s;--x:-5px;--y:-4px;--r:15deg;--s:1.00"></i><i style="--d:0.28s;--x:-4px;--y:-2px;--r:-25deg;--s:1.15"></i><i style="--d:0.35s;--x:1px;--y:-5px;--r:30deg;--s:0.55"></i><i style="--d:0.42s;--x:-2px;--y:5px;--r:45deg;--s:1.15"></i><i style="--d:0.49s;--x:-5px;--y:4px;--r:30deg;--s:1.00"></i><i style="--d:0.56s;--x:-5px;--y:-2px;--r:-25deg;--s:1.15"></i><i style="--d:0.03s;--x:-3px;--y:-1px;--r:15deg;--s:0.70"></i><i style="--d:0.10s;--x:3px;--y:-4px;--r:30deg;--s:0.85"></i><i style="--d:0.17s;--x:3px;--y:5px;--r:-15deg;--s:0.55"></i><i style="--d:0.24s;--x:4px;--y:4px;--r:45deg;--s:0.70"></i><i style="--d:0.31s;--x:0px;--y:-4px;--r:30deg;--s:0.55"></i><i style="--d:0.38s;--x:4px;--y:-5px;--r:30deg;--s:0.70"></i><i style="--d:0.45s;--x:2px;--y:5px;--r:30deg;--s:1.00"></i><i style="--d:0.52s;--x:0px;--y:2px;--r:30deg;--s:1.00"></i><i style="--d:0.59s;--x:0px;--y:-1px;--r:-15deg;--s:0.70"></i><i style="--d:0.06s;--x:-2px;--y:-4px;--r:30deg;--s:0.85"></i><i style="--d:0.13s;--x:3px;--y:2px;--r:0deg;--s:1.00"></i><i style="--d:0.20s;--x:-1px;--y:4px;--r:-25deg;--s:0.55"></i><i style="--d:0.27s;--x:3px;--y:1px;--r:-15deg;--s:0.85"></i><i style="--d:0.34s;--x:-3px;--y:2px;--r:15deg;--s:0.55"></i><i style="--d:0.41s;--x:5px;--y:-4px;--r:30deg;--s:1.15"></i><i style="--d:0.48s;--x:0px;--y:0px;--r:45deg;--s:0.85"></i><i style="--d:0.55s;--x:4px;--y:2px;--r:30deg;--s:1.00"></i><i style="--d:0.62s;--x:-4px;--y:-4px;--r:0deg;--s:1.00"></i><i style="--d:0.09s;--x:5px;--y:-4px;--r:-25deg;--s:0.85"></i><i style="--d:0.16s;--x:5px;--y:4px;--r:45deg;--s:1.00"></i><i style="--d:0.23s;--x:-1px;--y:1px;--r:45deg;--s:0.85"></i><i style="--d:0.30s;--x:-5px;--y:2px;--r:0deg;--s:0.70"></i><i style="--d:0.37s;--x:4px;--y:-4px;--r:15deg;--s:0.55"></i><i style="--d:0.44s;--x:-2px;--y:-1px;--r:-15deg;--s:0.70"></i><i style="--d:0.51s;--x:1px;--y:1px;--r:15deg;--s:0.55"></i><i style="--d:0.58s;--x:-3px;--y:2px;--r:15deg;--s:1.15"></i><i style="--d:0.65s;--x:-1px;--y:-3px;--r:15deg;--s:1.15"></i></div>
+          </div>
+          <span class="why-n">03</span>
+          <h3 class="why-t">Fix it once, for everyone</h3>
+          <p class="why-d">If a problem keeps coming back, I solve the pattern, not the instance. Rules, components and bulk actions that keep working as the product and the team grow.</p>
+          <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/cross-campaign/">Cross-Campaign</a><a class="why-ref" href="../case/design-system/">Design System for AI</a></div>
+        </article>
       </div>
     </section>
 

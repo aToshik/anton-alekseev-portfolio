@@ -5,7 +5,6 @@
    All motion sits inside prefers-reduced-motion: no-preference.
    ============================================================ */
 .lu * { transform-box: fill-box; transform-origin: center; }
-.why-ico .lu { width: 100%; height: 100%; overflow: visible; }
 .case-arrow, .btn-contact, .contact-btn { overflow: hidden; }
 
 @keyframes luDraw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
@@ -22,10 +21,6 @@
 @keyframes luNudgeR { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
 @keyframes luExpandA { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(1.5px,-1.5px); } }
 @keyframes luExpandB { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(-1.5px,1.5px); } }
-@keyframes luRefresh { 0%, 15% { transform: rotate(0); } 55%, 100% { transform: rotate(180deg); } }
-@keyframes luLift1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
-@keyframes luLift2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.2px); } }
-@keyframes luRow { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.55); } }
 @keyframes luClick { 0%, 100% { transform: translate(0,0) scale(1); } 40% { transform: translate(-2.5px,-2.5px) scale(1); } 60% { transform: translate(0,0) scale(.85); } }
 @keyframes luWave { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-14deg); } 65% { transform: rotate(6deg); } }
 
@@ -52,14 +47,6 @@
   .side-nav a:is(:hover, .active) .lu-route .lu-path { animation: luDraw .8s ease-in-out; }
   .side-nav a:is(:hover, .active) .lu-route .lu-b { animation: luPop .45s ease-out .6s; }
   .side-nav a:is(:hover, .active) .lu-mail .lu-flap { animation: luFlap .7s ease-in-out; transform-origin: 50% 0%; }
-
-  /* How I work — calm continuous loops, one per idea */
-  .lu-refresh { animation: luRefresh 3.2s cubic-bezier(.6,0,.2,1) infinite; }
-  .lu-layers .lu-l1 { animation: luLift1 2.8s ease-in-out infinite; }
-  .lu-layers .lu-l2 { animation: luLift2 2.8s ease-in-out infinite; }
-  .lu-filter path { animation: luRow 2.6s ease-in-out infinite; transform-origin: left center; }
-  .lu-filter .lu-r2 { animation-delay: .3s; }
-  .lu-filter .lu-r3 { animation-delay: .6s; }
 
   /* AI tools — gesture on card hover / focus */
   .tool-card:is(:hover, :focus-within) .lu-sparkles .lu-star { animation: luPop .6s ease-out; }
