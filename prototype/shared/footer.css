@@ -1,6 +1,6 @@
 /* ============================================================
    CONTACT FOOTER — 3 variants to compare (Home), ?foot=1|2|3 (0 = original lime)
-   1 · Horizon  — dark section, a lime planet horizon rises at the bottom
+   1 · Dark     — see-through dark section, lime "together.", visual by ?fx=a|b|c
    2 · Lime + space — lime card keeps its fill, dark points drift inside it
    3 · Light source — lime card glows onto the dark, space points pull towards it
    ============================================================ */
@@ -10,7 +10,7 @@
 /* ---------- 1 · HORIZON ---------- */
 html[data-foot="1"] .contact {
   --hz: #b8f24a; --hz-fill: #0b0d0b; --rise: 0px;
-  background: color-mix(in srgb, var(--panel) 84%, transparent); border-color: var(--border); color: var(--fg); overflow: hidden;
+  background: color-mix(in srgb, var(--panel) 72%, transparent); border-color: var(--border); color: var(--fg); overflow: hidden;
 }
 html[data-theme="light"][data-foot="1"] .contact { --hz: #4ea832; --hz-fill: color-mix(in srgb, #4ea832 7%, #ffffff); }
 html[data-foot="1"] .contact .eyebrow, html[data-foot="1"] .contact .eyebrow .n { color: var(--label); }
@@ -23,18 +23,21 @@ html[data-foot="1"] .cm + .cm { border-color: color-mix(in srgb, var(--hz) 28%, 
 html[data-foot="1"] .cm small { color: var(--label); }
 html[data-foot="1"] .cm a, html[data-foot="1"] .cm span { color: var(--fg); }
 html[data-foot="1"] .contact-foot { color: var(--label); }
-/* atmosphere + planet */
-html[data-foot="1"] .contact::before, html[data-foot="1"] .contact::after { content: ''; position: absolute; z-index: 0; pointer-events: none; }
-html[data-foot="1"] .contact::before { /* haze above the horizon */
-  left: 0; right: 0; bottom: 0; height: 70%;
-  background: radial-gradient(60% 55% at 50% 100%, color-mix(in srgb, var(--hz) 22%, transparent), transparent 70%);
-  transform: translateY(calc(var(--rise) * .5));
+/* the visual inside the dark section, ?fx=a|b|c (footer.js) */
+.ct-fx { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 0 !important; pointer-events: none; }
+html[data-foot="1"] .contact { --hz-glow: color-mix(in srgb, var(--hz) 20%, transparent); }
+html[data-theme="light"][data-foot="1"] .contact { --hz-glow: color-mix(in srgb, var(--hz) 16%, transparent); }
+/* c · core light behind "together." (same light as the hero core) */
+html[data-foot="1"][data-fx="c"] .contact::before {
+  content: ''; position: absolute; z-index: 0; pointer-events: none; left: -10%; top: 10%; width: 80%; height: 90%;
+  background: radial-gradient(closest-side, var(--hz-glow), transparent);
+  animation: ctBreath 7s ease-in-out infinite alternate;
 }
-html[data-foot="1"] .contact::after { /* the planet: a huge circle whose top edge is the horizon */
-  left: -40%; right: -40%; top: calc(64% + var(--rise)); aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(closest-side, var(--hz-fill) 96%, color-mix(in srgb, var(--hz) 30%, var(--hz-fill)) 99.4%, var(--hz) 100%);
-  box-shadow: 0 0 60px 6px color-mix(in srgb, var(--hz) 38%, transparent), 0 0 160px 30px color-mix(in srgb, var(--hz) 14%, transparent);
-}
+html[data-foot="1"][data-fx="c"] .contact h2 .t2 { text-shadow: 0 0 40px color-mix(in srgb, var(--hz) 35%, transparent); }
+@keyframes ctBreath { from { transform: scale(.94); opacity: .8; } to { transform: scale(1.06); opacity: 1; } }
+/* b · the button is where the flow lands */
+html[data-foot="1"][data-fx="b"] .contact-btn { box-shadow: 0 0 0 1px color-mix(in srgb, var(--hz) 50%, transparent), 0 0 34px 2px color-mix(in srgb, var(--hz) 30%, transparent); }
+@media (prefers-reduced-motion: reduce) { html[data-foot="1"] .contact::before { animation: none; } }
 
 /* ---------- 2 · LIME + SPACE ---------- */
 .ct-space { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 0 !important; pointer-events: none; border-radius: inherit; }
