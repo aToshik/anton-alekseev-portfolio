@@ -14,3 +14,9 @@
 [data-theme="light"] .cover img { border-color: rgba(16,19,16,.16); box-shadow: 0 22px 44px -14px rgba(20,24,16,.42), 0 2px 6px rgba(20,24,16,.10); }
 .case-card:is(:hover, :focus-within) .cover img { transform: translate(-2.5%, -3%); }
 @media (prefers-reduced-motion: reduce) { .cover img { transition: none; } .case-card:is(:hover, :focus-within) .cover img { transform: none; } }
+
+/* TEMP (remove before merge): compare stage backgrounds via ?stage=s1 | ?stage=s5 */
+html[data-cover-stage="s1"] .cover { background: radial-gradient(90% 110% at 0 0, rgba(131,222,114,.22), rgba(131,222,114,.05) 45%, transparent 70%), linear-gradient(160deg, #141a14, #0b0d0b); }
+html[data-cover-stage="s1"][data-theme="light"] .cover { background: radial-gradient(90% 110% at 0 0, rgba(120,200,90,.32), rgba(120,200,90,.08) 45%, transparent 70%), linear-gradient(160deg, #eef2e6, #e1e5d8); }
+html[data-cover-stage="s5"] .cover { background: radial-gradient(100% 120% at 0 0, #2b4a22, #14200f 60%, #0d140b); }
+html[data-cover-stage="s5"][data-theme="light"] .cover { background: radial-gradient(100% 120% at 0 0, #d9f2b8, #c9e6a0 60%, #bcdc8e); }
