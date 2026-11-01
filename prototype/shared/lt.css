@@ -58,3 +58,23 @@ html[data-theme="light"][data-lt="dusk"] {
 html[data-theme="light"][data-lt="dusk"] .hero.po { --core: color-mix(in srgb, #9de68c 13%, transparent); --void: color-mix(in srgb, #2b302c 88%, transparent); }
 html[data-theme="light"][data-lt="dusk"] .contact { --hz: #c6f560; }
 html[data-theme="light"][data-lt="dusk"] .role-logo.k { background: var(--fg); color: var(--panel); }
+
+/* ---------- DAWN: the space lifted towards light, mid grey-green, white stars ---------- */
+html[data-theme="light"][data-lt="dawn"] {
+  color-scheme: dark;
+  --bg: #586059; --panel: #646d65; --panel-2: #6c756d; --card: #6c756d; --card-h: #747e75;
+  --fg: #ffffff; --muted: #e6eae1; --label: #d3d8cd; --border: #788279; --border-2: #879188;
+  --accent: #d2f76f; --accent-ink: #d2f76f; --accent-weak: rgba(210,247,111,.18);
+  --lime: #d2f76f; --nav-bg: rgba(100,109,101,.88); --btn-bg: #ffffff; --btn-fg: #20241f;
+  --shadow: 0 18px 50px rgba(20,24,20,.22), 0 2px 8px rgba(20,24,20,.14);
+  --shot-frame: #2a2f2b; --hz: #d2f76f;
+}
+html[data-theme="light"][data-lt="dawn"] .hero.po { --core: color-mix(in srgb, #d2f76f 14%, transparent); --void: color-mix(in srgb, #586059 85%, transparent); }
+html[data-theme="light"][data-lt="dawn"] .contact { --hz: #d2f76f; }
+html[data-theme="light"][data-lt="dawn"] .role-logo.k { background: var(--fg); color: var(--panel); }
+
+/* ---------- NIGHT: light sections on the dark starry page ---------- */
+html[data-theme="light"][data-lt="night"] { --bg: #0e100e; --nav-bg: rgba(255,255,255,.9); }
+/* solid panels: light over a dark page must not be see-through */
+html.has-space[data-theme="light"][data-lt="night"] .main .card, html.has-space[data-theme="light"][data-lt="night"] .sidebar { background-color: var(--panel); }
+html[data-theme="light"][data-lt="night"] .card, html[data-theme="light"][data-lt="night"] .sidebar, html[data-theme="light"][data-lt="night"] .nav { border-color: transparent; }

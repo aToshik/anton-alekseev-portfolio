@@ -20,7 +20,7 @@
   addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') { tx = e.clientX - W / 2; ty = e.clientY - H / 2; } }, { passive: true });
   var lastY = scrollY, vel = 0, T = 0, prev = performance.now(), raf = 0;
   function mode() { return window.ltMode ? window.ltMode(null) : (root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); }
-  function colour() { var m = mode(); return m === 'atlas' ? '#2a2b24' : m === 'light' ? '#6f7568' : m === 'dusk' ? '#fbfcf6' : '#f0f2ea'; }
+  function colour() { var m = mode(); return m === 'atlas' ? '#2a2b24' : m === 'light' ? '#6f7568' : m === 'dusk' || m === 'dawn' ? '#ffffff' : '#f0f2ea'; }
   function frame(now) {
     raf = requestAnimationFrame(frame);
     var dt = Math.min(.05, (now - prev) / 1000); prev = now;
@@ -31,7 +31,7 @@
     mx += (tx - mx) * Math.min(1, dt * 4); my += (ty - my) * Math.min(1, dt * 4);
     var md = mode(), light = md === 'light' || md === 'atlas', atlas = md === 'atlas';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = colour();
-    var cx = W / 2, cy = H * .45, sc = Math.max(W, H) * .6, k = light ? .55 : 1;
+    var cx = W / 2, cy = H * .45, sc = Math.max(W, H) * .6, k = light ? .55 : md === 'dawn' ? 1.25 : 1;
     for (var i = 0; i < N; i++) {
       var s = P[i], z = 1 - .93 * (((s.p + T / s.v) % 1 + 1) % 1), f = .1 / z, n = 1 - z;
       var x = cx + s.x * sc * f - mx * .05 * n, y = cy + s.y * sc * f * .8 - my * .05 * n;
