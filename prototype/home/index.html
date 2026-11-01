@@ -310,6 +310,28 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
+/* "All work" under the 4 home cases: secondary button (buttons.css size), glow line + corner brackets like case Prev/Next */
+.work-more { display: flex; justify-content: center; margin-top: clamp(20px, 2.4vw, 28px); }
+.more-btn { position: relative; display: inline-flex; align-items: center; gap: 12px; height: var(--btn-h, 44px); padding: 0 14px 0 18px;
+  border: 1px solid var(--border); border-radius: var(--btn-r, 8px); background: var(--panel); color: var(--fg); text-decoration: none;
+  font-family: var(--body); font-weight: 600; font-size: 12px; line-height: 1; transition: border-color .2s, background-color .2s; }
+.more-btn:hover { border-color: var(--border-2); background: var(--panel-2); }
+.more-btn .lu { width: 15px; height: 15px; color: var(--muted); transition: color .2s; overflow: hidden; }
+.more-btn:is(:hover, :focus-visible) .lu { color: var(--accent); }
+.more-btn .bk { position: absolute; inset: 6px; z-index: 3; pointer-events: none; opacity: 0; border: 1px solid var(--accent); border-radius: calc(var(--btn-r, 8px) + 4px);
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 0/14px 14px no-repeat, linear-gradient(#000 0 0) 0 100%/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 100%/14px 14px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 0/14px 14px no-repeat, linear-gradient(#000 0 0) 0 100%/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 100%/14px 14px no-repeat;
+  transition: opacity .35s var(--snap), inset .35s var(--snap); }
+.more-btn:is(:hover, :focus-visible) .bk { opacity: 1; inset: -6px; }
+.more-btn:focus-visible { outline: none; }
+@media (prefers-reduced-motion: reduce) { .more-btn .bk { transition: none; } }
+/* duplicate at the top right of the section header, under the sub line */
+#selected-work .sec-top { grid-template-columns: minmax(0,1fr) auto; }
+.work-top-end { display: flex; align-items: center; gap: 24px; }
+.work-top-end .sec-sub { max-width: none; white-space: nowrap; }
+.work-top-end .more-btn { flex: none; }
+@media (max-width: 1180px) { .work-top-end .sec-sub { white-space: normal; max-width: 26ch; } }
+@media (max-width: 760px) { .work-more .more-btn { width: 100%; justify-content: space-between; } #selected-work .sec-top { grid-template-columns: 1fr; } .work-top-end .sec-sub { max-width: 42ch; } .work-top-end .more-btn { display: none; } }
 .case-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .case-metric b { font-family: var(--display); font-weight: 500; font-size: 17px; letter-spacing: -.02em; color: var(--accent); }
 .case-metric span { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
@@ -727,7 +749,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <p class="eyebrow h-eyebrow-row">Case studies</p>
           <h2 class="disp" id="work-title" style="font-size:clamp(34px,5vw,58px)">Selected work<span class="dot">.</span></h2>
         </div>
-        <p class="sec-sub">Complex products made clear, scalable, and useful.</p>
+        <div class="work-top-end">
+          <p class="sec-sub">Complex products made clear, scalable, and useful.</p>
+          <a class="more-btn" href="../work/"><span class="bk" aria-hidden="true"></span>All work<svg class="lu lu-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
       </div>
       <div class="work-grid stagger">
 
@@ -779,6 +804,9 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
         </article>
 
+      </div>
+      <div class="work-more">
+        <a class="more-btn" href="../work/"><span class="bk" aria-hidden="true"></span>All work<svg class="lu lu-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
       </div>
     </section>
 
