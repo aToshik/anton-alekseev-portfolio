@@ -1,0 +1,45 @@
+/* ============================================================
+   LIGHT THEME DIRECTIONS (compare on Home, ?lt=islands|atlas|base)
+   ============================================================ */
+
+/* ---------- ISLANDS: hero + contact keep the dark space in the light theme ---------- */
+html[data-theme="light"][data-lt="islands"] :is(.hero, .contact) {
+  color-scheme: dark;
+  --bg: #0e100e; --panel: #141714; --panel-2: #191c19; --card: #191c19; --card-h: #1f231f;
+  --fg: #f0f2ea; --muted: #a0a59b; --label: #8e948a; --border: #292d29; --border-2: #353934;
+  --accent: #83de72; --accent-ink: #83de72; --accent-weak: rgba(131,222,114,.14);
+  --btn-bg: #f0f2ea; --btn-fg: #0e100e; --hz: #b8f24a;
+  --core: color-mix(in srgb, var(--accent) 10%, transparent); --void: color-mix(in srgb, #0e100e 92%, transparent);
+  background-color: #121512; border-color: #121512; color: var(--fg);
+}
+html[data-theme="light"][data-lt="islands"] .contact { background-color: #121512; }
+/* the page itself is calm paper-light: no grey dust behind the sections */
+html[data-theme="light"][data-lt="islands"] .space-bg { display: none; }
+
+/* ---------- ATLAS: the same universe, printed ---------- */
+html[data-theme="light"][data-lt="atlas"] {
+  --bg: #ece6d6; --panel: #f7f3e8; --panel-2: #efe9da; --card: #f2ecdd; --card-h: #ebe4d2;
+  --fg: #1c1d18; --muted: #55574d; --label: #7b7a6b; --border: #d6cdb7; --border-2: #c1b79e;
+  --accent: #3f8f27; --accent-ink: #357a20; --accent-weak: rgba(63,143,39,.12);
+  --lime: #c6f25a; --nav-bg: rgba(247,243,232,.86); --btn-bg: #1c1d18; --btn-fg: #f7f3e8;
+  --shadow: 0 1px 0 rgba(28,29,24,.06);
+  --hl: #d4f774;
+}
+/* star-chart graticule on the page */
+html[data-theme="light"][data-lt="atlas"].has-space {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(28,29,24,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28,29,24,.055) 1px, transparent 1px);
+  background-size: 160px 160px; background-attachment: fixed; background-position: center top;
+}
+html[data-theme="light"][data-lt="atlas"] .hero.po { --core: transparent; --void: color-mix(in srgb, var(--panel) 70%, transparent); }
+/* lime only as a highlighter stroke behind words */
+html[data-theme="light"][data-lt="atlas"] .contact h2 .t2 {
+  color: var(--fg);
+  background: linear-gradient(transparent 56%, var(--hl) 56%, var(--hl) 90%, transparent 90%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 .04em;
+}
+html[data-theme="light"][data-lt="atlas"] .contact { --hz: #3f8f27; }
+html[data-theme="light"][data-lt="atlas"] .contact-btn { box-shadow: 0 0 0 4px var(--hl); }
+html[data-theme="light"][data-lt="atlas"] :is(.case-card, .tool-card, .role-card, .tile)::before { border-color: var(--fg); }

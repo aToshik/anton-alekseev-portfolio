@@ -4,9 +4,10 @@
 const hero=document.getElementById('hero'), cv=document.getElementById('poCanvas'); if(!hero||!cv) return; const ctx=cv.getContext('2d');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PAL={ dark:{panel:'#141714',fg:'#f0f2ea',label:'#8e948a',accent:'#83de72'},
-            light:{panel:'#ffffff',fg:'#14160f',label:'#6f7568',accent:'#4ea832'} };
+            light:{panel:'#ffffff',fg:'#14160f',label:'#6f7568',accent:'#4ea832'},
+            atlas:{panel:'#f7f3e8',fg:'#1c1d18',label:'#7b7a6b',accent:'#3f8f27'} };
 const layoutMode='left', planetMode='wire';
-const themeOf=()=>document.documentElement.getAttribute('data-theme')==='light'?'light':'dark';
+const themeOf=()=>window.ltMode?window.ltMode(hero):(document.documentElement.getAttribute('data-theme')==='light'?'light':'dark');
 const MONO='"DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 
 // ---- two galaxies: how I ship / what it changes

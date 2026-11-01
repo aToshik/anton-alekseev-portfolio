@@ -19,7 +19,8 @@
   var mx = 0, my = 0, tx = 0, ty = 0;
   addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') { tx = e.clientX - W / 2; ty = e.clientY - H / 2; } }, { passive: true });
   var lastY = scrollY, vel = 0, T = 0, prev = performance.now(), raf = 0;
-  function colour() { return root.getAttribute('data-theme') === 'light' ? '#6f7568' : '#f0f2ea'; }
+  function mode() { return window.ltMode ? window.ltMode(null) : (root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'); }
+  function colour() { var m = mode(); return m === 'atlas' ? '#2a2b24' : m === 'light' ? '#6f7568' : '#f0f2ea'; }
   function frame(now) {
     raf = requestAnimationFrame(frame);
     var dt = Math.min(.05, (now - prev) / 1000); prev = now;
@@ -28,7 +29,7 @@
     var boost = calm ? 0 : Math.max(-6, Math.min(6, vel / 400));            // scroll speeds the flow, sign = direction
     if (!reduce) T += dt * (calm ? 0 : .35 + boost);
     mx += (tx - mx) * Math.min(1, dt * 4); my += (ty - my) * Math.min(1, dt * 4);
-    var light = root.getAttribute('data-theme') === 'light';
+    var md = mode(), light = md !== 'dark', atlas = md === 'atlas';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = colour();
     var cx = W / 2, cy = H * .45, sc = Math.max(W, H) * .6, k = light ? .55 : 1;
     for (var i = 0; i < N; i++) {
@@ -36,7 +37,9 @@
       var x = cx + s.x * sc * f - mx * .05 * n, y = cy + s.y * sc * f * .8 - my * .05 * n;
       if (x < -4 || y < -4 || x > W + 4 || y > H + 4) continue;
       ctx.globalAlpha = (.07 + .5 * n * n) * Math.min(1, n * 6) * s.b * k;
-      var r = .6 + 1.8 * n * n; ctx.fillRect(x - r / 2, y - r / 2, r, r);
+      var r = .6 + 1.8 * n * n;
+      if (atlas && n > .55) { var a2 = 2 + 3 * n; ctx.fillRect(x - a2, y - .5, a2 * 2, 1); ctx.fillRect(x - .5, y - a2, 1, a2 * 2); }   // printed star: a small cross
+      else ctx.fillRect(x - r / 2, y - r / 2, r, r);
     }
   }
   function start() { if (!raf) { prev = performance.now(); raf = requestAnimationFrame(frame); } }

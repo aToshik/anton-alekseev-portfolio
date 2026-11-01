@@ -18,7 +18,8 @@
     if (!vis) return;
     if (!reduce) requestAnimationFrame(frame);
     var dt = Math.min(.05, (now - last) / 1000); last = now;
-    var hz = light() ? '78,168,50' : '184,242,74', ink = light() ? '111,117,104' : '240,242,234';
+    var m = window.ltMode ? window.ltMode(card) : (light() ? 'light' : 'dark');
+    var hz = m === 'dark' ? '184,242,74' : m === 'atlas' ? '63,143,39' : '78,168,50', ink = m === 'dark' ? '240,242,234' : m === 'atlas' ? '28,29,24' : '111,117,104';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
     var br = btn.getBoundingClientRect(), cr = card.getBoundingClientRect();
     var bx = br.left - cr.left + br.width / 2, by = br.top - cr.top + br.height / 2, R = Math.hypot(W, H) * .7;
