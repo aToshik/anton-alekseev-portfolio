@@ -294,8 +294,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 /* hover = corner brackets grow out of the card past its edge (same language as orbit objects and the "+" buttons), instead of edge glow */
 :root { --snap: cubic-bezier(.3,1.35,.5,1); } /* one timing for the card brackets and the target, so they land together */
 @property --bk { syntax: '<color>'; inherits: true; initial-value: transparent; }
-.case-card, .tool-card, .role-card, .tile { position: relative; }
-:is(.case-card, .tool-card, .role-card, .tile)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
+.case-card, .tool-card, .role-card, .tile, .why-card { position: relative; }
+:is(.case-card, .tool-card, .role-card, .tile, .why-card)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
   border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px); opacity: 0; inset: 6px; transition: opacity .35s var(--snap), inset .35s var(--snap);
   -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
@@ -305,8 +305,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .tile:first-child::before { -webkit-mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 0 0/24px 24px no-repeat, linear-gradient(#000 0 0) 0 100%/24px 24px no-repeat; }
 .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; mask: linear-gradient(#000 0 0) 100% 0/24px 24px no-repeat, linear-gradient(#000 0 0) 100% 100%/24px 24px no-repeat; }
 @media (max-width: 1000px) { .tile:first-child::before, .tile:last-child::before { -webkit-mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; mask: linear-gradient(#000 0 0) 50% 0/28px 4px no-repeat, linear-gradient(#000 0 0) 50% 100%/28px 4px no-repeat; } }
-:is(.case-card, .tool-card, .role-card, .tile):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
-@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile)::before { transition: none; } }
+:is(.case-card, .tool-card, .role-card, .tile, .why-card):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
+@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .tile, .why-card)::before { transition: none; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
@@ -335,14 +335,53 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .mz-actionbar small { font-family:var(--mono); font-size:8px; color:var(--muted); }
 .mz-actionbar .btn { font-family:var(--mono); font-size:8px; color:#0b140a; background:var(--lime); border-radius:5px; padding:4px 9px; }
 
-/* ---- WHY (how I work) ---- */
-.why-rows { display: flex; flex-direction: column; }
-.why-row { display: grid; grid-template-columns: 40px minmax(160px, 320px) 1fr; gap: 20px; align-items: start; padding: 26px 0; border-top: 1px solid var(--border); }
-.why-row:last-child { border-bottom: 1px solid var(--border); }
-.why-ico { color: var(--accent); width: 28px; height: 28px; transform-origin: 50% 60%; }
-.why-ico svg { width: 100%; height: 100%; }
-.why-t { font-family: var(--display); font-weight: 500; font-size: 17px; letter-spacing: -.02em; }
-.why-d { font-size: 13px; line-height: 1.7; color: var(--muted); max-width: 46ch; }
+/* ---- WHY (how I work): three principle cards, each with a small square-language scene ---- */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+.why-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 12px; transition: background .25s ease, border-color .25s ease; }
+.why-card:hover { background: var(--card-h); border-color: var(--border-2); }
+.why-n { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--label); margin-top: 6px; }
+.why-t { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -.02em; line-height: 1.2; }
+.why-d { font-size: 13px; line-height: 1.65; color: var(--muted); }
+.why-refs { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.why-ref { position: relative; z-index: 3; display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--fg); text-decoration: none; transition: color .2s; }
+.why-ref::before { content: ''; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); }
+.why-ref:hover, .why-ref:focus-visible { color: var(--accent); }
+/* scene stage */
+.ws { position: relative; height: 150px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); overflow: hidden; }
+.ws-sq { position: absolute; width: 8px; height: 8px; border-radius: 1px; border: 1px solid var(--border-2); background: var(--panel-2); transform: translate(-50%, -50%); }
+/* 01 loop: a square walks Request > Booking > Paid > Review, each stop lights up as it passes */
+.ws-loop { position: absolute; inset: 34px 44px; border: 1px dashed var(--border-2); border-radius: 2px; }
+.ws-loop .ws-sq:nth-of-type(1) { left: 0; top: 0; } .ws-loop .ws-sq:nth-of-type(2) { left: 100%; top: 0; }
+.ws-loop .ws-sq:nth-of-type(3) { left: 100%; top: 100%; } .ws-loop .ws-sq:nth-of-type(4) { left: 0; top: 100%; }
+.ws-lb { position: absolute; font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--label); white-space: nowrap; }
+.ws-lb.tl { left: -4px; bottom: calc(100% + 8px); } .ws-lb.tr { right: -4px; bottom: calc(100% + 8px); }
+.ws-lb.br { right: -4px; top: calc(100% + 8px); } .ws-lb.bl { left: -4px; top: calc(100% + 8px); }
+.ws-run { position: absolute; left: 0; top: 0; width: 10px; height: 10px; border-radius: 1px; background: var(--accent); transform: translate(-50%, -50%); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent); }
+/* 02 black box: an opaque square dissolves into testing points, the best one is marked */
+.ws-axis { position: absolute; left: 24px; right: 24px; bottom: 26px; height: 1px; background: var(--border); }
+.ws-pt { position: absolute; width: 8px; height: 8px; border-radius: 1px; background: var(--border-2); transform: translate(-50%, 50%); }
+.ws-pt.best { background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent); }
+.ws-pick { position: absolute; left: 54%; bottom: 26px; height: 74px; border-left: 1px dashed var(--accent); opacity: .7; }
+.ws-pick span { position: absolute; left: 6px; top: -4px; font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.ws-box { position: absolute; left: 50%; top: 46%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border: 1px solid var(--border-2); border-radius: 2px; background: var(--bg); opacity: 0; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 13px; color: var(--label); }
+/* 03 one rule: a change applied once runs across the whole grid */
+.ws-src { position: absolute; left: 20px; top: 50%; width: 46px; height: 46px; margin-top: -23px; border: 1px solid var(--accent); border-radius: 2px; display: flex; align-items: center; justify-content: center; text-align: center; font-family: var(--mono); font-size: 9px; line-height: 1.25; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+.ws-grid { position: absolute; left: 84px; right: 18px; top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+.ws-grid i { aspect-ratio: 1; border-radius: 1px; border: 1px solid var(--border-2); background: var(--accent); border-color: var(--accent); }
+.motion-ok #why .ws-grid i { background: transparent; border-color: var(--border-2); }
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ok #why.in .ws-run { animation: wsRun 6s cubic-bezier(.65,0,.35,1) infinite; }
+  .motion-ok #why.in .ws-loop .ws-sq { animation: wsStop 6s linear infinite; }
+  .motion-ok #why.in .ws-loop .ws-sq:nth-of-type(2) { animation-delay: 1.5s; } .motion-ok #why.in .ws-loop .ws-sq:nth-of-type(3) { animation-delay: 3s; } .motion-ok #why.in .ws-loop .ws-sq:nth-of-type(4) { animation-delay: 4.5s; }
+  .motion-ok #why.in .ws-box { animation: wsBox 6s ease-in-out infinite; }
+  .motion-ok #why.in .ws-pt, .motion-ok #why.in .ws-pick { animation: wsPt 6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  .motion-ok #why.in .ws-grid i { animation: wsWave 4.5s ease-in-out infinite; animation-delay: var(--d, 0s); }
+}
+@keyframes wsRun { 0%, 4% { left: 0; top: 0; } 21%, 29% { left: 100%; top: 0; } 46%, 54% { left: 100%; top: 100%; } 71%, 79% { left: 0; top: 100%; } 96%, 100% { left: 0; top: 0; } }
+@keyframes wsStop { 0%, 6% { background: var(--accent); border-color: var(--accent); } 18%, 100% { background: var(--panel-2); border-color: var(--border-2); } }
+@keyframes wsBox { 0%, 28% { opacity: 1; transform: scale(1); } 40%, 88% { opacity: 0; transform: scale(.6); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes wsPt { 0%, 34% { opacity: 0; } 46%, 86% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes wsWave { 0%, 14% { background: transparent; border-color: var(--border-2); } 26%, 70% { background: var(--accent); border-color: var(--accent); } 86%, 100% { background: transparent; border-color: var(--border-2); } }
 
 /* ---- AI tools ---- */
 .tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
@@ -483,7 +522,6 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 @media (prefers-reduced-motion: reduce) {
   .tool-usage { grid-template-rows: 1fr; transition: none; }
   .tool-usage > p span { opacity: 1; }
-  .why-ico { animation: none; transform: none; }
 }
 
 /* ============================================================
@@ -517,10 +555,10 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 }
 @media (max-width: 760px) {
   .work-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
   .sec-top { grid-template-columns: 1fr; }
   .hero-bottom { grid-template-columns: 1fr; align-items: start; }
   .hero-meta { align-items: flex-start; } .hero-tags { justify-content: flex-start; }
-  .why-row { grid-template-columns: 34px 1fr; } .why-row .why-d { grid-column: 1 / -1; }
   .contact-lead { grid-template-columns: 1fr; } .contact-sub { justify-self: start; }
   .nav-links { display: none; }
 }
@@ -737,26 +775,46 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
       <div class="sec-top">
         <div>
           <p class="eyebrow h-eyebrow-row">How I work</p>
-          <h2 class="disp" id="why-title" style="font-size:clamp(32px,4.6vw,56px)">Designers who can hold both ends, <span class="mut">strategy and craft</span>, are rare<span class="dot">.</span></h2>
+          <h2 class="disp" id="why-title" style="font-size:clamp(32px,4.6vw,56px)">I design the whole loop, <span class="mut">not just the screen</span><span class="dot">.</span></h2>
         </div>
-        <p class="sec-sub">I move between product direction and production detail without losing the thread.</p>
+        <p class="sec-sub">Media buyers, small business owners, AI agents. Different users, same habit: find where the work really breaks, then fix it at the root.</p>
       </div>
-      <div class="why-rows stagger">
-        <div class="why-row">
-          <span class="why-ico"><svg class="lu lu-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></span>
-          <span class="why-t">Lifecycle, not the screen</span>
-          <span class="why-d">I map the whole operating loop—before, during, and after the click—so the product solves the actual job.</span>
-        </div>
-        <div class="why-row">
-          <span class="why-ico"><svg class="lu lu-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-l1" d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path class="lu-l2" d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/><path class="lu-l3" d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/></svg></span>
-          <span class="why-t">Systems first, screens second</span>
-          <span class="why-d">I create reusable rules that help teams make consistent decisions without slowing down the work.</span>
-        </div>
-        <div class="why-row">
-          <span class="why-ico"><svg class="lu lu-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-r1" d="M3 6h18"/><path class="lu-r2" d="M7 12h10"/><path class="lu-r3" d="M10 18h4"/></svg></span>
-          <span class="why-t">Density is not the enemy</span>
-          <span class="why-d">For expert tools, clarity comes from hierarchy and context—not from hiding the information people need.</span>
-        </div>
+      <div class="why-grid stagger">
+        <article class="why-card">
+          <div class="ws" aria-hidden="true">
+            <div class="ws-loop">
+              <span class="ws-lb tl">Request</span><span class="ws-lb tr">Booking</span><span class="ws-lb br">Paid</span><span class="ws-lb bl">Review</span>
+              <i class="ws-sq"></i><i class="ws-sq"></i><i class="ws-sq"></i><i class="ws-sq"></i>
+              <i class="ws-run"></i>
+            </div>
+          </div>
+          <span class="why-n">01</span>
+          <h3 class="why-t">Follow the job, not the screen</h3>
+          <p class="why-d">I map what happens before and after the click. Eight request types became one customer thread, from first message to paid invoice.</p>
+          <div class="why-refs"><a class="why-ref" href="../case/inbox/">Inbox</a></div>
+        </article>
+        <article class="why-card">
+          <div class="ws" aria-hidden="true">
+            <div class="ws-axis"></div>
+            <i class="ws-pt" style="left:16%;bottom:40px;--d:0s"></i><i class="ws-pt" style="left:28%;bottom:56px;--d:.08s"></i><i class="ws-pt" style="left:41%;bottom:76px;--d:.16s"></i><i class="ws-pt best" style="left:54%;bottom:96px;--d:.24s"></i><i class="ws-pt" style="left:67%;bottom:86px;--d:.32s"></i><i class="ws-pt" style="left:80%;bottom:66px;--d:.4s"></i>
+            <div class="ws-pick" style="--d:.5s"><span>Best bid</span></div>
+            <div class="ws-box">?</div>
+          </div>
+          <span class="why-n">02</span>
+          <h3 class="why-t">Make the black box readable</h3>
+          <p class="why-d">People act on what they understand. I turn algorithms and silent data into a visible reason and one clear next step.</p>
+          <div class="why-refs"><a class="why-ref" href="../case/price-exploration/">Price Exploration</a><a class="why-ref" href="../case/channel-analysis/">Channel Analysis</a></div>
+        </article>
+        <article class="why-card">
+          <div class="ws" aria-hidden="true">
+            <div class="ws-src">1<br>rule</div>
+            <div class="ws-grid"><i style="--d:0.00s"></i><i style="--d:0.07s"></i><i style="--d:0.14s"></i><i style="--d:0.21s"></i><i style="--d:0.28s"></i><i style="--d:0.35s"></i><i style="--d:0.42s"></i><i style="--d:0.49s"></i><i style="--d:0.56s"></i><i style="--d:0.63s"></i><i style="--d:0.05s"></i><i style="--d:0.12s"></i><i style="--d:0.19s"></i><i style="--d:0.26s"></i><i style="--d:0.33s"></i><i style="--d:0.40s"></i><i style="--d:0.47s"></i><i style="--d:0.54s"></i><i style="--d:0.61s"></i><i style="--d:0.68s"></i><i style="--d:0.10s"></i><i style="--d:0.17s"></i><i style="--d:0.24s"></i><i style="--d:0.31s"></i><i style="--d:0.38s"></i><i style="--d:0.45s"></i><i style="--d:0.52s"></i><i style="--d:0.59s"></i><i style="--d:0.66s"></i><i style="--d:0.73s"></i><i style="--d:0.15s"></i><i style="--d:0.22s"></i><i style="--d:0.29s"></i><i style="--d:0.36s"></i><i style="--d:0.43s"></i><i style="--d:0.50s"></i><i style="--d:0.57s"></i><i style="--d:0.64s"></i><i style="--d:0.71s"></i><i style="--d:0.78s"></i></div>
+          </div>
+          <span class="why-n">03</span>
+          <h3 class="why-t">Fix it once, for everyone</h3>
+          <p class="why-d">One rule beats a thousand edits. Bulk tools for media buyers, specs that AI agents build from.</p>
+          <div class="why-refs"><a class="why-ref" href="../case/cross-campaign/">Cross-Campaign</a><a class="why-ref" href="../case/design-system/">Design System for AI</a></div>
+        </article>
       </div>
     </section>
 
