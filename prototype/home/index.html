@@ -320,7 +320,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .mock-bar i { width: 6px; height: 6px; border-radius: 50%; background: var(--border-2); display: block; }
 .mock-bar .ml { margin-left: auto; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
 .mock-body { padding: 18px; height: 196px; position: relative; }
-.mock-shot img { display: block; width: 100%; height: 229px; object-fit: cover; object-position: left top; }
+.case-card > .cover { margin-top: auto; }
 .mz-grid { position:absolute; left:18px; right:18px; bottom:40px; height:1px; background:var(--border); }
 .mz-bar { position:absolute; bottom:40px; width:14px; border-radius:3px 3px 0 0; background:var(--accent); }
 .mz-tip { position:absolute; border:1px solid var(--border); background:var(--panel); border-radius:6px; padding:7px 9px; font-family:var(--mono); font-size:8px; color:var(--muted); }
@@ -536,6 +536,7 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 <link rel="stylesheet" href="../shared/mobile-bar.css">
 <link rel="stylesheet" href="../shared/mobile-nav.css">
 <link rel="stylesheet" href="../shared/lucide.css">
+<link rel="stylesheet" href="../shared/case-cover.css">
 <link rel="stylesheet" href="../shared/glow.css">
 <link rel="stylesheet" href="../shared/light.css">
 <link rel="stylesheet" href="../shared/topbar.css">
@@ -688,8 +689,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <div class="case-title"><p class="case-name">Channel Analysis</p><h3 class="case-hook">How I turned silent channel decay into a one-click decision</h3></div>
           <div class="case-metric"><b>Weeks → Hours</b><span>detection time</span></div>
-          <div class="mock mock-shot" aria-hidden="true">
-            <img src="../case/channel-analysis/assets/card.webp" alt="" width="1200" height="677" loading="lazy" decoding="async">
+          <div class="cover" aria-hidden="true">
+            <img src="../case/channel-analysis/assets/card-cover.webp" alt="" width="1400" height="875" loading="lazy" decoding="async">
           </div>
         </article>
 
@@ -700,8 +701,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <div class="case-title"><p class="case-name">Design System for AI Agents</p><h3 class="case-hook">How I made a design system AI agents can build from</h3></div>
           <div class="case-metric"><b>15 → 2</b><span>design questions per feature</span></div>
-          <div class="mock mock-shot" aria-hidden="true">
-            <img src="../case/design-system/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
+          <div class="cover" aria-hidden="true">
+            <img src="../case/design-system/assets/card-cover.webp" alt="" width="1400" height="875" loading="lazy" decoding="async">
           </div>
         </article>
 
@@ -712,8 +713,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <div class="case-title"><p class="case-name">Price Exploration</p><h3 class="case-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h3></div>
           <div class="case-metric"><b>$8M → $30M+</b><span>monthly media investment</span></div>
-          <div class="mock mock-shot" aria-hidden="true">
-            <img src="../case/price-exploration/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
+          <div class="cover" aria-hidden="true">
+            <img src="../case/price-exploration/assets/card-cover.webp" alt="" width="1400" height="875" loading="lazy" decoding="async">
           </div>
         </article>
 
@@ -724,8 +725,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           </div>
           <div class="case-title"><p class="case-name">Cross-Campaign Management</p><h3 class="case-hook">How I let buyers edit thousands of campaigns as one</h3></div>
           <div class="case-metric"><b>Hours → Min</b><span>bulk updates</span></div>
-          <div class="mock mock-shot" aria-hidden="true">
-            <img src="../case/cross-campaign/assets/card.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
+          <div class="cover" aria-hidden="true">
+            <img src="../case/cross-campaign/assets/card-cover.webp" alt="" width="1400" height="875" loading="lazy" decoding="async">
           </div>
         </article>
 
