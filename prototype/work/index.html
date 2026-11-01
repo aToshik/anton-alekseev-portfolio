@@ -186,7 +186,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .group-divider::before { flex: 0 0 8px; }
 
 /* case cards — full-width, stacked */
-.case-card { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: clamp(20px, 3vw, 44px); align-items: stretch; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 30px); transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease; }
+.case-card { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: clamp(20px, 3vw, 44px); align-items: stretch; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 30px); transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease; }
 .case-card:hover { border-color: var(--border-2); background: var(--panel-2); transform: translateY(-2px); box-shadow: var(--shadow); }
 .case-card[hidden] { display: none; }
 /* whole card opens the case when it has a real link */
@@ -208,8 +208,8 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .cc-thumb { border-radius: var(--radius-sm); overflow: hidden; min-height: 150px; display: flex; }
 .cc-thumb .mock { flex: 1; margin: 0; display: flex; flex-direction: column; }
 .cc-thumb .mock-body { flex: 1; min-height: 110px; }
-.cc-shot { position: relative; border: 1px solid var(--border); background: var(--bg); }
-.cc-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+.cc-thumb { align-self: center; aspect-ratio: 16 / 10; }
+.cc-thumb.cover { display: block; min-height: 0; }
 /* schematic mockups (shared with home) */
 .mock { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); overflow: hidden; }
 .mock-bar { display: flex; align-items: center; gap: 5px; padding: 11px 13px; border-bottom: 1px solid var(--border); }
@@ -249,7 +249,6 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 @media (max-width: 760px) {
   .case-card { grid-template-columns: 1fr; }
   .cc-thumb { min-height: 120px; order: -1; }
-  .cc-shot { aspect-ratio: 16 / 9; }
   .cc-view { padding-top: 18px; }
 }
 
@@ -263,6 +262,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 <link rel="stylesheet" href="../shared/mobile-bar.css">
 <link rel="stylesheet" href="../shared/mobile-nav.css">
 <link rel="stylesheet" href="../shared/lucide.css">
+<link rel="stylesheet" href="../shared/case-cover.css">
 <link rel="stylesheet" href="../shared/glow.css">
 <link rel="stylesheet" href="../shared/light.css">
 <link rel="stylesheet" href="../shared/topbar.css">
@@ -368,7 +368,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
           <div class="cc-metric"><b>Weeks → Hours</b><span>detection time</span></div>
           <a class="cc-view" href="../case/channel-analysis/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
-        <div class="cc-thumb cc-shot"><img src="../case/channel-analysis/assets/card.webp" alt="Channel Analysis interface" width="1200" height="677" loading="lazy" decoding="async"></div>
+        <div class="cc-thumb cover"><img src="../case/channel-analysis/assets/card-cover.webp" alt="Channel Analysis insight panel: an Invest suggestion to move the multiplier, Accept or Reject, and the primary driver behind it" width="1400" height="875" loading="lazy" decoding="async"></div>
       </article>
 
       <article class="case-card" data-tags="Design System,AI,B2B" id="case-ds">
@@ -379,7 +379,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
           <div class="cc-metric"><b>15 → 2</b><span>design questions per feature</span></div>
           <a class="cc-view" href="../case/design-system/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
-        <div class="cc-thumb cc-shot"><img src="../case/design-system/assets/card.webp" alt="Toast component in Figma with its three contracts: the Figma description, toast.md in the repo and the component tokens" width="1200" height="675" loading="lazy" decoding="async"></div>
+        <div class="cc-thumb cover"><img src="../case/design-system/assets/card-cover.webp" alt="Toast component with its contracts: toast.md states and dismiss behaviour, and the component tokens" width="1400" height="875" loading="lazy" decoding="async"></div>
       </article>
 
       <article class="case-card" data-tags="Optimization,AI,Self-service,B2B,InsurTech/Fintech" id="case-price">
@@ -390,7 +390,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
           <div class="cc-metric"><b>$8M → $30M+</b><span>monthly media investment</span><span class="chip accent">7% MoM</span></div>
           <a class="cc-view" href="../case/price-exploration/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
-        <div class="cc-thumb cc-shot"><img src="../case/price-exploration/assets/card.webp" alt="Price Exploration interface: a price test with testing points and the sweet point tooltip" width="1200" height="675" loading="lazy" decoding="async"></div>
+        <div class="cc-thumb cover"><img src="../case/price-exploration/assets/card-cover.webp" alt="Price Exploration: a bidding test for ad group AL with the sweet point $1.50 to $1.80, Apply, and the expected win rate curve" width="1400" height="875" loading="lazy" decoding="async"></div>
       </article>
 
       <article class="case-card" data-tags="Workflow,Infra,B2B" id="case-cross">
@@ -401,7 +401,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
           <div class="cc-metric"><b>Hours → Min</b><span>bulk updates</span></div>
           <a class="cc-view" href="../case/cross-campaign/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
-        <div class="cc-thumb cc-shot"><img src="../case/cross-campaign/assets/card.webp" alt="Campaigns page with the new cross-campaign tabs: Ad Groups, Channels, AI Bidding Optimization and Channel Analysis" width="1200" height="675" loading="lazy" decoding="async"></div>
+        <div class="cc-thumb cover"><img src="../case/cross-campaign/assets/card-cover.webp" alt="Ad Groups table with four groups selected and the Bulk Actions menu open on Set Price Bounds" width="1400" height="875" loading="lazy" decoding="async"></div>
       </article>
 
       <div class="group-divider" id="camilyoDivider" role="separator"><span>Earlier · Camilyo</span></div>
@@ -414,7 +414,7 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
           <div class="cc-metric"><b>8 → 1</b><span>request types, one thread</span></div>
           <a class="cc-view" href="../case/inbox/">View case <span class="arr" aria-hidden="true">→</span></a>
         </div>
-        <div class="cc-thumb cc-shot"><img src="../case/inbox/assets/card.webp" alt="Emma Clarke's thread in the Inbox on the web and in the mobile app: accepted booking, paid visit, a review request by SMS and her Facebook review" width="1200" height="675" loading="lazy" decoding="async"></div>
+        <div class="cc-thumb cover"><img src="../case/inbox/assets/card-cover.webp" alt="Inbox board: business types, a list of customer requests, and a booking request card with Decline and Accept" width="1400" height="875" loading="lazy" decoding="async"></div>
       </article>
 
       <article class="case-card" data-tags="Self-service,B2B,B2C" data-group="camilyo" id="case-booking">
