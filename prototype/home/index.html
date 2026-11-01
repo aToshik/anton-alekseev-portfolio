@@ -326,9 +326,12 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 .more-btn:focus-visible { outline: none; }
 @media (prefers-reduced-motion: reduce) { .more-btn .bk { transition: none; } }
 /* duplicate at the top right of the section header, under the sub line */
-.work-top-end { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
-.work-top-end .sec-sub { align-self: stretch; }
-@media (max-width: 760px) { .work-more .more-btn { width: 100%; justify-content: space-between; } .work-top-end { align-items: flex-start; } .work-top-end .more-btn { display: none; } }
+#selected-work .sec-top { grid-template-columns: minmax(0,1fr) auto; }
+.work-top-end { display: flex; align-items: center; gap: 24px; }
+.work-top-end .sec-sub { max-width: none; white-space: nowrap; }
+.work-top-end .more-btn { flex: none; }
+@media (max-width: 1180px) { .work-top-end .sec-sub { white-space: normal; max-width: 26ch; } }
+@media (max-width: 760px) { .work-more .more-btn { width: 100%; justify-content: space-between; } #selected-work .sec-top { grid-template-columns: 1fr; } .work-top-end .sec-sub { max-width: 42ch; } .work-top-end .more-btn { display: none; } }
 .case-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .case-metric b { font-family: var(--display); font-weight: 500; font-size: 17px; letter-spacing: -.02em; color: var(--accent); }
 .case-metric span { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
