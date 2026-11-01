@@ -12,7 +12,8 @@ html[data-theme="light"][data-lt="islands"] :is(.hero, .contact) {
   --core: color-mix(in srgb, var(--accent) 10%, transparent); --void: color-mix(in srgb, #0e100e 92%, transparent);
   background-color: #121512; border-color: #121512; color: var(--fg);
 }
-html[data-theme="light"][data-lt="islands"] .contact { background-color: #121512; }
+/* islands are solid in the light theme: see-through dark over a light page turns muddy grey */
+html.has-space[data-theme="light"][data-lt="islands"] .main :is(.card.hero, .card.contact) { background-color: #121512; border-color: #121512; }
 /* the page itself is calm paper-light: no grey dust behind the sections */
 html[data-theme="light"][data-lt="islands"] .space-bg { display: none; }
 
