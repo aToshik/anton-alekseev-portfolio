@@ -1,80 +1,66 @@
 /* ============================================================
-   LIGHT THEME DIRECTIONS (compare on Home, ?lt=islands|atlas|base)
+   LIGHT THEME DIRECTIONS (compare on Home, ?lt=islands|atlas|night|base)
    ============================================================ */
 
-/* ---------- ISLANDS: hero + contact keep the dark space in the light theme ---------- */
-html[data-theme="light"][data-lt="islands"] :is(.hero, .contact) {
+/* ---------- ISLANDS: dark space islands on a light page ----------
+   hero, the AI section and contact keep the dark space in the light theme (dark - light - dark rhythm);
+   around them the space leaks onto the page as ink dust (space.js), fading with distance. */
+html[data-theme="light"][data-lt="islands"] :is(.hero, .contact, #ai) {
   color-scheme: dark;
   --bg: #0e100e; --panel: #141714; --panel-2: #191c19; --card: #191c19; --card-h: #1f231f;
   --fg: #f0f2ea; --muted: #a0a59b; --label: #8e948a; --border: #292d29; --border-2: #353934;
   --accent: #83de72; --accent-ink: #83de72; --accent-weak: rgba(131,222,114,.14);
   --btn-bg: #f0f2ea; --btn-fg: #0e100e; --hz: #b8f24a;
   --core: color-mix(in srgb, var(--accent) 10%, transparent); --void: color-mix(in srgb, #0e100e 92%, transparent);
-  background-color: #121512; border-color: #121512; color: var(--fg);
+  color: var(--fg);
 }
-/* islands are solid in the light theme: see-through dark over a light page turns muddy grey */
-html.has-space[data-theme="light"][data-lt="islands"] .main :is(.card.hero, .card.contact) { background-color: #121512; border-color: #121512; }
-/* the page itself is calm paper-light: no grey dust behind the sections */
-html[data-theme="light"][data-lt="islands"] .space-bg { display: none; }
+/* islands are solid: see-through dark over a light page turns muddy grey */
+html.has-space[data-theme="light"][data-lt="islands"] .main :is(.card.hero, .card.contact, #ai) {
+  background-color: #121512; border-color: #121512;
+  box-shadow: 0 30px 80px -40px rgba(14,16,14,.55);
+}
+/* the light page around them: clean paper, solid sections */
+html.has-space[data-theme="light"][data-lt="islands"] .main .card:not(.hero):not(.contact):not(#ai),
+html.has-space[data-theme="light"][data-lt="islands"] .sidebar { background-color: var(--panel); }
+html[data-theme="light"][data-lt="islands"] #ai :is(.tool-card, .tk-tag, .tool-mk) { color: var(--fg); }
 
 /* ---------- ATLAS: the same universe, printed ---------- */
 html[data-theme="light"][data-lt="atlas"] {
-  --bg: #ece6d6; --panel: #f7f3e8; --panel-2: #efe9da; --card: #f2ecdd; --card-h: #ebe4d2;
-  --fg: #1c1d18; --muted: #55574d; --label: #7b7a6b; --border: #d6cdb7; --border-2: #c1b79e;
-  --accent: #3f8f27; --accent-ink: #357a20; --accent-weak: rgba(63,143,39,.12);
-  --lime: #c6f25a; --nav-bg: rgba(247,243,232,.86); --btn-bg: #1c1d18; --btn-fg: #f7f3e8;
-  --shadow: 0 1px 0 rgba(28,29,24,.06);
-  --hl: #d4f774;
+  --bg: #ece2cb; --panel: #f8f1e1; --panel-2: #f2e8d3; --card: #f4ead6; --card-h: #efe3ca;
+  --fg: #1d1b15; --muted: #514b3c; --label: #8a7d5f; --border: #dccdab; --border-2: #c6b289;
+  --accent: #2f7d22; --accent-ink: #2b6e1f; --accent-weak: rgba(47,125,34,.12);
+  --lime: #d9f86a; --hl: #d9f86a; --nav-bg: rgba(248,241,225,.9); --btn-bg: #1d1b15; --btn-fg: #f8f1e1;
+  --shadow: 0 1px 0 rgba(29,27,21,.05);
+  --rule: #cdbb93;
 }
-/* star-chart graticule on the page */
+/* paper grain instead of a grid */
 html[data-theme="light"][data-lt="atlas"].has-space {
   background-color: var(--bg);
-  background-image:
-    linear-gradient(rgba(28,29,24,.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(28,29,24,.055) 1px, transparent 1px);
-  background-size: 160px 160px; background-attachment: fixed; background-position: center top;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .15 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-html[data-theme="light"][data-lt="atlas"] .hero.po { --core: transparent; --void: color-mix(in srgb, var(--panel) 70%, transparent); }
-/* lime only as a highlighter stroke behind words */
+/* printed frame: every section gets a thin inner rule, like a plate in an atlas */
+html.has-space[data-theme="light"][data-lt="atlas"] .main .card, html.has-space[data-theme="light"][data-lt="atlas"] .sidebar { background-color: var(--panel); }
+html[data-theme="light"][data-lt="atlas"] :is(.main .card, .sidebar) { box-shadow: inset 0 0 0 5px var(--panel), inset 0 0 0 6px color-mix(in srgb, var(--rule) 70%, transparent); }
+html[data-theme="light"][data-lt="atlas"] .eyebrow { color: var(--label); }
+html[data-theme="light"][data-lt="atlas"] .eyebrow .n { color: var(--accent-ink); }
+html[data-theme="light"][data-lt="atlas"] :is(.chip, .tk-tag, .mchip) { border-color: var(--rule); color: var(--muted); background: transparent; }
+html[data-theme="light"][data-lt="atlas"] .hero.po { --core: color-mix(in srgb, var(--hl) 30%, transparent); --void: color-mix(in srgb, var(--panel) 65%, transparent); }
+/* lime only as a highlighter stroke */
+html[data-theme="light"][data-lt="atlas"] :is(.contact h2 .t2, .sec-head h2 .dot) { color: var(--fg); }
 html[data-theme="light"][data-lt="atlas"] .contact h2 .t2 {
-  color: var(--fg);
   background: linear-gradient(transparent 56%, var(--hl) 56%, var(--hl) 90%, transparent 90%);
   -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 .04em;
 }
-html[data-theme="light"][data-lt="atlas"] .contact { --hz: #3f8f27; }
+html[data-theme="light"][data-lt="atlas"] :is(.case-metric b, .cc-metric b) {
+  background: linear-gradient(transparent 60%, color-mix(in srgb, var(--hl) 80%, transparent) 60%, color-mix(in srgb, var(--hl) 80%, transparent) 95%, transparent 95%);
+}
+html[data-theme="light"][data-lt="atlas"] .contact { --hz: #2f7d22; }
 html[data-theme="light"][data-lt="atlas"] .contact-btn { box-shadow: 0 0 0 4px var(--hl); }
+html[data-theme="light"][data-lt="atlas"] .side-nav > a.active::before { background: var(--fg); }
+html[data-theme="light"][data-lt="atlas"] .side-nav > a.active { background: color-mix(in srgb, var(--hl) 45%, var(--panel)); }
 html[data-theme="light"][data-lt="atlas"] :is(.case-card, .tool-card, .role-card, .tile)::before { border-color: var(--fg); }
 
-/* ---------- DUSK: the same space, a few stops lighter ---------- */
-html[data-theme="light"][data-lt="dusk"] {
-  color-scheme: dark;
-  --bg: #2b302c; --panel: #333934; --panel-2: #3a413b; --card: #3a413b; --card-h: #424a43;
-  --fg: #f4f6ef; --muted: #c2c7bb; --label: #a9afa3; --border: #464e47; --border-2: #545d55;
-  --accent: #9de68c; --accent-ink: #9de68c; --accent-weak: rgba(157,230,140,.16);
-  --lime: #c6f560; --nav-bg: rgba(51,57,52,.86); --btn-bg: #f4f6ef; --btn-fg: #20241f;
-  --shadow: 0 18px 50px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.16);
-  --shot-frame: #1d211d; --hz: #c6f560;
-}
-html[data-theme="light"][data-lt="dusk"] .hero.po { --core: color-mix(in srgb, #9de68c 13%, transparent); --void: color-mix(in srgb, #2b302c 88%, transparent); }
-html[data-theme="light"][data-lt="dusk"] .contact { --hz: #c6f560; }
-html[data-theme="light"][data-lt="dusk"] .role-logo.k { background: var(--fg); color: var(--panel); }
-
-/* ---------- DAWN: the space lifted towards light, mid grey-green, white stars ---------- */
-html[data-theme="light"][data-lt="dawn"] {
-  color-scheme: dark;
-  --bg: #586059; --panel: #646d65; --panel-2: #6c756d; --card: #6c756d; --card-h: #747e75;
-  --fg: #ffffff; --muted: #e6eae1; --label: #d3d8cd; --border: #788279; --border-2: #879188;
-  --accent: #d2f76f; --accent-ink: #d2f76f; --accent-weak: rgba(210,247,111,.18);
-  --lime: #d2f76f; --nav-bg: rgba(100,109,101,.88); --btn-bg: #ffffff; --btn-fg: #20241f;
-  --shadow: 0 18px 50px rgba(20,24,20,.22), 0 2px 8px rgba(20,24,20,.14);
-  --shot-frame: #2a2f2b; --hz: #d2f76f;
-}
-html[data-theme="light"][data-lt="dawn"] .hero.po { --core: color-mix(in srgb, #d2f76f 14%, transparent); --void: color-mix(in srgb, #586059 85%, transparent); }
-html[data-theme="light"][data-lt="dawn"] .contact { --hz: #d2f76f; }
-html[data-theme="light"][data-lt="dawn"] .role-logo.k { background: var(--fg); color: var(--panel); }
-
-/* ---------- NIGHT: light sections on the dark starry page ---------- */
-html[data-theme="light"][data-lt="night"] { --bg: #0e100e; --nav-bg: rgba(255,255,255,.9); }
-/* solid panels: light over a dark page must not be see-through */
+/* ---------- NIGHT: light sections on a starry page ---------- */
+html[data-theme="light"][data-lt="night"] { --bg: #3a403b; --nav-bg: rgba(255,255,255,.92); }
 html.has-space[data-theme="light"][data-lt="night"] .main .card, html.has-space[data-theme="light"][data-lt="night"] .sidebar { background-color: var(--panel); }
-html[data-theme="light"][data-lt="night"] .card, html[data-theme="light"][data-lt="night"] .sidebar, html[data-theme="light"][data-lt="night"] .nav { border-color: transparent; }
+html[data-theme="light"][data-lt="night"] :is(.card, .sidebar, .nav) { border-color: transparent; }

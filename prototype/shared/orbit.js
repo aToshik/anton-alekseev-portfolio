@@ -5,9 +5,7 @@ const hero=document.getElementById('hero'), cv=document.getElementById('poCanvas
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PAL={ dark:{panel:'#141714',fg:'#f0f2ea',label:'#8e948a',accent:'#83de72'},
             light:{panel:'#ffffff',fg:'#14160f',label:'#6f7568',accent:'#4ea832'},
-            atlas:{panel:'#f7f3e8',fg:'#1c1d18',label:'#7b7a6b',accent:'#3f8f27'},
-            dusk:{panel:'#333934',fg:'#f4f6ef',label:'#a9afa3',accent:'#9de68c'},
-            dawn:{panel:'#646d65',fg:'#ffffff',label:'#dde2d7',accent:'#d2f76f'} };
+            atlas:{panel:'#f8f1e1',fg:'#1d1b15',label:'#8a7d5f',accent:'#2f7d22'} };
 const layoutMode='left', planetMode='wire';
 const themeOf=()=>window.ltMode?window.ltMode(hero):(document.documentElement.getAttribute('data-theme')==='light'?'light':'dark');
 const MONO='"DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
