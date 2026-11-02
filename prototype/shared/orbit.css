@@ -14,9 +14,10 @@
 .po-chip { font: 400 10px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; white-space: nowrap; }
 .po-chip.acc { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
 .ci-x { margin-left: auto; flex: 0 0 28px; width: 28px; height: 28px; min-width: 28px; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--muted); display: grid; place-items: center; cursor: pointer; padding: 0; transition: color .2s, border-color .2s; }
-/* chips wrap to a second line instead of truncating; the close button keeps its own corner */
-.ci-head { position: relative; flex-wrap: wrap; padding-right: 36px; min-height: 28px; }
-.ci-head .ci-x { position: absolute; top: 0; right: 0; margin: 0; }
+/* orbit name + its question: a quiet eyebrow line, not chips */
+.ci-kicker { margin: 0; min-width: 0; font: 400 10px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.ci-kicker .k { color: var(--accent); }
+.ci-kicker .q::before { content: " · "; }
 .ci-x:hover { color: var(--fg); border-color: var(--border-2); }
 .ci-x svg, .ci-arrow svg { width: 14px; height: 14px; }
 .card-info .t { font: 500 22px/1.15 var(--display); letter-spacing: -.03em; color: var(--fg); margin: 0; }
