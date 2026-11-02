@@ -321,14 +321,12 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 .off-chip[aria-pressed="true"] { color: var(--fg); border-color: var(--accent); background: var(--accent-weak); }
 .off-chip[aria-pressed="true"] svg { color: var(--accent); transform: scale(1.08); }
 /* the stage: a small dark plane where square points gather into the hobby */
-.off-stage { position: relative; height: 280px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: none;
+.off-stage { position: relative; height: 280px; border: 1px solid var(--border); border-radius: var(--radius); display: none;
   background: radial-gradient(90% 80% at 50% 45%, var(--accent-weak), transparent 70%), var(--panel-2); }
 .js-off .off-stage { display: block; }
-.off-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+.off-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border-radius: inherit; cursor: crosshair; }
 .off-cap { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); pointer-events: none; }
-.off-stage::before, .off-stage::after { content: ''; position: absolute; width: 14px; height: 14px; border: 1px solid var(--accent); opacity: .6; pointer-events: none; z-index: 1; }
-.off-stage::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
-.off-stage::after { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+.off:has(.off-chip:focus-visible) .off-stage::after { opacity: 1; inset: -7px; }
 
 /* ============================================================
    CONTACT (same section as Home; colours come from footer.css)
@@ -762,7 +760,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
             <li><button class="off-chip" type="button" data-shape="camping" aria-pressed="false"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 21 14 3"/><path d="M20.5 21 10 3"/><path d="M15.5 21 12 15l-3.5 6"/><path d="M2 21h20"/></svg>Camping</button></li>
           </ul>
         </div>
-        <div class="off-stage" aria-hidden="true">
+        <div class="off-stage brk" aria-hidden="true">
           <canvas class="off-cv"></canvas>
           <span class="off-cap"><span class="off-nm">PC games</span></span>
         </div>
