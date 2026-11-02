@@ -6,7 +6,8 @@
                with embers and smoke, a moon and stars appear.
    Every point belongs to one element, so elements shared by two scenes never move:
    only the elements that enter or leave gather or scatter. Chips switch the scene
-   (hover, focus or tap); untouched, the scenes take turns. With the cursor in the
+   (hover, focus or tap). Three hits (or three shooting stars) move to the next
+   scene, whether the autoplay or the visitor scores them. With the cursor in the
    stage the visitor aims and shoots, or sends shooting stars over the camp. Without JS the stage is hidden and the chips are plain labels. */
 (function () {
   'use strict';
@@ -129,9 +130,10 @@
   function colorOf(t) { return t === 'fg' || t === 'star' ? colors.fg : t === 'led' ? colors.aim : t === 'fire' || t === 'core' || t === 'wood' ? colors[t] : colors.acc; }
 
   /* ---- scene switch: shared elements keep their place, the rest gather / scatter ---- */
-  var cur = null;
+  var cur = null, occ = {}, SOLID = { treesIn: 1, treesOut: 1, bush: 1, groundIn: 1, groundOut: 1, tent: 1, fire: 1, moon: 1 };
   function apply(snap) {
     var st = STATES[cur];
+    occ = {}; P.forEach(function (p) { if (SOLID[p.el] && st.els.indexOf(p.el) >= 0) occ[p.c[0] + ',' + p.c[1]] = 1; });
     P.forEach(function (p) {
       var on = st.els.indexOf(p.el) >= 0;
       p.ta = on ? ALPHA[p.t] * (st.dim[p.el] || 1) : 0;
@@ -157,13 +159,26 @@
     last = k; foe = { s: SPOTS[k], up: 0, hit: false, hold: 0, life: 0 };
   }
   function shoot() {
-    foe.hit = true; aim.flash = 1;
+    foe.hit = true; aim.flash = 1; score();
     MAN.forEach(function (m) {
       var x = gx(foe.s + m[0]), y = gy(FEET + m[1]), an = Math.atan2(m[1] + 3.5, m[0]) + (Math.random() - .5), sp = 1 + Math.random() * 2.4;
       fx.push({ x: x, y: y, vx: Math.cos(an) * sp, vy: Math.sin(an) * sp - .6, a: 1, g: .08, k: 'hit', s: cell * .55 });
     });
     spend();
   }
+  /* a shooting star: flies behind trees, tent and ground */
+  function comet(x, y) {
+    var dir = x > W / 2 ? -1 : 1, v = 3.2 + Math.random() * 1.4;
+    fx.push({ x: x, y: y, vx: dir * v, vy: v * (.45 + Math.random() * .25), a: 1, g: 0, k: 'comet', s: Math.max(2.4, cell * .6), tr: [] });
+    score();
+  }
+  function hidden(x, y) {
+    var c = Math.floor((x - ox) / cell), r = Math.floor((y - oy) / cell);
+    return r >= GROUND || occ[c + ',' + r] === 1;
+  }
+  /* 3 hits (or 3 shooting stars) move the scene on, for the autoplay and the visitor alike */
+  var hits = 0, nextAt = 0;
+  function score() { if (++hits >= 3 && !nextAt) nextAt = Date.now() + (cur === 'camping' ? 1900 : 1100); }
   function spend() { if (cur !== 'games' || ammo <= 0) return; if (--ammo === 0) setTimeout(function () { ammo = 6; }, 900); }
 
   function setState(name) {
@@ -172,6 +187,7 @@
     cur = name;
     chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-shape') === name ? 'true' : 'false'); });
     if (nmEl) nmEl.textContent = LABEL[name];
+    hits = 0; nextAt = 0; skyT = 40;
     cv.style.cursor = reduce ? '' : STATES[name].aim ? 'none' : 'pointer';
     apply(first || reduce);
     if (!STATES[name].aim) { if (foe && !foe.hit) foe.hit = true; }
@@ -198,12 +214,11 @@
         for (var k = 0; k < 5; k++) { var an = -Math.PI / 2 + (Math.random() - .5) * 2.2, sp = .8 + Math.random() * 1.6; fx.push({ x: mx, y: my, vx: Math.cos(an) * sp, vy: Math.sin(an) * sp, a: .8, g: .1, k: 'miss', s: Math.max(1.5, cell * .35) }); }
       }
     } else {
-      var dir = mx > W / 2 ? -1 : 1, v = 3.2 + Math.random() * 1.4;
-      fx.push({ x: mx, y: my, vx: dir * v, vy: v * (.45 + Math.random() * .25), a: 1, g: 0, k: 'comet', s: Math.max(2.4, cell * .6), tr: [] });
+      comet(mx, my);
     }
   });
 
-  var tFire = 0;
+  var tFire = 0, skyT = 40;
   function step() {
     var i, p;
     for (i = 0; i < P.length; i++) {
@@ -219,14 +234,19 @@
     }
     for (i = 0; i < D.length; i++) { var d = D[i]; d.wob += .008; d.x += Math.cos(d.wob) * .15; d.y += Math.sin(d.wob * .8) * .12; }
 
+    if (nextAt && Date.now() >= nextAt) { nextAt = 0; setState(ORDER[(ORDER.indexOf(cur) + 1) % ORDER.length]); }
     var st = STATES[cur];
+    if (cur === 'camping' && !inside && Date.now() >= pausedUntil && !nextAt && --skyT <= 0) {
+      skyT = 70 + Math.random() * 50;
+      comet(W * (.2 + Math.random() * .6), gy(1 + Math.random() * 5));
+    }
     hudA += ((cur === 'games' ? 1 : 0) - hudA) * .08;
     aim.a += ((st.aim ? 1 : 0) - aim.a) * .08;
     if (st.aim) {
       if (!foe) { if (--wait <= 0) newFoe(); }
       else if (!foe.hit) {
         foe.up += (1 - foe.up) * .14;
-        if (inside) { if (++foe.life > 240) foe.hit = true; }   /* the visitor shoots; missed foes duck after ~4 s */
+        if (inside || Date.now() < pausedUntil) { if (++foe.life > 240) foe.hit = true; }   /* the visitor shoots; missed foes duck after ~4 s */
         else {
           var tx = gx(foe.s), ty = gy(FEET - 4);
           aim.x += (tx - aim.x) * .07; aim.y += (ty - aim.y) * .07;
@@ -263,6 +283,16 @@
     /* smoke behind everything */
     ctx.fillStyle = colors.smoke;
     for (i = 0; i < fx.length; i++) if (fx[i].k === 'smoke') { ctx.globalAlpha = Math.max(0, fx[i].a); ctx.fillRect(fx[i].x - fx[i].s / 2, fx[i].y - fx[i].s / 2, fx[i].s, fx[i].s); }
+    /* shooting stars, masked by trees, tent and ground */
+    for (i = 0; i < fx.length; i++) {
+      var cm = fx[i]; if (cm.k !== 'comet') continue;
+      ctx.fillStyle = colors.aim;
+      for (var j = cm.tr.length - 1; j >= 1; j--) {
+        if (hidden(cm.tr[j][0], cm.tr[j][1])) continue;
+        var ts = cm.s * (1 - j / 18); ctx.globalAlpha = Math.max(0, cm.a) * (1 - j / cm.tr.length) * .7; ctx.fillRect(cm.tr[j][0] - ts / 2, cm.tr[j][1] - ts / 2, ts, ts);
+      }
+      if (!hidden(cm.x, cm.y)) { ctx.fillStyle = colors.fg; ctx.globalAlpha = Math.max(0, cm.a); ctx.fillRect(cm.x - cm.s / 2, cm.y - cm.s / 2, cm.s, cm.s); }
+    }
     for (i = 0; i < P.length; i++) {
       p = P[i]; if (p.a < .01) continue;
       var a = p.a, s = sz;
@@ -293,11 +323,8 @@
     /* hit sparks + embers */
     for (i = 0; i < fx.length; i++) {
       var e = fx[i]; if (e.k === 'smoke') continue;
-      if (e.k === 'comet') {
-        ctx.fillStyle = colors.aim;
-        for (var j = e.tr.length - 1; j >= 1; j--) { var ts = e.s * (1 - j / 18); ctx.globalAlpha = Math.max(0, e.a) * (1 - j / e.tr.length) * .7; ctx.fillRect(e.tr[j][0] - ts / 2, e.tr[j][1] - ts / 2, ts, ts); }
-        ctx.fillStyle = colors.fg;
-      } else ctx.fillStyle = e.k === 'ember' ? colors.core : e.k === 'miss' ? colors.dust : colors.aim;
+      if (e.k === 'comet') continue;
+      ctx.fillStyle = e.k === 'ember' ? colors.core : e.k === 'miss' ? colors.dust : colors.aim;
       ctx.globalAlpha = Math.max(0, e.a);
       ctx.fillRect(e.x - e.s / 2, e.y - e.s / 2, e.s, e.s);
     }
@@ -319,8 +346,6 @@
   function kick() { if (!raf && vis && !reduce) raf = requestAnimationFrame(frame); }
 
   /* ---- autoplay, paused after the visitor picks ---- */
-  var auto = 0;
-  function tick() { if (!vis || reduce || inside || Date.now() < pausedUntil) return; setState(ORDER[(ORDER.indexOf(cur) + 1) % ORDER.length]); }
   function userPick(name) { pausedUntil = Date.now() + 10000; setState(name); }
   chips.forEach(function (c) {
     var name = c.getAttribute('data-shape');
@@ -339,8 +364,7 @@
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (en) {
       vis = en[0].isIntersecting;
-      if (vis) { kick(); if (!auto && !reduce) auto = setInterval(tick, 6000); }
-      else if (auto) { clearInterval(auto); auto = 0; }
+      if (vis) kick();
     }, { threshold: .15 }).observe(stage);
   } else { vis = true; kick(); }
 })();
