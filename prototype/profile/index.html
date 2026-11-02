@@ -312,11 +312,24 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 /* ============================================================
    07 · OFF SCREEN
    ============================================================ */
-.off { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 40px; align-items: center; }
+.off { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); gap: 28px 48px; align-items: center; }
 .off .disp { font-size: clamp(28px, 3.6vw, 44px); margin-top: 14px; }
-.off-list { display: flex; flex-wrap: wrap; gap: 10px; }
-.off-chip { display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px 0 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); font-size: 13px; font-weight: 500; color: var(--fg); }
-.off-chip svg { width: 18px; height: 18px; color: var(--accent); }
+.off-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.off-chip { position: relative; display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px 0 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: color .2s, border-color .2s, background-color .2s; }
+.off-chip svg { width: 18px; height: 18px; color: var(--label); transition: color .2s, transform .35s var(--snap); }
+.off-chip:hover { color: var(--fg); border-color: var(--border-2); background: var(--card-h); }
+.off-chip[aria-pressed="true"] { color: var(--fg); border-color: var(--accent); background: var(--accent-weak); }
+.off-chip[aria-pressed="true"] svg { color: var(--accent); transform: scale(1.08); }
+/* the stage: a small dark plane where square points gather into the hobby */
+.off-stage { position: relative; height: 240px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: none;
+  background: radial-gradient(90% 80% at 50% 45%, var(--accent-weak), transparent 70%), var(--panel-2); }
+.js-off .off-stage { display: block; }
+.off-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+.off-cap { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); pointer-events: none; }
+.off-cap .off-n { color: var(--accent); }
+.off-stage::before, .off-stage::after { content: ''; position: absolute; width: 14px; height: 14px; border: 1px solid var(--accent); opacity: .6; pointer-events: none; z-index: 1; }
+.off-stage::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.off-stage::after { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
 
 /* ============================================================
    CONTACT (same section as Home; colours come from footer.css)
@@ -370,6 +383,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
   .ai-item:nth-child(even) { border-left: 0; }
   .ai-item:nth-child(n+2) { border-top: 1px solid var(--border); }
   .off { grid-template-columns: 1fr; }
+  .off-stage { height: 210px; }
   .contact-lead { grid-template-columns: 1fr; } .contact-sub { justify-self: start; }
 }
 @media (max-width: 560px) {
@@ -740,15 +754,19 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
     <!-- 07 · OFF SCREEN -->
     <section class="card section reveal" id="off-screen" aria-labelledby="off-t">
       <div class="off">
-        <div>
+        <div class="off-copy">
           <p class="eyebrow">Off screen</p>
           <h2 class="disp" id="off-t">When I’m not designing<span class="dot">.</span></h2>
+          <ul class="off-list" aria-label="Hobbies">
+            <li><button class="off-chip" type="button" data-shape="games" aria-pressed="false"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h4M8 9v4"/><path d="M15 12h.01M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>PC games</button></li>
+            <li><button class="off-chip" type="button" data-shape="airsoft" aria-pressed="false"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4M6 12H2M12 6V2M12 22v-4"/></svg>Airsoft</button></li>
+            <li><button class="off-chip" type="button" data-shape="camping" aria-pressed="false"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 21 14 3"/><path d="M20.5 21 10 3"/><path d="M15.5 21 12 15l-3.5 6"/><path d="M2 21h20"/></svg>Camping</button></li>
+          </ul>
         </div>
-        <ul class="off-list" aria-label="Hobbies">
-          <li class="off-chip"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h4M8 9v4"/><path d="M15 12h.01M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg>PC games</li>
-          <li class="off-chip"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4M6 12H2M12 6V2M12 22v-4"/></svg>Airsoft</li>
-          <li class="off-chip"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 21 14 3"/><path d="M20.5 21 10 3"/><path d="M15.5 21 12 15l-3.5 6"/><path d="M2 21h20"/></svg>Camping</li>
-        </ul>
+        <div class="off-stage" aria-hidden="true">
+          <canvas class="off-cv"></canvas>
+          <span class="off-cap"><span class="off-n">01 / 03</span><span class="off-nm">PC games</span></span>
+        </div>
       </div>
     </section>
 
@@ -841,6 +859,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 </script>
 <script src="../shared/mobile-bar.js" defer></script>
 <script src="../shared/mobile-nav.js" defer></script>
+<script src="offscreen.js" defer></script>
 <script src="../shared/footer.js" defer></script>
 <script src="../shared/space.js" defer></script>
 </body>
