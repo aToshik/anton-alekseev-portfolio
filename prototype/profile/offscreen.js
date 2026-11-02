@@ -6,8 +6,8 @@
                with embers and smoke, a moon and stars appear.
    Every point belongs to one element, so elements shared by two scenes never move:
    only the elements that enter or leave gather or scatter. Chips switch the scene
-   (hover, focus or tap); untouched, the scenes take turns. The cursor pushes points
-   aside. Without JS the stage is hidden and the chips are plain labels. */
+   (hover, focus or tap); untouched, the scenes take turns. With the cursor in the
+   stage the visitor aims and shoots, or sends shooting stars over the camp. Without JS the stage is hidden and the chips are plain labels. */
 (function () {
   'use strict';
   var sec = document.getElementById('off-screen');
@@ -151,10 +151,10 @@
   }
 
   /* ---- crosshair, enemies / players, ammo ---- */
-  var aim = { x: 0, y: 0, a: 0, flash: 0 }, foe = null, wait = 30, ammo = 6, hudA = 0, last = -1;
+  var aim = { x: 0, y: 0, a: 0, flash: 0 }, foe = null, wait = 30, ammo = 6, hudA = 0, last = -1, pausedUntil = 0;
   function newFoe() {
     var k; do { k = Math.floor(Math.random() * SPOTS.length); } while (k === last && SPOTS.length > 1);
-    last = k; foe = { s: SPOTS[k], up: 0, hit: false, hold: 0 };
+    last = k; foe = { s: SPOTS[k], up: 0, hit: false, hold: 0, life: 0 };
   }
   function shoot() {
     foe.hit = true; aim.flash = 1;
@@ -162,8 +162,9 @@
       var x = gx(foe.s + m[0]), y = gy(FEET + m[1]), an = Math.atan2(m[1] + 3.5, m[0]) + (Math.random() - .5), sp = 1 + Math.random() * 2.4;
       fx.push({ x: x, y: y, vx: Math.cos(an) * sp, vy: Math.sin(an) * sp - .6, a: 1, g: .08, k: 'hit', s: cell * .55 });
     });
-    if (cur === 'games') ammo = Math.max(0, ammo - 1);
+    spend();
   }
+  function spend() { if (cur !== 'games' || ammo <= 0) return; if (--ammo === 0) setTimeout(function () { ammo = 6; }, 900); }
 
   function setState(name) {
     if (!STATES[name] || name === cur) return;
@@ -171,27 +172,45 @@
     cur = name;
     chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-shape') === name ? 'true' : 'false'); });
     if (nmEl) nmEl.textContent = LABEL[name];
+    cv.style.cursor = reduce ? '' : STATES[name].aim ? 'none' : 'pointer';
     apply(first || reduce);
     if (!STATES[name].aim) { if (foe && !foe.hit) foe.hit = true; }
     else if (aim.a < .05) { aim.x = gx(31.5); aim.y = gy(14); wait = 30; }
     if (reduce) { aim.a = STATES[name].aim ? 1 : 0; hudA = name === 'games' ? 1 : 0; foe = STATES[name].aim ? { s: SPOTS[1], up: 1, hit: false } : null; aim.x = gx(SPOTS[1]); aim.y = gy(FEET - 4); draw(0); }
   }
 
-  /* ---- pointer: points step aside ---- */
-  var mx = -999, my = -999;
-  cv.addEventListener('pointermove', function (e) { var r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
-  cv.addEventListener('pointerleave', function () { mx = my = -999; });
+  /* ---- pointer: the visitor takes over. Shooting scenes: the crosshair follows the
+     cursor, a click shoots. Camping: a click sends a shooting star. ---- */
+  var mx = 0, my = 0, inside = false;
+  function at(e) { var r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; }
+  cv.addEventListener('pointermove', function (e) { at(e); inside = e.pointerType === 'mouse' || inside; });
+  cv.addEventListener('pointerleave', function () { inside = false; });
+  cv.addEventListener('pointerdown', function (e) {
+    if (reduce) return;
+    at(e); pausedUntil = Date.now() + 10000;
+    if (STATES[cur].aim) {
+      if (e.pointerType !== 'mouse') { inside = true; aim.x = mx; aim.y = my; }
+      if (cur === 'games' && ammo <= 0) return;           /* reloading */
+      aim.flash = 1;
+      if (foe && !foe.hit && foe.up > .6 && mx > gx(foe.s - 1.6) && mx < gx(foe.s + 3.6) && my > gy(FEET - 7.6) && my < gy(FEET + .5)) shoot();
+      else {
+        spend();
+        for (var k = 0; k < 5; k++) { var an = -Math.PI / 2 + (Math.random() - .5) * 2.2, sp = .8 + Math.random() * 1.6; fx.push({ x: mx, y: my, vx: Math.cos(an) * sp, vy: Math.sin(an) * sp, a: .8, g: .1, k: 'miss', s: Math.max(1.5, cell * .35) }); }
+      }
+    } else {
+      var dir = mx > W / 2 ? -1 : 1, v = 3.2 + Math.random() * 1.4;
+      fx.push({ x: mx, y: my, vx: dir * v, vy: v * (.45 + Math.random() * .25), a: 1, g: 0, k: 'comet', s: Math.max(2.4, cell * .6), tr: [] });
+    }
+  });
 
   var tFire = 0;
   function step() {
-    var R = Math.max(30, cell * 6), R2 = R * R, i, p;
+    var i, p;
     for (i = 0; i < P.length; i++) {
       p = P[i];
       if (p.d > 0) { p.d--; continue; }
       if (p.on) {
         p.vx += (gx(p.c[0]) - p.x) * .06; p.vy += (gy(p.c[1]) - p.y) * .06;
-        var dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
-        if (d2 < R2 && d2 > .01) { var f = (1 - d2 / R2) * 2.2 / Math.sqrt(d2); p.vx += dx * f; p.vy += dy * f; }
         p.vx *= .78; p.vy *= .78;
       } else if (p.a > .01) { p.vx *= .95; p.vy *= .95; }
       else continue;
@@ -207,12 +226,16 @@
       if (!foe) { if (--wait <= 0) newFoe(); }
       else if (!foe.hit) {
         foe.up += (1 - foe.up) * .14;
-        var tx = gx(foe.s), ty = gy(FEET - 4);
-        aim.x += (tx - aim.x) * .07; aim.y += (ty - aim.y) * .07;
-        if (foe.up > .97 && Math.abs(tx - aim.x) < 1.2 && Math.abs(ty - aim.y) < 1.2 && ++foe.hold > 6) shoot();
+        if (inside) { if (++foe.life > 240) foe.hit = true; }   /* the visitor shoots; missed foes duck after ~4 s */
+        else {
+          var tx = gx(foe.s), ty = gy(FEET - 4);
+          aim.x += (tx - aim.x) * .07; aim.y += (ty - aim.y) * .07;
+          if (foe.up > .97 && Math.abs(tx - aim.x) < 1.2 && Math.abs(ty - aim.y) < 1.2 && ++foe.hold > 6) shoot();
+        }
       }
+      if (inside) { aim.x += (mx - aim.x) * .45; aim.y += (my - aim.y) * .45; }
     }
-    if (foe && foe.hit) { foe.up -= .2; if (foe.up <= 0) { foe = null; wait = 20 + Math.random() * 26; if (ammo === 0) { ammo = -1; setTimeout(function () { ammo = 6; }, 900); } } }
+    if (foe && foe.hit) { foe.up -= .2; if (foe.up <= 0) { foe = null; wait = (inside ? 10 : 20) + Math.random() * 26; } }
     aim.flash *= .85;
 
     /* campfire: embers and smoke */
@@ -223,7 +246,8 @@
     }
     for (i = fx.length - 1; i >= 0; i--) {
       var e = fx[i]; e.x += e.vx; e.y += e.vy; e.vy += e.g;
-      if (e.k === 'hit') { e.vx *= .93; e.vy *= .93; e.a -= .03; }
+      if (e.k === 'hit' || e.k === 'miss') { e.vx *= .93; e.vy *= .93; e.a -= e.k === 'hit' ? .03 : .05; }
+      else if (e.k === 'comet') { e.tr.unshift([e.x, e.y]); if (e.tr.length > 16) e.tr.pop(); e.a -= .012; if (e.x < -40 || e.x > W + 40 || e.y > H + 40) e.a = 0; }
       else if (e.k === 'ember') { e.vx += (Math.random() - .5) * .12; e.a -= .018; }
       else { e.s += .03; e.a -= .004; }
       if (e.a <= 0) fx.splice(i, 1);
@@ -269,7 +293,12 @@
     /* hit sparks + embers */
     for (i = 0; i < fx.length; i++) {
       var e = fx[i]; if (e.k === 'smoke') continue;
-      ctx.fillStyle = e.k === 'ember' ? colors.core : colors.aim; ctx.globalAlpha = Math.max(0, e.a);
+      if (e.k === 'comet') {
+        ctx.fillStyle = colors.aim;
+        for (var j = e.tr.length - 1; j >= 1; j--) { var ts = e.s * (1 - j / 18); ctx.globalAlpha = Math.max(0, e.a) * (1 - j / e.tr.length) * .7; ctx.fillRect(e.tr[j][0] - ts / 2, e.tr[j][1] - ts / 2, ts, ts); }
+        ctx.fillStyle = colors.fg;
+      } else ctx.fillStyle = e.k === 'ember' ? colors.core : e.k === 'miss' ? colors.dust : colors.aim;
+      ctx.globalAlpha = Math.max(0, e.a);
       ctx.fillRect(e.x - e.s / 2, e.y - e.s / 2, e.s, e.s);
     }
     /* crosshair: four ticks around a gap and a centre point */
@@ -290,8 +319,8 @@
   function kick() { if (!raf && vis && !reduce) raf = requestAnimationFrame(frame); }
 
   /* ---- autoplay, paused after the visitor picks ---- */
-  var auto = 0, pausedUntil = 0;
-  function tick() { if (!vis || reduce || Date.now() < pausedUntil) return; setState(ORDER[(ORDER.indexOf(cur) + 1) % ORDER.length]); }
+  var auto = 0;
+  function tick() { if (!vis || reduce || inside || Date.now() < pausedUntil) return; setState(ORDER[(ORDER.indexOf(cur) + 1) % ORDER.length]); }
   function userPick(name) { pausedUntil = Date.now() + 10000; setState(name); }
   chips.forEach(function (c) {
     var name = c.getAttribute('data-shape');
