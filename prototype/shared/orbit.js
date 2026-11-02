@@ -12,10 +12,10 @@ const MONO='"DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 // ---- two galaxies: how I ship / what it changes
 const GALAXIES={
   impact:{ title:'Impact', orbits:[
-    {name:'Interface', q:'one screen', speed:.15, r:1.75, tx:1.05, rz:-.18},
-    {name:'Product', q:'the whole flow', speed:.1, r:2.7, tx:1.14, rz:.34},
-    {name:'Team', q:'how others work', speed:.075, r:3.65, tx:1.1, rz:-.42},
-    {name:'Business', q:'what the numbers show', speed:.055, r:4.6, tx:1.2, rz:.12}],
+    {name:'Interface', q:'one screen', speed:.15, r:1.75, tx:1.12, rz:-.14},
+    {name:'Product', q:'the whole flow', speed:.1, r:2.7, tx:1.12, rz:-.11},
+    {name:'Team', q:'how others work', speed:.075, r:3.65, tx:1.12, rz:-.08},
+    {name:'Business', q:'what the numbers show', speed:.055, r:4.6, tx:1.12, rz:-.05}],
    objs:[
     {id:'experience',o:0,label:'Experience',text:'How the product feels as a whole: calm and predictable.',rel:['confidence','adoption']},
     {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','self-service'],kase:'Channel Analysis'},
@@ -75,7 +75,7 @@ function placeHint(){
   if(!hint) return; const last=ORBITS.length-1; let maxY=C.y+R(last)*.3;
   ORBITS.forEach((orb,i)=>{ for(let a=0;a<Math.PI*2;a+=.05){ const y=project(orb,R(i),a).y; if(y>maxY) maxY=y; } });
   const hr=hero.getBoundingClientRect(), nm=hero.querySelector('h1').getBoundingClientRect();
-  const y=Math.min(maxY+24,nm.top-hr.top-28);
+  const y=Math.min(maxY+22,nm.top-hr.top-46);
   hint.style.left=Math.round(C.x)+'px'; hint.style.top=Math.round(y)+'px';
 }
 function placeLabels(){
@@ -239,7 +239,7 @@ function domRects(){
   if(domCache&&domAge++<20) return domCache;
   domAge=0;
   const hr=hero.getBoundingClientRect(), out=[];
-  hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags .tag, .card-info[data-on="true"]').forEach(el=>{ const r=el.getBoundingClientRect(); if(!r.width||+getComputedStyle(el).opacity<.1) return;
+  hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags .tag, .po-thesis, .card-info[data-on="true"]').forEach(el=>{ const r=el.getBoundingClientRect(); if(!r.width||+getComputedStyle(el).opacity<.1) return;
     out.push({x:r.left-hr.left-8,y:r.top-hr.top-6,w:r.width+16,h:r.height+12}); });
   return domCache=out;
 }
@@ -308,7 +308,7 @@ function frame(now){
     if(hover<0){ let bd=touch?22:10; ORBITS.forEach((orb,i)=>{ for(let a=0;a<120;a++){ const p=project(orb,R(i),a/120*Math.PI*2); const d=Math.hypot(p.x-target.x,p.y-target.y); if(d<bd){bd=d; hoverRing=i;} } }); } }
   if(kbHover>=0) hover=kbHover;
   setVar('cursor',hover>=0?'pointer':'default');
-  if(!touched&&(hover>=0||hoverRing>=0||sel>=0)){ touched=true; } if(hint){ const hv=String(!touched&&sel<0); if(hint.dataset.on!==hv) hint.dataset.on=hv; }
+  if(!touched&&(hover>=0||hoverRing>=0||sel>=0)){ touched=true; } if(hint){ const hv=String(!touched&&sel<0); if(hint.dataset.act!==hv) hint.dataset.act=hv; }
 
   const want=(hover>=0||sel>=0)?.08:1; speed+=(want-speed)*Math.min(1,dt*4);
   if(!reduce) t+=dt*speed;
