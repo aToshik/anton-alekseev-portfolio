@@ -19,7 +19,7 @@
 
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ctx = cv.getContext('2d');
-  var nEl = sec.querySelector('.off-n'), nmEl = sec.querySelector('.off-nm');
+  var nmEl = sec.querySelector('.off-nm');
   var GW = 64, GH = 33, GROUND = 27, FEET = 26; /* grid in cells; ground row; feet row */
 
   /* ---- elements (cell coordinates + point type) ---- */
@@ -170,7 +170,6 @@
     var first = cur === null;
     cur = name;
     chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-shape') === name ? 'true' : 'false'); });
-    if (nEl) nEl.textContent = '0' + (ORDER.indexOf(name) + 1) + ' / 0' + ORDER.length;
     if (nmEl) nmEl.textContent = LABEL[name];
     apply(first || reduce);
     if (!STATES[name].aim) { if (foe && !foe.hit) foe.hit = true; }

@@ -326,7 +326,6 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 .js-off .off-stage { display: block; }
 .off-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
 .off-cap { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); pointer-events: none; }
-.off-cap .off-n { color: var(--accent); }
 .off-stage::before, .off-stage::after { content: ''; position: absolute; width: 14px; height: 14px; border: 1px solid var(--accent); opacity: .6; pointer-events: none; z-index: 1; }
 .off-stage::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
 .off-stage::after { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
@@ -765,7 +764,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         </div>
         <div class="off-stage" aria-hidden="true">
           <canvas class="off-cv"></canvas>
-          <span class="off-cap"><span class="off-n">01 / 03</span><span class="off-nm">PC games</span></span>
+          <span class="off-cap"><span class="off-nm">PC games</span></span>
         </div>
       </div>
     </section>
