@@ -403,6 +403,9 @@ function placeCard(o){
 }
 
 new ResizeObserver(layout).observe(hero); layout();
+// case pages link back with #map-<object id>: open that object's card on arrival
+function openFromHash(){ const m=/^#map-([\w-]+)$/.exec(location.hash); if(!m) return; const k=OBJ.findIndex(o=>o.id===m[1]); if(k<0) return; sel=k; touched=true; }
+openFromHash(); addEventListener('hashchange',openFromHash);
 mouse.x=target.x=C.x+Rp*3; mouse.y=target.y=C.y-Rp*2;
 // only animate while the hero is on screen
 let visible=true, running=true;
