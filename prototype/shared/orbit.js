@@ -13,7 +13,7 @@ const MONO='"DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 const GALAXIES={
   impact:{ title:'Impact', orbits:[
     {name:'Interface', q:'one screen', speed:.15, r:1.7, tx:1.16, rz:-.19},
-    {name:'Product', q:'the whole flow', speed:.1, r:2.55, tx:1.2, rz:-.08},
+    {name:'Flow', q:'end to end', speed:.1, r:2.55, tx:1.2, rz:-.08},
     {name:'Team', q:'how others work', speed:.075, r:3.75, tx:1.17, rz:-.15},
     {name:'Business', q:'what the numbers show', speed:.055, r:5.3, tx:1.24, rz:-.04}],
    objs:[
