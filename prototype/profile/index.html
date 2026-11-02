@@ -138,7 +138,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
    MAIN + section cards (Home language)
    ============================================================ */
 .main { min-width: 0; display: flex; flex-direction: column; gap: clamp(16px, 1.6vw, 22px); }
-.card { position: relative; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(26px, 4vw, 56px); scroll-margin-top: 90px; }
+.card { position: relative; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(28px, 4.4vw, 64px); scroll-margin-top: 90px; }
 .eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); display: inline-flex; gap: 8px; align-items: center; }
 .eyebrow .n { color: var(--accent); }
 .disp { font-family: var(--display); font-weight: 500; letter-spacing: -.045em; line-height: .98; color: var(--fg); text-wrap: balance; }
@@ -170,8 +170,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* ============================================================
    01 · PROFILE (record header)
    ============================================================ */
-.intro { padding: clamp(26px, 3.6vw, 48px); }
-.intro-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(220px, 22vw, 300px); gap: clamp(24px, 4vw, 56px); align-items: stretch; }
+.intro { padding: clamp(28px, 4vw, 56px); }
+.intro-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(220px, 21vw, 300px); gap: clamp(24px, 4vw, 64px); align-items: start; }
 .intro-id { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .intro-id b { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: -.02em; color: var(--fg); }
 .intro-id .sep { width: 4px; height: 4px; border-radius: 1px; background: var(--border-2); }
@@ -186,7 +186,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .btn-sec:hover { border-color: var(--border-2); background: var(--panel-2); }
 .btn-pri svg, .btn-sec svg { width: 15px; height: 15px; }
 
-.photo { position: relative; border: 1px solid var(--border); border-radius: var(--radius); background: var(--panel-2); min-height: 280px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--label); }
+.photo { position: relative; aspect-ratio: 4 / 5; border: 1px solid var(--border); border-radius: var(--radius); background: radial-gradient(120% 90% at 50% 0%, var(--accent-weak), transparent 60%), var(--panel-2); overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--label); }
 .photo svg { width: 56px; height: 56px; opacity: .7; }
 .photo span { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
 .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -209,8 +209,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* ============================================================
    PULL QUOTE (colleague) — big type between sections
    ============================================================ */
-.pull { padding: clamp(30px, 4.4vw, 64px); display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px 20px; }
-.pull .q-mark { font-family: var(--display); font-size: 72px; line-height: .8; color: var(--accent); }
+html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--panel) 38%, transparent); border-color: color-mix(in srgb, var(--border) 70%, transparent); }
+.pull { padding: clamp(30px, 4.4vw, 64px) clamp(28px, 4.4vw, 64px); display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px 20px; }
+.pull .q-mark { font-family: var(--display); font-size: 72px; line-height: .8; color: var(--accent); padding-top: 6px; }
 .pull blockquote { font-family: var(--display); font-weight: 500; font-size: clamp(24px, 3.2vw, 42px); line-height: 1.15; letter-spacing: -.035em; color: var(--fg); text-wrap: balance; max-width: 30ch; }
 .pull blockquote .mut { color: var(--muted); }
 .pull figcaption { grid-column: 2; margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
@@ -239,7 +240,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
    ============================================================ */
 .chapter { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); gap: clamp(20px, 3.4vw, 48px); padding: clamp(24px, 3vw, 36px) 0; border-top: 1px solid var(--border); }
 .chapter:first-of-type { border-top: 0; padding-top: 0; }
-.ch-side { display: flex; flex-direction: column; gap: 10px; }
+.ch-side { display: flex; flex-direction: column; gap: 10px; align-self: start; position: sticky; top: 110px; }
 .ch-n { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 .ch-co { display: flex; align-items: center; gap: 12px; }
 .ch-logo { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel-2); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--fg); }
@@ -265,6 +266,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .role li { position: relative; padding-left: 16px; font-size: 13.5px; line-height: 1.6; color: var(--muted); max-width: 72ch; }
 .role li::before { content: ''; position: absolute; left: 0; top: .66em; width: 5px; height: 5px; border-radius: 1px; background: var(--border-2); }
 .role li strong { color: var(--fg); font-weight: 500; }
+.role-cases { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border); }
+.role-cases small { width: auto; margin-right: 4px; }
 
 /* ============================================================
    04 · HOW I WORK WITH A TEAM (4 steps on a rail)
@@ -293,7 +296,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* ============================================================
    06 · RECOMMENDATIONS
    ============================================================ */
-.rec-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.rec-grid { columns: 2; column-gap: 16px; }
+.rec-grid > .rec-card { break-inside: avoid; margin-bottom: 16px; }
 .rec-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 22px; display: flex; flex-direction: column; gap: 18px; transition: background .25s, border-color .25s; }
 .rec-card:hover { background: var(--card-h); border-color: var(--border-2); }
 .rec-q { color: var(--accent); font-family: var(--display); font-size: 48px; line-height: .6; height: 24px; }
@@ -303,7 +307,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .rec-av svg { width: 100%; height: 100%; display: block; }
 .rec-nm b { font-size: 12.5px; font-weight: 600; display: block; }
 .rec-nm small { font-family: var(--mono); font-size: 10px; color: var(--label); }
-.rec-more { margin-top: 20px; display: flex; justify-content: flex-end; }
+.rec-more { margin-top: 4px; display: flex; justify-content: flex-end; }
 
 /* ============================================================
    07 · OFF SCREEN
@@ -342,9 +346,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1280px) {
-  .fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fields { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .fields .field { grid-column: span 2; }
+  .fields .field:nth-child(n+4) { grid-column: span 3; border-top: 1px solid var(--border); }
   .fields .field:nth-child(4) { border-left: 0; }
-  .fields .field:nth-child(n+4) { border-top: 1px solid var(--border); }
   .ch-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ch-meta .field:nth-child(3) { border-left: 0; }
   .ch-meta .field:nth-child(n+3) { border-top: 1px solid var(--border); }
@@ -354,12 +359,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
   .steps::before { display: none; }
   .chapter { grid-template-columns: 1fr; gap: 18px; }
+  .ch-side { position: static; }
 }
 @media (max-width: 860px) {
   .intro-grid { grid-template-columns: 1fr; }
   .photo { order: -1; min-height: 0; aspect-ratio: 4 / 3; max-width: 360px; }
   .sec-top { grid-template-columns: 1fr; }
-  .rec-grid, .ai-grid { grid-template-columns: 1fr; }
+  .rec-grid { columns: 1; }
+  .ai-grid { grid-template-columns: 1fr; }
   .ai-item:nth-child(even) { border-left: 0; }
   .ai-item:nth-child(n+2) { border-top: 1px solid var(--border); }
   .off { grid-template-columns: 1fr; }
@@ -367,6 +374,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 }
 @media (max-width: 560px) {
   .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fields .field, .fields .field:nth-child(n+4) { grid-column: auto; }
   .fields .field { border-left: 0 !important; border-top: 1px solid var(--border); }
   .fields .field:nth-child(-n+2) { border-top: 0; }
   .fields .field:nth-child(even) { border-left: 1px solid var(--border) !important; }
@@ -521,7 +529,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
             <li>Documentation and guidelines that answer questions before they come</li>
             <li>Systems structured for AI-agent development</li>
           </ul>
-          <p class="f-proof"><small>Seen in</small><a class="xref" href="../case/design-system/">Design System for AI Agents</a><span class="plain">Camilyo design system</span></p>
+          <p class="f-proof"><small>Seen in</small><a class="xref" href="../case/design-system/">Design System for AI Agents</a></p>
         </article>
       </div>
     </section>
@@ -530,7 +538,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
     <figure class="card pull reveal">
       <span class="q-mark" aria-hidden="true">&ldquo;</span>
       <blockquote>Anton asks tough questions and challenges assumptions <span class="mut">that are not proven with data.</span></blockquote>
-      <figcaption><b>Katya Rozenoer</b><span class="sep" aria-hidden="true"></span>Co-founder, Blastra<span class="sep" aria-hidden="true"></span>worked with Anton on the same team</figcaption>
+      <figcaption><b>Katya Rozenoer</b><span class="sep" aria-hidden="true"></span>Co-founder, Blastra</figcaption>
     </figure>
 
     <!-- 03 · EXPERIENCE -->
@@ -563,11 +571,12 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
               <div>
                 <div class="role-hd"><h4>Senior Product Designer</h4><span>Jul 2022 – Jul 2026</span></div>
                 <ul>
-                  <li>Shaped product growth from <strong>$8M to $30M+</strong> in monthly media investment. <a class="xref" href="../case/price-exploration/">Price Exploration</a></li>
-                  <li>Designed explainable, human-in-the-loop AI and anomaly detection workflows. <a class="xref" href="../case/channel-analysis/">Channel Analysis</a></li>
-                  <li>Built the design system from scratch to support AI-agent-driven development. <a class="xref" href="../case/design-system/">Design System for AI Agents</a></li>
-                  <li>Led product initiatives across PM, engineering and data science. <a class="xref" href="../case/cross-campaign/">Cross-Campaign</a></li>
+                  <li>Shaped product growth from <strong>$8M to $30M+</strong> in monthly media investment.</li>
+                  <li>Designed explainable, human-in-the-loop AI and anomaly detection workflows.</li>
+                  <li>Built the design system from scratch to support AI-agent-driven development.</li>
+                  <li>Led product initiatives across PM, engineering and data science.</li>
                 </ul>
+                <p class="f-proof role-cases"><small>Cases</small><a class="xref" href="../case/channel-analysis/">Channel Analysis</a><a class="xref" href="../case/design-system/">Design System for AI Agents</a><a class="xref" href="../case/price-exploration/">Price Exploration</a><a class="xref" href="../case/cross-campaign/">Cross-Campaign</a></p>
               </div>
             </div>
           </div>
@@ -594,10 +603,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
               <div>
                 <div class="role-hd"><h4>Senior Product Designer</h4><span>Jan 2021 – Jul 2022</span></div>
                 <ul>
-                  <li>Led Payments, Services &amp; E-Commerce, and the Unified Inbox. <a class="xref" href="../case/inbox/">Inbox</a></li>
+                  <li>Led Payments, Services &amp; E-Commerce, and the Unified Inbox.</li>
                   <li>Maintained the design system and its component documentation on Zeroheight.</li>
                   <li>Worked end to end, from discovery and reframing through handoff and QA.</li>
                 </ul>
+                <p class="f-proof role-cases"><small>Cases</small><a class="xref" href="../case/inbox/">Inbox</a></p>
               </div>
             </div>
             <div class="role past">
@@ -706,13 +716,13 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
         </figure>
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
-          <blockquote class="rec-text">I miss my time working with Anton! He is an extremely sharp contributor to any project. He always keeps the business problem we work on in his mind, and he is looking for a solution that would solve this problem in the most optimal way given the circumstances. This often means out of the box approach to designing things, which is exactly what a company needs in order to be innovative. Anton asks tough questions and challenges assumptions that are not proven with data. While doing that however he maintains a very positive attitude and the unique combination of his personal and professional skills make your work with him joyful and brings exciting results! On top of that Anton is a tech leader when it comes to new design tools, he’s an experienced design researcher with a great taste, good eye, and skilled hands.</blockquote>
-          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Katya Rozenoer, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Katya Rozenoer</b><small>Co-founder · Blastra</small></span></figcaption>
+          <blockquote class="rec-text">When I first met Anton, I was honestly surprised by how a designer could challenge data professionals and speak their language so fluently. He is a rare talent who brings so much more to the table than just beautiful visuals. He understands product strategy deeply and has an incredible ability to separate the signal from the noise.</blockquote>
+          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Tomer Hasson, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Tomer Hasson</b><small>Product Analyst</small></span></figcaption>
         </figure>
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
-          <blockquote class="rec-text">When I first met Anton, I was honestly surprised by how a designer could challenge data professionals and speak their language so fluently. He is a rare talent who brings so much more to the table than just beautiful visuals. He understands product strategy deeply and has an incredible ability to separate the signal from the noise.</blockquote>
-          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Tomer Hasson, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Tomer Hasson</b><small>Product Analyst</small></span></figcaption>
+          <blockquote class="rec-text">I miss my time working with Anton! He is an extremely sharp contributor to any project. He always keeps the business problem we work on in his mind, and he is looking for a solution that would solve this problem in the most optimal way given the circumstances. This often means out of the box approach to designing things, which is exactly what a company needs in order to be innovative. Anton asks tough questions and challenges assumptions that are not proven with data. While doing that however he maintains a very positive attitude and the unique combination of his personal and professional skills make your work with him joyful and brings exciting results! On top of that Anton is a tech leader when it comes to new design tools, he’s an experienced design researcher with a great taste, good eye, and skilled hands.</blockquote>
+          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Katya Rozenoer, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Katya Rozenoer</b><small>Co-founder · Blastra</small></span></figcaption>
         </figure>
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
