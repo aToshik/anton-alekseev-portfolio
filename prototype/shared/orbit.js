@@ -12,26 +12,31 @@ const MONO='"DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 // ---- two galaxies: how I ship / what it changes
 const GALAXIES={
   impact:{ title:'Impact', orbits:[
-    {name:'Interface', q:'one screen', speed:.15, r:1.75, tx:1.05, rz:-.18},
-    {name:'Product', q:'the whole flow', speed:.1, r:2.7, tx:1.14, rz:.34},
-    {name:'Team', q:'how others work', speed:.075, r:3.65, tx:1.1, rz:-.42},
-    {name:'Business', q:'what the numbers show', speed:.055, r:4.6, tx:1.2, rz:.12}],
+    {name:'Interface', q:'one screen', speed:.15, r:1.7, tx:1.16, rz:-.19},
+    {name:'Flow', q:'end to end', speed:.1, r:2.55, tx:1.2, rz:-.08},
+    {name:'Team', q:'how others work', speed:.075, r:3.75, tx:1.17, rz:-.15},
+    {name:'Business', q:'what the numbers show', speed:.055, r:5.3, tx:1.24, rz:-.04}],
    objs:[
     {id:'experience',o:0,label:'Experience',text:'How the product feels as a whole: calm and predictable.',rel:['confidence','adoption']},
     {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','self-service'],kase:'Channel Analysis'},
-    {id:'usability',o:0,label:'Usability',text:'A complex task gets done fast and without mistakes.',rel:['design-system','adoption']},
+    {id:'usability',o:0,label:'Usability',text:'A complex task gets done fast and without mistakes.',rel:['design-system','adoption'],kase:'Booking Calendar'},
     {id:'impact',o:1,label:'Impact',text:'The solution changes how people work, not just a screen.',rel:['outcomes','experience']},
     {id:'confidence',o:1,label:'Confidence',text:'Users trust the numbers and recommendations because they can see where they come from.',rel:['experience','outcomes'],kase:'Price Exploration'},
-    {id:'self-service',o:1,label:'Self-service',text:'Customers get it done on their own, without support or an account manager.',rel:['clarity','scale'],kase:'Cross-Campaign Management'},
+    {id:'self-service',o:1,label:'Self-service',text:'Customers get it done on their own, without support or an account manager.',rel:['clarity','scale'],kase:'Inbox, Camilyo'},
     {id:'governance',o:2,label:'Governance',text:'It is clear who changes the system and how, so it does not sprawl.',rel:['guidelines','scale']},
     {id:'guidelines',o:2,label:'Guidelines',text:'Rules that let the team make the same calls without a designer.',rel:['clarity','governance']},
     {id:'design-system',o:2,label:'Design System',text:'The components and tokens every screen is built from.',rel:['usability','scale'],kase:'Design System for AI Agents'},
     {id:'adoption',o:3,label:'Adoption',text:'Features get used, not just shipped.',rel:['usability','experience']},
-    {id:'scale',o:3,label:'Scale',text:'The solution works for thousands of customers, not just one.',rel:['self-service','design-system']},
+    {id:'scale',o:3,label:'Scale',text:'The solution works for thousands of customers, not just one.',rel:['self-service','design-system'],kase:'Cross-Campaign Management'},
     {id:'outcomes',o:3,label:'Outcomes',text:'A measurable result: time, money, support tickets.',rel:['impact','confidence']}]},
 };
 // case pages that exist in the prototype; the rest show as "coming soon"
-const CASE_URL={'Channel Analysis':'../case/channel-analysis/','Price Exploration':'../case/price-exploration/','Design System for AI Agents':'../case/design-system/'};
+const CASE_URL={'Channel Analysis':'../case/channel-analysis/','Price Exploration':'../case/price-exploration/','Design System for AI Agents':'../case/design-system/',
+  'Cross-Campaign Management':'../case/cross-campaign/','Inbox, Camilyo':'../case/inbox/'};
+// the headline result of each case, shown under its name in the card (same numbers as the Work cards)
+const CASE_METRIC={'Channel Analysis':'Weeks → Hours · detection time','Price Exploration':'$8M → $30M+ · monthly media investment',
+  'Design System for AI Agents':'15 → 2 · design questions per feature','Cross-Campaign Management':'Hours → Min · bulk updates',
+  'Inbox, Camilyo':'8 → 1 · request types, one thread'};
 let ORBITS=[], OBJ=[], byId={}, LBL=[];
 function loadGalaxy(key){
   const g=GALAXIES[key]; ORBITS=g.orbits; OBJ=g.objs; byId=Object.fromEntries(OBJ.map(o=>[o.id,o])); LBL=ORBITS.map(()=>null);
@@ -58,11 +63,20 @@ function layout(){ domCache=null; if(shown) measureCard();
   cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
   if(W<700){ // stacked: the system sits in the free band between the eyebrow and the name
     const eb=hero.querySelector('.hero-eyebrow').getBoundingClientRect(), nm=hero.querySelector('h1').getBoundingClientRect();
-    const top=eb.bottom-r.top+12, bot=nm.top-r.top-12; C={x:W*.5,y:(top+bot)/2}; Rp=Math.max(18,Math.min(W*.1,(bot-top)*.16)); }
+    const top=eb.bottom-r.top+12, bot=nm.top-r.top-12; C={x:W*.5,y:(top+bot)/2}; Rp=Math.max(18,Math.min(W*.088,(bot-top)*.16)); }
   else if(layoutMode==='chip'){ C={x:W*.5,y:H*.46}; Rp=Math.min(W*.075,H*.125); }
   else { const v=hero.dataset; // a composition can move the system: data-cx/cy (share of W/H), data-rw/rh (planet radius caps)
     C={x:W*(+v.cx||.665),y:H*(+v.cy||.47)}; Rp=Math.min(W*(+v.rw||.058),H*(+v.rh||.105)); }
-  placeLabels();
+  placeLabels(); placeHint();
+}
+// hint sits just under the outer orbit, never on the name
+const hint=document.getElementById('poHint'); let touched=false;
+function placeHint(){
+  if(!hint) return; const last=ORBITS.length-1; let maxY=C.y+R(last)*.3;
+  ORBITS.forEach((orb,i)=>{ for(let a=0;a<Math.PI*2;a+=.05){ const y=project(orb,R(i),a).y; if(y>maxY) maxY=y; } });
+  const hr=hero.getBoundingClientRect(), nm=hero.querySelector('h1').getBoundingClientRect();
+  const y=Math.min(maxY+22,nm.top-hr.top-30);
+  hint.style.left=Math.round(C.x)+'px'; hint.style.top=Math.round(y)+'px';
 }
 function placeLabels(){
   ctx.font=`400 10px ${MONO}`; const minX=W>=700?(hero.dataset.minx?W*+hero.dataset.minx:layoutMode==='left'?W*.44:12):12, maxX=W>=700&&hero.dataset.maxx?W*+hero.dataset.maxx:W-12; const chosen=[], dom=domRects(); // orbit names also keep clear of the hero copy
@@ -88,12 +102,19 @@ hero.addEventListener('pointerdown',e=>{ touch=e.pointerType!=='mouse'; downX=e.
 // touch: the tap point stays as a resting "cursor" (labels near it, orbit under it), until the next tap
 hero.addEventListener('pointerleave',e=>{ if(e.pointerType!=='mouse') return; real=false; hover=-1; hoverRing=-1; });
 function pick(x,y){ let k=-1, best=touch?30:18; OBJ.forEach((o,i)=>{ const d=Math.hypot(o.x-x,o.y-y); if(d<best&&!(o.z<0&&Math.hypot(o.x-C.x,o.y-C.y)<Rp)){best=d; k=i;} }); return k; }
-hero.addEventListener('click',e=>{ if(e.target.closest('.card-info, .gal')) return;
+hero.addEventListener('click',e=>{ if(e.target.closest('.card-info, .gal, .po-keys')) return;
   // a drag means the visitor was selecting text, not picking an object (a leftover selection elsewhere does not count)
   if(Math.hypot(e.clientX-downX,e.clientY-downY)>6&&String(getSelection())) return;
   const r=hero.getBoundingClientRect(), k=pick(e.clientX-r.left,e.clientY-r.top); sel=k>=0?(sel===k?-1:k):-1; });
-document.getElementById('poX').addEventListener('click',()=>{ sel=-1; });
-addEventListener('keydown',e=>{ if(e.key==='Escape') sel=-1; });
+document.getElementById('poX').addEventListener('click',()=>{ const k=sel; sel=-1; if(keys[k]&&info.contains(document.activeElement)) keys[k].focus(); });
+addEventListener('keydown',e=>{ if(e.key!=='Escape'||sel<0) return; const back=info.contains(document.activeElement)&&keys[sel]; sel=-1; if(back) back.focus(); });
+// keyboard: one visually hidden button per object; focus highlights the object on the canvas, Enter opens its card
+let kbHover=-1; const keysBox=document.getElementById('poKeys'), keys=[];
+if(keysBox) OBJ.forEach((o,k)=>{ const b=document.createElement('button'); b.type='button';
+  b.textContent=`${o.label}, ${ORBITS[o.o].name} orbit${o.kase?`, case: ${o.kase}`:''}`;
+  b.addEventListener('focus',()=>{ kbHover=k; touched=true; }); b.addEventListener('blur',()=>{ if(kbHover===k) kbHover=-1; });
+  b.addEventListener('click',()=>{ sel=k; kbHover=-1; updateInfo(OBJ[k]); placeCard(OBJ[k]); const go=document.getElementById('poGo'); (go.hidden||!go.href?document.getElementById('poX'):go).focus(); });
+  keysBox.appendChild(b); keys.push(b); });
 
 // ---- drawing helpers
 function brackets(x,y,s,len,col,a,sy){ sy=sy||s; ctx.strokeStyle=col; ctx.globalAlpha=a; ctx.lineWidth=1; ctx.beginPath();
@@ -118,7 +139,8 @@ const bucket=(v,n)=>Math.max(0,Math.min(n-1,Math.floor(v*n)));
 function rotP(x,y,a){ const c=Math.cos(a), s=Math.sin(a); return [x*c-y*s, x*s+y*c]; }
 const VT=.42; function view(x,y,z){ const c=Math.cos(VT), s=Math.sin(VT); return [x, y*c-z*s, y*s+z*c]; }
 
-function drawRing(P,i,t,hot,dimmed){
+// pass 0 = far half (drawn before the planet), 1 = near half (after it), so the planet sits inside the rings, not on top of them
+function drawRing(P,i,t,hot,dimmed,pass){
   const orb=ORBITS[i], r=R(i), N=220, buckets=Array.from({length:8},()=>new Path2D());
   const base=hot?.7:.34, k=dimmed?.55:1;
   const gb=Array.from({length:4},()=>new Path2D()), gOn=glowMode==='orbits'||glowMode==='both', dots=paths(6);
@@ -126,7 +148,7 @@ function drawRing(P,i,t,hot,dimmed){
   for(let s=1;s<=N;s++){
     const p=project(orb,r,s/N*Math.PI*2); const zf=(p.z+prev.z)/2; const f=smooth(-.35,.35,zf);
     const hidden=zf<0&&Math.hypot((p.x+prev.x)/2-C.x,(p.y+prev.y)/2-C.y)<Rp;
-    if(!hidden){
+    if(!hidden&&(pass==null||(pass===1)===(zf>=0))){
       if(f>.03){ const b=Math.min(7,Math.floor(f*8)); buckets[b].moveTo(prev.x,prev.y); buckets[b].lineTo(p.x,p.y); }
       if(gOn){ const g=glowAmt*Math.exp(-((Math.hypot((p.x+prev.x)/2-mouse.x,(p.y+prev.y)/2-mouse.y)/GLOW_R)**2))*(.35+.65*f);
         if(g>.04){ const b=Math.min(3,Math.floor(g*4)); gb[b].moveTo(prev.x,prev.y); gb[b].lineTo(p.x,p.y); } }
@@ -200,6 +222,7 @@ function drawObj(P,o,k,prox,state){
   const s=(on?8:6)*(depthOn?Math.pow(o.k,1.8):1);
   ctx.globalAlpha=depth*fade; ctx.fillStyle=on?P.accent:P.fg; ctx.fillRect(o.x-s/2,o.y-s/2,s,s);
   if(on) brackets(o.x,o.y,state===1?13:11,4,state>0?P.accent:P.fg,state>0?.95:.6);
+  else if(o.kase) brackets(o.x,o.y,s/2+4,3,P.accent,.55*depth*fade); // objects with a case get faint accent brackets
   // label: visible by proximity, always for selected/related; placed later by layoutLabels()
   const want=on?1:Math.max(0,prox); o.lab+=(want-o.lab)*.15;
   const a=Math.max(prox<0?0:(idleObj?.5:0)*depth,o.lab)*depth*fade;
@@ -265,7 +288,11 @@ function drawObjLabel(P,j){
 const heroVars={};
 function setVar(k,v){ if(heroVars[k]!==v) hero.style.setProperty(k,heroVars[k]=v); }
 let t=0, prev=performance.now(), speed=1;
+let lastDraw=0; const glowAt={x:-99,y:-99};
 function frame(now){
+  // nobody is touching the scene: 30 fps is enough for the slow drift and halves the work
+  if(!real&&sel<0&&kbHover<0&&now-lastDraw<31){ if(visible) requestAnimationFrame(frame); else running=false; return; }
+  lastDraw=now;
   const dt=Math.min(.05,(now-prev)/1000); prev=now;
   const P=PAL[themeOf()];
   if(!real){ target.x=C.x+Math.cos(t*.25)*Rp*3.2; target.y=C.y-Rp*2+Math.sin(t*.4)*Rp; }
@@ -274,11 +301,15 @@ function frame(now){
   const tw=depthOn&&!reduce?{x:(mouse.y-C.y)/H*.22,z:(mouse.x-C.x)/W*.12}:{x:0,z:0};
   tilt.x+=(tw.x-tilt.x)*Math.min(1,dt*3); tilt.z+=(tw.z-tilt.z)*Math.min(1,dt*3);
   glowAmt+=((real?1:.45)-glowAmt)*Math.min(1,dt*3);
-  setVar('--mx',mouse.x.toFixed(1)+'px'); setVar('--my',mouse.y.toFixed(1)+'px'); setVar('--glow',glowAmt.toFixed(3));
+  // whole pixels and two decimals: the glow is soft, and every changed value restyles the whole hero
+  const step=real?1:4; // idle drift: a 4px step is invisible in the soft glow and cuts restyles
+  if(Math.abs(mouse.x-glowAt.x)>=step||Math.abs(mouse.y-glowAt.y)>=step){ glowAt.x=mouse.x; glowAt.y=mouse.y; setVar('--mx',Math.round(mouse.x)+'px'); setVar('--my',Math.round(mouse.y)+'px'); } setVar('--glow',glowAmt.toFixed(2));
   hover=-1; hoverRing=-1;
   if(real){ hover=pick(target.x,target.y);
     if(hover<0){ let bd=touch?22:10; ORBITS.forEach((orb,i)=>{ for(let a=0;a<120;a++){ const p=project(orb,R(i),a/120*Math.PI*2); const d=Math.hypot(p.x-target.x,p.y-target.y); if(d<bd){bd=d; hoverRing=i;} } }); } }
+  if(kbHover>=0) hover=kbHover;
   setVar('cursor',hover>=0?'pointer':'default');
+  if(!touched&&(hover>=0||hoverRing>=0||sel>=0)){ touched=true; } if(hint){ const md=sel>=0?'none':real?'thesis':touched?'none':'act'; if(hint.dataset.mode!==md) hint.dataset.mode=md; }
 
   const want=(hover>=0||sel>=0)?.08:1; speed+=(want-speed)*Math.min(1,dt*4);
   if(!reduce) t+=dt*speed;
@@ -297,13 +328,14 @@ function frame(now){
       const fadeIn=Math.min(1,n*6); ctx.globalAlpha=(.06+.5*n*n)*fadeIn*st.b; const r=.5+1.7*n*n; ctx.fillRect(x-r/2,y-r/2,r,r); } }
 
   const focus=sel>=0?-1:hover>=0?OBJ[hover].o:hoverRing;
-  ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus)));
+  ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus),0));
   if((glowMode==='trail'||glowMode==='both')&&!reduce) OBJ.forEach(o=>{ if(o.z<0) drawTrail(P,o); });
   jobs.length=0;
   // hovering an object shows only its own label (plus its orbit name), not its orbit neighbours
   const prox=o=>hover>=0?(o===OBJ[hover]?1:-1):focus>=0?(o.o===focus?1:-1):real?Math.exp(-((Math.hypot(o.x-target.x,o.y-target.y)/radObj)**2)):0;
   OBJ.forEach((o,k)=>{ if(o.z<0) drawObj(P,o,k,prox(o),stateOf(o)); });
   drawPlanet(P,t,{x:mouse.x-C.x,y:mouse.y-C.y});
+  ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus),1));
   if((glowMode==='trail'||glowMode==='both')&&!reduce) OBJ.forEach(o=>{ if(o.z>=0) drawTrail(P,o); });
   OBJ.forEach((o,k)=>{ if(o.z>=0) drawObj(P,o,k,prox(o),stateOf(o)); });
 
@@ -341,14 +373,14 @@ function frame(now){
 const info=document.getElementById('poInfo'); let shown=null;
 function updateInfo(o){
   if(o===shown) return; shown=o;
-  if(!o){ info.dataset.on='false'; hero.classList.remove('card-open'); domCache=null; return; }
+  if(!o){ info.dataset.on='false'; info.inert=true; hero.classList.remove('card-open'); domCache=null; return; }
   const orb=ORBITS[o.o], $=id=>document.getElementById(id);
   $('poK').textContent=`${orb.name} orbit`;
   $('poT').textContent=o.label; $('poP').textContent=o.text;
   $('poQ').textContent=orb.q;
   $('poR').innerHTML=o.rel.length?`<span class="lbl">Related</span>`+o.rel.map(id=>`<span class="po-chip">${byId[id].label}</span>`).join(''):'';
-  const go=$('poGo'), url=o.kase&&CASE_URL[o.kase]; go.hidden=!o.kase; $('poC').textContent=o.kase||'';
-  if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; hero.classList.add('card-open'); domCache=null;
+  const go=$('poGo'), url=o.kase&&CASE_URL[o.kase]; go.hidden=!o.kase; $('poC').textContent=o.kase||''; $('poM').textContent=(url&&CASE_METRIC[o.kase])||'';
+  if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; info.inert=false; hero.classList.add('card-open'); domCache=null;
   measureCard(); cardSide=-1;
 }
 // the card opens next to its object and follows it, never covering it; it prefers spots clear of the hero copy
@@ -373,6 +405,9 @@ function placeCard(o){
 }
 
 new ResizeObserver(layout).observe(hero); layout();
+// case pages link back with #map-<object id>: open that object's card on arrival
+function openFromHash(){ const m=/^#map-([\w-]+)$/.exec(location.hash); if(!m) return; const k=OBJ.findIndex(o=>o.id===m[1]); if(k<0) return; sel=k; touched=true; }
+openFromHash(); addEventListener('hashchange',openFromHash);
 mouse.x=target.x=C.x+Rp*3; mouse.y=target.y=C.y-Rp*2;
 // only animate while the hero is on screen
 let visible=true, running=true;

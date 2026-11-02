@@ -673,12 +673,12 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   <main class="main" id="main">
 
     <!-- HERO -->
-    <section class="card hero po" id="hero" aria-labelledby="hero-name" data-cx=".5" data-cy=".38" data-rw=".058" data-rh=".1" data-minx=".02" data-maxx=".98">
+    <section class="card hero po" id="hero" aria-labelledby="hero-name" data-cx=".5" data-cy=".37" data-rw=".058" data-rh=".1" data-minx=".02" data-maxx=".98">
       <canvas id="poCanvas" aria-hidden="true"></canvas>
       <p class="hero-eyebrow"><span class="a">Senior Product Designer</span><span class="dot-sm"></span><span class="b">Petah Tikva, Israel</span></p>
       <h1 id="hero-name">Anton Alekseev<span class="dot">.</span></h1>
       <div class="hero-bottom">
-        <p class="hero-tagline">Translating complex B2B systems into self-service experiences that scale.</p>
+        <p class="hero-tagline">Translating complex B2B systems into <span class="nw">self-service</span> experiences that scale.</p>
         <div class="hero-meta">
           <div class="hero-tags" role="list" aria-label="Focus areas">
             <span class="tag" role="listitem">B2B SaaS</span><span class="tag" role="listitem">Complex systems</span><span class="tag" role="listitem">Data-dense platforms</span><span class="tag" role="listitem">InsurTech / Fintech</span><span class="tag" role="listitem">AI-native Design Systems</span>
@@ -694,13 +694,13 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <dd><ul>
             <li><strong>Experience</strong>: How the product feels as a whole: calm and predictable.</li>
             <li><strong>Clarity</strong>: At a glance it is clear what is going on and what to do next. Case: <a tabindex="-1" href="../case/channel-analysis/">Channel Analysis</a>.</li>
-            <li><strong>Usability</strong>: A complex task gets done fast and without mistakes.</li>
+            <li><strong>Usability</strong>: A complex task gets done fast and without mistakes. Case: Booking Calendar (coming soon).</li>
           </ul></dd>
-          <dt>Product: the whole flow</dt>
+          <dt>Flow: end to end</dt>
           <dd><ul>
             <li><strong>Impact</strong>: The solution changes how people work, not just a screen.</li>
             <li><strong>Confidence</strong>: Users trust the numbers and recommendations because they can see where they come from. Case: <a tabindex="-1" href="../case/price-exploration/">Price Exploration</a>.</li>
-            <li><strong>Self-service</strong>: Customers get it done on their own, without support or an account manager. Case: Cross-Campaign Management (coming soon).</li>
+            <li><strong>Self-service</strong>: Customers get it done on their own, without support or an account manager. Case: <a tabindex="-1" href="../case/inbox/">Inbox, Camilyo</a>.</li>
           </ul></dd>
           <dt>Team: how others work</dt>
           <dd><ul>
@@ -711,18 +711,20 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
           <dt>Business: what the numbers show</dt>
           <dd><ul>
             <li><strong>Adoption</strong>: Features get used, not just shipped.</li>
-            <li><strong>Scale</strong>: The solution works for thousands of customers, not just one.</li>
+            <li><strong>Scale</strong>: The solution works for thousands of customers, not just one. Case: <a tabindex="-1" href="../case/cross-campaign/">Cross-Campaign Management</a>.</li>
             <li><strong>Outcomes</strong>: A measurable result: time, money, support tickets.</li>
           </ul></dd>
         </dl>
       </div>
-      <div class="card-info" id="poInfo" data-on="false" aria-live="polite">
-        <div class="ci-head"><span class="po-chip acc" id="poK"></span><span class="po-chip" id="poQ"></span>
+      <p class="po-hint" id="poHint" data-mode="act"><span class="po-act" aria-hidden="true"><span class="po-hint-mouse">Hover an orbit</span><span class="po-hint-touch">Tap an orbit</span></span><span class="po-thesis">From one screen to business outcomes</span></p>
+      <div class="po-keys visually-hidden" id="poKeys" role="group" aria-label="Impact map: open an object"></div>
+      <div class="card-info" id="poInfo" data-on="false" aria-live="polite" inert>
+        <div class="ci-head"><p class="ci-kicker"><span class="k" id="poK"></span><span class="q" id="poQ"></span></p>
           <button type="button" class="ci-x" id="poX" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
         <h3 class="t" id="poT"></h3>
         <p class="p" id="poP"></p>
         <div class="ci-rel" id="poR"></div>
-        <a class="ci-case" id="poGo" hidden><span><small>Case</small><b id="poC"></b></span><span class="ci-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></a>
+        <a class="ci-case" id="poGo" hidden><span><small>Case</small><b id="poC"></b><em class="ci-metric" id="poM"></em></span></a>
       </div>
     </section>
 

@@ -1,0 +1,6 @@
+/* "Impact map · <object>" chip on case pages: leads back to the Home orbit with that object's card open (#map-<id>, read by shared/orbit.js) */
+.map-link { display: inline-flex; align-items: center; gap: 8px; align-self: center; font: 400 11px var(--mono); letter-spacing: .04em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border-2); border-radius: 999px; padding: 7px 12px; text-decoration: none; transition: color .2s, border-color .2s; }
+.map-link::before { content: ""; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); flex: none; }
+.map-link b { font-weight: 500; color: var(--fg); }
+.map-link:hover, .map-link:focus-visible { color: var(--fg); border-color: var(--accent); }
