@@ -1,7 +1,7 @@
 /* Product Orbit hero (shared/orbit.js). The hero keeps its own markup; the canvas sits behind it. */
 .hero.po { container-type: inline-size; touch-action: pan-y; }
 .hero.po > #poCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
-.hero.po > :not(#poCanvas):not(.card-info):not(.visually-hidden), .hero.po .hero-bottom > * { position: relative; z-index: 1; } /* .hero-bottom is display: contents, so its children need the lift themselves */
+.hero.po > :not(#poCanvas):not(.card-info):not(.visually-hidden):not(.po-hint), .hero.po .hero-bottom > * { position: relative; z-index: 1; } /* .hero-bottom is display: contents, so its children need the lift themselves */
 .hero.po .hero-meta, .hero.po h1, .hero.po .hero-tagline { transition: opacity .3s; }
 .hero.po .card-info { left: 0; top: 0; } /* orbit.js places it next to its object */
 
@@ -57,3 +57,24 @@
     radial-gradient(ellipse 30% 34% at 50% 38%, var(--core), transparent 72%),
     radial-gradient(ellipse 80% 78% at 50% 40%, transparent 38%, var(--void) 100%); }
 [data-theme="light"] .hero.po { --core: color-mix(in srgb, #4ea832 9%, transparent); --void: color-mix(in srgb, #dfe2d6 85%, transparent); }
+
+/* case result under the case name in the object card */
+.ci-metric { display: block; font: 400 11px var(--mono); font-style: normal; letter-spacing: .03em; color: var(--accent); margin-top: 4px; }
+.ci-metric:empty { display: none; }
+.hero-tagline .nw { white-space: nowrap; }
+
+/* "Hover an orbit": quiet hint under the system until the visitor touches the scene; orbit.js places it and hides it */
+.po-hint { position: absolute; left: 0; top: 0; z-index: 1; margin: 0; transform: translateX(-50%); pointer-events: none;
+  font: 400 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label, var(--muted)); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px; transition: opacity .5s; }
+.po-hint::before { content: ""; width: 5px; height: 5px; border-radius: 1px; border: 1px solid var(--accent); animation: poHint 2.4s ease-in-out infinite; }
+.po-hint[data-on="false"] { opacity: 0; }
+.po-hint-touch { display: none; }
+@media (hover: none) { .po-hint-mouse { display: none; } .po-hint-touch { display: inline; } }
+@keyframes poHint { 0%, 100% { background: transparent; } 50% { background: var(--accent); } }
+@media (prefers-reduced-motion: reduce) { .po-hint::before { animation: none; background: var(--accent); } }
+
+/* small screens: the open card stands in for the name and tagline instead of sitting on top of them */
+@container (max-width: 700px) {
+  .hero.po.card-open h1, .hero.po.card-open .hero-tagline { opacity: 0; }
+}
