@@ -12,10 +12,10 @@ const MONO='"DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 // ---- two galaxies: how I ship / what it changes
 const GALAXIES={
   impact:{ title:'Impact', orbits:[
-    {name:'Interface', q:'one screen', speed:.15, r:1.75, tx:1.12, rz:-.14},
-    {name:'Product', q:'the whole flow', speed:.1, r:2.7, tx:1.12, rz:-.11},
-    {name:'Team', q:'how others work', speed:.075, r:3.65, tx:1.12, rz:-.08},
-    {name:'Business', q:'what the numbers show', speed:.055, r:4.6, tx:1.12, rz:-.05}],
+    {name:'Interface', q:'one screen', speed:.15, r:1.7, tx:1.16, rz:-.19},
+    {name:'Product', q:'the whole flow', speed:.1, r:2.55, tx:1.2, rz:-.08},
+    {name:'Team', q:'how others work', speed:.075, r:3.75, tx:1.17, rz:-.15},
+    {name:'Business', q:'what the numbers show', speed:.055, r:5.3, tx:1.24, rz:-.04}],
    objs:[
     {id:'experience',o:0,label:'Experience',text:'How the product feels as a whole: calm and predictable.',rel:['confidence','adoption']},
     {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','self-service'],kase:'Channel Analysis'},
@@ -63,7 +63,7 @@ function layout(){ domCache=null; if(shown) measureCard();
   cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
   if(W<700){ // stacked: the system sits in the free band between the eyebrow and the name
     const eb=hero.querySelector('.hero-eyebrow').getBoundingClientRect(), nm=hero.querySelector('h1').getBoundingClientRect();
-    const top=eb.bottom-r.top+12, bot=nm.top-r.top-12; C={x:W*.5,y:(top+bot)/2}; Rp=Math.max(18,Math.min(W*.1,(bot-top)*.16)); }
+    const top=eb.bottom-r.top+12, bot=nm.top-r.top-12; C={x:W*.5,y:(top+bot)/2}; Rp=Math.max(18,Math.min(W*.088,(bot-top)*.16)); }
   else if(layoutMode==='chip'){ C={x:W*.5,y:H*.46}; Rp=Math.min(W*.075,H*.125); }
   else { const v=hero.dataset; // a composition can move the system: data-cx/cy (share of W/H), data-rw/rh (planet radius caps)
     C={x:W*(+v.cx||.665),y:H*(+v.cy||.47)}; Rp=Math.min(W*(+v.rw||.058),H*(+v.rh||.105)); }
