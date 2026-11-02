@@ -241,22 +241,19 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 .chapter { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); gap: clamp(20px, 3.4vw, 48px); padding: clamp(24px, 3vw, 36px) 0; border-top: 1px solid var(--border); }
 .chapter:first-of-type { border-top: 0; padding-top: 0; }
 .ch-side { display: flex; flex-direction: column; gap: 10px; align-self: start; position: sticky; top: 110px; }
-.ch-n { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 .ch-co { display: flex; align-items: center; gap: 12px; }
 .ch-logo { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel-2); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--fg); }
 .ch-co b { font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: -.02em; display: block; }
 .ch-co small { font-family: var(--mono); font-size: 10px; color: var(--label); }
-.ch-dates { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.ch-tag { align-self: flex-start; margin-left: 50px; height: 22px; padding: 0 8px; display: inline-flex; align-items: center; border: 1px solid var(--border-2); border-radius: 5px; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
 .ch-title { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.12; letter-spacing: -.035em; text-wrap: balance; max-width: 26ch; }
-.ch-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 22px 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
-.ch-meta .field { padding: 12px 14px; }
-.ch-meta .field b { font-size: 12.5px; }
-.roles { display: flex; flex-direction: column; margin-top: 18px; }
+.ch-ctx { margin-top: 12px; font-size: 14px; line-height: 1.6; color: var(--muted); max-width: 64ch; }
+.roles { display: flex; flex-direction: column; margin-top: 22px; }
 .role { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 0 12px; padding-bottom: 20px; }
 .role:last-child { padding-bottom: 0; }
 .role-mk { position: relative; }
 .role-mk::before { content: ''; position: absolute; left: 6px; top: 7px; width: 9px; height: 9px; border-radius: 1px; background: var(--accent); z-index: 1; }
-.role-mk::after { content: ''; position: absolute; left: 10px; top: 7px; bottom: -7px; width: 1px; background: var(--border); }
+.role-mk::after { content: ''; position: absolute; left: 10px; top: 7px; bottom: -27px; width: 1px; background: var(--border-2); } /* reaches the next square across the 20px gap */
 .role:last-child .role-mk::after { display: none; }
 .role.past .role-mk::before { background: var(--panel); box-shadow: inset 0 0 0 1.5px var(--border-2); }
 .role-hd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
@@ -360,9 +357,6 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
   .fields .field { grid-column: span 2; }
   .fields .field:nth-child(n+4) { grid-column: span 3; border-top: 1px solid var(--border); }
   .fields .field:nth-child(4) { border-left: 0; }
-  .ch-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ch-meta .field:nth-child(3) { border-left: 0; }
-  .ch-meta .field:nth-child(n+3) { border-top: 1px solid var(--border); }
 }
 @media (max-width: 1100px) {
   .focus-grid { grid-template-columns: 1fr; }
@@ -473,7 +467,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         <div>
           <div class="intro-id"><b>Anton Alekseev</b><span class="sep" aria-hidden="true"></span><span class="eyebrow">Senior Product Designer</span></div>
           <h1 class="disp" id="about-t">I make complex B2B products feel <span class="mut">obvious</span><span class="dot">.</span></h1>
-          <p class="intro-bio">For the last four years I was the <strong>only designer on MarketingOS</strong>, a real-time analytics and bidding platform used by top U.S. insurers. Before that, at Camilyo, I grew from an early product designer into the <strong>lead of a design system</strong> shared by 5 designers and 50 engineers. I like the hard middle of a product: data-dense workflows, AI that has to earn trust, and systems that let a team move without a designer in every meeting.</p>
+          <p class="intro-bio">For four years I designed <strong>MarketingOS</strong>, a real-time analytics and bidding platform used by top U.S. insurers, and for the last two I was its <strong>only designer</strong>. Before that, at Camilyo, I grew from an early product designer into the <strong>lead of a design system</strong> shared by 5 designers and 50 engineers. I like the hard middle of a product: data-dense workflows, AI that has to earn trust, and systems that let a team move without a designer in every meeting.</p>
           <div class="intro-actions">
             <a class="btn-pri cv-link" href="#" data-note="cv">
               <svg class="lu lu-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
@@ -559,23 +553,17 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
           <p class="eyebrow">Experience</p>
           <h2 class="disp" id="exp-t">Nine years, <span class="mut">two platforms</span><span class="dot">.</span></h2>
         </div>
-        <p class="sec-sub">From an early designer on an SMB platform to the only designer on an enterprise one.</p>
+        <p class="sec-sub">From an early designer on an SMB platform to owning the design of an enterprise one.</p>
       </div>
 
       <article class="chapter">
         <div class="ch-side">
-          <span class="ch-n">Chapter 02</span>
           <div class="ch-co"><span class="ch-logo" aria-hidden="true">K</span><div><b>Kissterra</b><small>4 years 1 month</small></div></div>
-          <span class="ch-dates">Jul 2022 – Jul 2026</span>
+          <span class="ch-tag">B2B · Enterprise</span>
         </div>
         <div>
-          <h3 class="ch-title">The only designer on a platform used by top U.S. insurers.</h3>
-          <dl class="ch-meta">
-            <div class="field"><small>Product</small><b>MarketingOS: Beacon, Growth, Connect</b></div>
-            <div class="field"><small>Users</small><b>Data-oriented media buyers</b></div>
-            <div class="field"><small>Team</small><b>PM, engineering, data science</b></div>
-            <div class="field"><small>Scope</small><b>End to end, no UX team</b></div>
-          </dl>
+          <h3 class="ch-title">Four years on a platform used by top U.S. insurers, the last two as its only designer.</h3>
+          <p class="ch-ctx">MarketingOS (Beacon, Growth, Connect) for data-oriented media buyers. I worked end to end with PM, engineering and data science.</p>
           <div class="roles">
             <div class="role">
               <span class="role-mk" aria-hidden="true"></span>
@@ -585,7 +573,6 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
                   <li>Shaped product growth from <strong>$8M to $30M+</strong> in monthly media investment.</li>
                   <li>Designed explainable, human-in-the-loop AI and anomaly detection workflows.</li>
                   <li>Built the design system from scratch to support AI-agent-driven development.</li>
-                  <li>Led product initiatives across PM, engineering and data science.</li>
                 </ul>
                 <p class="f-proof role-cases"><small>Cases</small><a class="xref" href="../case/channel-analysis/">Channel Analysis</a><a class="xref" href="../case/design-system/">Design System for AI Agents</a><a class="xref" href="../case/price-exploration/">Price Exploration</a><a class="xref" href="../case/cross-campaign/">Cross-Campaign</a></p>
               </div>
@@ -596,18 +583,12 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 
       <article class="chapter">
         <div class="ch-side">
-          <span class="ch-n">Chapter 01</span>
           <div class="ch-co"><span class="ch-logo" aria-hidden="true">C</span><div><b>Camilyo</b><small>5 years 5 months</small></div></div>
-          <span class="ch-dates">Mar 2017 – Jul 2022</span>
+          <span class="ch-tag">B2B · SMB</span>
         </div>
         <div>
           <h3 class="ch-title">From early product designer to design system lead.</h3>
-          <dl class="ch-meta">
-            <div class="field"><small>Product</small><b>All-in-one platform for U.S. SMBs</b></div>
-            <div class="field"><small>Users</small><b>Small business owners and their customers</b></div>
-            <div class="field"><small>Team</small><b>5 designers, 50 engineers</b></div>
-            <div class="field"><small>Scope</small><b>10+ connected modules</b></div>
-          </dl>
+          <p class="ch-ctx">An all-in-one platform of 10+ connected modules for U.S. small businesses and their customers, built by 5 designers and 50 engineers.</p>
           <div class="roles">
             <div class="role">
               <span class="role-mk" aria-hidden="true"></span>
@@ -616,7 +597,6 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
                 <ul>
                   <li>Led Payments, Services &amp; E-Commerce, and the Unified Inbox.</li>
                   <li>Maintained the design system and its component documentation on Zeroheight.</li>
-                  <li>Worked end to end, from discovery and reframing through handoff and QA.</li>
                 </ul>
                 <p class="f-proof role-cases"><small>Cases</small><a class="xref" href="../case/inbox/">Inbox</a></p>
               </div>
@@ -626,7 +606,6 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
               <div>
                 <div class="role-hd"><h4>Product Designer</h4><span>Mar 2017 – Jan 2021</span></div>
                 <ul>
-                  <li>Joined as an early product designer on a platform of 10+ connected modules for U.S. small businesses.</li>
                   <li>Designed core sales, invoicing, estimates and scheduling workflows.</li>
                   <li>Scaled shared patterns from an early-stage product into a multi-team platform.</li>
                 </ul>
