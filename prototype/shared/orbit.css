@@ -1,7 +1,7 @@
 /* Product Orbit hero (shared/orbit.js). The hero keeps its own markup; the canvas sits behind it. */
 .hero.po { container-type: inline-size; touch-action: pan-y; }
 .hero.po > #poCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
-.hero.po > :not(#poCanvas):not(.card-info):not(.visually-hidden):not(.po-hint), .hero.po .hero-bottom > * { position: relative; z-index: 1; } /* .hero-bottom is display: contents, so its children need the lift themselves */
+.hero.po > :not(#poCanvas):not(.card-info):not(.visually-hidden):not(.po-hint):not(.po-legend), .hero.po .hero-bottom > * { position: relative; z-index: 1; } /* .hero-bottom is display: contents, so its children need the lift themselves */
 .hero.po .hero-meta, .hero.po h1, .hero.po .hero-tagline { transition: opacity .3s; }
 .hero.po .card-info { left: 0; top: 0; } /* orbit.js places it next to its object */
 
@@ -68,8 +68,7 @@
 .po-hint { position: absolute; left: 0; top: 0; z-index: 1; margin: 0; transform: translateX(-50%); pointer-events: none;
   display: flex; flex-direction: column; align-items: center; gap: 6px; white-space: nowrap;
   font: 400 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label, var(--muted)); }
-/* the thesis stays; the action line fades after the first interaction */
-.po-hint .po-thesis { color: var(--fg); }
+/* the action line fades after the first interaction */
 .po-hint .po-act { display: inline-flex; align-items: center; gap: 8px; transition: opacity .5s; }
 .po-hint .po-act::before { content: ""; width: 5px; height: 5px; border-radius: 1px; border: 1px solid var(--accent); animation: poHint 2.4s ease-in-out infinite; }
 .po-hint[data-act="false"] .po-act { opacity: 0; }
@@ -91,3 +90,10 @@
 .ci-case[href]:is(:hover, :focus-visible)::after { opacity: 1; inset: -5px; }
 .ci-case:focus-visible { outline: none; }
 @media (prefers-reduced-motion: reduce) { .ci-case::after { transition: none; } }
+
+/* legend of the map, like a diagram caption: top-left corner on wide heroes, quiet */
+.po-legend { position: absolute; top: clamp(20px, 2.6cqw, 32px); left: clamp(20px, 2.6cqw, 32px); z-index: 1; margin: 0; pointer-events: none;
+  display: flex; flex-direction: column; gap: 3px; font: 400 10px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--label, var(--muted)); }
+.po-legend .k { color: var(--fg); margin-bottom: 3px; display: inline-flex; align-items: center; gap: 7px; }
+.po-legend .k::before { content: ""; width: 5px; height: 5px; border-radius: 1px; background: var(--accent); }
+@container (max-width: 700px) { .po-legend { display: none; } }

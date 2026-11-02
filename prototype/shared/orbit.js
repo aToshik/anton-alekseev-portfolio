@@ -139,7 +139,8 @@ const bucket=(v,n)=>Math.max(0,Math.min(n-1,Math.floor(v*n)));
 function rotP(x,y,a){ const c=Math.cos(a), s=Math.sin(a); return [x*c-y*s, x*s+y*c]; }
 const VT=.42; function view(x,y,z){ const c=Math.cos(VT), s=Math.sin(VT); return [x, y*c-z*s, y*s+z*c]; }
 
-function drawRing(P,i,t,hot,dimmed){
+// pass 0 = far half (drawn before the planet), 1 = near half (after it), so the planet sits inside the rings, not on top of them
+function drawRing(P,i,t,hot,dimmed,pass){
   const orb=ORBITS[i], r=R(i), N=220, buckets=Array.from({length:8},()=>new Path2D());
   const base=hot?.7:.34, k=dimmed?.55:1;
   const gb=Array.from({length:4},()=>new Path2D()), gOn=glowMode==='orbits'||glowMode==='both', dots=paths(6);
@@ -147,7 +148,7 @@ function drawRing(P,i,t,hot,dimmed){
   for(let s=1;s<=N;s++){
     const p=project(orb,r,s/N*Math.PI*2); const zf=(p.z+prev.z)/2; const f=smooth(-.35,.35,zf);
     const hidden=zf<0&&Math.hypot((p.x+prev.x)/2-C.x,(p.y+prev.y)/2-C.y)<Rp;
-    if(!hidden){
+    if(!hidden&&(pass==null||(pass===1)===(zf>=0))){
       if(f>.03){ const b=Math.min(7,Math.floor(f*8)); buckets[b].moveTo(prev.x,prev.y); buckets[b].lineTo(p.x,p.y); }
       if(gOn){ const g=glowAmt*Math.exp(-((Math.hypot((p.x+prev.x)/2-mouse.x,(p.y+prev.y)/2-mouse.y)/GLOW_R)**2))*(.35+.65*f);
         if(g>.04){ const b=Math.min(3,Math.floor(g*4)); gb[b].moveTo(prev.x,prev.y); gb[b].lineTo(p.x,p.y); } }
@@ -239,7 +240,7 @@ function domRects(){
   if(domCache&&domAge++<20) return domCache;
   domAge=0;
   const hr=hero.getBoundingClientRect(), out=[];
-  hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags .tag, .po-thesis, .card-info[data-on="true"]').forEach(el=>{ const r=el.getBoundingClientRect(); if(!r.width||+getComputedStyle(el).opacity<.1) return;
+  hero.querySelectorAll('.hero-eyebrow, .hero h1, .hero-tagline, .hero-tags .tag, .po-legend, .card-info[data-on="true"]').forEach(el=>{ const r=el.getBoundingClientRect(); if(!r.width||+getComputedStyle(el).opacity<.1) return;
     out.push({x:r.left-hr.left-8,y:r.top-hr.top-6,w:r.width+16,h:r.height+12}); });
   return domCache=out;
 }
@@ -327,13 +328,14 @@ function frame(now){
       const fadeIn=Math.min(1,n*6); ctx.globalAlpha=(.06+.5*n*n)*fadeIn*st.b; const r=.5+1.7*n*n; ctx.fillRect(x-r/2,y-r/2,r,r); } }
 
   const focus=sel>=0?-1:hover>=0?OBJ[hover].o:hoverRing;
-  ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus)));
+  ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus),0));
   if((glowMode==='trail'||glowMode==='both')&&!reduce) OBJ.forEach(o=>{ if(o.z<0) drawTrail(P,o); });
   jobs.length=0;
   // hovering an object shows only its own label (plus its orbit name), not its orbit neighbours
   const prox=o=>hover>=0?(o===OBJ[hover]?1:-1):focus>=0?(o.o===focus?1:-1):real?Math.exp(-((Math.hypot(o.x-target.x,o.y-target.y)/radObj)**2)):0;
   OBJ.forEach((o,k)=>{ if(o.z<0) drawObj(P,o,k,prox(o),stateOf(o)); });
   drawPlanet(P,t,{x:mouse.x-C.x,y:mouse.y-C.y});
+  ORBITS.forEach((_,i)=>drawRing(P,i,t,i===focus,!!selObj||(focus>=0&&i!==focus),1));
   if((glowMode==='trail'||glowMode==='both')&&!reduce) OBJ.forEach(o=>{ if(o.z>=0) drawTrail(P,o); });
   OBJ.forEach((o,k)=>{ if(o.z>=0) drawObj(P,o,k,prox(o),stateOf(o)); });
 
