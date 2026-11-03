@@ -275,6 +275,12 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 .steps::before { content: ''; position: absolute; left: 7px; right: 7px; top: 7px; height: 1px; background: var(--border); }
 .step { position: relative; display: flex; flex-direction: column; gap: 12px; }
 .st-node { position: relative; z-index: 1; width: 14px; height: 14px; border-radius: 1px; background: var(--accent); margin-bottom: 6px; }
+.motion-ok .steps .st-node { background: var(--panel); box-shadow: inset 0 0 0 1px var(--border-2); transition: background .3s ease, box-shadow .3s ease; }
+.motion-ok .steps.lit .st-node { background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.motion-ok .steps.lit .step:nth-child(1) .st-node { transition-delay: .15s; }
+.motion-ok .steps.lit .step:nth-child(2) .st-node { transition-delay: .5s; }
+.motion-ok .steps.lit .step:nth-child(3) .st-node { transition-delay: .85s; }
+.motion-ok .steps.lit .step:nth-child(4) .st-node { transition-delay: 1.2s; }
 .st-t { font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: -.02em; line-height: 1.2; }
 .st-d { font-size: 13px; line-height: 1.65; color: var(--muted); }
 
@@ -821,6 +827,9 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
     document.body.classList.add('motion-ok');
     var rev = new IntersectionObserver(function(entries, obs){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } }); }, { rootMargin: '0px 0px 15% 0px', threshold: 0 });
     document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
+    /* team steps: nodes light up one by one, in order */
+    var lit = new IntersectionObserver(function(entries, obs){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('lit'); obs.unobserve(en.target); } }); }, { threshold: 0.6 });
+    document.querySelectorAll('.steps').forEach(function(el){ lit.observe(el); });
   }
 
   /* placeholder links (CV not uploaded yet) */
