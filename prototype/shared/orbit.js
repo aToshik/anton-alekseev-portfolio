@@ -20,14 +20,14 @@ const GALAXIES={
     {id:'experience',o:0,label:'Experience',text:'How the product feels as a whole: calm and predictable.',rel:['confidence','adoption']},
     {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','self-service'],kase:'Channel Analysis'},
     {id:'usability',o:0,label:'Usability',text:'A complex task gets done fast and without mistakes.',rel:['design-system','adoption'],kase:'Booking Calendar'},
-    {id:'impact',o:1,label:'Impact',text:'The solution changes how people work, not just a screen.',rel:['outcomes','experience']},
+    {id:'impact',o:1,label:'Impact',text:'The solution changes how people work.',rel:['outcomes','experience']},
     {id:'confidence',o:1,label:'Confidence',text:'Users trust the numbers and recommendations because they can see where they come from.',rel:['experience','outcomes'],kase:'Price Exploration'},
     {id:'self-service',o:1,label:'Self-service',text:'Customers get it done on their own, without support or an account manager.',rel:['clarity','scale'],kase:'Inbox, Camilyo'},
     {id:'governance',o:2,label:'Governance',text:'It is clear who changes the system and how, so it does not sprawl.',rel:['guidelines','scale']},
     {id:'guidelines',o:2,label:'Guidelines',text:'Rules that let the team make the same calls without a designer.',rel:['clarity','governance']},
     {id:'design-system',o:2,label:'Design System',text:'The components and tokens every screen is built from.',rel:['usability','scale'],kase:'Design System for AI Agents'},
-    {id:'adoption',o:3,label:'Adoption',text:'Features get used, not just shipped.',rel:['usability','experience']},
-    {id:'scale',o:3,label:'Scale',text:'The solution works for thousands of customers, not just one.',rel:['self-service','design-system'],kase:'Cross-Campaign Management'},
+    {id:'adoption',o:3,label:'Adoption',text:'Shipped features people actually use.',rel:['usability','experience']},
+    {id:'scale',o:3,label:'Scale',text:'The solution holds up for thousands of customers.',rel:['self-service','design-system'],kase:'Cross-Campaign Management'},
     {id:'outcomes',o:3,label:'Outcomes',text:'A measurable result: time, money, support tickets.',rel:['impact','confidence']}]},
 };
 // case pages that exist in the prototype; the rest show as "coming soon"
