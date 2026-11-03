@@ -1,0 +1,63 @@
+/* ============================================================
+   MOBILE BAR — sticky strip under the floating nav (≤1000px).
+   Sections mode (home, cases): current section + reading progress,
+   tap opens the section list. Filters mode (work): active filters +
+   result count, tap opens the filter panel.
+   ============================================================ */
+.mbar, .mbar-panel, .mbar-scrim { display: none; }
+
+@media (max-width: 1000px) {
+  :root { --mbar-top: calc(14px + var(--nav-h) - 1px); --mbar-h: 44px; --mbar-inset: 16px; } /* docked under the nav, a bit narrower */
+  :root { scroll-padding-top: calc(var(--mbar-top) + var(--mbar-h) + 16px); }
+
+  /* the bar replaces the in-flow sidebar on mobile */
+  body .sidebar { display: none; }
+  body .section { scroll-margin-top: 0; }
+  body .shell { padding-top: calc(var(--mbar-top) + var(--mbar-h) + 14px); }
+
+  .mbar { display: block; position: fixed; top: var(--mbar-top); left: 50%; z-index: 590; width: calc(min(var(--maxw), calc(100vw - 2 * var(--edge))) - 2 * var(--mbar-inset)); transform: translate(-50%, -8px); opacity: 0; visibility: hidden; transition: opacity .22s ease, transform .22s cubic-bezier(.2,1,.3,1), visibility 0s linear .22s; }
+  .mbar.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .22s ease, transform .22s cubic-bezier(.2,1,.3,1), visibility 0s; }
+  .mbar-btn { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; height: var(--mbar-h); padding: 0 14px 0 16px; overflow: hidden; background: var(--nav-bg); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid var(--border); border-top: 0; border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 10px 24px rgba(0,0,0,.18); color: var(--fg); font-family: var(--body); font-size: 13px; font-weight: 500; text-align: left; cursor: pointer; }
+  .mbar-idx { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--accent); letter-spacing: .02em; flex-shrink: 0; }
+  .mbar-idx .of { color: var(--label); }
+  .mbar-label { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mbar-meta { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--muted); flex-shrink: 0; }
+  .mbar-chev { width: 16px; height: 16px; color: var(--muted); flex-shrink: 0; transition: transform .22s ease; }
+  .mbar-btn[aria-expanded="true"] .mbar-chev { transform: rotate(180deg); }
+  .mbar-progress { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+
+  .mbar-scrim { display: block; position: fixed; inset: 0; z-index: 580; background: rgba(0,0,0,.28); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+  [data-theme="light"] .mbar-scrim { background: rgba(20,24,16,.14); }
+  .mbar-scrim.show { opacity: 1; visibility: visible; transition: opacity .2s ease, visibility 0s; }
+
+  .mbar-panel { display: block; position: fixed; top: calc(var(--mbar-top) + var(--mbar-h) + 6px); left: 50%; z-index: 595; width: min(var(--maxw), calc(100vw - 2 * var(--edge))); max-height: calc(100vh - var(--mbar-top) - var(--mbar-h) - 24px); max-height: calc(100dvh - var(--mbar-top) - var(--mbar-h) - 24px); overflow-y: auto; overscroll-behavior: contain; padding: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); transform: translate(-50%, -6px); opacity: 0; visibility: hidden; transition: opacity .2s ease, transform .2s cubic-bezier(.2,1,.3,1), visibility 0s linear .2s; }
+  .mbar-panel.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .2s ease, transform .2s cubic-bezier(.2,1,.3,1), visibility 0s; }
+
+  /* sections list */
+  .mbar-list { display: flex; flex-direction: column; gap: 2px; }
+  .mbar-list a { position: relative; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 8px; color: var(--muted); font-size: 14px; }
+  .mbar-list a .n { font-family: var(--mono); font-size: 11px; color: var(--label); width: 20px; }
+  .mbar-list a.active { color: var(--fg); background: var(--panel-2); font-weight: 500; }
+  .mbar-list a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 18px; border-radius: 2px; background: var(--accent); }
+  .mbar-list a.active .n { color: var(--accent); }
+  .mbar-near { display: flex; justify-content: space-between; gap: 8px; margin-top: 8px; padding: 10px 4px 2px; border-top: 1px solid var(--border); }
+  .mbar-near a { font-family: var(--mono); font-size: 11px; color: var(--label); padding: 8px; border-radius: 6px; }
+  .mbar-near a:last-child { text-align: right; }
+
+  /* filters */
+  .mbar-panel .filter-group { flex-direction: row; flex-wrap: wrap; gap: 6px; padding: 6px 6px 8px; }
+  .mbar-panel .filter-group + .filter-group { margin-top: 0; border-top: 1px solid var(--border); padding-top: 12px; }
+  .mbar-panel .fg-label { width: 100%; }
+  .mbar-panel .filter-btn { width: auto; min-height: 38px; padding: 0 14px; border-color: var(--border-2); border-radius: 999px; font-size: 13px; }
+  .mbar-panel .filter-btn[aria-pressed="true"] { border-color: var(--accent); }
+  .mbar-panel .filter-btn .fcount { display: none; }
+  .mbar-panel .filter-btn .fdot { display: none; }
+  .mbar-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 6px 4px; border-top: 1px solid var(--border); }
+  .mbar-foot .mbar-meta { color: var(--fg); }
+  .mbar-done { height: 38px; padding: 0 16px; border: 0; border-radius: 9px; background: var(--btn-bg); color: var(--btn-fg); font-family: var(--body); font-weight: 600; font-size: 12px; cursor: pointer; }
+  .mbar-clear { height: 38px; padding: 0 14px; margin-left: auto; border: 1px solid var(--border-2); border-radius: 999px; background: transparent; color: var(--muted); font-family: var(--mono); font-size: 11px; cursor: pointer; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mbar, .mbar.show, .mbar-panel, .mbar-panel.show, .mbar-scrim, .mbar-scrim.show, .mbar-chev { transition: none; }
+}

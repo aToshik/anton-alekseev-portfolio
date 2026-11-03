@@ -1,0 +1,38 @@
+/* ============================================================
+   BUTTONS — two kinds, one size (decided 2026-11-01):
+   primary   = filled (Contact now, Start a conversation)
+   secondary = outline on the panel (theme toggles, case Prev/Next)
+   Same height 44px and radius 8px everywhere.
+   ============================================================ */
+:root { --btn-h: 44px; --btn-r: 8px; }
+
+/* ---- primary ---- */
+.btn-contact, .contact-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  height: var(--btn-h); padding: 0 18px; border: 0; border-radius: var(--btn-r);
+  font-family: var(--body); font-weight: 600; font-size: 12px; line-height: 1; cursor: pointer;
+  transition: filter .2s, transform .15s;
+}
+.btn-contact:hover, .contact-btn:hover { filter: brightness(1.06); transform: none; }
+.btn-contact:active, .contact-btn:active { transform: translateY(1px); }
+.btn-contact svg, .contact-btn svg { width: 15px; height: 15px; }
+/* on the lime Contact card the primary stays dark ink (light fill would vanish on lime) */
+.contact-btn { background: #11150f; color: #f3f6ec; }
+
+/* ---- secondary ---- */
+.theme-btn, .side-theme, .pager a {
+  border: 1px solid var(--border); border-radius: var(--btn-r); background: var(--panel); color: var(--fg);
+  transition: border-color .2s, background-color .2s, color .2s;
+}
+.theme-btn:hover, .side-theme:hover, .pager a:hover { border-color: var(--border-2); background: var(--panel-2); }
+.theme-btn { width: var(--btn-h); height: var(--btn-h); color: var(--muted); }
+.theme-btn:hover { color: var(--fg); }
+.side-theme { min-height: var(--btn-h); }
+
+/* case Prev / Next: a two-line secondary button, not a card */
+.pager a { display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 64px; padding: 12px 18px; transform: none; }
+.pager a:hover { transform: none; }
+.pager a::before { content: none !important; }
+.pager b { margin-top: 0; font-size: 15px; }
+.pager .next { align-items: flex-end; }
+@media (max-width: 760px) { .pager .next { align-items: flex-start; } }

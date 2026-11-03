@@ -3,12 +3,16 @@
 
 # Dev tooling / local config (not needed for the public site)
 .claude/
+.agents/
+skills-lock.json
 /serve.py
 
 # Personal documents and working notes — keep local, never publish
 *.docx
 *.pdf
 *.bak
+*-backup.html
+UI-UPGRADE-NOTES.md
 CLAUDE.md
 readme.md
 PORTFOLIO2.md
@@ -16,3 +20,6 @@ CASES.md
 portfolio.html
 og-image.svg
 design_handoff_work_cards/
+
+# Public CV download on the Profile page
+!prototype/shared/files/*.pdf

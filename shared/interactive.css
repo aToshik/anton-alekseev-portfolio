@@ -1,0 +1,52 @@
+/* ============================================================
+   INTERACTIVE CARDS outside Home (Work case cards):
+   same language as Home — tinted card, no lift, hover/focus =
+   green corner brackets growing out past the edge. Replaces glow.
+   ============================================================ */
+:root { --snap: cubic-bezier(.3,1.35,.5,1); --card: #191c19; --card-h: #1f231f; }
+[data-theme="light"] { --card: color-mix(in srgb, #4ea832 6%, #ffffff); --card-h: color-mix(in srgb, #4ea832 3%, #ffffff); }
+
+.case-card { position: relative; background: var(--card); }
+.case-card:hover { background: var(--card-h); border-color: var(--border-2); transform: none; box-shadow: none; }
+
+.case-card::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none; inset: 6px; opacity: 0;
+  border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px);
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
+  transition: opacity .35s var(--snap), inset .35s var(--snap);
+}
+.case-card:is(:hover, :focus-visible, :focus-within)::before { opacity: 1; inset: -7px; }
+@media (prefers-reduced-motion: reduce) { .case-card::before { transition: none; } }
+/* case still being written (Booking Calendar): static card, no link, no hover, no brackets */
+.case-card.is-prep:hover { background: var(--card); border-color: var(--border); }
+.case-card.is-prep::before { content: none; }
+.case-card.is-prep .cover img { transform: none !important; }
+
+/* ---- shared bracket mask (same 4 corners as .case-card) ---- */
+.pager a::after, .ph-visual[data-lightbox]::after {
+  content: ''; position: absolute; z-index: 3; pointer-events: none; inset: 6px; opacity: 0;
+  border: 1px solid var(--accent);
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 0/14px 14px no-repeat, linear-gradient(#000 0 0) 0 100%/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 100%/14px 14px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 0/14px 14px no-repeat, linear-gradient(#000 0 0) 0 100%/14px 14px no-repeat, linear-gradient(#000 0 0) 100% 100%/14px 14px no-repeat;
+  transition: opacity .35s var(--snap), inset .35s var(--snap);
+}
+
+/* ---- case Previous / Next ---- */
+.pager a { position: relative; }
+.pager a::after { border-radius: calc(var(--btn-r, 8px) + 4px); }
+.pager a:is(:hover, :focus-visible)::after { opacity: 1; inset: -6px; }
+
+/* ---- Decision visuals (image / video frames that open the lightbox) ----
+   Hovering the decision card hints the frame (brackets inside it),
+   hovering the frame itself pushes the brackets out past its edge. */
+.ph-visual[data-lightbox] { position: relative; }
+.ph-visual[data-lightbox].has-img { overflow: visible; }
+.ph-visual[data-lightbox].has-img > img, .ph-visual[data-lightbox].has-img > video { border-radius: calc(var(--radius-sm) - 1px); }
+.ph-visual[data-lightbox]::after { border-radius: calc(var(--radius-sm) + 4px); }
+.phase:hover .ph-visual[data-lightbox]::after { opacity: .6; inset: -2px; }
+.phase .ph-visual[data-lightbox]:is(:hover, :focus-visible)::after { opacity: 1; inset: -7px; }
+.ph-visual[data-lightbox]:hover, .ph-visual[data-lightbox]:focus-visible { transform: none; }
+.ph-visual[data-lightbox]:focus-visible { outline: none; }
+
+@media (prefers-reduced-motion: reduce) { .pager a::after, .ph-visual[data-lightbox]::after { transition: none; } }

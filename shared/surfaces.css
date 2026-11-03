@@ -1,0 +1,15 @@
+/* Browser surfaces: the parts the browser draws by default (selection, scrollbar, line breaks, numerals).
+   Loaded last on every page. No content or layout changes. */
+
+/* Text selection: lime with dark ink in both themes */
+::selection { background: var(--lime); color: #0e100e; }
+
+/* Scrollbar: thin, in theme colours (Firefox + Chromium; Safari keeps its overlay bar) */
+html { scrollbar-width: thin; scrollbar-color: var(--border-2) var(--bg); }
+
+/* Paragraphs: no single word left alone on the last line (only line breaks change) */
+p, li, blockquote, figcaption { text-wrap: pretty; }
+
+/* Numerals in metrics, dates and counters keep equal widths */
+.case-metric b, .cc-metric b, .mchip, .role-dates, .role-hd span, .tl-years,
+.side-count, .wh-count, .itile b { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,97 @@
+/* Product Orbit hero (shared/orbit.js). The hero keeps its own markup; the canvas sits behind it. */
+.hero.po { container-type: inline-size; touch-action: pan-y; }
+.hero.po > #poCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.hero.po > :not(#poCanvas):not(.card-info):not(.visually-hidden):not(.po-hint), .hero.po .hero-bottom > * { position: relative; z-index: 1; } /* .hero-bottom is display: contents, so its children need the lift themselves */
+.hero.po .hero-meta, .hero.po h1, .hero.po .hero-tagline { transition: opacity .3s; }
+.hero.po .card-info { left: 0; top: 0; } /* orbit.js places it next to its object */
+
+.card-info { position: absolute; z-index: 2; width: min(340px, calc(100% - 32px)); padding: 18px 18px 16px; border-radius: 12px;
+  background: color-mix(in srgb, var(--panel-2) 94%, transparent); border: 1px solid var(--border-2); box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; gap: 14px; transition: opacity .3s, transform .3s; }
+.card-info[data-on="false"] { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.ci-head { display: flex; align-items: center; gap: 8px; }
+.po-chip { font: 400 10px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border-2); border-radius: 5px; padding: 5px 9px; white-space: nowrap; }
+.po-chip.acc { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.ci-x { margin-left: auto; flex: 0 0 28px; width: 28px; height: 28px; min-width: 28px; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--muted); display: grid; place-items: center; cursor: pointer; padding: 0; transition: color .2s, border-color .2s; }
+/* orbit name + its question: a quiet eyebrow line, not chips */
+.ci-kicker { margin: 0; min-width: 0; font: 400 10px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.ci-kicker .k { color: var(--accent); }
+.ci-kicker .q::before { content: " · "; }
+.ci-x:hover { color: var(--fg); border-color: var(--border-2); }
+.ci-x svg { width: 14px; height: 14px; }
+.card-info .t { font: 500 22px/1.15 var(--display); letter-spacing: -.03em; color: var(--fg); margin: 0; }
+.card-info .p { font: 400 13px/1.55 var(--body); color: var(--muted); margin: -4px 0 0; }
+.ci-rel { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ci-rel .lbl { font: 400 10px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--label); margin-right: 2px; }
+.ci-case { position: relative; display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; border-radius: 8px; background: var(--panel); border: 1px solid var(--border); color: inherit; text-decoration: none; transition: border-color .2s, background .2s; }
+.ci-case:hover { border-color: var(--border-2); }
+.ci-case small { display: block; font: 400 10px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--label); }
+.ci-case b { display: block; font: 500 14px/1.3 var(--display); letter-spacing: -.01em; color: var(--fg); margin-top: 3px; }
+.ci-case[hidden] { display: none; }
+.ci-case.soon { cursor: default; }
+.ci-case.soon small::after { content: " · coming soon"; }
+.ci-case.soon.prep small::after { content: " · in preparation"; }
+
+/* "Axis" composition: one centred column under the system, and the hero fills the screen under the nav (level with the sidebar on desktop).
+   A container query cannot restyle the hero itself, so the height keys off the viewport. */
+.hero.po { display: grid; gap: 18px 40px; grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto auto auto; grid-template-areas: "eb" "." "name" "tag" "tags"; }
+.hero.po .hero-bottom { display: contents; }
+.hero.po .hero-eyebrow { grid-area: eb; align-self: start; justify-self: center; }
+.hero.po h1 { grid-area: name; max-width: none; white-space: nowrap; justify-self: center; text-align: center; font-size: clamp(48px, 8.4cqw, 120px); }
+.hero.po .hero-tagline { grid-area: tag; justify-self: center; text-align: center; max-width: 34ch; font-size: clamp(17px, 1.7cqw, 22px); color: var(--muted); }
+.hero.po .hero-meta { grid-area: tags; justify-self: center; align-items: center; margin-top: 10px; }
+.hero.po .hero-tags { justify-content: center; }
+@media (min-width: 1001px) { .hero.po { min-height: calc(100svh - var(--nav-h) - 54px); } }
+@media (max-width: 1000px) { .hero.po { min-height: calc(100svh - var(--mbar-top, 75px) - var(--mbar-h, 44px) - 30px); } }
+
+@container (max-width: 700px) {
+  /* stacked: eyebrow on top, the system in the free band, then name, tagline and tags, all centred */
+  .hero.po h1 { white-space: normal; font-size: clamp(52px, 15cqw, 76px); }
+  .hero.po .hero-eyebrow { flex-direction: column; align-items: center; gap: 5px; }
+  .hero.po .hero-eyebrow span { white-space: nowrap; } .hero.po .hero-eyebrow .dot-sm { display: none; }
+}
+
+/* depth: light from the core behind the planet + vignette that sinks the edges toward the page, so the scene reads as a deep space, not a flat panel */
+.hero.po { --core: color-mix(in srgb, var(--accent) 10%, transparent); --void: color-mix(in srgb, var(--bg) 92%, transparent);
+  background-image:
+    radial-gradient(ellipse 30% 34% at 50% 38%, var(--core), transparent 72%),
+    radial-gradient(ellipse 80% 78% at 50% 40%, transparent 38%, var(--void) 100%); }
+[data-theme="light"] .hero.po { --core: color-mix(in srgb, #4ea832 9%, transparent); --void: color-mix(in srgb, #dfe2d6 85%, transparent); }
+
+/* case result under the case name in the object card */
+.ci-metric { display: block; font: 400 11px var(--mono); font-style: normal; letter-spacing: .03em; color: var(--accent); margin-top: 4px; }
+.ci-metric:empty { display: none; }
+.hero-tagline .nw { white-space: nowrap; }
+
+/* "Hover an orbit": quiet hint under the system until the visitor touches the scene; orbit.js places it and hides it */
+.po-hint { position: absolute; left: 0; top: 0; z-index: 1; margin: 0; transform: translateX(-50%); pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; gap: 6px; white-space: nowrap;
+  font: 400 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--label, var(--muted)); }
+/* the action line fades after the first interaction */
+.po-hint .po-act { display: inline-flex; align-items: center; gap: 8px; }
+.po-hint .po-act::before { content: ""; width: 5px; height: 5px; border-radius: 1px; border: 1px solid var(--accent); animation: poHint 2.4s ease-in-out infinite; }
+/* one slot under the system: "Hover an orbit" until the visitor comes in, the thesis while the cursor is on the scene, nothing while a card is open */
+.po-hint { display: grid; justify-items: center; }
+.po-hint > * { grid-area: 1 / 1; transition: opacity .4s; }
+.po-hint .po-thesis { color: var(--fg); }
+.po-hint:not([data-mode="act"]) .po-act, .po-hint:not([data-mode="thesis"]) .po-thesis { opacity: 0; }
+.po-hint-touch { display: none; }
+@media (hover: none) { .po-hint-mouse { display: none; } .po-hint-touch { display: inline; } }
+@keyframes poHint { 0%, 100% { background: transparent; } 50% { background: var(--accent); } }
+@media (prefers-reduced-motion: reduce) { .po-hint .po-act::before { animation: none; background: var(--accent); } }
+
+/* small screens: the open card stands in for the name and tagline instead of sitting on top of them */
+@container (max-width: 700px) {
+  .hero.po.card-open h1, .hero.po.card-open .hero-tagline { opacity: 0; }
+}
+
+/* case block: no arrow button; hover/focus = accent corner brackets that grow out past the edge (same language as the case cards) */
+.ci-case::after { content: ""; position: absolute; inset: 4px; pointer-events: none; opacity: 0; border: 1px solid var(--accent); border-radius: 12px;
+  -webkit-mask: linear-gradient(#000 0 0) 0 0/12px 12px no-repeat, linear-gradient(#000 0 0) 100% 0/12px 12px no-repeat, linear-gradient(#000 0 0) 0 100%/12px 12px no-repeat, linear-gradient(#000 0 0) 100% 100%/12px 12px no-repeat;
+          mask: linear-gradient(#000 0 0) 0 0/12px 12px no-repeat, linear-gradient(#000 0 0) 100% 0/12px 12px no-repeat, linear-gradient(#000 0 0) 0 100%/12px 12px no-repeat, linear-gradient(#000 0 0) 100% 100%/12px 12px no-repeat;
+  transition: opacity .35s var(--snap, ease), inset .35s var(--snap, ease); }
+.ci-case[href]:is(:hover, :focus-visible)::after { opacity: 1; inset: -5px; }
+.ci-case:focus-visible { outline: none; }
+@media (prefers-reduced-motion: reduce) { .ci-case::after { transition: none; } }
