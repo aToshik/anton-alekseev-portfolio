@@ -1,0 +1,27 @@
+# Anton Alekseev — Senior Product Designer
+
+> Anton Alekseev is a Senior Product Designer based in Petah Tikva, Israel, with 9+ years in B2B SaaS. He translates complex B2B systems into self-service experiences that scale: data-dense platforms, InsurTech, AI features people can trust, and design systems built for AI-agent development. Open to work.
+
+- Site: https://antonalekseev.design/
+- LinkedIn: https://www.linkedin.com/in/atoshik
+- Email: aa.nooker@gmail.com
+- Languages: English, Hebrew, Russian
+
+## Experience
+
+- Kissterra — Senior Product Designer (Jul 2022 – Jul 2026). Four years on MarketingOS (Beacon, Growth, Connect), a real-time analytics and bidding platform used by top U.S. insurers; the last two as its only designer. Shaped product growth from $8M to $30M+ in monthly media investment.
+- Camilyo — Senior Product Designer (Jan 2021 – Jul 2022), Product Designer (Mar 2017 – Jan 2021). All-in-one platform for small service businesses; grew from an early product designer into the lead of a design system shared by 5 designers and 50 engineers.
+
+## Case studies
+
+- [Channel Analysis](https://antonalekseev.design/work/channel-analysis): How I turned silent channel decay into a one-click decision. Beacon, Kissterra. Weeks → hours detection time; 2,000+ channels monitored.
+- [Design System for AI Agents](https://antonalekseev.design/work/design-system): How I made a design system AI agents can build from. MarketingOS, Kissterra. 15 → 2 design questions after doc format v1.1; Figma → repo sync in minutes.
+- [Price Exploration](https://antonalekseev.design/work/price-exploration): How I turned a black-box pricing algorithm into a bidding tool buyers trust. Beacon, Kissterra. $8M → $30M+ monthly media investment; 7% MoM growth in policy binds.
+- [Cross-Campaign Management](https://antonalekseev.design/work/cross-campaign): How I let buyers edit thousands of campaigns as one. Beacon, Kissterra. Large-scale updates from hours to minutes; every campaign in one workspace.
+- [Inbox](https://antonalekseev.design/work/inbox): How I turned a small business CRM into one conversation. Camilyo. 8 request types in one thread; one cycle from request to payment.
+
+## Pages
+
+- [Home](https://antonalekseev.design/): overview, impact map, selected work.
+- [Work](https://antonalekseev.design/work): all case studies with tags.
+- [Profile](https://antonalekseev.design/profile): experience, focus areas, how he works with a team, colleague recommendations.

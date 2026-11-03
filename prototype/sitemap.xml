@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Staged in prototype/; moves to the domain root at launch. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://antonalekseev.design/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/work</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/profile</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/work/channel-analysis</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/work/design-system</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/work/price-exploration</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/work/cross-campaign</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://antonalekseev.design/work/inbox</loc><lastmod>2026-11-03</lastmod></url>
+</urlset>
