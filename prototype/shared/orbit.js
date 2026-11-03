@@ -224,7 +224,6 @@ function drawObj(P,o,k,prox,state){
   const s=(on?8:6)*(depthOn?Math.pow(o.k,1.8):1);
   ctx.globalAlpha=depth*fade; ctx.fillStyle=on?P.accent:P.fg; ctx.fillRect(o.x-s/2,o.y-s/2,s,s);
   if(on) brackets(o.x,o.y,state===1?13:11,4,state>0?P.accent:P.fg,state>0?.95:.6);
-  else if(o.kase) brackets(o.x,o.y,s/2+4,3,P.accent,.55*depth*fade); // objects with a case get faint accent brackets
   // label: visible by proximity, always for selected/related; placed later by layoutLabels()
   const want=on?1:Math.max(0,prox); o.lab+=(want-o.lab)*.15;
   const a=Math.max(prox<0?0:(idleObj?.5:0)*depth,o.lab)*depth*fade;
