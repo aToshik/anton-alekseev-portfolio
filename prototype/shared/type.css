@@ -21,3 +21,6 @@
 /* Mobile bar: the current decision is named, not numbered */
 .mbar-meta { font-family: var(--body); font-size: 12px; min-width: 0; flex-shrink: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mbar-list a.mbar-sub { padding-left: 44px; font-size: 13px; }
+
+/* Sidebar theme toggle: same label type as the other secondary buttons (12px / 600) */
+.side-theme span { font-family: var(--body); font-size: 12px; font-weight: 600; }
