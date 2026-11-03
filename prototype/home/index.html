@@ -278,12 +278,12 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
 :root { --snap: cubic-bezier(.3,1.35,.5,1); } /* one timing for the card brackets and the target, so they land together */
 @property --bk { syntax: '<color>'; inherits: true; initial-value: transparent; }
 .case-card, .tool-card, .role-card, .why-card { position: relative; }
-:is(.case-card, .tool-card, .role-card, .why-card)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
+:is(.case-card, .why-card)::before { content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
   border: 1px solid var(--accent); border-radius: calc(var(--radius) + 4px); opacity: 0; inset: 6px; transition: opacity .35s var(--snap), inset .35s var(--snap);
   -webkit-mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat;
           mask: linear-gradient(#000 0 0) 0 0/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 0/16px 16px no-repeat, linear-gradient(#000 0 0) 0 100%/16px 16px no-repeat, linear-gradient(#000 0 0) 100% 100%/16px 16px no-repeat; }
-:is(.case-card, .tool-card, .role-card, .why-card):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
-@media (prefers-reduced-motion: reduce) { :is(.case-card, .tool-card, .role-card, .why-card)::before { transition: none; } }
+:is(.case-card, .why-card):is(:hover, :focus-within)::before { opacity: 1; inset: -7px; }
+@media (prefers-reduced-motion: reduce) { :is(.case-card, .why-card)::before { transition: none; } }
 .case-title { display: flex; flex-direction: column; gap: 10px; }
 .case-name { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .case-hook { font-family: var(--display); font-weight: 500; font-size: clamp(21px, 2.3vw, 28px); line-height: 1.08; letter-spacing: -.03em; }
