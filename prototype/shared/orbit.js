@@ -35,7 +35,7 @@ const CASE_URL={'Channel Analysis':'../case/channel-analysis/','Price Exploratio
   'Cross-Campaign Management':'../case/cross-campaign/','Inbox, Camilyo':'../case/inbox/'};
 // the headline result of each case, shown under its name in the card (same numbers as the Work cards)
 const CASE_METRIC={'Channel Analysis':'Weeks → Hours · detection time','Price Exploration':'$8M → $30M+ · monthly media investment',
-  'Design System for AI Agents':'15 → 2 · design questions per feature','Cross-Campaign Management':'Hours → Min · bulk updates',
+  'Design System for AI Agents':'15 → 2 · open design questions after doc format v1.1','Cross-Campaign Management':'Hours → Min · large-scale updates',
   'Inbox, Camilyo':'8 → 1 · request types, one thread'};
 let ORBITS=[], OBJ=[], byId={}, LBL=[];
 function loadGalaxy(key){
