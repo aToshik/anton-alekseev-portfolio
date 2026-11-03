@@ -1,0 +1,52 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/case.html",
+      "destination": "/work",
+      "permanent": true
+    },
+    {
+      "source": "/case",
+      "destination": "/work",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/prototype",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/prototype/home/:rest*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/prototype/case/:slug/:rest*",
+      "destination": "/work/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/prototype/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/shared/files/(.*)\\.pdf",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "attachment"
+        }
+      ]
+    }
+  ]
+}
