@@ -432,6 +432,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="inbox-scene.css">
 <link rel="stylesheet" href="../../shared/map-link.css">
+<link rel="stylesheet" href="../../shared/surfaces.css">
+<link rel="stylesheet" href="../../shared/type.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -496,7 +498,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- OVERVIEW / header -->
     <header class="section" id="overview">
-      <p class="ch-context">Conversational · Self-Service · Infra · B2C · SMB&nbsp;&nbsp;|&nbsp;&nbsp;Camilyo · sole product designer · SMB SaaS</p>
+      <p class="ch-context">Conversational · Self-Service · Infra · B2C · SMB&nbsp;&nbsp;|&nbsp;&nbsp;Camilyo · Sole product designer</p>
       <h1 class="ch-hook">How I turned a small business CRM into one conversation</h1>
       <div class="ch-meta">
         <span class="mchip">8 → 1 · request types, one thread</span>
@@ -573,15 +575,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="phase-rail" aria-label="Jump to decision">
         <span class="pr-track" aria-hidden="true"></span>
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
-        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Every request</span></a>
-        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Lifecycle</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Estimate to payment</span></a>
-        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Reply tools</span></a>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Every request</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Lifecycle</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Estimate to payment</span></a>
+        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Reply tools</span></a>
       </nav>
 
       <article class="phase" id="phase-1">
         <div>
-          <div class="ph-label"><span class="n">01</span> · Every business, its own kind of request</div>
+          <div class="ph-label">Every business, its own kind of request</div>
           <p class="ph-text">A salon lives on bookings, a lawn care company on estimates and invoices, a store on orders, a law firm on call-backs, a yoga studio on booked classes and a designer on contact forms. Inbox does not turn all of them into plain messages. Each request lands in the customer's thread as a card made for it, with its source ("Sent from Balayage page at 18:12"), the details the owner needs and the action that moves it forward: Accept, Create estimate, Update status, Call back. The list shows the request type under the name, with a badge until it is handled.
             <span class="rej">Rejected: an inbox per channel, like most messaging tools, and one generic "new message" for every request. Both hid what the customer actually wanted, so the owner had to open each one to find out.</span>
           </p>
@@ -591,7 +593,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-2">
         <div>
-          <div class="ph-label"><span class="n">02</span> · A card that lives, shown on a booking</div>
+          <div class="ph-label">A card that lives, shown on a booking</div>
           <p class="ph-text">Every request card shares one anatomy: source, title, status, key details and the next action. And the card is a live object. A booking moves from <strong class="term">Pending</strong> to Accepted, Completed, No-show or Declined in place, and every change leaves a one-line event in the thread: rescheduled, reassigned, paid. Clicking an event scrolls back to its card and highlights it. One anatomy also means the owner learns every request type once.
             <span class="rej">Rejected: a new message for every status change. The thread filled up with copies of the same booking, so the card changes in place and short events keep the history.</span>
           </p>
@@ -601,7 +603,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-3">
         <div>
-          <div class="ph-label"><span class="n">03</span> · From estimate to payment without leaving the chat</div>
+          <div class="ph-label">From estimate to payment without leaving the chat</div>
           <p class="ph-text">Kenneth asks for a lawn care quote through the site. The owner opens the estimate builder over the thread, with the request and contact already filled in, adds the service and sends it with a personal note. The estimate card follows the deal: Sent, Approved, <strong class="term">Invoiced</strong>. One click turns the approved estimate into an invoice, and the deposit and the final payment land as events in the same thread. Contact details open next to the chat, so the CRM comes to the conversation, not the other way around.
             <span class="rej">Rejected: sending the owner to the Sales module, which broke the conversation, and a full builder inside a chat bubble, which was too heavy. The builder opens over the chat, and the estimate turns into the invoice, so nobody types the same items twice.</span>
           </p>
@@ -611,7 +613,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-4">
         <div>
-          <div class="ph-label"><span class="n">04</span> · Answer in their channel, with the business</div>
+          <div class="ph-label">Answer in their channel, with the business</div>
           <p class="ph-text">The composer opens in the channel the customer used. Grace asks on Facebook where the salon is and how late it is open on Friday, so the reply goes to Messenger, and a <strong class="term">saved reply</strong> fills in the address and hours from the business profile. The business itself can be shared too: a service or product page, a team member, a coupon. Paula asks through the site about a first balayage, and the owner attaches a "New client 20% OFF" coupon, switches the channel to SMS and adds a line of her own.
             <span class="rej">Rejected: typing the same answers by hand and pasting links from the website. Replies took longer and offers got lost, while a shared coupon or page is already a way to book or buy.</span>
           </p>

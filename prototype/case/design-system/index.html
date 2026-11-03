@@ -412,6 +412,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="ds-scenes.css">
 <link rel="stylesheet" href="../../shared/map-link.css">
+<link rel="stylesheet" href="../../shared/surfaces.css">
+<link rel="stylesheet" href="../../shared/type.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -492,7 +494,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- OVERVIEW / header -->
     <header class="section" id="overview">
-      <p class="ch-context">Design System · AI · B2B&nbsp;&nbsp;|&nbsp;&nbsp;MarketingOS, Kissterra · sole product designer · 56 components · ~1,050 tokens</p>
+      <p class="ch-context">Design System · AI · B2B&nbsp;&nbsp;|&nbsp;&nbsp;MarketingOS, Kissterra · Sole product designer · 56 components, ~1,050 tokens</p>
       <h1 class="ch-hook">How I made a design system AI agents can build from</h1>
       <div class="ch-meta">
         <span class="mchip">15 → 2 · design questions after doc format v1.1</span>
@@ -560,15 +562,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="phase-rail" aria-label="Jump to decision">
         <span class="pr-track" aria-hidden="true"></span>
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
-        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Two contracts</span></a>
-        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Doc format v1.1</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Name every diff</span></a>
-        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Generated vs curated</span></a>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Two contracts</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Doc format v1.1</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Name every diff</span></a>
+        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Generated vs curated</span></a>
       </nav>
 
       <article class="phase wide" id="phase-1">
         <div>
-          <div class="ph-label"><span class="n">01</span> · One component, two contracts</div>
+          <div class="ph-label">One component, two contracts</div>
           <p class="ph-text">Each component got a compact, structured description in Figma, written for agents to parse (anatomy, props, tokens, a11y in a fixed syntax), and a full Markdown spec in the code repo for developers. Figma's "Link to documentation" points straight to the repo doc.
             <span class="rej">Rejected: one long doc for everyone. Agents lose precision in prose; developers lose context in a terse contract.</span>
           </p>
@@ -625,7 +627,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase wide" id="phase-2">
         <div>
-          <div class="ph-label"><span class="n">02</span> · A doc format driven by real failures</div>
+          <div class="ph-label">A doc format driven by real failures</div>
           <p class="ph-text">Every question category became a section. <strong class="term">States</strong>: entry condition and visual for loading, error, empty. <strong class="term">Behavior</strong>: a dismiss matrix for overlays (×, Escape, click outside, CTA, timer). <strong class="term">Consumer contract</strong>: what the component owns vs what the developer must provide.</p>
         </div>
         <figure class="ds-scene ds-diff ds-format" style="margin:0" aria-label="The component doc template, docs/component-doc-format.md, goes from version 1.0 to 1.1: States, Behavior and Consumer contract sections are inserted, Variant API gets a Source column and Accessibility gets default aria-label strings. Each change is labelled with the developer questions it answers; Purpose, Anatomy, Token Mapping and Implementation Rules stay as they were.">
@@ -681,7 +683,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase wide" id="phase-3">
         <div>
-          <div class="ph-label"><span class="n">03</span> · Every difference gets a name</div>
+          <div class="ph-label">Every difference gets a name</div>
           <p class="ph-text">The goal was never zero drift; Figma is supposed to change. The goal was that no change goes unnoticed or unnamed. Every difference is classified by risk before anything is written. Critical: a token or prop removed or renamed. High: a value changed. Low: something new added. Nothing is applied without my approval.
             <span class="rej">Rejected: fully automatic sync. A rename can break code; a person should see it first.</span>
           </p>
@@ -716,7 +718,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase wide" id="phase-4">
         <div>
-          <div class="ph-label"><span class="n">04</span> · Generated vs curated sections</div>
+          <div class="ph-label">Generated vs curated sections</div>
           <p class="ph-text">Props and token mappings are regenerated from Figma. Purpose and implementation rules are written by hand and never overwritten. Automation keeps facts fresh without erasing judgment.</p>
         </div>
         <figure class="ds-scene ds-diff" style="margin:0" aria-label="ds:update rewrites table.md: the Token Mapping section is regenerated from Figma in place (four token renames, one removal, one new token), Variant API is checked, and the hand-written Purpose, Accessibility and Implementation Rules sections stay untouched.">

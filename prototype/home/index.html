@@ -416,7 +416,6 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
 .why-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 12px; transition: background .25s ease, border-color .25s ease; }
 .why-card:hover { background: var(--card-h); border-color: var(--border-2); }
-.why-n { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--label); margin-top: 6px; }
 .why-t { font-family: var(--display); font-weight: 500; font-size: 19px; letter-spacing: -.02em; line-height: 1.2; }
 .why-d { font-size: 13px; line-height: 1.65; color: var(--muted); }
 .why-refs { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
@@ -618,6 +617,8 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
 <link rel="stylesheet" href="../shared/footer.css">
 <link rel="stylesheet" href="../shared/space.css">
 <link rel="stylesheet" href="../shared/orbit.css">
+<link rel="stylesheet" href="../shared/surfaces.css">
+<link rel="stylesheet" href="../shared/type.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -812,9 +813,8 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
               <i class="ws-frame"></i><i class="ws-walk"></i>
             </div>
           </div>
-          <span class="why-n">01</span>
           <h3 class="why-t">Follow the job, not the screen</h3>
-          <p class="why-d">A screen is one moment in someone's day. I start from the whole job: what triggers it, who else is involved, what happens after. Then I design the path, not the page.</p>
+          <p class="why-d">A screen is one moment in someone's day. I start from the whole job: what triggers it, who else is involved, what happens after. Then I design the path through all of it.</p>
           <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/inbox/">Inbox</a></div>
         </article>
         <article class="why-card">
@@ -833,7 +833,6 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
               <text class="box-q" x="74" y="77" text-anchor="middle">?</text>
             </svg>
           </div>
-          <span class="why-n">02</span>
           <h3 class="why-t">Make the black box readable</h3>
           <p class="why-d">People don't act on what they don't understand. When a system makes a call, I show why it did, and turn that into one clear next step.</p>
           <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/price-exploration/">Price Exploration</a><a class="why-ref" href="../case/channel-analysis/">Channel Analysis</a></div>
@@ -843,9 +842,8 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
             <div class="ws-src">One<br>pattern</div>
             <div class="ws-grid"><i style="--d:0.00s;--x:0px;--y:-3px;--r:15deg;--s:0.55"></i><i style="--d:0.07s;--x:-4px;--y:3px;--r:-25deg;--s:0.85"></i><i style="--d:0.14s;--x:4px;--y:-5px;--r:30deg;--s:0.70"></i><i style="--d:0.21s;--x:-5px;--y:-4px;--r:15deg;--s:1.00"></i><i style="--d:0.28s;--x:-4px;--y:-2px;--r:-25deg;--s:1.15"></i><i style="--d:0.35s;--x:1px;--y:-5px;--r:30deg;--s:0.55"></i><i style="--d:0.42s;--x:-2px;--y:5px;--r:45deg;--s:1.15"></i><i style="--d:0.49s;--x:-5px;--y:4px;--r:30deg;--s:1.00"></i><i style="--d:0.56s;--x:-5px;--y:-2px;--r:-25deg;--s:1.15"></i><i style="--d:0.03s;--x:-3px;--y:-1px;--r:15deg;--s:0.70"></i><i style="--d:0.10s;--x:3px;--y:-4px;--r:30deg;--s:0.85"></i><i style="--d:0.17s;--x:3px;--y:5px;--r:-15deg;--s:0.55"></i><i style="--d:0.24s;--x:4px;--y:4px;--r:45deg;--s:0.70"></i><i style="--d:0.31s;--x:0px;--y:-4px;--r:30deg;--s:0.55"></i><i style="--d:0.38s;--x:4px;--y:-5px;--r:30deg;--s:0.70"></i><i style="--d:0.45s;--x:2px;--y:5px;--r:30deg;--s:1.00"></i><i style="--d:0.52s;--x:0px;--y:2px;--r:30deg;--s:1.00"></i><i style="--d:0.59s;--x:0px;--y:-1px;--r:-15deg;--s:0.70"></i><i style="--d:0.06s;--x:-2px;--y:-4px;--r:30deg;--s:0.85"></i><i style="--d:0.13s;--x:3px;--y:2px;--r:0deg;--s:1.00"></i><i style="--d:0.20s;--x:-1px;--y:4px;--r:-25deg;--s:0.55"></i><i style="--d:0.27s;--x:3px;--y:1px;--r:-15deg;--s:0.85"></i><i style="--d:0.34s;--x:-3px;--y:2px;--r:15deg;--s:0.55"></i><i style="--d:0.41s;--x:5px;--y:-4px;--r:30deg;--s:1.15"></i><i style="--d:0.48s;--x:0px;--y:0px;--r:45deg;--s:0.85"></i><i style="--d:0.55s;--x:4px;--y:2px;--r:30deg;--s:1.00"></i><i style="--d:0.62s;--x:-4px;--y:-4px;--r:0deg;--s:1.00"></i><i style="--d:0.09s;--x:5px;--y:-4px;--r:-25deg;--s:0.85"></i><i style="--d:0.16s;--x:5px;--y:4px;--r:45deg;--s:1.00"></i><i style="--d:0.23s;--x:-1px;--y:1px;--r:45deg;--s:0.85"></i><i style="--d:0.30s;--x:-5px;--y:2px;--r:0deg;--s:0.70"></i><i style="--d:0.37s;--x:4px;--y:-4px;--r:15deg;--s:0.55"></i><i style="--d:0.44s;--x:-2px;--y:-1px;--r:-15deg;--s:0.70"></i><i style="--d:0.51s;--x:1px;--y:1px;--r:15deg;--s:0.55"></i><i style="--d:0.58s;--x:-3px;--y:2px;--r:15deg;--s:1.15"></i><i style="--d:0.65s;--x:-1px;--y:-3px;--r:15deg;--s:1.15"></i></div>
           </div>
-          <span class="why-n">03</span>
           <h3 class="why-t">Fix it once, for everyone</h3>
-          <p class="why-d">If a problem keeps coming back, I solve the pattern, not the instance. Rules, components and bulk actions that keep working as the product and the team grow.</p>
+          <p class="why-d">If a problem keeps coming back, I fix the pattern behind it. Rules, components and bulk actions that keep working as the product and the team grow.</p>
           <div class="why-refs"><span class="why-seen">Seen in</span><a class="why-ref" href="../case/cross-campaign/">Cross-Campaign</a><a class="why-ref" href="../case/design-system/">Design System for AI</a></div>
         </article>
       </div>

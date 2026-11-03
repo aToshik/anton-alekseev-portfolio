@@ -438,6 +438,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/interactive.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="../../shared/map-link.css">
+<link rel="stylesheet" href="../../shared/surfaces.css">
+<link rel="stylesheet" href="../../shared/type.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -502,7 +504,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- OVERVIEW / header -->
     <header class="section" id="overview">
-      <p class="ch-context">Optimization · Self-Service · AI · B2B · InsurTech&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · publicly "AI Bidding Optimization" · sole product designer · InsurTech</p>
+      <p class="ch-context">Optimization · Self-Service · AI · B2B · InsurTech&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · Sole product designer · Shipped as "AI Bidding Optimization"</p>
       <h1 class="ch-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</h1>
       <div class="ch-meta">
         <span class="mchip">$8M → $30M+ · monthly media investment</span>
@@ -555,14 +557,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="phase-rail" aria-label="Jump to decision">
         <span class="pr-track" aria-hidden="true"></span>
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
-        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Set up in context</span></a>
-        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Every result</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Business objects</span></a>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Set up in context</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Every result</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Business objects</span></a>
       </nav>
 
       <article class="phase" id="phase-1">
         <div>
-          <div class="ph-label"><span class="n">01</span> · Set up tests where the context already lives</div>
+          <div class="ph-label">Set up tests where the context already lives</div>
           <p class="ph-text">Buyers start a test right in the Ad Groups table, their daily workspace. It already shows the full performance data they decide on, and its filters and bulk actions let them select dozens of ad groups at once. The dedicated Bidding Optimization view does one job: visualize the running test and the recommendation once it finishes. Opt-in per ad group kept buyers in control while trust was built.
             <span class="rej">Rejected: a separate setup flow (pick ad groups, then configure the test). It would rebuild selection from scratch and strip away the data buyers decide with.</span>
           </p>
@@ -572,7 +574,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-2">
         <div>
-          <div class="ph-label"><span class="n">02</span> · Show every result, not just the best one</div>
+          <div class="ph-label">Show every result, not just the best one</div>
           <p class="ph-text">We could have shown only the sweet point, one recommended price. Instead each test plots all its testing points with predicted win rate, lead volume and CPL, and marks the sweet point among them. In practice buyers often picked a price the data rated lower, because it fit their strategy. That led to the <strong class="term">Score Method</strong>: buyers choose whether "best" means performance (including ROE) or auction competitiveness only.
             <span class="rej">Rejected: one recommended price change, with the rest of the data hidden.</span>
           </p>
@@ -582,7 +584,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-3">
         <div>
-          <div class="ph-label"><span class="n">03</span> · Scale to the objects the business thinks in</div>
+          <div class="ph-label">Scale to the objects the business thinks in</div>
           <p class="ph-text">Once the <a class="xref" href="../cross-campaign/">Cross-Campaign<span class="xref-tip" id="xref-cross" role="tooltip"><span class="xt-name">Cross-Campaign Management</span><span class="xt-hook">How I let buyers edit thousands of campaigns as one</span><span class="xt-metric"><b>Hours → Min</b> · bulk updates</span></span></a> infrastructure was ready, buyers could test <strong class="term">Bidding Groups</strong> (same-segment ad groups across campaigns, one bid price) or <strong class="term">Channel Groups</strong> (similar channels, one bid multiplier). The algorithm got many times more data, so recommendations got more accurate and far fewer tests ended in "insufficient data".</p>
           <p class="ph-text" style="margin-top:10px"><strong class="term">Endless tests</strong> followed, and some buyers ran them only to watch auction competition in key segments. The tool had become a way to read the market. That is probably why the client called it "Price Exploration" in its communication with us, though it officially shipped as AI Bidding Optimization.</p>
         </div>

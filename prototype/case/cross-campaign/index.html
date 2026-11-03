@@ -430,6 +430,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/interactive.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="../../shared/map-link.css">
+<link rel="stylesheet" href="../../shared/surfaces.css">
+<link rel="stylesheet" href="../../shared/type.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -494,7 +496,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- OVERVIEW / header -->
     <header class="section" id="overview">
-      <p class="ch-context">Self-Service · Infra · B2B · InsurTech&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · sole product designer · InsurTech</p>
+      <p class="ch-context">Self-Service · Infra · B2B · InsurTech&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · Sole product designer</p>
       <h1 class="ch-hook">How I let buyers edit thousands of campaigns as one</h1>
       <div class="ch-meta">
         <span class="mchip">Hours → Min · large-scale updates</span>
@@ -546,14 +548,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="phase-rail" aria-label="Jump to decision">
         <span class="pr-track" aria-hidden="true"></span>
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
-        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">One place</span></a>
-        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Groups</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Rules once</span></a>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">One place</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Groups</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Rules once</span></a>
       </nav>
 
       <article class="phase" id="phase-1">
         <div>
-          <div class="ph-label"><span class="n">01</span> · Every ad group and channel in one place, ready to act on</div>
+          <div class="ph-label">Every ad group and channel in one place, ready to act on</div>
           <p class="ph-text">Two new tables, Ad Groups and Channels, list every object across all campaigns. A long table on its own only adds rows, so it shipped with what makes it useful: filters, bulk actions on any selection (bid price, price bounds, a price test), and indicators from <a class="xref" href="../price-exploration/">Price Exploration<span class="xref-tip" id="xref-price-01" role="tooltip"><span class="xt-name">Price Exploration</span><span class="xt-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</span><span class="xt-metric"><b>$8M → $30M+</b> · monthly media investment</span></span></a> and <a class="xref" href="../channel-analysis/">Channel Analysis<span class="xref-tip" id="xref-channel-01" role="tooltip"><span class="xt-name">Channel Analysis</span><span class="xt-hook">How I turned silent channel decay into a one-click decision</span><span class="xt-metric"><b>Weeks → Hours</b> · detection time</span></span></a> right in the row. Export and Import were rebuilt for every cross-campaign object, for buyers who still prefer a spreadsheet for mass edits.</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-title="Filter every ad group, then act on the selection" data-lb-video="assets/section-1.mp4" data-lb-chapters="0 Filters by segment and state | 12.9 Sets Price Bounds in bulk"><img src="assets/section-1.png" alt="Ad Groups table across all campaigns: the buyer filters by the Homeowners segment and the states Texas and Florida, selects the four ad groups from different campaigns, opens Bulk Actions and sets new Price Bounds for all of them at once" width="1920" height="1080" loading="lazy"></button>
@@ -561,7 +563,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-2">
         <div>
-          <div class="ph-label"><span class="n">02</span> · Group what the business manages as one</div>
+          <div class="ph-label">Group what the business manages as one</div>
           <p class="ph-text">Buyers assign ad groups from different campaigns to a <strong class="term">Bidding Group</strong> with one bid price. Channels work the same way in <strong class="term">Channel Groups</strong> with one multiplier. Both tables got two views: Flat lists every object, Grouped folds them under their group, so buyers scan and steer at group level and expand only when they need detail. Groups also gave <a class="xref" href="../price-exploration/#phase-3">Price Exploration<span class="xref-tip" id="xref-price" role="tooltip"><span class="xt-name">Price Exploration</span><span class="xt-hook">How I turned a black-box pricing algorithm into a bidding tool buyers trust</span><span class="xt-metric"><b>$8M → $30M+</b> · monthly media investment</span></span></a> many times more data per test.</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-title="Group ad groups from different campaigns into one Bidding Group" data-lb-video="assets/section-2.mp4" data-lb-chapters="0 Selects ad groups across campaigns | 6.4 Assigns them to a Bidding Group | 16.7 Opens the Grouped View"><img src="assets/section-2.png" alt="Ad Groups table: the buyer checks the Bidding Group of one ad group, selects three others from different campaigns, assigns them to the Gulf Coast · Homeowners group through Bulk Actions, then switches to the Grouped View and expands the group to see all four ad groups under one bid price" width="1920" height="1080" loading="lazy"></button>
@@ -569,7 +571,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-3">
         <div>
-          <div class="ph-label"><span class="n">03</span> · Set rules once for every campaign</div>
+          <div class="ph-label">Set rules once for every campaign</div>
           <p class="ph-text">Bid modifiers (by state, device, homeowner, age and more) and filters used to be set campaign by campaign. <strong class="term">Cross-Campaign Settings</strong> became the top level of the hierarchy: filters and modifiers for the whole account, with Import and Export. Campaigns inherit them and add more detailed rules of their own. Buyers do most of their tuning at the campaign level, while managers use Cross-Campaign Settings when something changes at a strategic or regulatory level.</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-title="Set rules once for the account, refine them per campaign" data-lb-video="assets/section-3.mp4" data-lb-chapters="0 Adds a modifier in Cross-Campaign Settings | 12.8 Opens a campaign and sees inherited modifiers | 20.7 Adds a campaign-level modifier"><img src="assets/section-3.png" alt="A manager adds a Texas and Florida modifier in Cross-Campaign Settings and saves it. Then a buyer opens the settings of one campaign: the account-level modifiers appear there marked as inherited, editable only in Cross-Campaign Settings. The buyer hides the top level and adds a campaign modifier for Credit Score" width="1920" height="1080" loading="lazy"></button>

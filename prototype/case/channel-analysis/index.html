@@ -396,6 +396,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 <link rel="stylesheet" href="../../shared/interactive.css">
 <link rel="stylesheet" href="../../shared/phase-steps.css">
 <link rel="stylesheet" href="../../shared/map-link.css">
+<link rel="stylesheet" href="../../shared/surfaces.css">
+<link rel="stylesheet" href="../../shared/type.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -460,7 +462,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
     <!-- OVERVIEW / header -->
     <header class="section" id="overview">
-      <p class="ch-context">Data Dense · Optimization · Self-Service · AI · B2B · InsurTech&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · sole product designer · B2B RTB, US insurance · 2,000+ channels</p>
+      <p class="ch-context">Data Dense · Optimization · Self-Service · AI · B2B · InsurTech&nbsp;&nbsp;|&nbsp;&nbsp;Beacon, Kissterra · Sole product designer · 2,000+ channels</p>
       <h1 class="ch-hook">How I turned silent channel decay into a one-click decision</h1>
       <div class="ch-meta">
         <span class="mchip">Weeks → Hours · detection time</span>
@@ -508,15 +510,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
       <nav class="phase-rail" aria-label="Jump to decision phase">
         <span class="pr-track" aria-hidden="true"></span>
         <span class="pr-fill" aria-hidden="true" id="prFill"></span>
-        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">01</span><span class="pr-name">Inline</span></a>
-        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">02</span><span class="pr-name">Popover</span></a>
-        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">03</span><span class="pr-name">Feedback loop</span></a>
-        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-num">04</span><span class="pr-name">Dedicated UI</span></a>
+        <a class="pr-step on active" href="#phase-1" id="rail-1"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Inline</span></a>
+        <a class="pr-step" href="#phase-2" id="rail-2"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Popover</span></a>
+        <a class="pr-step" href="#phase-3" id="rail-3"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Feedback loop</span></a>
+        <a class="pr-step" href="#phase-4" id="rail-4"><span class="pr-dot" aria-hidden="true"></span><span class="pr-name">Dedicated UI</span></a>
       </nav>
 
       <article class="phase" id="phase-1">
         <div>
-          <div class="ph-label"><span class="n">01</span> · Inline indicators (MVP)</div>
+          <div class="ph-label">Inline indicators (MVP)</div>
           <p class="ph-text">I surfaced the signal right in the table: color by direction of change (red = degrading, green = improving, per each metric's higher-is-better or lower-is-better rule) plus a chevron for magnitude (one to three arrows). Prove value and learn first.
             <span class="rej">Rejected: building the full interface on day one.</span>
           </p>
@@ -526,14 +528,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-2">
         <div>
-          <div class="ph-label"><span class="n">02</span> · Popover insight</div>
+          <div class="ph-label">Popover insight</div>
           <p class="ph-text">The signal moved from metrics to the channel. One click opens an explainable insight: which KPIs flagged, how it hits overall performance, and where money is leaking or under-invested. Three insight types — Invest, Reduce, Pause — with Invest/Reduce graded by priority (change strength, volume, business impact). I prototyped the interaction in Figma Make to test the UX live: thumbs up/down, note vs none, actions vs none, and the aftermath (feedback toast, action-confirmation toast, whether the flag persists or clears).</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-video="assets/popover.mp4, assets/popover.webm"><img src="assets/popover.png" alt="Popover insight on a channel: flagged KPIs, impact and a recommended action with feedback" width="1928" height="1088" loading="lazy"></button>
       </article>
 
       <article class="accent-block" id="phase-3">
-        <div class="ph-label"><span class="n">03</span> · Feedback loop <em>— signature process</em></div>
+        <div class="ph-label">Feedback loop <em>— signature process</em></div>
         <p class="ph-text">Thumbs up/down and a note on every insight captured the signal; I ran it through AI for synthesis. The pattern: most rejects clustered on new channels with thin data, low volume, or a recent price change, where buyers wanted to give the channel time. That drove concrete changes to the interface and the algorithm: <strong>channel change history</strong>, and metrics split into <strong>drivers</strong>, <strong>context &amp; risk</strong>, and <strong>supporting evidence</strong>. On actions: Accept applies a recommendation in one click; Reject opens a feedback field.</p>
         <div class="loop" role="img" aria-label="Feedback loop: insight shown → signal captured → AI synthesis → finding → changes, feeding back into better insights">
           <div class="loop-row">
@@ -556,7 +558,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
       <article class="phase" id="phase-4">
         <div>
-          <div class="ph-label"><span class="n">04</span> · Dedicated interface</div>
+          <div class="ph-label">Dedicated interface</div>
           <p class="ph-text">Once value was proven, a dedicated interface with deeper detail: primary-driver vs context metrics, risks, supporting evidence, recent channel changes, a confidence score, and the projected spend impact of an action (single or bulk).</p>
         </div>
         <button type="button" class="ph-visual has-img" data-lightbox data-lb-video="assets/interface.mp4, assets/interface.webm"><img src="assets/interface.png" alt="Dedicated Channel Analysis interface: primary driver, context and risks, supporting evidence and the spend impact of an action" width="1928" height="1088" loading="lazy"></button>
