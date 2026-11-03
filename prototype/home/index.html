@@ -64,7 +64,7 @@
   --card-h:    color-mix(in srgb, #4ea832 3%, #ffffff);
   --fg:        #14160f;
   --muted:     #5c6156;
-  --label:     #6f7568;
+  --label:     #62685b;
   --border:    #d9dccf;
   --border-2:  #c8ccbe;
   --accent:    #4ea832;
@@ -604,6 +604,8 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
   .cm + .cm { border-left: 0; border-top: 1px solid rgba(18,24,14,.22); padding-left: 0; }
   .btn-contact span { display: none; }
 }
+/* How I work scenes loop forever; freeze them while the section is off screen (they animate left/right, which re-lays out every frame) */
+#why.ws-paused *, #why.ws-paused *::before, #why.ws-paused *::after { animation-play-state: paused !important; }
 </style>
 <link rel="stylesheet" href="../shared/mobile-bar.css">
 <link rel="stylesheet" href="../shared/mobile-nav.css">
@@ -1096,5 +1098,9 @@ a, button, .tile, .case-card, .tool-card, .role-card { touch-action: manipulatio
 <script src="../shared/footer.js" defer></script>
 <script src="../shared/space.js" defer></script>
 <script src="../shared/orbit.js" defer></script>
+<script>
+(function () { var why = document.getElementById('why'); if (!why || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (es) { why.classList.toggle('ws-paused', !es[0].isIntersecting); }).observe(why); })();
+</script>
 </body>
 </html>

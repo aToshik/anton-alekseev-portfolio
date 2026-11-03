@@ -18,10 +18,13 @@
   size(); addEventListener('resize', size);
   var mx = 0, my = 0, tx = 0, ty = 0;
   addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') { tx = e.clientX - W / 2; ty = e.clientY - H / 2; } }, { passive: true });
-  var lastY = scrollY, vel = 0, T = 0, prev = performance.now(), raf = 0;
+  var lastY = scrollY, vel = 0, T = 0, prev = performance.now(), raf = 0, lastDraw = 0;
   function colour() { return root.getAttribute('data-theme') === 'light' ? '#6f7568' : '#f0f2ea'; }
   function frame(now) {
     raf = requestAnimationFrame(frame);
+    // the drift is slow: at rest 30 fps looks the same and halves the work; scrolling gets every frame
+    if (now - lastDraw < 31 && scrollY === lastY && Math.abs(vel) < 20) return;
+    lastDraw = now;
     var dt = Math.min(.05, (now - prev) / 1000); prev = now;
     var dy = scrollY - lastY; lastY = scrollY;
     vel += (dy / Math.max(dt, .001) - vel) * Math.min(1, dt * 6);           // px/s, smoothed
@@ -42,6 +45,6 @@
   function start() { if (!raf) { prev = performance.now(); raf = requestAnimationFrame(frame); } }
   function stop() { cancelAnimationFrame(raf); raf = 0; }
   document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
-  if (reduce) { frame(performance.now()); stop(); addEventListener('resize', function () { frame(performance.now()); stop(); }); }
+  if (reduce) { frame(performance.now()); stop(); addEventListener('resize', function () { lastDraw = 0; frame(performance.now()); stop(); }); new MutationObserver(function () { lastDraw = 0; frame(performance.now()); stop(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] }); }
   else start();
 })();

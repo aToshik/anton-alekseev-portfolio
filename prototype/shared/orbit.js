@@ -296,7 +296,8 @@ function frame(now){
   const dt=Math.min(.05,(now-prev)/1000); prev=now;
   const P=PAL[themeOf()];
   if(!real){ target.x=C.x+Math.cos(t*.25)*Rp*3.2; target.y=C.y-Rp*2+Math.sin(t*.4)*Rp; }
-  mouse.x+=(target.x-mouse.x)*(real?.25:.04); mouse.y+=(target.y-mouse.y)*(real?.25:.04);
+  const ease=real?.25:(reduce?1:.04); /* reduced motion: the idle cursor does not glide */
+  mouse.x+=(target.x-mouse.x)*ease; mouse.y+=(target.y-mouse.y)*ease;
 
   const tw=depthOn&&!reduce?{x:(mouse.y-C.y)/H*.22,z:(mouse.x-C.x)/W*.12}:{x:0,z:0};
   tilt.x+=(tw.x-tilt.x)*Math.min(1,dt*3); tilt.z+=(tw.z-tilt.z)*Math.min(1,dt*3);
@@ -367,7 +368,16 @@ function frame(now){
   ctx.globalAlpha=1;
 
   updateInfo(selObj); if(selObj) placeCard(selObj);
+  // reduced motion: nothing drifts, so once the cursor has eased in and hover fades are done, stop drawing; wake() restarts on input
+  if(reduce&&!real&&sel<0&&kbHover<0&&Math.abs(target.x-mouse.x)+Math.abs(target.y-mouse.y)<.5){ if(++idleFrames>45){ running=false; return; } } else idleFrames=0;
   if(visible) requestAnimationFrame(frame); else running=false;
+}
+let idleFrames=0;
+function wake(){ idleFrames=0; if(!running&&visible){ running=true; prev=performance.now(); requestAnimationFrame(frame); } }
+if(reduce){
+  ['pointermove','pointerdown','pointerleave','focusin','focusout','keydown'].forEach(ev=>hero.addEventListener(ev,wake,true));
+  addEventListener('resize',wake); addEventListener('hashchange',wake);
+  new MutationObserver(wake).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 }
 
 const info=document.getElementById('poInfo'); let shown=null;
