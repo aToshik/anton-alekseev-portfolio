@@ -226,7 +226,8 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 .fcard:hover { background: var(--card-h); border-color: var(--border-2); }
 .f-ic { width: 38px; height: 38px; border-radius: 9px; background: var(--panel-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--fg); }
 .f-ic svg { width: 19px; height: 19px; }
-.f-nm { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.02em; margin-top: 4px; }
+.f-nm { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.02em; margin-top: 4px; }
+.f-mk { width: 8px; height: 8px; border-radius: 1px; background: var(--accent); flex-shrink: 0; }
 .f-ds { font-size: 13.5px; line-height: 1.6; color: var(--muted); }
 .f-list { list-style: none; display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid var(--border); }
 .f-list li { position: relative; padding-left: 16px; font-size: 13px; line-height: 1.5; color: var(--fg); }
@@ -271,10 +272,9 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
    ============================================================ */
 .steps, .off-list { list-style: none; }
 .steps { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.steps::before { content: ''; position: absolute; left: 22px; right: 22px; top: 22px; height: 1px; background: var(--border); }
+.steps::before { content: ''; position: absolute; left: 7px; right: 7px; top: 7px; height: 1px; background: var(--border); }
 .step { position: relative; display: flex; flex-direction: column; gap: 12px; }
-.st-ic { position: relative; z-index: 1; width: 44px; height: 44px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel); display: flex; align-items: center; justify-content: center; color: var(--fg); }
-.st-ic svg { width: 19px; height: 19px; }
+.st-node { position: relative; z-index: 1; width: 14px; height: 14px; border-radius: 1px; background: var(--accent); margin-bottom: 6px; }
 .st-t { font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: -.02em; line-height: 1.2; }
 .st-d { font-size: 13px; line-height: 1.65; color: var(--muted); }
 
@@ -505,8 +505,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
       </div>
       <div class="focus-grid">
         <article class="fcard brk">
-          <span class="f-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg></span>
-          <h3 class="f-nm">Product Design</h3>
+          <h3 class="f-nm"><i class="f-mk" aria-hidden="true"></i>Product Design</h3>
           <p class="f-ds">Complex, data-heavy workflows turned into tools people run on their own.</p>
           <ul class="f-list">
             <li>Mapping the whole loop: before, during and after the click</li>
@@ -516,8 +515,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
           <p class="f-proof"><small>Seen in</small><a class="xref" href="../case/channel-analysis/">Channel Analysis</a><a class="xref" href="../case/cross-campaign/">Cross-Campaign</a></p>
         </article>
         <article class="fcard brk">
-          <span class="f-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4M22 5h-4"/><path d="M4 17v2M5 18H3"/></svg></span>
-          <h3 class="f-nm">AI Workflow</h3>
+          <h3 class="f-nm"><i class="f-mk" aria-hidden="true"></i>AI Workflow</h3>
           <p class="f-ds">AI features people can understand, trust and override, and AI as part of how I design.</p>
           <ul class="f-list">
             <li>Explainable recommendations with confidence and evidence</li>
@@ -527,8 +525,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
           <p class="f-proof"><small>Seen in</small><a class="xref" href="../case/price-exploration/">Price Exploration</a><a class="xref" href="../case/channel-analysis/">Channel Analysis</a></p>
         </article>
         <article class="fcard brk">
-          <span class="f-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></span>
-          <h3 class="f-nm">Design Systems</h3>
+          <h3 class="f-nm"><i class="f-mk" aria-hidden="true"></i>Design Systems</h3>
           <p class="f-ds">Rules, components and tokens that teams, and now AI agents, can build from.</p>
           <ul class="f-list">
             <li>Tokens, components and governance</li>
@@ -635,22 +632,22 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
       </div>
       <ol class="steps">
         <li class="step">
-          <span class="st-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <span class="st-node" aria-hidden="true"></span>
           <h3 class="st-t">Discovery in the open</h3>
           <p class="st-d">I bring PM, engineering and data into research early. We frame the problem together, so nobody meets the solution for the first time in a review.</p>
         </li>
         <li class="step">
-          <span class="st-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></svg></span>
+          <span class="st-node" aria-hidden="true"></span>
           <h3 class="st-t">Decisions documented</h3>
           <p class="st-d">Every non-obvious call gets a short note: the options, what we chose and why. The team stops re-arguing questions that are already settled.</p>
         </li>
         <li class="step">
-          <span class="st-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></span>
+          <span class="st-node" aria-hidden="true"></span>
           <h3 class="st-t">Clear specs</h3>
-          <p class="st-d">States, edge cases, empty and error flows, and the rules behind them. Engineering builds the system, not a screenshot.</p>
+          <p class="st-d">States, edge cases, empty and error flows, and the rules behind them. Engineering builds the whole system from it.</p>
         </li>
         <li class="step">
-          <span class="st-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span class="st-node" aria-hidden="true"></span>
           <h3 class="st-t">Support where it matters</h3>
           <p class="st-d">I stay through build and QA, answer questions fast, and check the release against the original intent.</p>
         </li>
