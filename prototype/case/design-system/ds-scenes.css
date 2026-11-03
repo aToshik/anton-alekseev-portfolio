@@ -262,3 +262,9 @@ svg.ds-i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
   .tk .op { grid-row: 1 / span 2; }
   .ds-dbody { font-size: 10.5px; }
 }
+
+/* light theme: green and red used as small text need the darker "ink" shades to reach 4.5:1 (fills and lines keep --ds-hi) */
+[data-theme="light"] { --ds-crit: #b8391f; }
+[data-theme="light"] .ds-dbar .sum b, [data-theme="light"] .ds-dsec.gen .st, [data-theme="light"] .ds-drift.applied .ds-row .ds-risk { color: var(--accent-ink); }
+[data-theme="light"] .ds-tag span { background: var(--accent-ink); }
+[data-theme="light"] .ds-lane-label > span { color: #4d5347; }
