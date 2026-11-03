@@ -15,14 +15,14 @@
 
   var sub = document.createElement('div');
   sub.className = 'side-sub';
-  var html = '<div class="ss-in"><nav class="ss-list" aria-label="' + (rail.getAttribute('aria-label') || 'Phases') + '">' +
+  var html = '<div class="ss-in"><div class="ss-list" role="group" aria-label="' + (rail.getAttribute('aria-label') || 'Phases') + '">' +
     '<span class="ss-track" aria-hidden="true"></span><span class="ss-fill" aria-hidden="true"></span>';
   steps.forEach(function (s) {
     var num = s.querySelector('.pr-num'), name = s.querySelector('.pr-name');
     html += '<a class="ss-step" href="' + s.getAttribute('href') + '"><span class="ss-dot" aria-hidden="true"></span>' +
       '<span class="ss-num">' + (num ? num.textContent : '') + '</span><span class="ss-name">' + (name ? name.textContent : '') + '</span></a>';
   });
-  sub.innerHTML = html + '</nav></div>';
+  sub.innerHTML = html + '</div></div>'; /* a group inside the side nav, not a second nav landmark with the rail's name */
   parent.insertAdjacentElement('afterend', sub);
 
   var mirror = Array.prototype.slice.call(sub.querySelectorAll('.ss-step'));

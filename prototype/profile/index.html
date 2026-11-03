@@ -40,7 +40,7 @@
 [data-theme="light"] {
   --bg: #e7e9e0; --panel: #ffffff; --panel-2: #f4f5ef;
   --card: color-mix(in srgb, #4ea832 6%, #ffffff); --card-h: color-mix(in srgb, #4ea832 3%, #ffffff);
-  --fg: #14160f; --muted: #5c6156; --label: #6f7568;
+  --fg: #14160f; --muted: #5c6156; --label: #62685b;
   --border: #d9dccf; --border-2: #c8ccbe;
   --accent: #4ea832; --accent-weak: rgba(78,168,50,.12); --lime: #b8f24a;
   --nav-bg: rgba(255,255,255,.82); --btn-bg: #14160f; --btn-fg: #f4f5ef;
@@ -201,8 +201,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .fields { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: clamp(26px, 3.4vw, 40px); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
 .field { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .field + .field { border-left: 1px solid var(--border); }
-.field small { font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
-.field b { font-weight: 500; font-size: 13px; line-height: 1.4; color: var(--fg); }
+.field dt { font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--label); }
+.field dd { margin: 0;  font-weight: 500; font-size: 13px; line-height: 1.4; color: var(--fg); }
 .field .st { display: inline-flex; align-items: center; gap: 8px; }
 .field .st::before { content: ''; width: 7px; height: 7px; border-radius: 1px; background: var(--accent); flex: none; }
 
@@ -436,7 +436,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         <a href="#about" data-section="about">About</a>
         <a href="#focus" data-section="focus">Focus</a>
         <a href="#experience" data-section="experience">Experience</a>
-        <a href="#team" data-section="team">How I work</a>
+        <a href="#team" data-section="team">With a team</a>
         <a href="#ai" data-section="ai">Built with AI</a>
         <a href="#recommendations" data-section="recommendations">Recommendations</a>
         <a href="#off-screen" data-section="off-screen">Off screen</a>
@@ -484,11 +484,11 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         </div>
       </div>
       <dl class="fields">
-        <div class="field"><small>Experience</small><b>9+ years</b></div>
-        <div class="field"><small>Based in</small><b>Petah Tikva, Israel</b></div>
-        <div class="field"><small>Languages</small><b>English, Hebrew, Russian</b></div>
-        <div class="field"><small>Domain</small><b>B2B SaaS, InsurTech</b></div>
-        <div class="field"><small>Status</small><b class="st">Open to work</b></div>
+        <div class="field"><dt>Experience</dt><dd>9+ years</dd></div>
+        <div class="field"><dt>Based in</dt><dd>Petah Tikva, Israel</dd></div>
+        <div class="field"><dt>Languages</dt><dd>English, Hebrew, Russian</dd></div>
+        <div class="field"><dt>Domain</dt><dd>B2B SaaS, InsurTech</dd></div>
+        <div class="field"><dt>Status</dt><dd class="st">Open to work</dd></div>
       </dl>
     </section>
 
@@ -550,7 +550,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
       <div class="sec-top">
         <div>
           <p class="eyebrow">Experience</p>
-          <h2 class="disp" id="exp-t">Nine years, <span class="mut">two platforms</span><span class="dot">.</span></h2>
+          <h2 class="disp" id="exp-t">9+ years, <span class="mut">two platforms</span><span class="dot">.</span></h2>
         </div>
         <p class="sec-sub">From an early designer on an SMB platform to owning the design of an enterprise one.</p>
       </div>
@@ -650,7 +650,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         <li class="step">
           <span class="st-ic"><svg class="lu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
           <h3 class="st-t">Support where it matters</h3>
-          <p class="st-d">I stay through build and QA, answer questions fast, and check the release against the intent, not just the mockup.</p>
+          <p class="st-d">I stay through build and QA, answer questions fast, and check the release against the original intent.</p>
         </li>
       </ol>
     </section>
@@ -697,22 +697,22 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
           <blockquote class="rec-text">Anton is the most talented product designer I’ve ever worked with. He combines a deep passion for UI/UX with strong business understanding — a combination that makes him a true partner in building great products. He asks smart questions, challenges assumptions, and always pushes the work to be better, both from a design and a product perspective.</blockquote>
-          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Roee Gur, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Roee Gur</b><small>Product Manager · Anecdotes</small></span></figcaption>
+          <figcaption class="rec-person"><span class="rec-nm"><b>Roee Gur</b><small>Product Manager · Anecdotes</small></span></figcaption>
         </figure>
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
           <blockquote class="rec-text">When I first met Anton, I was honestly surprised by how a designer could challenge data professionals and speak their language so fluently. He is a rare talent who brings so much more to the table than just beautiful visuals. He understands product strategy deeply and has an incredible ability to separate the signal from the noise.</blockquote>
-          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Tomer Hasson, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Tomer Hasson</b><small>Product Analyst</small></span></figcaption>
+          <figcaption class="rec-person"><span class="rec-nm"><b>Tomer Hasson</b><small>Product Analyst</small></span></figcaption>
         </figure>
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
           <blockquote class="rec-text">I miss my time working with Anton! He is an extremely sharp contributor to any project. He always keeps the business problem we work on in his mind, and he is looking for a solution that would solve this problem in the most optimal way given the circumstances. This often means out of the box approach to designing things, which is exactly what a company needs in order to be innovative. Anton asks tough questions and challenges assumptions that are not proven with data. While doing that however he maintains a very positive attitude and the unique combination of his personal and professional skills make your work with him joyful and brings exciting results! On top of that Anton is a tech leader when it comes to new design tools, he’s an experienced design researcher with a great taste, good eye, and skilled hands.</blockquote>
-          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Katya Rozenoer, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Katya Rozenoer</b><small>Co-founder · Blastra</small></span></figcaption>
+          <figcaption class="rec-person"><span class="rec-nm"><b>Katya Rozenoer</b><small>Co-founder · Blastra</small></span></figcaption>
         </figure>
         <figure class="rec-card">
           <span class="rec-q" aria-hidden="true">&ldquo;</span>
           <blockquote class="rec-text">I had the pleasure of working with Anton, and he is truly one of the strongest designers I’ve worked with. He has a sharp eye for design, strong UI/UX knowledge, and a wide product perspective that allows him to think beyond the screen and understand the full user journey. He brings talent, curiosity, ownership, and a genuine team-player mindset.</blockquote>
-          <figcaption class="rec-person"><span class="rec-av" role="img" aria-label="Yuval Digmal, photo placeholder"><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="17" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M9 37c1.8-7 7-10.5 13-10.5S33.2 30 35 37" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="rec-nm"><b>Yuval Digmal</b><small>Operations &amp; PM</small></span></figcaption>
+          <figcaption class="rec-person"><span class="rec-nm"><b>Yuval Digmal</b><small>Operations &amp; PM</small></span></figcaption>
         </figure>
       </div>
       <div class="rec-more">
@@ -756,7 +756,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
         <div class="cm"><small>LinkedIn</small><a href="https://linkedin.com/in/atoshik" target="_blank" rel="noopener">Connect with Anton ↗</a></div>
         <div class="cm"><small>Phone</small><a href="tel:+972528410941">+972 52 841 0941</a></div>
       </div>
-      <div class="contact-foot"><span>© 2026 Anton Alekseev</span><span>Designed with intent · Built with AI</span></div>
+      <div class="contact-foot"><span>© 2026 Anton Alekseev</span><a class="foot-ai" href="#ai">How this site was built →</a></div>
     </section>
 
   </main>

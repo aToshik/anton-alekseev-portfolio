@@ -68,7 +68,9 @@
   /* ---- inline (on-page) videos: respect reduced motion, pause while the lightbox is open ---- */
   var inlineVids = Array.prototype.slice.call(document.querySelectorAll('[data-lightbox] video'));
   function playInline(on) { inlineVids.forEach(function (v) { if (on && !reduced()) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } else v.pause(); }); }
-  if (reduced()) playInline(false);
+  /* under reduced motion the autoplay must not start; pause() alone would drop the poster and leave frame 0
+     on screen (a loading skeleton on Price Exploration), so the video is reset with load(), which brings the poster back */
+  if (reduced()) inlineVids.forEach(function (v) { v.removeAttribute('autoplay'); v.autoplay = false; v.pause(); v.load(); });
 
   /* ---- build overlay once ---- */
   var lb = document.createElement('div');

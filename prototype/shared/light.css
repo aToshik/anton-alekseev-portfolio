@@ -1,7 +1,7 @@
 /* Light theme refinements, shared by every page (loaded after the page styles and glow.css).
    --accent stays the fill colour (squares, icons, glow); --accent-ink is the readable text green. */
 :root { --accent-ink: var(--accent); }
-[data-theme="light"] { --accent-ink: #2f7a1c; } /* 5.4:1 on white, #4ea832 is only 3:1 */
+[data-theme="light"] { --accent-ink: #2a6e19; } /* 4.6:1 on the green chip fill, 5.9:1 on white; #4ea832 is only 3:1 */
 
 /* small green text: metrics, phase numbers, counters */
 [data-theme="light"] :is(.case-metric b, .cc-metric b, .cc-view, .chip.accent, .mz-chip.accent, .mz-tip b, .eyebrow .n,
@@ -10,6 +10,7 @@
   .xref:hover, .xref:focus-visible, .xref-tip .xt-metric b, .skill code, .po-chip.acc,
   .mbar-idx, .mbar-list a.active .n, .mbar-list a.mbar-sub.active .n, .mnav-list a[aria-current] .n,
   .ds-lane-label i, .ds-mdv-b td.y, .ds-n .sub em, .ds-ret, .light.green .verb, .lb-chap.on .lb-chap-label b, .lb-title .n,
+  .ws-src, .ch-tag, .ds-cat .ft,
   .tile:hover .ti-case::after, .tile:focus-visible .ti-case::after, .ib-col.after .ib-tag, .ib-col.after .ib-total b, .ib-th .ib-cnt b) { color: var(--accent-ink); }
 [data-theme="light"] :is(.mchip, .chip.accent, .mz-chip.accent) { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
 

@@ -20,14 +20,14 @@ const GALAXIES={
     {id:'experience',o:0,label:'Experience',text:'How the product feels as a whole: calm and predictable.',rel:['confidence','adoption']},
     {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','self-service'],kase:'Channel Analysis'},
     {id:'usability',o:0,label:'Usability',text:'A complex task gets done fast and without mistakes.',rel:['design-system','adoption'],kase:'Booking Calendar'},
-    {id:'impact',o:1,label:'Impact',text:'The solution changes how people work, not just a screen.',rel:['outcomes','experience']},
+    {id:'impact',o:1,label:'Impact',text:'The solution changes how people work.',rel:['outcomes','experience']},
     {id:'confidence',o:1,label:'Confidence',text:'Users trust the numbers and recommendations because they can see where they come from.',rel:['experience','outcomes'],kase:'Price Exploration'},
     {id:'self-service',o:1,label:'Self-service',text:'Customers get it done on their own, without support or an account manager.',rel:['clarity','scale'],kase:'Inbox, Camilyo'},
     {id:'governance',o:2,label:'Governance',text:'It is clear who changes the system and how, so it does not sprawl.',rel:['guidelines','scale']},
     {id:'guidelines',o:2,label:'Guidelines',text:'Rules that let the team make the same calls without a designer.',rel:['clarity','governance']},
     {id:'design-system',o:2,label:'Design System',text:'The components and tokens every screen is built from.',rel:['usability','scale'],kase:'Design System for AI Agents'},
-    {id:'adoption',o:3,label:'Adoption',text:'Features get used, not just shipped.',rel:['usability','experience']},
-    {id:'scale',o:3,label:'Scale',text:'The solution works for thousands of customers, not just one.',rel:['self-service','design-system'],kase:'Cross-Campaign Management'},
+    {id:'adoption',o:3,label:'Adoption',text:'Shipped features people actually use.',rel:['usability','experience']},
+    {id:'scale',o:3,label:'Scale',text:'The solution holds up for thousands of customers.',rel:['self-service','design-system'],kase:'Cross-Campaign Management'},
     {id:'outcomes',o:3,label:'Outcomes',text:'A measurable result: time, money, support tickets.',rel:['impact','confidence']}]},
 };
 // case pages that exist in the prototype; the rest show as "coming soon"
@@ -35,7 +35,7 @@ const CASE_URL={'Channel Analysis':'../case/channel-analysis/','Price Exploratio
   'Cross-Campaign Management':'../case/cross-campaign/','Inbox, Camilyo':'../case/inbox/'};
 // the headline result of each case, shown under its name in the card (same numbers as the Work cards)
 const CASE_METRIC={'Channel Analysis':'Weeks → Hours · detection time','Price Exploration':'$8M → $30M+ · monthly media investment',
-  'Design System for AI Agents':'15 → 2 · design questions per feature','Cross-Campaign Management':'Hours → Min · bulk updates',
+  'Design System for AI Agents':'15 → 2 · open design questions after doc format v1.1','Cross-Campaign Management':'Hours → Min · large-scale updates',
   'Inbox, Camilyo':'8 → 1 · request types, one thread'};
 let ORBITS=[], OBJ=[], byId={}, LBL=[];
 function loadGalaxy(key){
@@ -296,7 +296,8 @@ function frame(now){
   const dt=Math.min(.05,(now-prev)/1000); prev=now;
   const P=PAL[themeOf()];
   if(!real){ target.x=C.x+Math.cos(t*.25)*Rp*3.2; target.y=C.y-Rp*2+Math.sin(t*.4)*Rp; }
-  mouse.x+=(target.x-mouse.x)*(real?.25:.04); mouse.y+=(target.y-mouse.y)*(real?.25:.04);
+  const ease=real?.25:(reduce?1:.04); /* reduced motion: the idle cursor does not glide */
+  mouse.x+=(target.x-mouse.x)*ease; mouse.y+=(target.y-mouse.y)*ease;
 
   const tw=depthOn&&!reduce?{x:(mouse.y-C.y)/H*.22,z:(mouse.x-C.x)/W*.12}:{x:0,z:0};
   tilt.x+=(tw.x-tilt.x)*Math.min(1,dt*3); tilt.z+=(tw.z-tilt.z)*Math.min(1,dt*3);
@@ -367,7 +368,16 @@ function frame(now){
   ctx.globalAlpha=1;
 
   updateInfo(selObj); if(selObj) placeCard(selObj);
+  // reduced motion: nothing drifts, so once the cursor has eased in and hover fades are done, stop drawing; wake() restarts on input
+  if(reduce&&!real&&sel<0&&kbHover<0&&Math.abs(target.x-mouse.x)+Math.abs(target.y-mouse.y)<.5){ if(++idleFrames>45){ running=false; return; } } else idleFrames=0;
   if(visible) requestAnimationFrame(frame); else running=false;
+}
+let idleFrames=0;
+function wake(){ idleFrames=0; if(!running&&visible){ running=true; prev=performance.now(); requestAnimationFrame(frame); } }
+if(reduce){
+  ['pointermove','pointerdown','pointerleave','focusin','focusout','keydown'].forEach(ev=>hero.addEventListener(ev,wake,true));
+  addEventListener('resize',wake); addEventListener('hashchange',wake);
+  new MutationObserver(wake).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 }
 
 const info=document.getElementById('poInfo'); let shown=null;
