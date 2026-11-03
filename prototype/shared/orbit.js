@@ -17,18 +17,18 @@ const GALAXIES={
     {name:'Team', q:'how others work', speed:.075, r:3.75, tx:1.17, rz:-.15},
     {name:'Business', q:'what the numbers show', speed:.055, r:5.3, tx:1.24, rz:-.04}],
    objs:[
-    {id:'experience',o:0,label:'Experience',text:'How the product feels as a whole: calm and predictable.',rel:['confidence','adoption']},
-    {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','self-service'],kase:'Channel Analysis'},
-    {id:'usability',o:0,label:'Usability',text:'A complex task gets done fast and without mistakes.',rel:['design-system','adoption'],kase:'Booking Calendar'},
-    {id:'impact',o:1,label:'Impact',text:'The solution changes how people work.',rel:['outcomes','experience']},
-    {id:'confidence',o:1,label:'Confidence',text:'Users trust the numbers and recommendations because they can see where they come from.',rel:['experience','outcomes'],kase:'Price Exploration'},
-    {id:'self-service',o:1,label:'Self-service',text:'Customers get it done on their own, without support or an account manager.',rel:['clarity','scale'],kase:'Inbox, Camilyo'},
-    {id:'governance',o:2,label:'Governance',text:'It is clear who changes the system and how, so it does not sprawl.',rel:['guidelines','scale']},
-    {id:'guidelines',o:2,label:'Guidelines',text:'Rules that let the team make the same calls without a designer.',rel:['clarity','governance']},
+    {id:'clarity',o:0,label:'Clarity',text:'At a glance it is clear what is going on and what to do next.',rel:['guidelines','experience'],kase:'Booking Calendar'},
+    {id:'usability',o:0,label:'Usability',text:'A complex task gets done fast and without mistakes.',rel:['design-system','adoption'],kase:'Inbox, Camilyo'},
+    {id:'confidence',o:0,label:'Confidence',text:'Every number shows where it comes from, so users trust what they see.',rel:['impact','outcomes'],kase:'Channel Analysis'},
+    {id:'experience',o:1,label:'Experience',text:'From first step to last, the product feels calm and predictable.',rel:['usability','adoption'],kase:'Inbox, Camilyo'},
+    {id:'impact',o:1,label:'Impact',text:'The solution changes how people work.',rel:['confidence','outcomes'],kase:'Price Exploration'},
+    {id:'self-service',o:1,label:'Self-service',text:'Customers get it done on their own, without support or an account manager.',rel:['clarity','scale'],kase:'Cross-Campaign Management'},
+    {id:'governance',o:2,label:'Governance',text:'It is clear who changes the system and how, so it does not sprawl.',rel:['guidelines','scale'],kase:'Design System for AI Agents'},
+    {id:'guidelines',o:2,label:'Guidelines',text:'Rules that let the team make the same calls without a designer.',rel:['clarity','governance'],kase:'Design System for AI Agents'},
     {id:'design-system',o:2,label:'Design System',text:'The components and tokens every screen is built from.',rel:['usability','scale'],kase:'Design System for AI Agents'},
-    {id:'adoption',o:3,label:'Adoption',text:'Shipped features people actually use.',rel:['usability','experience']},
+    {id:'adoption',o:3,label:'Adoption',text:'Shipped features people actually use.',rel:['experience','impact'],kase:'Price Exploration'},
     {id:'scale',o:3,label:'Scale',text:'The solution holds up for thousands of customers.',rel:['self-service','design-system'],kase:'Cross-Campaign Management'},
-    {id:'outcomes',o:3,label:'Outcomes',text:'A measurable result: time, money, support tickets.',rel:['impact','confidence']}]},
+    {id:'outcomes',o:3,label:'Outcomes',text:'A measurable result: time, money, support tickets.',rel:['impact','confidence'],kase:'Channel Analysis'}]},
 };
 // case pages that exist in the prototype; the rest show as "coming soon"
 const CASE_URL={'Channel Analysis':'../case/channel-analysis/','Price Exploration':'../case/price-exploration/','Design System for AI Agents':'../case/design-system/',
@@ -224,7 +224,6 @@ function drawObj(P,o,k,prox,state){
   const s=(on?8:6)*(depthOn?Math.pow(o.k,1.8):1);
   ctx.globalAlpha=depth*fade; ctx.fillStyle=on?P.accent:P.fg; ctx.fillRect(o.x-s/2,o.y-s/2,s,s);
   if(on) brackets(o.x,o.y,state===1?13:11,4,state>0?P.accent:P.fg,state>0?.95:.6);
-  else if(o.kase) brackets(o.x,o.y,s/2+4,3,P.accent,.55*depth*fade); // objects with a case get faint accent brackets
   // label: visible by proximity, always for selected/related; placed later by layoutLabels()
   const want=on?1:Math.max(0,prox); o.lab+=(want-o.lab)*.15;
   const a=Math.max(prox<0?0:(idleObj?.5:0)*depth,o.lab)*depth*fade;
