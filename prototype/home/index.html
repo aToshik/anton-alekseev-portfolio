@@ -469,8 +469,6 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
    PASS-2 POLISH
    ============================================================ */
 /* Sidebar: icon + label */
-.side-nav a .ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--label); display: flex; }
-.side-nav a .ico svg { width: 100%; height: 100%; }
 .side-nav a:hover .ico { color: var(--fg); }
 .side-nav a.active .ico { color: var(--accent); }
 
@@ -525,17 +523,9 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
 .tool-use { margin: 0; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12.5px; line-height: 1.55; color: var(--muted); }
 .role-card { min-height: 0; }
 .tool-card:hover, .role-card:hover { transform: none; box-shadow: none; } /* static cards: no lift, nothing to open */
-/* static cards: a soft glow parked in the top-left corner instead of the cursor-following one, no hover change */
-.tool-card, .tool-card:hover, .role-card, .role-card:hover { background: var(--card); border-color: transparent; background-clip: padding-box; }
+/* static cards: no glow, no hover change, just a slightly brighter panel than the section */
+.tool-card, .tool-card:hover, .role-card, .role-card:hover { background: var(--card-h); border-color: var(--border); }
 .tool-card:hover .tool-mk { border-color: var(--border); }
-:is(.tool-card, .role-card)::before, :is(.tool-card, .role-card)::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; }
-:is(.tool-card, .role-card)::before { padding: 1px;
-  background: radial-gradient(260px circle at 0 0, color-mix(in srgb, var(--accent) 55%, transparent), transparent 70%), linear-gradient(var(--border), var(--border));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-:is(.tool-card, .role-card)::after { box-shadow: inset 0 0 21px -7px var(--accent); opacity: .3;
-  -webkit-mask: radial-gradient(220px circle at 0 0, #000, transparent 72%); mask: radial-gradient(220px circle at 0 0, #000, transparent 72%); }
-[data-theme="light"] :is(.tool-card, .role-card)::after { box-shadow: inset 0 0 22px -8px rgba(78,168,50,.5); opacity: .3; }
-[data-theme="light"] :is(.tool-card, .role-card)::before { background: radial-gradient(200px circle at 0 0, color-mix(in srgb, var(--accent) 45%, transparent), transparent 65%), linear-gradient(var(--border), var(--border)); }
 #journey .work-more { margin-top: 20px; }
 </style>
 <link rel="stylesheet" href="../shared/mobile-bar.css">
@@ -583,12 +573,12 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
   <aside class="sidebar" aria-label="Page sections">
     <div>
       <nav class="side-nav" id="sideNav">
-        <a href="#hero" data-section="hero"><span class="ico"><svg class="lu lu-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-head" cx="12" cy="8" r="5" pathLength="1"/><path class="lu-body" d="M20 21a8 8 0 0 0-16 0" pathLength="1"/></svg></span>Hero</a>
-        <a href="#selected-work" data-section="selected-work"><span class="ico"><svg class="lu lu-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" pathLength="1"/><path d="M22 13a18.15 18.15 0 0 1-20 0" pathLength="1"/><rect width="20" height="14" x="2" y="6" rx="2" pathLength="1"/></svg></span>Selected work</a>
-        <a href="#why" data-section="why"><span class="ico"><svg class="lu lu-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" pathLength="1"/><path class="lu-needle" d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" pathLength="1"/></svg></span>How I work</a>
-        <a href="#ai" data-section="ai"><span class="ico"><svg class="lu lu-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lu-star" d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" pathLength="1"/><path class="lu-tw lu-tw1" d="M20 3v4M22 5h-4"/><path class="lu-tw lu-tw2" d="M4 17v2M5 18H3"/></svg></span>AI design &amp; build</a>
-        <a href="#journey" data-section="journey"><span class="ico"><svg class="lu lu-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="lu-a" cx="6" cy="19" r="3" pathLength="1"/><path class="lu-path" d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" pathLength="1"/><circle class="lu-b" cx="18" cy="5" r="3" pathLength="1"/></svg></span>Journey</a>
-        <a href="#contact" data-section="contact"><span class="ico"><svg class="lu lu-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" pathLength="1"/><path class="lu-flap" d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" pathLength="1"/></svg></span>Contact</a>
+        <a href="#hero" data-section="hero">Hero</a>
+        <a href="#selected-work" data-section="selected-work">Selected work</a>
+        <a href="#why" data-section="why">How I work</a>
+        <a href="#ai" data-section="ai">AI design &amp; build</a>
+        <a href="#journey" data-section="journey">Journey</a>
+        <a href="#contact" data-section="contact">Contact</a>
       </nav>
     </div>
     <div class="side-foot">
@@ -957,9 +947,6 @@ a, button, .case-card, .tool-card, .role-card { touch-action: manipulation; -web
   var motionOK = !window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (motionOK && 'IntersectionObserver' in window) {
     document.body.classList.add('motion-ok');
-    /* Lucide icons: draw the side-nav set in once, then hand over to hover/active gestures */
-    var sn = document.querySelector('.side-nav');
-    if (sn) { sn.classList.add('lu-intro'); setTimeout(function(){ sn.classList.remove('lu-intro'); }, 1600); }
     /* start the reveal a little before a section scrolls in, so its cards are already settling when they reach the screen */
     var rev = new IntersectionObserver(function(entries, obs){
       entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); } });
