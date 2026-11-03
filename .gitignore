@@ -20,3 +20,6 @@ CASES.md
 portfolio.html
 og-image.svg
 design_handoff_work_cards/
+
+# Public CV download on the Profile page
+!prototype/shared/files/*.pdf
