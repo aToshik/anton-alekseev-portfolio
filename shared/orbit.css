@@ -78,7 +78,7 @@
 .po-hint .po-thesis { color: var(--fg); }
 .po-hint:not([data-mode="act"]) .po-act, .po-hint:not([data-mode="thesis"]) .po-thesis { opacity: 0; }
 .po-hint-touch { display: none; }
-@media (hover: none) { .po-hint-mouse { display: none; } .po-hint-touch { display: inline; } }
+@media (hover: none) { .po-hint { display: none; } } /* phones and tablets: no "Tap an orbit" / thesis line in the hero */
 @keyframes poHint { 0%, 100% { background: transparent; } 50% { background: var(--accent); } }
 @media (prefers-reduced-motion: reduce) { .po-hint .po-act::before { animation: none; background: var(--accent); } }
 
