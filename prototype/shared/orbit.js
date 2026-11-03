@@ -33,6 +33,8 @@ const GALAXIES={
 // case pages that exist in the prototype; the rest show as "coming soon"
 const CASE_URL={'Channel Analysis':'../case/channel-analysis/','Price Exploration':'../case/price-exploration/','Design System for AI Agents':'../case/design-system/',
   'Cross-Campaign Management':'../case/cross-campaign/','Inbox, Camilyo':'../case/inbox/'};
+// cases still being written: no page yet, the card says "in preparation"
+const CASE_PREP={'Booking Calendar':true};
 // the headline result of each case, shown under its name in the card (same numbers as the Work cards)
 const CASE_METRIC={'Channel Analysis':'Weeks → Hours · detection time','Price Exploration':'$8M → $30M+ · monthly media investment',
   'Design System for AI Agents':'15 → 2 · open design questions after doc format v1.1','Cross-Campaign Management':'Hours → Min · large-scale updates',
@@ -390,7 +392,7 @@ function updateInfo(o){
   $('poQ').textContent=orb.q;
   $('poR').innerHTML=o.rel.length?`<span class="lbl">Related</span>`+o.rel.map(id=>`<span class="po-chip">${byId[id].label}</span>`).join(''):'';
   const go=$('poGo'), url=o.kase&&CASE_URL[o.kase]; go.hidden=!o.kase; $('poC').textContent=o.kase||''; $('poM').textContent=(url&&CASE_METRIC[o.kase])||'';
-  if(url){ go.href=url; go.classList.remove('soon'); } else { go.removeAttribute('href'); go.classList.add('soon'); } info.dataset.on='true'; info.inert=false; hero.classList.add('card-open'); domCache=null;
+  if(url){ go.href=url; go.classList.remove('soon','prep'); } else { go.removeAttribute('href'); go.classList.add('soon'); go.classList.toggle('prep',!!CASE_PREP[o.kase]); } info.dataset.on='true'; info.inert=false; hero.classList.add('card-open'); domCache=null;
   measureCard(); cardSide=-1;
 }
 // the card opens next to its object and follows it, never covering it; it prefers spots clear of the hero copy
