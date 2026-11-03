@@ -292,6 +292,8 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
 .cc-metric { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 .cc-metric b { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -.02em; color: var(--accent); }
 .cc-metric span { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.cc-status { display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin-top: 16px; font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); background: var(--accent-weak); border-radius: 5px; padding: 5px 9px; }
+.cc-status::before { content: ""; width: 6px; height: 6px; border-radius: 1px; background: var(--accent); flex: none; }
 .cc-desc { margin-top: 16px; font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 48ch; }
 .cc-view { margin-top: auto; padding-top: 22px; display: inline-flex; align-items: center; gap: 8px; width: fit-content; font-family: var(--mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
 .cc-view .arr { display: inline-block; transition: transform .2s ease; }
@@ -515,8 +517,9 @@ a, button, .case-card { touch-action: manipulation; -webkit-tap-highlight-color:
           <div class="cc-head"><span class="chip">Self-Service</span><span class="chip">B2C</span><span class="chip">SMB</span></div>
           <p class="cc-name">Booking Calendar</p>
           <h2 class="cc-hook">Scheduling for service commerce</h2>
-          <p class="cc-desc">Service-commerce booking and scheduling.</p>
-          <a class="cc-view" href="#" data-note="case">View case <span class="arr" aria-hidden="true">→</span></a>
+          <p class="cc-status">Case study in preparation</p>
+          <p class="cc-desc">Service-commerce booking and scheduling. Screens, decisions and results are on the way.</p>
+          <a class="cc-view" href="../case/booking-calendar/">Preview case <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <div class="cc-thumb cover"><img src="../case/booking-calendar/assets/card-cover.webp" alt="Booking calendar: day view by team member with appointments, a month picker and calendar sync" width="1400" height="875" loading="lazy" decoding="async"></div>
       </article>

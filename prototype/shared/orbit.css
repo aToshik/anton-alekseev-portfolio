@@ -31,6 +31,7 @@
 .ci-case[hidden] { display: none; }
 .ci-case.soon { cursor: default; }
 .ci-case.soon small::after { content: " · coming soon"; }
+.ci-case.prep small::after { content: " · in preparation"; }
 
 /* "Axis" composition: one centred column under the system, and the hero fills the screen under the nav (level with the sidebar on desktop).
    A container query cannot restyle the hero itself, so the height keys off the viewport. */
