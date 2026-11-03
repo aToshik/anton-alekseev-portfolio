@@ -20,7 +20,7 @@
   steps.forEach(function (s) {
     var num = s.querySelector('.pr-num'), name = s.querySelector('.pr-name');
     html += '<a class="ss-step" href="' + s.getAttribute('href') + '"><span class="ss-dot" aria-hidden="true"></span>' +
-      '<span class="ss-num">' + (num ? num.textContent : '') + '</span><span class="ss-name">' + (name ? name.textContent : '') + '</span></a>';
+      (num ? '<span class="ss-num">' + num.textContent + '</span>' : '') + '<span class="ss-name">' + (name ? name.textContent : '') + '</span></a>';
   });
   sub.innerHTML = html + '</div></div>'; /* a group inside the side nav, not a second nav landmark with the rail's name */
   parent.insertAdjacentElement('afterend', sub);

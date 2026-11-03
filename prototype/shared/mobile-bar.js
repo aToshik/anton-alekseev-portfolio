@@ -58,7 +58,7 @@
     var sub = links[i].nextElementSibling && links[i].nextElementSibling.classList.contains('side-sub') ? links[i].nextElementSibling : null;
     var cur = sub && sub.querySelector('.ss-step.cur');
     labelEl.textContent = labelOf(links[i]);
-    metaEl.textContent = cur ? cur.querySelector('.ss-num').textContent + '/' + pad(sub.querySelectorAll('.ss-step').length) : '';
+    metaEl.textContent = cur ? cur.querySelector('.ss-name').textContent : '';
     btn.setAttribute('aria-label', 'Section ' + (i + 1) + ' of ' + links.length + ': ' + labelOf(links[i]) + '. Show all sections');
     if (!open) return;
     var html = '<nav class="mbar-list">';
@@ -66,7 +66,7 @@
       html += '<a href="' + a.getAttribute('href') + '" data-k="' + k + '"' + (k === i ? ' class="active" aria-current="true"' : '') + '><span class="n">' + pad(k + 1) + '</span>' + labelOf(a) + '</a>';
       var ss = a.nextElementSibling && a.nextElementSibling.classList.contains('side-sub') ? a.nextElementSibling : null;
       if (ss) Array.prototype.forEach.call(ss.querySelectorAll('.ss-step'), function (st) {
-        html += '<a class="mbar-sub' + (k === i && st.classList.contains('cur') ? ' active' : '') + '" href="' + st.getAttribute('href') + '"><span class="n">' + st.querySelector('.ss-num').textContent + '</span>' + st.querySelector('.ss-name').textContent + '</a>';
+        html += '<a class="mbar-sub' + (k === i && st.classList.contains('cur') ? ' active' : '') + '" href="' + st.getAttribute('href') + '">' + st.querySelector('.ss-name').textContent + '</a>';
       });
     });
     html += '</nav>';

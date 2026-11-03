@@ -14,3 +14,10 @@
 
 /* "Rejected: …" in case decisions and in the lightbox caption */
 .ph-text .rej, .lb-text .rej { font-family: var(--body); font-size: 12px; line-height: 1.55; }
+
+/* Decisions: no numbers (removed from the label, the step rail and the side nav); the label reads as a heading */
+.ph-label { font-family: var(--display); font-size: 17px; font-weight: 500; letter-spacing: -.01em; line-height: 1.35; text-transform: none; margin-bottom: 10px; }
+
+/* Mobile bar: the current decision is named, not numbered */
+.mbar-meta { font-family: var(--body); font-size: 12px; min-width: 0; flex-shrink: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mbar-list a.mbar-sub { padding-left: 44px; font-size: 13px; }
