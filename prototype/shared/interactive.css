@@ -18,6 +18,10 @@
 }
 .case-card:is(:hover, :focus-visible, :focus-within)::before { opacity: 1; inset: -7px; }
 @media (prefers-reduced-motion: reduce) { .case-card::before { transition: none; } }
+/* case still being written (Booking Calendar): static card, no link, no hover, no brackets */
+.case-card.is-prep:hover { background: var(--card); border-color: var(--border); }
+.case-card.is-prep::before { content: none; }
+.case-card.is-prep .cover img { transform: none !important; }
 
 /* ---- shared bracket mask (same 4 corners as .case-card) ---- */
 .pager a::after, .ph-visual[data-lightbox]::after {

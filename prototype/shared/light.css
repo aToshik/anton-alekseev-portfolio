@@ -4,7 +4,7 @@
 [data-theme="light"] { --accent-ink: #2a6e19; } /* 4.6:1 on the green chip fill, 5.9:1 on white; #4ea832 is only 3:1 */
 
 /* small green text: metrics, phase numbers, counters */
-[data-theme="light"] :is(.case-metric b, .cc-metric b, .cc-status, .prep-status, .cc-view, .chip.accent, .mz-chip.accent, .mz-tip b, .eyebrow .n,
+[data-theme="light"] :is(.case-metric b, .cc-metric b, .cc-status, .cc-view, .chip.accent, .mz-chip.accent, .mz-tip b, .eyebrow .n,
   .side-nav a.active .n, .side-count, .wh-count, .mchip, .ph-label .n, .pr-step.on .pr-num, .ss-step.on .ss-num,
   .accent-block .ph-label em, .impact-note b, .itile.qual b, .loop-node.accent b, .loop-return span,
   .xref:hover, .xref:focus-visible, .xref-tip .xt-metric b, .skill code, .po-chip.acc,
@@ -12,7 +12,7 @@
   .ds-lane-label i, .ds-mdv-b td.y, .ds-n .sub em, .ds-ret, .light.green .verb, .lb-chap.on .lb-chap-label b, .lb-title .n,
   .ws-src, .ch-tag, .ds-cat .ft,
   .tile:hover .ti-case::after, .tile:focus-visible .ti-case::after, .ib-col.after .ib-tag, .ib-col.after .ib-total b, .ib-th .ib-cnt b) { color: var(--accent-ink); }
-[data-theme="light"] :is(.mchip, .chip.accent, .mz-chip.accent, .cc-status, .prep-status) { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
+[data-theme="light"] :is(.mchip, .chip.accent, .mz-chip.accent, .cc-status) { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
 
 /* the nav's big dark shadow fell on the white panels below it as a grey smudge: keep it short in light */
 [data-theme="light"] { --shadow: 0 8px 20px -14px rgba(20,24,16,.18); } /* no 1px offset layer: under the nav it read as a second, darker line */
