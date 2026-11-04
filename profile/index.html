@@ -385,6 +385,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
    ============================================================ */
 .rec-grid { columns: 2; column-gap: 16px; }
 .rec-grid > .rec-card { break-inside: avoid; margin-bottom: 16px; }
+.rec-grid > .rec-card:last-child { margin-bottom: 0; }
 .rec-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 22px; display: flex; flex-direction: column; gap: 18px; transition: background .25s, border-color .25s; }
 .rec-card:hover { background: var(--card-h); border-color: var(--border-2); }
 .rec-q { color: var(--accent); font-family: var(--display); font-size: 48px; line-height: .6; height: 24px; }
@@ -394,7 +395,7 @@ html.has-space .main .card.pull { background-color: color-mix(in srgb, var(--pan
 .rec-av svg { width: 100%; height: 100%; display: block; }
 .rec-nm b { font-size: 12.5px; font-weight: 600; display: block; }
 .rec-nm small { font-family: var(--mono); font-size: 10px; color: var(--label); }
-.rec-more { margin-top: 4px; display: flex; justify-content: flex-end; }
+.rec-more { margin-top: 24px; display: flex; justify-content: flex-end; }
 
 /* ============================================================
    07 · OFF SCREEN
