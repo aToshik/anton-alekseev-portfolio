@@ -47,6 +47,15 @@
           "value": "attachment"
         }
       ]
+    },
+    {
+      "source": "/work/:path+",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, noarchive"
+        }
+      ]
     }
   ]
 }
